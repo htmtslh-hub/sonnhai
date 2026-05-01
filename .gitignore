@@ -1,19 +1,9 @@
 # Dependencies
 node_modules/
-functions/node_modules/
-api/node_modules/
-
-# Firebase
-.firebase/
-firebase-debug.log
-firebase-debug.*.log
 
 # Environment
 .env
 .env.local
-
-# Backup
-backup-*/
 
 # Generated
 public/
@@ -29,5 +19,4 @@ public/
 Thumbs.db
 
 # Logs
-npm-debug.log
 *.log

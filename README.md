@@ -10,7 +10,7 @@
 4. Click **Create repository**
 5. Copy URL của repo (ví dụ: `https://github.com/your-username/thu-vien-son-nhai.git`)
 
-### Bước 2: Kết nối Git Local với GitHub
+### Bước 2: Push Code lên GitHub
 
 Mở terminal trong thư mục dự án, chạy:
 
@@ -36,7 +36,7 @@ vercel
 
 Làm theo hướng dẫn trên terminal:
 1. Login với GitHub account
-2. Chọn project: `ban-sach-24d69`
+2. Chọn project
 3. Confirm settings (Enter cho tất cả)
 4. Đợi deploy hoàn tất
 
@@ -58,8 +58,8 @@ Làm theo hướng dẫn trên terminal:
 
 Sau khi deploy xong:
 
-✅ Mở `https://thu-vien-son-nhai.vercel.app` → Trang chủ
-✅ Mở `https://thu-vien-son-nhai.vercel.app/api/health` → API health check
+✅ Mở `https://thu-vien-son-nhai.vercel.app` → Trang chủ  
+✅ Mở `https://thu-vien-son-nhai.vercel.app/api/health` → API health check  
 ✅ Mở `https://thu-vien-son-nhai.vercel.app/api/products` → Danh sách sản phẩm
 
 ---
@@ -87,8 +87,6 @@ Sau khi deploy xong:
 │   ├── css/              # Stylesheets
 │   ├── js/               # Client scripts
 │   └── *.jpg             # Images
-├── backend/              # Original Express server (không deploy)
-├── functions/            # Firebase Functions (không deploy)
 ├── vercel.json           # Vercel configuration
 ├── package.json          # NPM scripts
 └── prepare-public.js     # Build script
@@ -127,12 +125,12 @@ Hoặc nếu dùng GitHub integration, Vercel sẽ tự động deploy mỗi khi
 
 1. **Mock Data:** API hiện dùng mock data (in-memory). Mỗi lần deploy sẽ reset.
 2. **Cart:** Dữ liệu giỏ hàng lưu trong RAM, mất khi function idle.
-3. **Database:** Chưa tích hợp Firestore/PostgreSQL. Cần setup sau.
+3. **Database:** Chưa tích hợp database. Cần setup sau.
 4. **Auth:** Admin panel dùng mock login (admin/admin123).
 
 ## 🎯 Next Steps (Sau khi deploy thành công)
 
-- [ ] Tích hợp Firestore database thay cho mock data
+- [ ] Tích hợp database (Firestore / PostgreSQL / MongoDB)
 - [ ] Setup authentication thật (Firebase Auth / NextAuth)
 - [ ] Tích hợp payment gateway (Stripe, VNPay, MoMo)
 - [ ] Cấu hình email service (Resend / Nodemailer)
