@@ -1,6 +1,7 @@
 # Dependencies
 node_modules/
 functions/node_modules/
+api/node_modules/
 
 # Firebase
 .firebase/
@@ -13,6 +14,9 @@ firebase-debug.*.log
 
 # Backup
 backup-*/
+
+# Generated
+public/
 
 # IDE
 .vscode/
