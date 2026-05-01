@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Thư viện Sơn Nhai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg:#08090E; --bg-2:#0D1018; --bg-3:#12161F; --bg-4:#171C27;
+      --border:#1C2232; --border-2:#252D3F;
+      --teal:#00D4D4; --teal-dim:#00AEAE; --teal-dark:#005A5A;
+      --teal-glow:rgba(0,212,212,.12); --teal-glow-strong:rgba(0,212,212,.25);
+      --text:#DDE1EC; --text-2:#8B93A8; --text-3:#555F75;
+      --warn:#F5A623; --red:#EF4444; --green:#10B981;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Be Vietnam Pro', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; min-height: 100vh; }
+
+    /* ANNOUNCEMENT */
+    .ann-bar { background: rgba(0,212,212,.1); border-bottom: 1px solid rgba(0,212,212,.2); padding: 7px 20px; text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--teal); text-transform: uppercase; }
+
+    /* NAVBAR */
+    .nav { position: sticky; top: 0; z-index: 200; height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(8,9,14,.95); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 15px; font-weight: 800; color: var(--teal); letter-spacing: 1.5px; text-decoration: none; }
+    .nav-logo span { color: var(--text-3); font-weight: 500; }
+    .nav-links { display: flex; gap: 2px; list-style: none; }
+    .nav-links a { font-size: 13px; font-weight: 500; color: var(--text-2); text-decoration: none; padding: 6px 14px; border-radius: 6px; transition: all .2s; }
+    .nav-links a:hover, .nav-links a.on { color: var(--text); background: rgba(255,255,255,.05); }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .nav-cart { position: relative; padding: 5px; cursor: pointer; text-decoration: none; color: inherit; }
+    .cart-dot { position: absolute; top: 2px; right: 2px; width: 15px; height: 15px; border-radius: 50%; background: var(--teal); font-size: 9px; font-weight: 700; color: var(--bg); display: flex; align-items: center; justify-content: center; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: none; border-radius: 7px; cursor: pointer; font-family: 'Be Vietnam Pro',sans-serif; font-weight: 600; transition: all .22s; }
+    .btn-teal { background: var(--teal); color: var(--bg); font-size: 13px; padding: 7px 18px; }
+    .btn-teal:hover { background: #00EEEE; box-shadow: 0 0 22px var(--teal-glow-strong); transform: translateY(-1px); }
+
+    /* LAYOUT */
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+    /* BREADCRUMB */
+    .breadcrumb { display: flex; align-items: center; gap: 8px; padding: 22px 0 0; font-size: 12.5px; color: var(--text-3); flex-wrap: wrap; }
+    .breadcrumb a { color: var(--text-3); text-decoration: none; transition: color .2s; }
+    .breadcrumb a:hover { color: var(--teal); }
+    .breadcrumb .sep { color: var(--border-2); }
+    .breadcrumb .cur { color: var(--text-2); font-weight: 600; }
+
+    /* POST HEADER */
+    .post-header { padding: 32px 0 0; }
+    .post-cat-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .post-cat { background: var(--teal-glow); border: 1px solid var(--teal-dark); color: var(--teal); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; }
+    .post-read-time { font-size: 12px; color: var(--text-3); display: flex; align-items: center; gap: 5px; }
+    .post-title { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 34px; font-weight: 900; line-height: 1.2; color: var(--text); margin-bottom: 16px; }
+    .post-meta { display: flex; align-items: center; gap: 18px; font-size: 12.5px; color: var(--text-3); margin-bottom: 28px; flex-wrap: wrap; }
+    .post-meta-item { display: flex; align-items: center; gap: 6px; }
+    .post-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 28px; }
+    .post-tag { font-size: 11px; font-weight: 600; color: var(--text-2); background: var(--bg-3); border: 1px solid var(--border); padding: 3px 10px; border-radius: 20px; }
+
+    /* COVER IMAGE */
+    .post-cover { width: 100%; height: 280px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 72px; margin-bottom: 40px; border: 1px solid var(--border); position: relative; overflow: hidden; }
+    .post-cover-shine { position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent); animation: shine 3s ease-in-out infinite; }
+    @keyframes shine { 0%{left:-100%} 100%{left:200%} }
+
+    /* CONTENT AREA */
+    .post-layout { display: grid; grid-template-columns: 1fr 300px; gap: 48px; padding-bottom: 80px; }
+    .post-body { min-width: 0; }
+    .post-content { font-size: 15.5px; line-height: 1.85; color: var(--text-2); }
+    .post-content h2 { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 22px; font-weight: 800; color: var(--text); margin: 36px 0 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .post-content h3 { font-size: 17px; font-weight: 700; color: var(--text); margin: 26px 0 10px; }
+    .post-content p { margin-bottom: 18px; }
+    .post-content strong { color: var(--text); font-weight: 700; }
+    .post-content ul, .post-content ol { margin: 14px 0 18px 22px; }
+    .post-content li { margin-bottom: 8px; }
+    .post-content blockquote { border-left: 3px solid var(--teal); padding: 14px 20px; background: var(--bg-3); border-radius: 0 8px 8px 0; margin: 24px 0; color: var(--text); font-style: italic; font-size: 15px; }
+    .post-content .highlight-box { background: rgba(0,212,212,.07); border: 1px solid var(--teal-dark); border-radius: 10px; padding: 18px 22px; margin: 24px 0; }
+    .post-content .highlight-box strong { color: var(--teal); }
+
+    /* CTA PRODUCT BOX */
+    .product-cta { background: var(--bg-3); border: 1px solid var(--border-2); border-radius: 14px; padding: 24px; margin: 36px 0; position: relative; overflow: hidden; }
+    .product-cta::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--teal), #00B4D8, transparent); }
+    .product-cta-label { font-size: 10.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
+    .product-cta-name { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+    .product-cta-desc { font-size: 13.5px; color: var(--text-2); line-height: 1.6; margin-bottom: 18px; }
+    .product-cta-row { display: flex; align-items: center; gap: 16px; }
+    .product-cta-price { font-size: 22px; font-weight: 800; color: var(--teal); }
+    .btn-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--teal); color: var(--bg); font-family: 'Be Vietnam Pro',sans-serif; font-size: 14px; font-weight: 700; padding: 10px 24px; border-radius: 8px; text-decoration: none; transition: all .22s; border: none; cursor: pointer; }
+    .btn-cta:hover { background: #00EEEE; box-shadow: 0 0 24px var(--teal-glow-strong); transform: translateY(-1px); }
+
+    /* AUTHOR / SHARE */
+    .post-author-box { background: var(--bg-3); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin: 36px 0; display: flex; align-items: center; gap: 16px; }
+    .author-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg,var(--teal),#0088A8); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+    .author-name { font-weight: 700; color: var(--text); font-size: 14.5px; margin-bottom: 4px; }
+    .author-bio { font-size: 12.5px; color: var(--text-3); line-height: 1.5; }
+
+    /* SIDEBAR */
+    .post-sidebar {}
+    .sb-box { background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+    .sb-head { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .toc-list a { display: block; font-size: 13px; color: var(--text-2); text-decoration: none; padding: 6px 10px; border-radius: 6px; transition: all .2s; border-left: 2px solid transparent; }
+    .toc-list a:hover { color: var(--teal); background: var(--teal-glow); border-left-color: var(--teal); }
+    .related-list { display: flex; flex-direction: column; gap: 12px; }
+    .rel-item { display: flex; gap: 10px; text-decoration: none; color: inherit; padding: 8px; border-radius: 8px; transition: background .2s; }
+    .rel-item:hover { background: var(--bg-3); }
+    .rel-img { width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .rel-info {}
+    .rel-title { font-size: 12.5px; font-weight: 600; color: var(--text); line-height: 1.4; margin-bottom: 3px; }
+    .rel-cat { font-size: 11px; color: var(--text-3); }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 7px; }
+    .tc-tag { font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--bg-3); border: 1px solid var(--border); padding: 5px 12px; border-radius: 20px; text-decoration: none; cursor: pointer; transition: all .2s; }
+    .tc-tag:hover { color: var(--teal); border-color: var(--teal-dark); background: var(--teal-glow); }
+
+    /* BACK BTN */
+    .back-btn { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--text-2); text-decoration: none; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-3); transition: all .2s; margin: 28px 0 0; }
+    .back-btn:hover { color: var(--teal); border-color: var(--teal-dark); background: var(--teal-glow); }
+
+    /* LOADING / 404 */
+    .post-loading { text-align: center; padding: 120px 0; color: var(--text-3); }
+    .post-loading .spin { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--teal); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 20px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .post-404 { text-align: center; padding: 100px 0; }
+    .post-404 .icon-404 { font-size: 60px; margin-bottom: 20px; }
+    .post-404 h2 { font-size: 22px; color: var(--text); margin-bottom: 10px; }
+    .post-404 p { font-size: 14px; color: var(--text-3); margin-bottom: 24px; }
+
+    /* FOOTER */
+    footer { background: var(--bg-2); border-top: 1px solid var(--border); padding: 32px 40px; text-align: center; }
+    .ft-logo { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 16px; font-weight: 800; color: var(--teal); letter-spacing: 1.5px; margin-bottom: 8px; }
+    .ft-copy { font-size: 12px; color: var(--text-3); }
+
+    @media (max-width: 900px) {
+      .post-layout { grid-template-columns: 1fr; }
+      .post-sidebar { display: none; }
+      .post-title { font-size: 26px; }
+      .nav { padding: 0 16px; }
+      .wrap { padding: 0 16px; }
+    }
+  </style>
+  <link rel="stylesheet" href="css/parallax-animations.css">
+</head>
+<body>
+
+<!-- PARALLAX CANVAS BACKGROUND -->
+<canvas id="parallax-canvas"></canvas>
+
+
+<div class="ann-bar">📚 Kiến thức mỗi ngày — Sơn Nhai Library</div>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">SƠN NHAI <span>LIBRARY</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Trang chủ</a></li>
+    <li><a href="categories.html">Danh mục</a></li>
+    <li><a href="blog.html" class="on">Blog</a></li>
+    <li><a href="about.html">Về chúng tôi</a></li>
+    <li><a href="support.html">Hỗ trợ</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="cart.html" class="nav-cart">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span class="cart-dot" style="display: none;"></span>
+    </a>
+    <button class="btn btn-teal" onclick="window.location='categories.html'">Mua ngay</button>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div id="post-container">
+    <div class="post-loading">
+      <div class="spin"></div>
+      <div>Đang tải bài viết...</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="ft-logo">SƠN NHAI LIBRARY</div>
+  <div class="ft-copy">© 2025 Thư viện Sơn Nhai. Tất cả quyền được bảo lưu.</div>
+</footer>
+
+<script>
+// ── DATA: Tất cả bài viết ──────────────────────────────────────────────────
+const POSTS = {
+  'nhan-tinh-la-gi': {
+    slug: 'nhan-tinh-la-gi',
+    title: 'Nhân tính là gì? Vì sao hiểu người là kỹ năng quan trọng nhất trong cuộc sống?',
+    cat: 'Nhân tính',
+    emoji: '🧠',
+    bg: 'linear-gradient(145deg,#0F1D38,#091525)',
+    date: '20/04/2025',
+    readTime: '5 phút',
+    views: '348',
+    tags: ['Nhân tính', 'Kỹ năng mềm'],
+    productSlug: null,
+    toc: [
+      'Nhân tính là gì?',
+      'Tại sao hiểu người quan trọng?',
+      'Những dấu hiệu nhận biết nhân tính',
+      'Cách phát triển kỹ năng đọc người',
+      'Kết luận'
+    ],
+    content: `
+      <h2>Nhân tính là gì?</h2>
+      <p>Nhân tính — hai chữ nghe có vẻ triết học, nhưng thực ra đây là thứ bạn đối mặt mỗi ngày trong từng cuộc trò chuyện, từng quyết định, từng mối quan hệ. <strong>Nhân tính là tổng hòa của bản năng, cảm xúc, động cơ và hành vi</strong> tạo nên một con người — phần cốt lõi mà dù ai cũng che giấu nhưng không bao giờ hoàn toàn che được.</p>
+      <p>Hiểu nhân tính không phải là trở nên hoài nghi hay xem người khác như công cụ. Ngược lại, đó là khả năng nhìn thấy con người thật đằng sau lớp vỏ xã hội — để thấu cảm sâu hơn, kết nối chân thật hơn, và đưa ra quyết định sáng suốt hơn.</p>
+      <blockquote>"Kẻ thức thời mới là tuấn kiệt — người hiểu người mới là bậc thầy." — Trích Tuyệt Mật Nhân Tính</blockquote>
+
+      <h2>Tại sao hiểu người quan trọng?</h2>
+      <p>Hầu hết thất bại trong cuộc sống — không phải vì thiếu kỹ năng hay thiếu kiến thức. Mà vì <strong>hiểu sai người</strong>. Bạn tin sai người để mất tiền. Bạn đánh giá thấp đối thủ để thua cuộc. Bạn không nhận ra được lòng tốt thật sự nên đẩy đi người đáng giữ lại.</p>
+      <p>Kỹ năng đọc người không được dạy trong trường học, nhưng nó quyết định đến 80% thành công của bạn trong:</p>
+      <ul>
+        <li>Kinh doanh và đàm phán</li>
+        <li>Tuyển dụng và quản lý nhân sự</li>
+        <li>Tình cảm và hôn nhân</li>
+        <li>Kết bạn và xây dựng mạng lưới</li>
+        <li>Tránh khỏi những người độc hại</li>
+      </ul>
+
+      <h2>Những dấu hiệu nhận biết nhân tính</h2>
+      <p>Có những tín hiệu mà con người tiết lộ vô thức — nếu bạn biết quan sát:</p>
+      <div class="highlight-box">
+        <strong>Ngôn ngữ cơ thể:</strong> Ánh mắt né tránh khi nói dối, giọng nói cao hơn khi căng thẳng, cử chỉ che miệng khi không tự tin. Não bộ không thể điều khiển tất cả cùng lúc — luôn có sự rò rỉ.
+      </div>
+      <p>Ngoài ngôn ngữ thể chất, còn có <strong>nhân tính hành động</strong> — người ta không nói với bạn họ là ai, họ chỉ cho bạn thấy qua việc làm. Ai ở bên bạn lúc khó khăn? Ai chỉ xuất hiện khi bạn có ích? Đó là bộ lọc nhân tính chính xác nhất.</p>
+
+      <h2>Cách phát triển kỹ năng đọc người</h2>
+      <p>Đây không phải năng khiếu bẩm sinh — đây là kỹ năng có thể học và luyện tập. Bắt đầu từ ba thói quen:</p>
+      <ol>
+        <li><strong>Quan sát nhiều hơn nói:</strong> Người nói ít quan sát nhiều bao giờ cũng hiểu người hơn người nói nhiều. Trong mỗi cuộc trò chuyện, hãy dành 30% thời gian quan sát phản ứng phi ngôn ngữ của đối phương.</li>
+        <li><strong>Hỏi câu hỏi mở:</strong> Thay vì hỏi "Bạn có thích không?", hãy hỏi "Bạn nghĩ gì về điều này?". Câu trả lời dài tiết lộ nhiều hơn câu trả lời có/không.</li>
+        <li><strong>Kiểm chứng theo thời gian:</strong> Đừng đánh giá người qua một lần gặp. Hành vi nhất quán trong nhiều tình huống khác nhau mới là nhân tính thật.</li>
+      </ol>
+
+      <h2>Kết luận</h2>
+      <p>Nhân tính là môn học cả đời. Bạn không thể học xong trong một ngày, nhưng bạn có thể bắt đầu từ hôm nay — bằng cách quan sát nhiều hơn, phán xét ít hơn, và hiểu rằng mỗi người đều mang trong mình một thế giới phức tạp đáng khám phá.</p>
+      <p>Người hiểu nhân tính không sợ bị lợi dụng, không bị lừa dối mãi mãi — vì họ thấy rõ bản chất trước khi hậu quả xảy ra.</p>
+    `,
+    related: [
+      { slug: 'xuyen-thau-nhan-tinh', title: 'Xuyên thấu nhân tính: Đọc vị người khác', cat: 'Nhân tính', emoji: '👁️', bg: 'linear-gradient(145deg,#0F1D38,#1A3060)' },
+      { slug: 'tu-duy-cuong-gia-vs-thuong-nhan', title: 'Tư duy cường giả vs tư duy thường nhân', cat: 'Tư duy', emoji: '💎', bg: 'linear-gradient(145deg,#1A0F2E,#2D1A4E)' },
+      { slug: 'nhan-tinh-den-trang', title: 'Nhân tính đen trắng: Sống thật hay sống khéo?', cat: 'Nhân tính', emoji: '☯️', bg: 'linear-gradient(145deg,#141414,#262626)' },
+    ]
+  },
+
+  'thuc-tinh-nhan-thuc-gioi-thieu': {
+    slug: 'thuc-tinh-nhan-thuc-gioi-thieu',
+    title: 'Thức tỉnh nhận thức: Hành trình phá vỡ những giới hạn tư duy ăn sâu trong tiềm thức bạn',
+    cat: 'Nhận thức',
+    emoji: '💡',
+    bg: 'linear-gradient(145deg,#0A1D14,#0D3322)',
+    date: '29/04/2025',
+    readTime: '7 phút',
+    views: '215',
+    tags: ['Nhận thức', 'Tư duy', 'Sản phẩm mới'],
+    productSlug: 'thuc-tinh-nhan-thuc',
+    productName: '💡 Thức tỉnh nhận thức',
+    productPrice: '179.000đ',
+    productDesc: 'Bản đồ chi tiết để nhận ra, đối diện và phá vỡ những rào cản tư duy vô hình đang kìm hãm bạn.',
+    toc: [
+      '95% quyết định không do lý trí',
+      'Những chương trình lỗi thời trong não bạn',
+      'Dấu hiệu bạn đang bị giới hạn tư duy',
+      'Hành trình thức tỉnh 3 giai đoạn',
+      'Bắt đầu từ đâu?'
+    ],
+    content: `
+      <h2>95% quyết định không do lý trí điều khiển</h2>
+      <p>Bạn nghĩ bạn đang đưa ra quyết định dựa trên lý trí? Khoa học thần kinh hiện đại đã chứng minh điều ngược lại: <strong>95% quyết định hàng ngày được điều khiển bởi tiềm thức</strong> — những chuỗi phản xạ tự động được hình thành từ thời thơ ấu và được củng cố qua hàng nghìn lần lặp lại.</p>
+      <p>Điều này không có nghĩa bạn là nô lệ của não bộ. Nhưng nếu bạn không nhận ra điều này, bạn đang để "phần mềm cũ" điều khiển cuộc đời mình — mà không hề hay biết.</p>
+      <blockquote>"Không phải thiếu ý chí làm bạn thất bại — mà là những chương trình tư duy lỗi thời đã vô hiệu hóa ý chí đó từ bên trong."</blockquote>
+
+      <h2>Những chương trình lỗi thời trong não bạn</h2>
+      <p>Hãy thử nhớ lại: Bạn có bao giờ biết rõ điều gì là đúng nhưng vẫn không làm được? Bạn muốn thay đổi nhưng cứ quay về lối cũ? Đó không phải lười biếng — đó là <strong>xung đột giữa ý thức và tiềm thức</strong>.</p>
+      <p>Những "chương trình" này được cài đặt qua:</p>
+      <ul>
+        <li><strong>Lời nói của cha mẹ khi bạn còn nhỏ:</strong> "Tiền không mọc từ trên cây", "Đừng quá tự tin", "An toàn là trên hết" — những câu này nghe vô hại nhưng đã trở thành niềm tin cốt lõi.</li>
+        <li><strong>Những trải nghiệm thất bại:</strong> Một lần bị chê cười trước lớp đủ để tạo ra nỗi sợ lên tiếng kéo dài cả thập kỷ.</li>
+        <li><strong>Môi trường xã hội:</strong> Khi bạn lớn lên trong môi trường tư duy giới hạn, bạn học cách giới hạn bản thân như một cơ chế bảo vệ.</li>
+      </ul>
+
+      <h2>Dấu hiệu bạn đang bị giới hạn tư duy</h2>
+      <div class="highlight-box">
+        <strong>Kiểm tra nhanh:</strong> Nếu bạn đồng ý với 3/5 câu dưới đây, rất có thể bạn đang bị giới hạn tư duy nghiêm trọng:<br><br>
+        1. Bạn thường nói "Tôi không giỏi về..." trước khi thử<br>
+        2. Bạn ngại chia sẻ ý kiến vì sợ bị phán xét<br>
+        3. Thành công của người khác khiến bạn cảm thấy nhỏ bé thay vì được truyền cảm hứng<br>
+        4. Bạn trì hoãn vì muốn "hoàn hảo" trước khi bắt đầu<br>
+        5. Bạn không dám đặt mục tiêu lớn vì sợ thất vọng
+      </div>
+
+      <h2>Hành trình thức tỉnh 3 giai đoạn</h2>
+      <p>Cuốn sách <strong>Thức tỉnh nhận thức</strong> dẫn bạn qua ba giai đoạn có thứ tự rõ ràng:</p>
+      <ol>
+        <li><strong>Giai đoạn 1 — Nhận diện:</strong> Học cách nhìn thấy những niềm tin giới hạn đang chạy âm thầm trong bạn. Không phán xét, chỉ quan sát.</li>
+        <li><strong>Giai đoạn 2 — Đối diện:</strong> Truy ngược nguồn gốc của từng niềm tin. Khi bạn biết nó đến từ đâu, nó mất đi phần lớn quyền lực.</li>
+        <li><strong>Giai đoạn 3 — Tái lập:</strong> Cài đặt những "chương trình mới" — không phải bằng tư duy tích cực hô hào, mà bằng những hành động có chủ đích, lặp đi lặp lại.</li>
+      </ol>
+
+      <h2>Bắt đầu từ đâu?</h2>
+      <p>Thức tỉnh nhận thức không phải là một sự kiện — đó là một quá trình. Và quá trình đó bắt đầu từ một câu hỏi đơn giản: <em>"Tại sao tôi lại tin điều này?"</em></p>
+      <p>Mỗi lần bạn dừng lại và đặt câu hỏi thay vì phản ứng tự động, bạn đã thắng tiềm thức một lần. Và mỗi chiến thắng nhỏ đó tích lũy thành sự thay đổi thật sự.</p>
+    `,
+    related: [
+      { slug: 'thuc-tinh-nhan-thuc-pha-vo-niem-tin', title: 'Cách phá vỡ những niềm tin sai lầm bóp méo thực tế', cat: 'Nhận thức', emoji: '💡', bg: 'linear-gradient(145deg,#1A2520,#233D33)' },
+      { slug: 'logic-nguoi-ngheo-giam-cam', title: 'Tại sao logic người nghèo lại giam cầm bạn mãi mãi?', cat: 'Tư duy', emoji: '📊', bg: 'linear-gradient(145deg,#1F1209,#3A2010)' },
+      { slug: 'tu-duy-sau-sac', title: 'Tư duy sâu sắc: Thoát khỏi lối suy nghĩ bề mặt', cat: 'Tư duy', emoji: '🔮', bg: 'linear-gradient(145deg,#0E1A1F,#173040)' },
+    ]
+  },
+
+  'logic-nguoi-ngheo-giam-cam': {
+    slug: 'logic-nguoi-ngheo-giam-cam',
+    title: 'Tại sao logic người nghèo lại giam cầm bạn trong nghèo đói mãi mãi?',
+    cat: 'Tư duy',
+    emoji: '📊',
+    bg: 'linear-gradient(145deg,#1F1209,#3A2010)',
+    date: '12/04/2025',
+    readTime: '6 phút',
+    views: '412',
+    tags: ['Tư duy', 'Tài chính'],
+    productSlug: 'logic-nguoi-ngheo',
+    productName: '🔮 Logic người nghèo',
+    productPrice: '149.000đ',
+    productDesc: 'Nhận ra và thoát khỏi những tư duy sai lầm về tiền bạc, rủi ro và cơ hội đang kìm hãm bạn.',
+    toc: [
+      'Logic người nghèo là gì?',
+      '5 bẫy tư duy phổ biến nhất',
+      'Tại sao "làm việc chăm chỉ" không đủ',
+      'Tư duy người giàu khác gì?',
+      'Con đường thoát khỏi vòng lặp'
+    ],
+    content: `
+      <h2>Logic người nghèo là gì?</h2>
+      <p>Đây không phải chỉ trích người nghèo — đây là mô tả một hệ thống tư duy. <strong>Logic người nghèo</strong> là tập hợp những niềm tin, phản xạ và chiến lược ra quyết định được hình thành trong hoàn cảnh thiếu thốn — và tiếp tục hoạt động ngay cả khi hoàn cảnh đã thay đổi.</p>
+      <p>Điều nguy hiểm là: nhiều người thoát nghèo về vật chất nhưng vẫn mang logic người nghèo trong đầu. Và chính logic đó kéo họ trở lại.</p>
+      <blockquote>"Kẻ nghèo sợ mất những gì đang có. Kẻ giàu tập trung vào những gì có thể đạt được."</blockquote>
+
+      <h2>5 bẫy tư duy phổ biến nhất</h2>
+      <p>Những bẫy này không hiện ra với nhãn "tư duy sai lầm" — chúng ngụy trang dưới dạng sự khôn ngoan, thận trọng và thực tế:</p>
+      <ol>
+        <li><strong>Tư duy khan hiếm:</strong> "Không đủ cho tất cả mọi người" — dẫn đến ghen tị, cạnh tranh tiêu cực và không dám chia sẻ kiến thức.</li>
+        <li><strong>Tránh rủi ro bằng mọi giá:</strong> An toàn tuyệt đối là ảo tưởng. Không rủi ro = không cơ hội. Không đầu tư = chắc chắn mất giá trị theo lạm phát.</li>
+        <li><strong>Đánh đổi thời gian lấy tiền:</strong> "Làm thêm để kiếm thêm" — mô hình này có trần cứng. Bạn không thể làm việc 25 giờ/ngày.</li>
+        <li><strong>Tiết kiệm thay vì đầu tư:</strong> Tiết kiệm giữ tiền đứng yên. Đầu tư làm tiền sinh sôi. Người nghèo tiết kiệm trước, người giàu đầu tư trước.</li>
+        <li><strong>Nhìn ngắn hạn:</strong> Chọn phần thưởng ngay hôm nay thay vì lợi ích lớn hơn trong tương lai — đây là bẫy cổ xưa nhất của não bộ người nguyên thủy.</li>
+      </ol>
+
+      <h2>Tại sao "làm việc chăm chỉ" không đủ</h2>
+      <p>Người nghèo thường làm việc chăm chỉ hơn người giàu. Sự thật này khó nghe nhưng cần được nói thẳng: <strong>chăm chỉ là điều kiện cần, không phải điều kiện đủ</strong>.</p>
+      <div class="highlight-box">
+        <strong>Công thức thực sự:</strong> Thu nhập = Giá trị bạn tạo ra × Số người bạn phục vụ × Hệ số đòn bẩy<br><br>
+        Người lao động chân tay chăm chỉ: giá trị cao, nhưng số người phục vụ ít, đòn bẩy = 0<br>
+        Người xây hệ thống: giá trị vừa phải, nhưng phục vụ hàng nghìn người, đòn bẩy = rất lớn
+      </div>
+
+      <h2>Tư duy người giàu khác gì?</h2>
+      <p>Không phải họ không sợ rủi ro — họ <em>quản lý</em> rủi ro. Không phải họ không thất bại — họ <em>học</em> từ thất bại nhanh hơn. Không phải họ có nhiều tiền hơn để đầu tư — họ đầu tư trước khi có nhiều tiền.</p>
+      <p>Điểm khác biệt cốt lõi: người giàu hỏi "Làm sao để..." còn người nghèo hỏi "Tại sao không thể...".</p>
+
+      <h2>Con đường thoát khỏi vòng lặp</h2>
+      <p>Thay đổi tư duy không xảy ra qua đọc một cuốn sách — nhưng đọc đúng cuốn sách có thể là bước ngoặt. Cuốn <strong>Logic người nghèo</strong> không chỉ giải thích vấn đề mà còn cung cấp những bài tập tư duy cụ thể để tái lập hệ điều hành tài chính của bạn từ bên trong.</p>
+    `,
+    related: [
+      { slug: 'muu-luoc-tai-chinh', title: 'Mưu lược tài chính: Khi tiền không phải đích đến', cat: 'Tài chính', emoji: '💸', bg: 'linear-gradient(145deg,#1A1009,#2F1C0E)' },
+      { slug: 'sach-thay-doi-tu-duy-tai-chinh', title: '5 cuốn sách thay đổi tư duy tài chính', cat: 'Tài chính', emoji: '💰', bg: 'linear-gradient(145deg,#1A0A1A,#2E1040)' },
+      { slug: 'thuc-tinh-nhan-thuc-gioi-thieu', title: 'Thức tỉnh nhận thức: Phá vỡ giới hạn tư duy', cat: 'Nhận thức', emoji: '💡', bg: 'linear-gradient(145deg,#0A1D14,#0D3322)' },
+    ]
+  },
+
+  'sach-thay-doi-tu-duy-tai-chinh': {
+    slug: 'sach-thay-doi-tu-duy-tai-chinh',
+    title: '5 cuốn sách thay đổi tư duy tài chính của bạn mãi mãi',
+    cat: 'Tài chính',
+    emoji: '💰',
+    bg: 'linear-gradient(145deg,#1A0A1A,#2E1040)',
+    date: '16/04/2025',
+    readTime: '7 phút',
+    views: '289',
+    tags: ['Tài chính'],
+    productSlug: null,
+    toc: [
+      'Tại sao sách tài chính quan trọng?',
+      '5 cuốn sách đáng đọc nhất',
+      'Đọc sách như thế nào cho hiệu quả',
+      'Bước tiếp theo sau khi đọc'
+    ],
+    content: `
+      <h2>Tại sao sách tài chính quan trọng?</h2>
+      <p>Hệ thống giáo dục không dạy bạn cách quản lý tiền. Gia đình truyền lại những thói quen tài chính — tốt hay xấu — mà không giải thích lý do. Và phần lớn thông tin về tài chính cá nhân trôi nổi trên mạng xã hội đều hời hợt hoặc sai lệch.</p>
+      <p><strong>Sách tài chính tốt</strong> làm điều mà không công cụ nào khác làm được: nó thay đổi cách bạn nhìn nhận tiền bạc ở cấp độ tư duy, không chỉ cung cấp mẹo vặt.</p>
+
+      <h2>5 cuốn sách đáng đọc nhất</h2>
+      <h3>1. Logic người nghèo</h3>
+      <p>Cuốn sách phân tích sâu sắc những tư duy sai lầm về tiền bạc được cài đặt từ nhỏ. Không phán xét, không hô hào — chỉ mổ xẻ thẳng thắn những "chương trình" đang phá hoại tài chính của bạn từ bên trong.</p>
+      <div class="highlight-box"><strong>Nên đọc khi:</strong> Bạn cảm thấy dù làm việc chăm chỉ nhưng tiền vẫn không tích lũy được.</div>
+
+      <h3>2. Mưu lược tài chính</h3>
+      <p>Không phải về cách kiếm tiền — mà là cách dùng tiền như một đòn bẩy chiến lược. Người giàu không chạy theo tiền; họ thiết kế hệ thống để tiền chạy đến họ.</p>
+      <div class="highlight-box"><strong>Nên đọc khi:</strong> Bạn có thu nhập ổn định nhưng chưa biết tối ưu hóa nó như thế nào.</div>
+
+      <h3>3. Hệ thống mạnh mẽ</h3>
+      <p>Tài chính không chỉ là con số — đó là hệ thống thói quen và quy trình. Cuốn sách này dạy bạn xây dựng một kiến trúc tài chính cá nhân không phụ thuộc vào động lực hay cảm xúc nhất thời.</p>
+
+      <h3>4. Thức tỉnh nhận thức</h3>
+      <p>Nền tảng của mọi thay đổi tài chính là thay đổi tư duy. Cuốn sách này là điểm khởi đầu — giúp bạn nhìn thấy những niềm tin giới hạn đang vô hình ngăn cản bạn.</p>
+
+      <h3>5. Tư duy sâu sắc</h3>
+      <p>Ra quyết định tài chính đúng đắn đòi hỏi khả năng tư duy vượt qua bề mặt — không bị cuốn vào xu hướng ngắn hạn, không bị dắt mũi bởi cảm xúc nhất thời.</p>
+
+      <h2>Đọc sách như thế nào cho hiệu quả?</h2>
+      <p>Đọc xong không đủ — bạn cần <strong>đọc chủ động</strong>. Với mỗi cuốn sách tài chính:</p>
+      <ul>
+        <li>Ghi chú 3 ý tưởng quan trọng nhất</li>
+        <li>Xác định 1 hành động cụ thể bạn sẽ thực hiện ngay trong tuần này</li>
+        <li>Chia sẻ điều bạn học với ít nhất một người — dạy lại là cách học hiệu quả nhất</li>
+      </ul>
+
+      <h2>Bước tiếp theo sau khi đọc</h2>
+      <p>Kiến thức không có hành động chỉ là giải trí. Sau khi đọc, hãy chọn một thói quen tài chính mới và duy trì trong 21 ngày. Nhỏ thôi — nhưng nhất quán.</p>
+    `,
+    related: [
+      { slug: 'logic-nguoi-ngheo-giam-cam', title: 'Logic người nghèo giam cầm bạn ra sao', cat: 'Tư duy', emoji: '📊', bg: 'linear-gradient(145deg,#1F1209,#3A2010)' },
+      { slug: 'muu-luoc-tai-chinh', title: 'Mưu lược tài chính: Tiền là công cụ', cat: 'Tài chính', emoji: '💸', bg: 'linear-gradient(145deg,#1A1009,#2F1C0E)' },
+      { slug: 'he-thong-manh-me', title: 'Hệ thống mạnh mẽ: Cuộc sống không phụ thuộc cảm xúc', cat: 'Hệ thống', emoji: '⚡', bg: 'linear-gradient(145deg,#0D1F2E,#1A3348)' },
+    ]
+  },
+
+  'xuyen-thau-nhan-tinh': {
+    slug: 'xuyen-thau-nhan-tinh',
+    title: 'Xuyên thấu nhân tính: Bí quyết đọc vị người khác chỉ trong 3 giây',
+    cat: 'Nhân tính',
+    emoji: '👁️',
+    bg: 'linear-gradient(145deg,#0F1D38,#1A3060)',
+    date: '08/04/2025',
+    readTime: '8 phút',
+    views: '531',
+    tags: ['Nhân tính'],
+    productSlug: 'xuyen-thau-nhan-tinh',
+    productName: '👁️ Xuyên thấu nhân tính',
+    productPrice: '139.000đ',
+    productDesc: 'Đọc vị người khác qua ánh mắt, cử chỉ và ngôn ngữ cơ thể — kỹ năng sống còn trong mọi mối quan hệ.',
+    toc: [
+      'Tại sao 3 giây đầu quan trọng?',
+      'Bộ giải mã ngôn ngữ cơ thể',
+      'Những tín hiệu không thể giả mạo',
+      'Ứng dụng trong cuộc sống thực',
+      'Giới hạn của kỹ năng đọc người'
+    ],
+    content: `
+      <h2>Tại sao 3 giây đầu quan trọng?</h2>
+      <p>Não bộ con người xử lý thông tin phi ngôn ngữ nhanh hơn ngôn ngữ gần 5 lần. Trong 3 giây đầu tiên gặp ai đó, não bạn đã xử lý hàng trăm tín hiệu vi tế: tư thế, ánh mắt, biểu cảm mặt, nhịp thở, khoảng cách tiếp cận — và hình thành ấn tượng ban đầu mạnh đến mức rất khó thay đổi.</p>
+      <p>Người có kỹ năng xuyên thấu nhân tính không "đoán mò" — họ đọc những gì não bộ vô thức của đối phương đang phát ra, <strong>thứ mà bản thân đối phương thường không biết mình đang tiết lộ</strong>.</p>
+      <blockquote>"Bạn không thể không giao tiếp. Ngay cả im lặng cũng là một thông điệp." — Paul Watzlawick</blockquote>
+
+      <h2>Bộ giải mã ngôn ngữ cơ thể</h2>
+      <p>Có ba kênh thông tin chính cần đọc đồng thời:</p>
+      <h3>Kênh 1: Mắt</h3>
+      <p>Đôi mắt không chỉ "là cửa sổ tâm hồn" theo nghĩa thơ ca — chúng là bảng điều khiển cảm xúc. Hướng nhìn, tốc độ chớp mắt, độ giãn đồng tử, tiếp xúc mắt kéo dài hay né tránh — mỗi yếu tố mang một thông điệp khác nhau.</p>
+      <div class="highlight-box">
+        <strong>Đọc nhanh:</strong><br>
+        Nhìn lên trên-phải khi nhớ → đang nhớ thật | Nhìn lên trên-trái khi nhớ → có thể đang tưởng tượng<br>
+        Đồng tử giãn → hứng thú hoặc kích thích | Đồng tử thu → phòng thủ hoặc không thích
+      </div>
+
+      <h3>Kênh 2: Cơ thể và không gian</h3>
+      <p>Người tự tin chiếm không gian — họ không co rúm. Người muốn che giấu điều gì đó thường che phần trung tâm cơ thể (bụng, ngực) bằng tay hoặc đồ vật.</p>
+
+      <h3>Kênh 3: Giọng nói</h3>
+      <p>Không phải nội dung mà là cách nói: tốc độ, nhịp điệu, cao độ, những khoảng lặp. Câu nói bị ngắt quãng ở điểm bất thường thường là nơi não đang kiểm soát thông tin.</p>
+
+      <h2>Những tín hiệu không thể giả mạo</h2>
+      <p>Có những phản xạ tức thời xảy ra trong chưa đến 0.5 giây — gọi là <strong>microexpressions</strong> (biểu cảm vi mô). Hệ thần kinh tự động kích hoạt chúng trước khi ý thức kịp kiểm soát. Một thoáng khinh thường, một chớp sợ hãi, một tia vui thật — rồi biến mất ngay.</p>
+      <p>Đây là lý do người nói dối giỏi vẫn bị phát hiện: họ kiểm soát được ngôn ngữ nhưng không kiểm soát được những phản xạ vi mô này.</p>
+
+      <h2>Ứng dụng trong cuộc sống thực</h2>
+      <p>Kỹ năng này không chỉ dùng để "bắt nói dối". Nó giúp bạn:</p>
+      <ul>
+        <li>Phát hiện ai đó đang thật sự hứng thú hay chỉ lịch sự</li>
+        <li>Nhận ra khi đối tác đàm phán đang cân nhắc nhượng bộ</li>
+        <li>Biết khi nào nên tiếp tục và khi nào nên dừng trong một cuộc trò chuyện</li>
+        <li>Hiểu cảm xúc thật của người thân dù họ nói "không sao"</li>
+      </ul>
+
+      <h2>Giới hạn của kỹ năng đọc người</h2>
+      <p>Quan trọng cần nhớ: <strong>không có tín hiệu nào 100% chắc chắn</strong>. Kỹ năng này nâng cao xác suất đọc đúng, không đảm bảo đọc đúng tuyệt đối. Dùng nó để thêm dữ liệu vào phán đoán, không phải để kết luận cuối cùng về người khác.</p>
+    `,
+    related: [
+      { slug: 'nhan-tinh-la-gi', title: 'Nhân tính là gì? Kỹ năng quan trọng nhất', cat: 'Nhân tính', emoji: '🧠', bg: 'linear-gradient(145deg,#0F1D38,#091525)' },
+      { slug: 'nhan-tinh-den-trang', title: 'Nhân tính đen trắng: Sống thật hay sống khéo?', cat: 'Nhân tính', emoji: '☯️', bg: 'linear-gradient(145deg,#141414,#262626)' },
+      { slug: 'tinh-cam-bi-tich', title: 'Tình cảm bí tịch: Bí mật mối quan hệ sâu sắc', cat: 'Tình cảm', emoji: '🌙', bg: 'linear-gradient(145deg,#1A0A1A,#2E1040)' },
+    ]
+  },
+
+  'he-thong-tu-duy-quyet-dinh': {
+    slug: 'he-thong-tu-duy-quyet-dinh',
+    title: 'Hệ thống tư duy giúp bạn ra quyết định không bao giờ hối tiếc',
+    cat: 'Hệ thống',
+    emoji: '⚙️',
+    bg: 'linear-gradient(145deg,#0E1A1F,#173040)',
+    date: '04/04/2025',
+    readTime: '6 phút',
+    views: '267',
+    tags: ['Hệ thống', 'Tư duy'],
+    productSlug: 'he-thong-manh-me',
+    productName: '⚙️ Hệ thống mạnh mẽ',
+    productPrice: '159.000đ',
+    productDesc: 'Xây dựng hệ thống tư duy và thói quen không phụ thuộc cảm xúc — nền tảng của người thành công bền vững.',
+    toc: [
+      'Tại sao quyết định cảm tính luôn thất bại?',
+      'Framework ra quyết định 3 bước',
+      'Xây dựng hệ thống, không chạy theo mục tiêu',
+      'Khi quyết định sai — làm gì tiếp theo?'
+    ],
+    content: `
+      <h2>Tại sao quyết định cảm tính luôn thất bại?</h2>
+      <p>Não bộ chúng ta được thiết kế cho môi trường nguyên thủy — nơi quyết định cần nhanh, phần thưởng cần ngay, rủi ro cần tránh tức thì. Trong thế giới hiện đại, những phản xạ đó thường dẫn đến quyết định sai.</p>
+      <p>Khi bạn đưa ra quyết định trong trạng thái cảm xúc cao (tức giận, hưng phấn, sợ hãi), <strong>vỏ não trước — bộ phận ra quyết định lý trí — bị hệ limbic ghi đè</strong>. Bạn đang để "não thằn lằn" quyết định thay vì bạn.</p>
+      <blockquote>"Đừng đưa ra quyết định quan trọng khi bạn đang đói, mệt mỏi, cô đơn hoặc tức giận." — quy tắc H.A.L.T</blockquote>
+
+      <h2>Framework ra quyết định 3 bước</h2>
+      <h3>Bước 1: Tách biệt quyết định khỏi cảm xúc</h3>
+      <p>Khi phải ra quyết định quan trọng, hãy dừng lại 24 giờ nếu có thể. Không phải để trì hoãn — mà để để cảm xúc lắng xuống đủ để lý trí có chỗ hoạt động.</p>
+      <div class="highlight-box">
+        <strong>Kiểm tra nhanh:</strong> Hỏi bản thân "Nếu tôi cảm thấy ngược lại với bây giờ, tôi có vẫn đưa ra quyết định này không?" — nếu câu trả lời là không, đó là tín hiệu bạn đang quyết định bằng cảm xúc.
+      </div>
+
+      <h3>Bước 2: Xác định tiêu chí trước khi đánh giá</h3>
+      <p>Viết ra những tiêu chí quan trọng với bạn <em>trước khi</em> xem xét các lựa chọn. Nếu bạn đặt tiêu chí sau khi đã có xu hướng, não bạn sẽ vô thức điều chỉnh tiêu chí để hợp lý hóa lựa chọn đó.</p>
+
+      <h3>Bước 3: Nghĩ về chi phí cơ hội</h3>
+      <p>Mỗi quyết định là từ chối một thứ khác. Khi chọn A, bạn không chọn B. Hầu hết mọi người chỉ đánh giá những gì họ được — không đánh giá những gì họ từ bỏ. Đây là lỗi phân tích lớn nhất.</p>
+
+      <h2>Xây dựng hệ thống, không chạy theo mục tiêu</h2>
+      <p>Mục tiêu nói "tôi muốn đến đó". Hệ thống nói "đây là cách tôi vận hành mỗi ngày". Người chỉ có mục tiêu đứng dậy đi tiếp khi đủ động lực. Người có hệ thống đứng dậy đi tiếp dù không có động lực — vì đó là cách họ vận hành.</p>
+      <p>Thay vì đặt mục tiêu "ra quyết định tốt hơn", hãy xây dựng hệ thống: một quy trình cụ thể bạn tuân theo mỗi lần phải quyết định điều quan trọng.</p>
+
+      <h2>Khi quyết định sai — làm gì tiếp theo?</h2>
+      <p>Ngay cả hệ thống tốt nhất cũng có lúc cho kết quả sai. Điều tạo ra sự khác biệt không phải là không bao giờ sai — mà là phản ứng như thế nào sau khi sai:</p>
+      <ul>
+        <li>Phân tích <em>quy trình</em>, không chỉ kết quả — đôi khi quy trình đúng nhưng kết quả xui</li>
+        <li>Không chìm trong hối tiếc — nó là năng lượng tiêu cực không tạo ra giá trị</li>
+        <li>Cập nhật model tư duy của bạn với thông tin mới</li>
+      </ul>
+    `,
+    related: [
+      { slug: 'he-thong-manh-me', title: 'Hệ thống mạnh mẽ: Cuộc sống không phụ thuộc cảm xúc', cat: 'Hệ thống', emoji: '⚡', bg: 'linear-gradient(145deg,#0D1F2E,#1A3348)' },
+      { slug: 'tu-duy-sau-sac', title: 'Tư duy sâu sắc: Thoát khỏi lối suy nghĩ bề mặt', cat: 'Tư duy', emoji: '🔮', bg: 'linear-gradient(145deg,#0E1A1F,#173040)' },
+      { slug: 'tu-duy-cuong-gia-vs-thuong-nhan', title: 'Tư duy cường giả vs tư duy thường nhân', cat: 'Tư duy', emoji: '💎', bg: 'linear-gradient(145deg,#1A0F2E,#2D1A4E)' },
+    ]
+  },
+
+  'thuc-tinh-nhan-thuc-pha-vo-niem-tin': {
+    slug: 'thuc-tinh-nhan-thuc-pha-vo-niem-tin',
+    title: 'Thức tỉnh nhận thức: Cách phá vỡ những niềm tin sai lầm bóp méo thực tế',
+    cat: 'Nhận thức',
+    emoji: '💡',
+    bg: 'linear-gradient(145deg,#1A2520,#233D33)',
+    date: '01/04/2025',
+    readTime: '5 phút',
+    views: '198',
+    tags: ['Nhận thức'],
+    productSlug: 'thuc-tinh-nhan-thuc',
+    productName: '💡 Thức tỉnh nhận thức',
+    productPrice: '179.000đ',
+    productDesc: 'Bản đồ chi tiết để nhận ra và phá vỡ những niềm tin giới hạn đang kéo bạn lại.',
+    toc: [
+      'Nhận thức không phải là sự thật',
+      'Nguồn gốc của niềm tin sai lầm',
+      '3 bước phá vỡ niềm tin giới hạn',
+      'Xây dựng nhận thức mới'
+    ],
+    content: `
+      <h2>Nhận thức không phải là sự thật</h2>
+      <p>Bạn không nhìn thế giới như nó vốn có — bạn nhìn thế giới như <em>bạn vốn có</em>. Nhận thức của bạn là một bộ lọc được xây dựng từ kinh nghiệm, văn hóa, cảm xúc và những câu chuyện bạn tự kể cho mình nghe.</p>
+      <p>Hai người cùng chứng kiến một sự kiện sẽ kể hai câu chuyện hoàn toàn khác nhau — không ai nói dối, nhưng nhận thức của họ khác nhau. <strong>Nhận thức không phải là cửa sổ nhìn ra thực tế — nó là tấm gương phản chiếu nội tâm của bạn.</strong></p>
+      <blockquote>"Vấn đề không phải là những gì xảy ra với bạn. Vấn đề là câu chuyện bạn kể về những gì xảy ra với bạn."</blockquote>
+
+      <h2>Nguồn gốc của niềm tin sai lầm</h2>
+      <p>Hầu hết niềm tin giới hạn đều có nguồn gốc từ:</p>
+      <ul>
+        <li><strong>Generalization (tổng quát hóa quá mức):</strong> Một lần thất bại → "Tôi luôn thất bại"</li>
+        <li><strong>Deletion (xóa thông tin):</strong> Chỉ nhớ bằng chứng ủng hộ niềm tin, bỏ qua bằng chứng phản bác</li>
+        <li><strong>Distortion (bóp méo):</strong> Giải thích thông tin trung lập theo hướng tiêu cực nhất</li>
+      </ul>
+      <div class="highlight-box">
+        <strong>Ví dụ thực tế:</strong> "Tôi không giỏi toán" — một câu nói của giáo viên lớp 4 → niềm tin này được củng cố mỗi lần gặp bài toán khó → bạn né tránh toán → trở nên kém toán hơn → niềm tin được xác nhận. Một vòng lặp tự hoàn thành.
+      </div>
+
+      <h2>3 bước phá vỡ niềm tin giới hạn</h2>
+      <ol>
+        <li><strong>Nhận diện:</strong> Viết ra những câu bắt đầu bằng "Tôi không thể...", "Tôi không đủ...", "Tôi không bao giờ...". Đây là bản đồ niềm tin giới hạn của bạn.</li>
+        <li><strong>Thách thức:</strong> Với mỗi niềm tin, hỏi: "Điều này có thật 100% không? Có bằng chứng nào ngược lại không? Nguồn gốc của niềm tin này từ đâu?"</li>
+        <li><strong>Thay thế:</strong> Không chỉ xóa niềm tin cũ — bộ não ghét khoảng trống. Thay thế bằng một niềm tin chức năng hơn: không phải "Tôi giỏi" (não không tin) mà là "Tôi đang học cách..."</li>
+      </ol>
+
+      <h2>Xây dựng nhận thức mới</h2>
+      <p>Nhận thức mới không được xây bằng lời khẳng định. Nó được xây bằng <strong>bằng chứng từ hành động</strong>. Mỗi lần bạn làm điều gì đó mà niềm tin cũ nói bạn không thể, bạn đặt một viên gạch cho nhận thức mới.</p>
+      <p>Quá trình này chậm, không tuyến tính, và đôi khi đau. Nhưng đây là công việc thật sự của sự trưởng thành — không phải tích lũy thành tích bên ngoài, mà là tái xây dựng nền tảng bên trong.</p>
+    `,
+    related: [
+      { slug: 'thuc-tinh-nhan-thuc-gioi-thieu', title: 'Thức tỉnh nhận thức: Hành trình phá vỡ giới hạn', cat: 'Nhận thức', emoji: '💡', bg: 'linear-gradient(145deg,#0A1D14,#0D3322)' },
+      { slug: 'tu-duy-sau-sac', title: 'Tư duy sâu sắc: Thoát khỏi lối suy nghĩ bề mặt', cat: 'Tư duy', emoji: '🔮', bg: 'linear-gradient(145deg,#0E1A1F,#173040)' },
+      { slug: 'logic-nguoi-ngheo-giam-cam', title: 'Logic người nghèo: Thoát khỏi vòng lặp', cat: 'Tư duy', emoji: '📊', bg: 'linear-gradient(145deg,#1F1209,#3A2010)' },
+    ]
+  },
+
+  'muu-luoc-tai-chinh': {
+    slug: 'muu-luoc-tai-chinh',
+    title: 'Mưu lược tài chính: Khi tiền bạc không phải là đích đến, mà là công cụ',
+    cat: 'Tài chính',
+    emoji: '💸',
+    bg: 'linear-gradient(145deg,#1A1009,#2F1C0E)',
+    date: '27/03/2025',
+    readTime: '9 phút',
+    views: '476',
+    tags: ['Tài chính', 'Tư duy'],
+    productSlug: 'muu-luoc-tai-chinh',
+    productName: '💰 Mưu lược tài chính',
+    productPrice: '149.000đ',
+    productDesc: 'Học cách dùng tiền như một đòn bẩy chiến lược để tạo ra tự do — không phải làm nô lệ cho tiền.',
+    toc: [
+      'Sai lầm lớn nhất về tiền bạc',
+      'Tiền là công cụ — không phải mục tiêu',
+      'Chiến lược đòn bẩy tài chính',
+      'Xây dựng tự do tài chính thật sự',
+      'Cái bẫy của sự giàu có'
+    ],
+    content: `
+      <h2>Sai lầm lớn nhất về tiền bạc</h2>
+      <p>Hầu hết mọi người học cách kiếm tiền — nhưng không học cách <em>dùng</em> tiền. Họ chạy theo tiền cả đời, tích lũy được một mớ, rồi nhận ra tiền không mang lại thứ họ thật sự muốn.</p>
+      <p>Nguyên nhân: <strong>họ nhầm lẫn phương tiện với mục tiêu</strong>. Tiền không phải đích đến — tự do, an toàn, ý nghĩa, trải nghiệm mới là những thứ người ta thật sự muốn. Tiền chỉ là một trong nhiều công cụ để đến đó.</p>
+      <blockquote>"Người chạy theo tiền làm việc cho tiền. Người hiểu tiền làm cho tiền làm việc cho họ."</blockquote>
+
+      <h2>Tiền là công cụ — không phải mục tiêu</h2>
+      <p>Câu hỏi đúng không phải "Tôi cần bao nhiêu tiền?" mà là "Tôi cần tiền để làm gì?". Khi bạn trả lời câu hỏi thứ hai, thường con số cần thiết nhỏ hơn nhiều bạn nghĩ — và con đường đến đó rõ ràng hơn nhiều.</p>
+      <div class="highlight-box">
+        <strong>Bài tập:</strong> Liệt kê 5 thứ bạn nghĩ cần tiền để có được. Với mỗi thứ, hỏi: "Tại sao tôi muốn điều này?" Tiếp tục hỏi tại sao cho đến khi bạn chạm đến giá trị cốt lõi. Thường thì câu trả lời là: tự do, kết nối, an toàn, hoặc ý nghĩa — và có nhiều con đường đến đó hơn chỉ tiền.
+      </div>
+
+      <h2>Chiến lược đòn bẩy tài chính</h2>
+      <p>Người giàu không làm nhiều hơn — họ đòn bẩy nhiều hơn. Đòn bẩy là cơ chế nhân đôi sức lực của bạn mà không tỷ lệ thuận với thời gian bỏ ra:</p>
+      <ul>
+        <li><strong>Đòn bẩy tài chính:</strong> Dùng vốn vay để đầu tư với tỷ suất sinh lời cao hơn lãi suất</li>
+        <li><strong>Đòn bẩy con người:</strong> Xây đội nhóm làm những gì bạn làm — nhân kết quả lên nhiều lần</li>
+        <li><strong>Đòn bẩy hệ thống:</strong> Tạo quy trình tự động chạy dù bạn có mặt hay không</li>
+        <li><strong>Đòn bẩy nội dung:</strong> Một sản phẩm số, một bài viết, một khóa học — tạo ra một lần, bán mãi mãi</li>
+      </ul>
+
+      <h2>Xây dựng tự do tài chính thật sự</h2>
+      <p>Tự do tài chính không phải là con số trong tài khoản — đó là khi thu nhập thụ động lớn hơn chi phí sống. Đây là ngưỡng cụ thể, có thể tính được và có thể đạt được với kế hoạch đúng.</p>
+      <p>Bước 1: Tính rõ chi phí sống tối thiểu của bạn (không phải hiện tại — mà là lifestyle bạn thật sự muốn).<br>
+      Bước 2: Xây dựng tài sản tạo thu nhập thụ động đủ để cover số đó.<br>
+      Bước 3: Tiếp tục — nhưng bây giờ bạn làm vì muốn, không phải vì phải.</p>
+
+      <h2>Cái bẫy của sự giàu có</h2>
+      <p>Paradox nổi tiếng: nhiều người giàu không hạnh phúc hơn người có thu nhập trung bình. Lý do: <strong>họ leo thang tham chiếu (lifestyle inflation)</strong> — mỗi lần kiếm được nhiều hơn, kỳ vọng cũng tăng theo, và cảm giác "đủ" không bao giờ đến.</p>
+      <p>Mưu lược tài chính thật sự là biết khi nào đủ — và đủ dũng cảm để dừng leo.</p>
+    `,
+    related: [
+      { slug: 'logic-nguoi-ngheo-giam-cam', title: 'Logic người nghèo: Bẫy tư duy tài chính', cat: 'Tư duy', emoji: '📊', bg: 'linear-gradient(145deg,#1F1209,#3A2010)' },
+      { slug: 'sach-thay-doi-tu-duy-tai-chinh', title: '5 cuốn sách thay đổi tư duy tài chính', cat: 'Tài chính', emoji: '💰', bg: 'linear-gradient(145deg,#1A0A1A,#2E1040)' },
+      { slug: 'he-thong-manh-me', title: 'Hệ thống mạnh mẽ: Xây cuộc sống bền vững', cat: 'Hệ thống', emoji: '⚡', bg: 'linear-gradient(145deg,#0D1F2E,#1A3348)' },
+    ]
+  },
+
+  'tu-duy-cuong-gia-vs-thuong-nhan': {
+    slug: 'tu-duy-cuong-gia-vs-thuong-nhan',
+    title: 'Tư duy cường giả vs tư duy thường nhân: Ranh giới nằm ở đâu?',
+    cat: 'Tư duy',
+    emoji: '💎',
+    bg: 'linear-gradient(145deg,#1A0F2E,#2D1A4E)',
+    date: '24/03/2025',
+    readTime: '7 phút',
+    views: '389',
+    tags: ['Tư duy'],
+    productSlug: 'tu-duy-cuong-gia',
+    productName: '💎 Tư duy cường giả',
+    productPrice: '149.000đ',
+    productDesc: 'Khám phá những khác biệt tư duy tạo ra cách biệt lớn trong kết quả cuộc sống.',
+    toc: [
+      'Cường giả là ai?',
+      'Những khác biệt tư duy cốt lõi',
+      'Tư duy về thất bại',
+      'Tư duy về thời gian',
+      'Cách phát triển tư duy cường giả'
+    ],
+    content: `
+      <h2>Cường giả là ai?</h2>
+      <p>"Cường giả" không phải siêu nhân. Không phải người sinh ra đã giỏi. Không phải người may mắn hơn. <strong>Cường giả là người vận hành với một hệ điều hành tư duy khác biệt</strong> — những giả định nền tảng về thế giới, về bản thân, về cách mọi thứ vận hành.</p>
+      <p>Ranh giới không nằm ở IQ, không nằm ở hoàn cảnh xuất phát. Nó nằm ở những câu hỏi họ đặt ra, những câu chuyện họ kể cho bản thân, và cách họ phản ứng với thất bại.</p>
+      <blockquote>"Không phải hoàn cảnh tạo ra con người — phản ứng với hoàn cảnh mới tạo ra con người."</blockquote>
+
+      <h2>Những khác biệt tư duy cốt lõi</h2>
+      <div class="highlight-box">
+        <strong>Thường nhân nghĩ:</strong> "Tôi không có điều kiện / tài năng / thời gian..."<br>
+        <strong>Cường giả nghĩ:</strong> "Làm thế nào để tôi tìm ra điều kiện / phát triển kỹ năng / tạo ra thời gian?"<br><br>
+        <strong>Thường nhân:</strong> Thành công của người khác là bằng chứng tôi thua kém<br>
+        <strong>Cường giả:</strong> Thành công của người khác là bằng chứng điều đó có thể làm được<br><br>
+        <strong>Thường nhân:</strong> Chờ động lực trước khi hành động<br>
+        <strong>Cường giả:</strong> Hành động để tạo ra động lực
+      </div>
+
+      <h2>Tư duy về thất bại</h2>
+      <p>Đây là điểm phân kỳ lớn nhất. Với thường nhân, thất bại là <em>bằng chứng về bản thân</em>: "Tôi thất bại → Tôi là kẻ thất bại." Với cường giả, thất bại là <em>thông tin về hệ thống</em>: "Cách làm này không hiệu quả → Cần thử cách khác."</p>
+      <p>Điều này không phải lạc quan ngây thơ. Cường giả biết đau — họ chỉ không để đau đó kết luận về giá trị của mình.</p>
+
+      <h2>Tư duy về thời gian</h2>
+      <p>Thường nhân sống theo <strong>thời gian tuyến tính</strong>: đầu tư thời gian → nhận kết quả ngay. Khi không có kết quả ngay, họ bỏ cuộc.</p>
+      <p>Cường giả hiểu <strong>compound effect</strong>: những hành động nhỏ, nhất quán, tích lũy theo cấp số nhân. Họ đầu tư vào những thứ không có kết quả rõ ràng ngay — vì họ biết kết quả đang được xây dựng bên dưới bề mặt.</p>
+
+      <h2>Cách phát triển tư duy cường giả</h2>
+      <p>Không phải "suy nghĩ tích cực" — đó là tư duy bề mặt. Phát triển tư duy cường giả là quá trình:</p>
+      <ol>
+        <li>Nhận ra những giả định nền tảng của bạn — hầu hết chưa bao giờ được kiểm tra</li>
+        <li>Thách thức từng giả định với bằng chứng thực tế</li>
+        <li>Hành động ngược với phản xạ tư duy thường nhân — không phải vì bạn cảm thấy tự tin, mà để <em>xây dựng</em> sự tự tin qua bằng chứng</li>
+        <li>Lặp lại đủ lâu để những tư duy mới trở thành mặc định</li>
+      </ol>
+    `,
+    related: [
+      { slug: 'tu-duy-sau-sac', title: 'Tư duy sâu sắc: Thoát khỏi lối nghĩ bề mặt', cat: 'Tư duy', emoji: '🔮', bg: 'linear-gradient(145deg,#0E1A1F,#173040)' },
+      { slug: 'thuc-tinh-nhan-thuc-gioi-thieu', title: 'Thức tỉnh nhận thức: Phá vỡ giới hạn tư duy', cat: 'Nhận thức', emoji: '💡', bg: 'linear-gradient(145deg,#0A1D14,#0D3322)' },
+      { slug: 'he-thong-tu-duy-quyet-dinh', title: 'Hệ thống ra quyết định không hối tiếc', cat: 'Hệ thống', emoji: '⚙️', bg: 'linear-gradient(145deg,#0E1A1F,#173040)' },
+    ]
+  },
+
+  'tinh-cam-bi-tich': {
+    slug: 'tinh-cam-bi-tich',
+    title: 'Tình cảm bí tịch: Những bí mật ẩn sau mọi mối quan hệ sâu sắc',
+    cat: 'Tình cảm',
+    emoji: '🌙',
+    bg: 'linear-gradient(145deg,#1A0A1A,#2E1040)',
+    date: '20/03/2025',
+    readTime: '5 phút',
+    views: '318',
+    tags: ['Tình cảm', 'Nhân tính'],
+    productSlug: 'tinh-cam-bi-tich',
+    productName: '🌙 Tình cảm bí tịch',
+    productPrice: '139.000đ',
+    productDesc: 'Khám phá bí mật đằng sau những mối quan hệ sâu sắc — tại sao một số người dễ kết nối, số khác thì không.',
+    toc: [
+      'Tại sao một số người cô đơn dù đông người?',
+      'Bản năng gắn kết và attachment styles',
+      'Ngôn ngữ tình cảm — 5 cách thể hiện yêu thương',
+      'Xây dựng kết nối sâu',
+      'Ranh giới lành mạnh trong tình cảm'
+    ],
+    content: `
+      <h2>Tại sao một số người cô đơn dù đông người?</h2>
+      <p>Cô đơn không phải thiếu người xung quanh — cô đơn là thiếu kết nối thật sự. Có người ở giữa đám đông vẫn cảm thấy vô hình. Có người chỉ cần một người hiểu mình là đủ.</p>
+      <p>Khoa học tâm lý gọi đây là <strong>loneliness của kết nối bề mặt</strong>: bạn có thể nói chuyện cả ngày nhưng không ai thật sự nhìn thấy bạn — và bạn cũng không để ai thật sự nhìn vào.</p>
+      <blockquote>"Dễ bị yêu thương nhất là người dám để người khác nhìn thấy mình thật sự." — Brené Brown</blockquote>
+
+      <h2>Bản năng gắn kết và attachment styles</h2>
+      <p>Từ thời thơ ấu, bạn học được một kiểu gắn kết (attachment style) — cách bạn phản ứng trong các mối quan hệ thân thiết:</p>
+      <ul>
+        <li><strong>Secure (an toàn):</strong> Thoải mái với sự gần gũi và tự lập — cân bằng</li>
+        <li><strong>Anxious (lo lắng):</strong> Sợ bị bỏ rơi, cần reassurance liên tục</li>
+        <li><strong>Avoidant (né tránh):</strong> Khó chịu với sự gần gũi, giữ khoảng cách cảm xúc</li>
+        <li><strong>Disorganized (hỗn loạn):</strong> Vừa muốn gần gũi vừa sợ bị tổn thương</li>
+      </ul>
+      <div class="highlight-box">
+        <strong>Insight quan trọng:</strong> Anxious và Avoidant thường bị hút nhau — tạo ra vòng lặp đau khổ. Anxious càng cần, Avoidant càng rút lui. Avoidant càng rút, Anxious càng cần. Nhận ra pattern này là bước đầu tiên để thoát ra.
+      </div>
+
+      <h2>Ngôn ngữ tình cảm — 5 cách thể hiện yêu thương</h2>
+      <p>Nhiều mối quan hệ đổ vỡ không vì thiếu tình cảm — mà vì <strong>nói ngôn ngữ tình cảm khác nhau</strong>:</p>
+      <ol>
+        <li>Lời nói khẳng định (Words of affirmation)</li>
+        <li>Thời gian chất lượng (Quality time)</li>
+        <li>Nhận quà tặng (Receiving gifts)</li>
+        <li>Hành động phục vụ (Acts of service)</li>
+        <li>Tiếp xúc thể chất (Physical touch)</li>
+      </ol>
+      <p>Khi bạn cho tình yêu theo cách bạn thích nhận, nhưng đối phương cần cách khác — cả hai đều cảm thấy không được yêu, dù đều đang yêu.</p>
+
+      <h2>Xây dựng kết nối sâu</h2>
+      <p>Kết nối sâu không xảy ra tự nhiên — nó được xây dựng qua những khoảnh khắc dễ tổn thương (vulnerability) được chấp nhận an toàn. Mỗi lần bạn chia sẻ điều gì đó thật và được đón nhận không phán xét, niềm tin được cộng thêm một lớp.</p>
+
+      <h2>Ranh giới lành mạnh trong tình cảm</h2>
+      <p>Ranh giới không phải là bức tường — đó là hướng dẫn sử dụng bản thân bạn. <strong>Ranh giới lành mạnh bảo vệ mối quan hệ, không phá hủy nó</strong>. Người không có ranh giới không thể cho đi thật sự — vì họ đang cho đến cạn kiệt và sau đó oán giận.</p>
+    `,
+    related: [
+      { slug: 'nhan-tinh-la-gi', title: 'Nhân tính là gì? Kỹ năng hiểu người', cat: 'Nhân tính', emoji: '🧠', bg: 'linear-gradient(145deg,#0F1D38,#091525)' },
+      { slug: 'nhan-tinh-den-trang', title: 'Nhân tính đen trắng: Sống thật hay sống khéo?', cat: 'Nhân tính', emoji: '☯️', bg: 'linear-gradient(145deg,#141414,#262626)' },
+      { slug: 'xuyen-thau-nhan-tinh', title: 'Xuyên thấu nhân tính: Đọc vị người khác', cat: 'Nhân tính', emoji: '👁️', bg: 'linear-gradient(145deg,#0F1D38,#1A3060)' },
+    ]
+  },
+
+  'nhan-tinh-den-trang': {
+    slug: 'nhan-tinh-den-trang',
+    title: 'Nhân tính đen trắng: Nên sống thật lòng hay sống khéo léo?',
+    cat: 'Nhân tính',
+    emoji: '☯️',
+    bg: 'linear-gradient(145deg,#141414,#262626)',
+    date: '16/03/2025',
+    readTime: '6 phút',
+    views: '445',
+    tags: ['Nhân tính'],
+    productSlug: 'nhan-tinh-den-trang',
+    productName: '☯️ Nhân tính đen trắng',
+    productPrice: '149.000đ',
+    productDesc: 'Khám phá chiều sâu nhân tính — giữa sự thật và sự khôn ngoan, đâu mới là con đường sống đúng đắn.',
+    toc: [
+      'Câu hỏi triệu năm',
+      'Sự thật thuần túy và cái giá của nó',
+      'Sự khéo léo và ranh giới đạo đức',
+      'Con đường thứ ba',
+      'Nhân tính không phải trắng đen'
+    ],
+    content: `
+      <h2>Câu hỏi triệu năm</h2>
+      <p>"Nên sống thật hay sống khéo?" — câu hỏi này đã theo nhân loại từ khi có xã hội. Người ngây thơ nói "luôn nói thật". Người thực dụng nói "phải biết khéo". Cả hai đều đúng một phần và sai một phần.</p>
+      <p>Vấn đề không phải chọn một trong hai — vấn đề là <strong>hiểu khi nào dùng cái gì, và làm thế nào để không đánh mất bản thân trong quá trình đó</strong>.</p>
+
+      <h2>Sự thật thuần túy và cái giá của nó</h2>
+      <p>Người sống hoàn toàn theo "thật lòng không nể mặt" thường trả giá đắt về mặt xã hội. Không phải vì xã hội xấu — mà vì con người cần được bảo vệ cảm xúc để tiếp thu thông tin. Sự thật nói sai thời điểm, sai cách thức, là vũ khí hơn là quà tặng.</p>
+      <blockquote>"Sự thật không có lòng trắc ẩn là sự tàn nhẫn được hợp lý hóa."</blockquote>
+
+      <h2>Sự khéo léo và ranh giới đạo đức</h2>
+      <p>"Sống khéo" nằm trên một spectrum rộng:</p>
+      <ul>
+        <li><strong>Khéo léo đạo đức:</strong> Chọn thời điểm và cách nói để sự thật được tiếp nhận tốt nhất</li>
+        <li><strong>Khéo léo trung lập:</strong> Giữ thông tin vì chưa đến lúc, không phải để thao túng</li>
+        <li><strong>Khéo léo nguy hiểm:</strong> Nói những điều người khác muốn nghe để đạt mục đích của mình</li>
+        <li><strong>Thao túng:</strong> Dùng sự thật có chọn lọc để tạo ra ấn tượng sai</li>
+      </ul>
+      <div class="highlight-box">
+        <strong>Ranh giới đạo đức:</strong> Sự khéo léo lành mạnh phục vụ mối quan hệ và đối phương. Thao túng phục vụ bản thân tại hại người khác. Câu hỏi không phải "Tôi nói gì?" mà là "Điều này phục vụ ai?"
+      </div>
+
+      <h2>Con đường thứ ba</h2>
+      <p>Không phải chọn thật lòng hay khéo léo — mà là <strong>trung thực với lòng trắc ẩn</strong>. Bạn có thể nói sự thật đầy đủ, đúng lúc, theo cách người kia có thể tiếp nhận — và vẫn giữ nguyên vẹn bản thân.</p>
+      <p>Đây là con đường khó nhất — vì nó đòi hỏi bạn vừa dũng cảm (để nói sự thật) vừa nhạy cảm (để nói đúng cách) vừa kiên nhẫn (để chờ đúng thời điểm).</p>
+
+      <h2>Nhân tính không phải trắng đen</h2>
+      <p>Con người không phải tốt hay xấu — đây là nhận thức nền tảng. Mỗi người là hỗn hợp phức tạp của hoàn cảnh, nỗi sợ, khát vọng và những vết thương chưa lành. Người hiểu nhân tính không phán xét — họ <em>quan sát</em>.</p>
+      <p>Và khi bạn ngừng xem thế giới theo lăng kính đen trắng, bạn bắt đầu thấy những sắc xám phong phú hơn — và đó là lúc bạn thật sự hiểu người.</p>
+    `,
+    related: [
+      { slug: 'nhan-tinh-la-gi', title: 'Nhân tính là gì? Kỹ năng hiểu người', cat: 'Nhân tính', emoji: '🧠', bg: 'linear-gradient(145deg,#0F1D38,#091525)' },
+      { slug: 'xuyen-thau-nhan-tinh', title: 'Xuyên thấu nhân tính: Đọc vị người khác', cat: 'Nhân tính', emoji: '👁️', bg: 'linear-gradient(145deg,#0F1D38,#1A3060)' },
+      { slug: 'tinh-cam-bi-tich', title: 'Tình cảm bí tịch: Bí mật kết nối sâu', cat: 'Tình cảm', emoji: '🌙', bg: 'linear-gradient(145deg,#1A0A1A,#2E1040)' },
+    ]
+  },
+
+  'tu-duy-sau-sac': {
+    slug: 'tu-duy-sau-sac',
+    title: 'Tư duy sâu sắc: Làm thế nào để thoát khỏi lối suy nghĩ bề mặt?',
+    cat: 'Tư duy',
+    emoji: '🔮',
+    bg: 'linear-gradient(145deg,#0E1A1F,#173040)',
+    date: '12/03/2025',
+    readTime: '8 phút',
+    views: '362',
+    tags: ['Tư duy'],
+    productSlug: 'tu-duy-sau-sac',
+    productName: '🔮 Tư duy sâu sắc',
+    productPrice: '139.000đ',
+    productDesc: 'Phát triển khả năng tư duy chiều sâu — đặt câu hỏi đúng, chịu đựng sự không chắc chắn và tìm ra nguyên nhân gốc rễ.',
+    toc: [
+      'Tại sao hầu hết chúng ta tư duy bề mặt?',
+      'Đặt câu hỏi đúng là kỹ năng hiếm',
+      'First principles thinking',
+      'Chịu đựng sự mơ hồ',
+      'Thực hành tư duy sâu hàng ngày'
+    ],
+    content: `
+      <h2>Tại sao hầu hết chúng ta tư duy bề mặt?</h2>
+      <p>Não bộ được thiết kế để tiết kiệm năng lượng. Tư duy sâu tốn năng lượng nhiều — nên não mặc định dùng shortcut: <strong>heuristics</strong> (quy tắc ngón tay cái) và <strong>pattern matching</strong> (so khớp với những gì quen thuộc).</p>
+      <p>Trong hầu hết tình huống hàng ngày, điều này hiệu quả. Nhưng khi đối mặt với những vấn đề phức tạp, quyết định quan trọng, hay câu hỏi mới — tư duy bề mặt sản xuất ra những câu trả lời cũ cho những vấn đề mới.</p>
+      <blockquote>"Bạn không thể giải quyết vấn đề bằng cùng cấp độ tư duy đã tạo ra nó." — Albert Einstein</blockquote>
+
+      <h2>Đặt câu hỏi đúng là kỹ năng hiếm</h2>
+      <p>Câu trả lời của bạn chỉ tốt bằng câu hỏi bạn đặt ra. Hầu hết mọi người hỏi "làm thế nào?" trước khi hỏi "tại sao?" và "điều gì?". Kết quả là họ tối ưu hóa những thứ không đáng tối ưu.</p>
+      <div class="highlight-box">
+        <strong>Bộ câu hỏi tư duy sâu:</strong><br>
+        • "Giả định nào đang ẩn trong câu hỏi này?"<br>
+        • "Điều gì sẽ cần phải đúng để kết luận này đúng?"<br>
+        • "Ai có lợi ích khi tôi tin vào điều này?"<br>
+        • "Bằng chứng nào sẽ thay đổi quan điểm của tôi?"
+      </div>
+
+      <h2>First principles thinking</h2>
+      <p>Elon Musk nổi tiếng với phương pháp này: <strong>thay vì suy nghĩ theo analogy (tương tự), hãy phân tích vấn đề về những nguyên lý cơ bản nhất và xây dựng lại từ đó</strong>.</p>
+      <p>Ví dụ: "Pin quá đắt" → Analogy thinking: "Ừ, pin đắt, phải chấp nhận" → First principles: "Pin làm từ gì? Giá thị trường của từng thành phần là bao nhiêu? Tại sao lại đắt hơn tổng nguyên liệu?"</p>
+      <p>Câu hỏi thứ hai dẫn đến Tesla. Câu hỏi thứ nhất thì không.</p>
+
+      <h2>Chịu đựng sự mơ hồ</h2>
+      <p>Não não ghét sự không chắc chắn đến mức nó thà có một câu trả lời sai còn hơn không có câu trả lời. <strong>Người tư duy sâu học cách ngồi với sự mơ hồ</strong> — không vội kết luận, không điền vào chỗ trống bằng giả định.</p>
+      <p>Đây là kỹ năng có thể luyện: mỗi khi bạn có xu hướng kết luận nhanh, dừng lại và hỏi "Tôi có đang giả định điều gì không?"</p>
+
+      <h2>Thực hành tư duy sâu hàng ngày</h2>
+      <p>Tư duy sâu không cần thời gian nhiều — nó cần <em>không gian</em>:</p>
+      <ul>
+        <li>10 phút mỗi sáng viết journal về một câu hỏi bạn không có câu trả lời</li>
+        <li>Khi đọc tin tức: luôn hỏi "Ai có động cơ để tôi tin điều này?"</li>
+        <li>Sau mỗi quyết định: dành 5 phút viết ra giả định bạn đã dùng</li>
+        <li>Đọc sách theo chủ đề xuyên suốt, không nhảy lung tung — tư duy sâu cần nền tảng kiến thức đủ rộng</li>
+      </ul>
+    `,
+    related: [
+      { slug: 'tu-duy-cuong-gia-vs-thuong-nhan', title: 'Tư duy cường giả vs tư duy thường nhân', cat: 'Tư duy', emoji: '💎', bg: 'linear-gradient(145deg,#1A0F2E,#2D1A4E)' },
+      { slug: 'he-thong-tu-duy-quyet-dinh', title: 'Hệ thống ra quyết định không hối tiếc', cat: 'Hệ thống', emoji: '⚙️', bg: 'linear-gradient(145deg,#0E1A1F,#173040)' },
+      { slug: 'thuc-tinh-nhan-thuc-gioi-thieu', title: 'Thức tỉnh nhận thức: Phá vỡ giới hạn tư duy', cat: 'Nhận thức', emoji: '💡', bg: 'linear-gradient(145deg,#0A1D14,#0D3322)' },
+    ]
+  },
+
+  'he-thong-manh-me': {
+    slug: 'he-thong-manh-me',
+    title: 'Hệ thống mạnh mẽ: Xây dựng cuộc sống không phụ thuộc vào cảm xúc nhất thời',
+    cat: 'Hệ thống',
+    emoji: '⚡',
+    bg: 'linear-gradient(145deg,#0D1F2E,#1A3348)',
+    date: '08/03/2025',
+    readTime: '7 phút',
+    views: '298',
+    tags: ['Hệ thống'],
+    productSlug: 'he-thong-manh-me',
+    productName: '⚙️ Hệ thống mạnh mẽ',
+    productPrice: '159.000đ',
+    productDesc: 'Xây dựng hệ thống thói quen và quy trình không phụ thuộc động lực — nền tảng bền vững của người thành công.',
+    toc: [
+      'Tại sao động lực không đủ',
+      'Hệ thống là gì?',
+      'Xây dựng hệ thống cá nhân',
+      'Khi hệ thống bị phá vỡ',
+      'Hệ thống cho tài chính, sức khỏe, học tập'
+    ],
+    content: `
+      <h2>Tại sao động lực không đủ</h2>
+      <p>Động lực (motivation) là cảm xúc — và cảm xúc không nhất quán. Hôm nay bạn có thể vô cùng hứng khởi với mục tiêu mới; ba tuần sau, cảm giác đó biến mất. Người chỉ dựa vào động lực sẽ bắt đầu và bỏ cuộc theo chu kỳ.</p>
+      <p><strong>Hệ thống không cần cảm xúc để vận hành.</strong> Khi thức dậy, bạn không cần "cảm thấy muốn" đánh răng — bạn chỉ đánh. Đó là hệ thống thói quen hoạt động. Người thành công bền vững áp dụng cùng logic này cho mọi khía cạnh cuộc sống.</p>
+      <blockquote>"Mục tiêu tốt cho việc thiết lập hướng đi. Hệ thống tốt cho việc thực sự tiến bộ." — James Clear</blockquote>
+
+      <h2>Hệ thống là gì?</h2>
+      <p>Hệ thống là tập hợp những <strong>quy trình có cấu trúc, kích hoạt tự động theo điều kiện</strong>, không cần ý chí hay quyết định liên tục. Khi X xảy ra, tôi làm Y — và không cần nghĩ đến nó nữa.</p>
+      <p>Ví dụ: "Khi tôi uống cà phê sáng (X), tôi đọc 10 trang sách (Y)." — Đây là một hệ thống. "Tôi sẽ đọc sách nhiều hơn" — Đây chỉ là ý định.</p>
+
+      <h2>Xây dựng hệ thống cá nhân</h2>
+      <h3>Bước 1: Audit cuộc sống hiện tại</h3>
+      <p>Bạn đã có nhiều hệ thống hơn bạn nghĩ — chỉ là phần lớn chúng không được thiết kế có chủ đích. Viết ra tất cả những gì bạn làm tự động mỗi ngày, rồi đánh giá: cái nào phục vụ bạn? Cái nào đang phá hoại bạn?</p>
+
+      <h3>Bước 2: Thiết kế hệ thống mới</h3>
+      <div class="highlight-box">
+        <strong>Công thức habit loop:</strong> Cue (kích hoạt) → Routine (hành vi) → Reward (phần thưởng)<br><br>
+        Đừng thêm hành vi mới vào một khoảng trống — gắn nó vào thứ đã tồn tại. "Sau khi tôi [hành vi cũ], tôi sẽ [hành vi mới]."
+      </div>
+
+      <h3>Bước 3: Giảm ma sát</h3>
+      <p>Hành vi tốt nên dễ bắt đầu nhất có thể. Hành vi xấu nên có nhiều rào cản nhất có thể. Đặt sách lên đầu giường. Để điện thoại ở phòng khác khi ngủ. Môi trường quyết định hành vi nhiều hơn ý chí.</p>
+
+      <h2>Khi hệ thống bị phá vỡ</h2>
+      <p>Hệ thống sẽ bị gián đoạn — đó là điều bình thường. Quan trọng không phải không bao giờ bỏ lỡ — mà là <strong>không bao giờ bỏ lỡ hai lần liên tiếp</strong>. Một lần bỏ là tai nạn. Hai lần bỏ là bắt đầu của một thói quen mới (xấu).</p>
+
+      <h2>Hệ thống cho tài chính, sức khỏe, học tập</h2>
+      <p><strong>Tài chính:</strong> Tự động chuyển % lương vào tài khoản tiết kiệm/đầu tư ngay khi nhận lương — trước khi có cơ hội tiêu.</p>
+      <p><strong>Sức khỏe:</strong> Chuẩn bị đồ tập tối hôm trước. Gắn buổi tập với một cue cố định (giờ, địa điểm, người đồng hành).</p>
+      <p><strong>Học tập:</strong> Thời gian cố định mỗi ngày, không phải "khi nào rảnh" — vì "khi nào rảnh" không bao giờ đến.</p>
+    `,
+    related: [
+      { slug: 'he-thong-tu-duy-quyet-dinh', title: 'Hệ thống ra quyết định không hối tiếc', cat: 'Hệ thống', emoji: '⚙️', bg: 'linear-gradient(145deg,#0E1A1F,#173040)' },
+      { slug: 'tu-duy-cuong-gia-vs-thuong-nhan', title: 'Tư duy cường giả: Ranh giới nằm ở đâu?', cat: 'Tư duy', emoji: '💎', bg: 'linear-gradient(145deg,#1A0F2E,#2D1A4E)' },
+      { slug: 'muu-luoc-tai-chinh', title: 'Mưu lược tài chính: Tiền là công cụ', cat: 'Tài chính', emoji: '💸', bg: 'linear-gradient(145deg,#1A1009,#2F1C0E)' },
+    ]
+  }
+};
+
+// ── RENDER ──────────────────────────────────────────────────────────────────
+function getSlug() {
+  return new URLSearchParams(window.location.search).get('slug') || '';
+}
+
+function renderPost(post) {
+  document.title = post.title + ' — Thư viện Sơn Nhai';
+
+  const tocHTML = post.toc.map((item, i) =>
+    `<li><a href="#section-${i}">${item}</a></li>`
+  ).join('');
+
+  const relatedHTML = post.related.map(r => `
+    <a href="blog-post.html?slug=${r.slug}" class="rel-item">
+      <div class="rel-img" style="background:${r.bg}">${r.emoji}</div>
+      <div class="rel-info">
+        <div class="rel-title">${r.title}</div>
+        <div class="rel-cat">${r.cat}</div>
+      </div>
+    </a>
+  `).join('');
+
+  const tagsHTML = post.tags.map(t => `<span class="post-tag">${t}</span>`).join('');
+
+  const productCTA = post.productSlug ? `
+    <div class="product-cta">
+      <div class="product-cta-label">◆ Sản phẩm liên quan</div>
+      <div class="product-cta-name">${post.productName}</div>
+      <div class="product-cta-desc">${post.productDesc}</div>
+      <div class="product-cta-row">
+        <div class="product-cta-price">${post.productPrice}</div>
+        <a href="product.html?slug=${post.productSlug}" class="btn-cta">
+          Xem sản phẩm
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  ` : '';
+
+  // Inject section IDs into h2 tags
+  let contentWithIds = post.content;
+  let sectionIdx = 0;
+  contentWithIds = contentWithIds.replace(/<h2>/g, () => `<h2 id="section-${sectionIdx++}">`);
+
+  const html = `
+    <nav class="breadcrumb">
+      <a href="index.html">Trang chủ</a>
+      <span class="sep">›</span>
+      <a href="blog.html">Blog</a>
+      <span class="sep">›</span>
+      <span class="cur">${post.cat}</span>
+    </nav>
+
+    <div class="post-header">
+      <div class="post-cat-row">
+        <span class="post-cat">${post.cat}</span>
+        <span class="post-read-time">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+          ${post.readTime} đọc
+        </span>
+      </div>
+      <h1 class="post-title">${post.title}</h1>
+      <div class="post-meta">
+        <span class="post-meta-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          ${post.date}
+        </span>
+        <span class="post-meta-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          ${post.views} lượt đọc
+        </span>
+      </div>
+      <div class="post-tags">${tagsHTML}</div>
+    </div>
+
+    <div class="post-cover" style="background:${post.bg}">
+      ${post.emoji}
+      <div class="post-cover-shine"></div>
+    </div>
+
+    <div class="post-layout">
+      <div class="post-body">
+        <div class="post-content">
+          ${contentWithIds}
+        </div>
+
+        ${productCTA}
+
+        <div class="post-author-box">
+          <div class="author-avatar">✍️</div>
+          <div>
+            <div class="author-name">Biên tập — Thư viện Sơn Nhai</div>
+            <div class="author-bio">Tổng hợp và biên soạn kiến thức từ các sản phẩm số trong thư viện. Mọi nội dung nhằm mục đích học tập và phát triển bản thân.</div>
+          </div>
+        </div>
+
+        <a href="blog.html" class="back-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
+          Quay lại danh sách bài viết
+        </a>
+      </div>
+
+      <aside class="post-sidebar">
+        <div class="sb-box">
+          <div class="sb-head">Mục lục</div>
+          <ul class="toc-list">${tocHTML}</ul>
+        </div>
+
+        <div class="sb-box">
+          <div class="sb-head">Bài viết liên quan</div>
+          <div class="related-list">${relatedHTML}</div>
+        </div>
+
+        <div class="sb-box">
+          <div class="sb-head">Chủ đề</div>
+          <div class="tag-cloud">
+            <a class="tc-tag" href="blog.html">Tất cả</a>
+            <a class="tc-tag" href="blog.html">Nhân tính</a>
+            <a class="tc-tag" href="blog.html">Tư duy</a>
+            <a class="tc-tag" href="blog.html">Tài chính</a>
+            <a class="tc-tag" href="blog.html">Nhận thức</a>
+            <a class="tc-tag" href="blog.html">Tình cảm</a>
+            <a class="tc-tag" href="blog.html">Hệ thống</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  `;
+
+  document.getElementById('post-container').innerHTML = html;
+}
+
+function render404() {
+  document.getElementById('post-container').innerHTML = `
+    <div class="post-404">
+      <div class="icon-404">📭</div>
+      <h2>Không tìm thấy bài viết</h2>
+      <p>Bài viết này không tồn tại hoặc đã bị xóa.</p>
+      <a href="blog.html" class="back-btn" style="display:inline-flex">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
+        Quay lại Blog
+      </a>
+    </div>
+  `;
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+const slug = getSlug();
+if (slug && POSTS[slug]) {
+  renderPost(POSTS[slug]);
+} else {
+  render404();
+}
+</script>
+<script src="js/cart-badge.js?v=4"></script>
+<script src="js/parallax-engine.js?v=grid-particles-2"></script>
+</body>
+</html>
+

@@ -1,0 +1,17 @@
+{
+  "name": "thu-vien-son-nhai",
+  "version": "1.0.0",
+  "description": "Website bán sách số - Thư viện Sơn Nhai",
+  "scripts": {
+    "prepare-public": "node prepare-public.js",
+    "clean": "rm -rf public",
+    "dev": "node backend/server.js",
+    "vercel-build": "node prepare-public.js",
+    "deploy": "npm run prepare-public && vercel --prod",
+    "deploy:preview": "npm run prepare-public && vercel"
+  },
+  "keywords": ["ebook", "digital-products", "vercel"],
+  "author": "Thư viện Sơn Nhai",
+  "license": "UNLICENSED",
+  "private": true
+}

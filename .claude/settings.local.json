@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node prepare-public.js)",
+      "Bash(npm install *)"
+    ]
+  }
+}

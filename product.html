@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thức tỉnh nhận thức — Thư viện Sơn Nhai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/parallax-animations.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:   #08090E;
+      --bg-2: #0D1018;
+      --bg-3: #12161F;
+      --bg-4: #171C27;
+      --border:  #1C2232;
+      --border-2:#252D3F;
+      --teal:  #00D4D4;
+      --teal-dim: #00AEAE;
+      --teal-dark:#005A5A;
+      --teal-glow: rgba(0,212,212,0.12);
+      --teal-glow-strong: rgba(0,212,212,0.25);
+      --text:  #DDE1EC;
+      --text-2:#8B93A8;
+      --text-3:#555F75;
+      --warn:  #F5A623;
+      --red:   #EF4444;
+      --green: #10B981;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Be Vietnam Pro', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; min-height: 100vh; }
+
+    /* ── NAVBAR ── */
+    .nav {
+      position: sticky; top: 0; z-index: 200; height: 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px;
+      background: rgba(8,9,14,.95); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 15px; font-weight: 800; color: var(--teal); letter-spacing: 1.5px; text-decoration: none; }
+    .nav-logo span { color: var(--text-3); font-weight: 500; }
+    .nav-links { display: flex; gap: 2px; list-style: none; }
+    .nav-links a { font-size: 13px; font-weight: 500; color: var(--text-2); text-decoration: none; padding: 6px 14px; border-radius: 6px; transition: all .2s; }
+    .nav-links a:hover, .nav-links a.on { color: var(--text); background: rgba(255,255,255,.05); }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .nav-search { display: flex; align-items: center; gap: 7px; background: var(--bg-3); border: 1px solid var(--border); border-radius: 7px; padding: 5px 12px; cursor: pointer; transition: border-color .2s; }
+    .nav-search:hover { border-color: var(--teal); }
+    .nav-search span { font-size: 12px; color: var(--text-3); }
+    .nav-cart { position: relative; padding: 5px; cursor: pointer; text-decoration: none; color: inherit; }
+    .cart-dot { position: absolute; top: 2px; right: 2px; width: 15px; height: 15px; border-radius: 50%; background: var(--teal); font-size: 9px; font-weight: 700; color: var(--bg); display: flex; align-items: center; justify-content: center; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: none; border-radius: 7px; cursor: pointer; font-family: 'Be Vietnam Pro',sans-serif; font-weight: 600; transition: all .22s; text-decoration: none; }
+    .btn-teal { background: var(--teal); color: var(--bg); font-size: 13px; padding: 7px 18px; }
+    .btn-teal:hover { background: #00EEEE; box-shadow: 0 0 22px var(--teal-glow-strong); transform: translateY(-1px); }
+
+    /* ── LAYOUT ── */
+    .wrap { max-width: 1160px; margin: 0 auto; padding: 0 40px; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb { display: flex; align-items: center; gap: 8px; padding: 20px 0 0; font-size: 12.5px; color: var(--text-3); flex-wrap: wrap; }
+    .breadcrumb a { color: var(--text-3); text-decoration: none; transition: color .2s; }
+    .breadcrumb a:hover { color: var(--teal); }
+    .breadcrumb .sep { color: var(--border-2); }
+    .breadcrumb .cur { color: var(--text-2); font-weight: 600; }
+
+    /* ══════════════════════════════
+       PRODUCT MAIN LAYOUT
+    ══════════════════════════════ */
+    .product-main {
+      display: grid; grid-template-columns: 420px 1fr; gap: 52px;
+      padding: 32px 0 60px; align-items: start;
+    }
+
+    /* ── LEFT: GALLERY ── */
+    .gallery { position: sticky; top: 68px; }
+    .gallery-main {
+      background: var(--bg-2); border: 1px solid var(--border); border-radius: 18px;
+      aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; margin-bottom: 12px;
+      cursor: zoom-in;
+    }
+    .gallery-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 20%, rgba(0,212,212,.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .gallery-book {
+      width: 200px; height: 270px; border-radius: 4px 12px 12px 4px;
+      position: relative; display: flex; flex-direction: column;
+      box-shadow: -6px 10px 40px rgba(0,0,0,.7), 6px 6px 0 0 rgba(0,212,212,.08);
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+    }
+    .gallery-main:hover .gallery-book { transform: rotate(-3deg) scale(1.04); }
+    .book-face {
+      flex: 1; border-radius: 3px 11px 11px 3px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 12px; padding: 24px 18px;
+    }
+    .book-face.bc-1 { background: linear-gradient(145deg, #1A0D2E, #2D0A4E, #1A0D2E); }
+    .book-emoji-lg { font-size: 56px; line-height: 1; filter: drop-shadow(0 0 20px rgba(0,212,212,.4)); }
+    .book-title-face { font-family: 'Exo 2',sans-serif; font-size: 13px; font-weight: 800; text-align: center; color: #fff; letter-spacing: 0.5px; line-height: 1.4; }
+    .book-author-face { font-size: 10px; color: rgba(255,255,255,.5); letter-spacing: 1px; text-transform: uppercase; }
+    .book-spine-bar { width: 14px; background: linear-gradient(180deg, #3D0A7E, #1A0D2E); border-radius: 3px 0 0 3px; position: absolute; left: 0; top: 0; bottom: 0; }
+    .gallery-badge {
+      position: absolute; top: 14px; left: 14px;
+      background: linear-gradient(135deg,#FF6B35,#EF4444); color: #fff;
+      font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
+      padding: 5px 10px; border-radius: 6px;
+    }
+    .gallery-badge.new { background: linear-gradient(135deg,var(--teal),#006B6B); }
+    .gallery-zoom-hint {
+      position: absolute; bottom: 12px; right: 12px;
+      background: rgba(0,0,0,.6); border: 1px solid var(--border); border-radius: 7px;
+      padding: 5px 10px; font-size: 11px; color: var(--text-3); display: flex; align-items: center; gap: 5px;
+    }
+    .gallery-thumbs { display: flex; gap: 8px; }
+    .g-thumb {
+      flex: 1; aspect-ratio: 1; border-radius: 10px;
+      background: var(--bg-2); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
+      cursor: pointer; transition: border-color .2s, transform .2s;
+    }
+    .g-thumb:hover, .g-thumb.on { border-color: var(--teal); transform: scale(1.05); }
+    .g-thumb.on { box-shadow: 0 0 12px var(--teal-glow); }
+
+    /* ── RIGHT: INFO ── */
+    .product-info { padding-top: 4px; }
+
+    .p-badges { display: flex; gap: 7px; margin-bottom: 14px; flex-wrap: wrap; }
+    .p-badge {
+      font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 6px;
+    }
+    .badge-hot { background: linear-gradient(135deg,rgba(239,68,68,.15),rgba(239,68,68,.05)); color: #FF6B6B; border: 1px solid rgba(239,68,68,.3); }
+    .badge-digital { background: var(--teal-glow); color: var(--teal); border: 1px solid var(--teal-dark); }
+    .badge-exclusive { background: rgba(139,92,246,.12); color: #A78BFA; border: 1px solid rgba(139,92,246,.3); }
+
+    .p-category { font-size: 12px; font-weight: 600; color: var(--teal); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; text-decoration: none; }
+    .p-category:hover { opacity: .8; }
+    .p-title { font-family: 'Exo 2',sans-serif; font-size: 28px; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+
+    .p-rating-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+    .stars { color: var(--warn); font-size: 16px; letter-spacing: 2px; }
+    .rating-num { font-weight: 700; font-size: 15px; }
+    .rating-count { font-size: 13px; color: var(--text-3); }
+    .rating-sep { color: var(--border-2); }
+    .sold-count { font-size: 13px; color: var(--text-2); }
+
+    .p-excerpt { font-size: 14.5px; color: var(--text-2); line-height: 1.75; margin-bottom: 22px; border-left: 3px solid var(--teal-dark); padding-left: 16px; }
+
+    .p-file-info {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;
+    }
+    .fi-pill {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--bg-3); border: 1px solid var(--border); border-radius: 7px;
+      padding: 6px 12px; font-size: 12.5px; color: var(--text-2);
+    }
+    .fi-pill svg { color: var(--teal); flex-shrink: 0; }
+
+    .p-price-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+    .p-price-now { font-family: 'Exo 2',sans-serif; font-size: 34px; font-weight: 900; color: var(--teal); }
+    .p-price-was { font-size: 18px; color: var(--text-3); text-decoration: line-through; }
+    .p-price-save {
+      font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 6px;
+      background: rgba(16,185,129,.12); color: var(--green); border: 1px solid rgba(16,185,129,.25);
+    }
+    .p-price-note { font-size: 12px; color: var(--text-3); margin-bottom: 24px; }
+
+    .qty-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .qty-label { font-size: 13px; color: var(--text-2); font-weight: 500; }
+    .qty-ctrl { display: flex; align-items: center; gap: 0; background: var(--bg-3); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .qty-btn { width: 36px; height: 36px; border: none; background: none; color: var(--text-2); font-size: 18px; cursor: pointer; transition: background .18s, color .18s; display: flex; align-items: center; justify-content: center; }
+    .qty-btn:hover { background: var(--bg-4); color: var(--teal); }
+    .qty-num { width: 40px; text-align: center; font-size: 14px; font-weight: 700; color: var(--text); background: none; border: none; outline: none; font-family: 'Be Vietnam Pro',sans-serif; }
+
+    .btn-row { display: flex; gap: 12px; margin-bottom: 20px; }
+    .btn-add-cart {
+      flex: 1; background: var(--bg-3); border: 1.5px solid var(--teal); color: var(--teal);
+      border-radius: 10px; padding: 14px 20px; font-family: 'Be Vietnam Pro',sans-serif;
+      font-size: 14px; font-weight: 700; cursor: pointer; transition: all .22s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-add-cart:hover { background: var(--teal-glow); transform: translateY(-2px); box-shadow: 0 6px 20px var(--teal-glow); }
+    .btn-buy-now {
+      flex: 1.2; background: var(--teal); color: var(--bg);
+      border: none; border-radius: 10px; padding: 14px 20px;
+      font-family: 'Be Vietnam Pro',sans-serif; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: all .22s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      text-decoration: none;
+    }
+    .btn-buy-now:hover { background: #00EEEE; transform: translateY(-2px); box-shadow: 0 8px 28px var(--teal-glow-strong); }
+
+    .trust-row { display: flex; gap: 16px; flex-wrap: wrap; padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+    .trust-item { display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--text-2); }
+    .trust-item svg { color: var(--green); flex-shrink: 0; }
+
+    .p-social { display: flex; align-items: center; gap: 10px; }
+    .p-social-label { font-size: 12.5px; color: var(--text-3); }
+    .share-btn {
+      width: 32px; height: 32px; border-radius: 7px; border: 1px solid var(--border);
+      background: var(--bg-3); color: var(--text-2); display: flex; align-items: center;
+      justify-content: center; font-size: 13px; cursor: pointer; transition: all .18s; text-decoration: none;
+    }
+    .share-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* ══════════════════════════════
+       TABS: MÔ TẢ / MỤC LỤC / ĐÁNH GIÁ
+    ══════════════════════════════ */
+    .detail-tabs { border-bottom: 1px solid var(--border); margin-bottom: 0; display: flex; gap: 0; }
+    .dtab {
+      padding: 14px 22px; border: none; background: none; cursor: pointer;
+      font-family: 'Be Vietnam Pro',sans-serif; font-size: 14px; font-weight: 600;
+      color: var(--text-3); border-bottom: 2.5px solid transparent; transition: all .2s;
+    }
+    .dtab:hover { color: var(--text-2); }
+    .dtab.on { color: var(--teal); border-bottom-color: var(--teal); }
+    .dtab-count { font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 20px; background: var(--bg-3); margin-left: 6px; }
+
+    .dtab-panel { display: none; padding: 36px 0 60px; }
+    .dtab-panel.show { display: block; }
+
+    /* DESC panel */
+    .desc-content { max-width: 700px; }
+    .desc-content h3 { font-family:'Exo 2',sans-serif; font-size:17px; font-weight:700; margin: 28px 0 12px; color: var(--text); }
+    .desc-content h3:first-child { margin-top: 0; }
+    .desc-content p { font-size: 14.5px; color: var(--text-2); line-height: 1.8; margin-bottom: 14px; }
+    .desc-content ul { padding-left: 18px; margin-bottom: 16px; }
+    .desc-content li { font-size: 14px; color: var(--text-2); line-height: 1.75; margin-bottom: 6px; }
+    .desc-highlight {
+      background: var(--bg-2); border: 1px solid var(--border); border-left: 3px solid var(--teal);
+      border-radius: 0 10px 10px 0; padding: 16px 20px; margin: 24px 0;
+    }
+    .desc-highlight p { margin: 0; font-style: italic; color: var(--text); }
+    .desc-who { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+    .desc-who-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+    .desc-who-title { font-size: 12px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .desc-who li { font-size: 13px; }
+
+    /* TOC panel */
+    .toc-wrap { max-width: 680px; }
+    .toc-chapter {
+      background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px;
+      margin-bottom: 8px; overflow: hidden;
+    }
+    .toc-chapter-head {
+      padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer; transition: background .18s;
+    }
+    .toc-chapter-head:hover { background: var(--bg-3); }
+    .toc-chapter-name { font-weight: 700; font-size: 14px; display: flex; gap: 12px; align-items: center; }
+    .toc-chapter-num { color: var(--teal); font-family: 'Exo 2',sans-serif; font-size: 12px; font-weight: 800; }
+    .toc-chapter-pages { font-size: 12px; color: var(--text-3); flex-shrink: 0; }
+    .toc-chapter-arrow { color: var(--text-3); transition: transform .25s; flex-shrink: 0; }
+    .toc-chapter.open .toc-chapter-arrow { transform: rotate(180deg); color: var(--teal); }
+    .toc-items { max-height: 0; overflow: hidden; transition: max-height .3s ease; padding: 0 18px; }
+    .toc-chapter.open .toc-items { max-height: 400px; padding-bottom: 14px; }
+    .toc-item { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-2); }
+    .toc-item:last-child { border-bottom: none; }
+    .toc-item-name { display: flex; gap: 10px; align-items: flex-start; }
+    .toc-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal-dark); margin-top: 6px; flex-shrink: 0; }
+    .toc-page { font-size: 11.5px; color: var(--text-3); flex-shrink: 0; }
+    .toc-preview-note { background: rgba(0,212,212,.06); border: 1px dashed var(--teal-dark); border-radius: 10px; padding: 14px 18px; margin-top: 16px; font-size: 13px; color: var(--text-2); text-align: center; }
+
+    /* REVIEWS panel */
+    .review-summary { display: grid; grid-template-columns: 200px 1fr; gap: 32px; margin-bottom: 40px; padding: 28px; background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px; }
+    .rs-big { text-align: center; }
+    .rs-score { font-family:'Exo 2',sans-serif; font-size: 60px; font-weight: 900; color: var(--teal); line-height: 1; }
+    .rs-stars { font-size: 24px; color: var(--warn); letter-spacing: 4px; margin: 6px 0; }
+    .rs-total { font-size: 13px; color: var(--text-3); }
+    .rs-bars { display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+    .rs-bar-row { display: flex; align-items: center; gap: 10px; }
+    .rs-bar-label { font-size: 12px; color: var(--text-2); width: 28px; text-align: right; flex-shrink: 0; }
+    .rs-bar-track { flex: 1; height: 6px; background: var(--bg-3); border-radius: 3px; overflow: hidden; }
+    .rs-bar-fill { height: 100%; background: var(--warn); border-radius: 3px; transition: width 1s ease; }
+    .rs-bar-pct { font-size: 11px; color: var(--text-3); width: 30px; flex-shrink: 0; }
+
+    .review-filters { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+    .rv-filter { padding: 6px 14px; border-radius: 20px; font-size: 12.5px; border: 1px solid var(--border); background: var(--bg-2); color: var(--text-2); cursor: pointer; transition: all .18s; }
+    .rv-filter:hover, .rv-filter.on { border-color: var(--teal-dark); color: var(--teal); background: var(--teal-glow); }
+
+    .review-list { display: flex; flex-direction: column; gap: 16px; max-width: 740px; }
+    .review-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+    .rv-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+    .rv-user { display: flex; gap: 10px; align-items: center; }
+    .rv-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--bg-4); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .rv-name { font-weight: 700; font-size: 14px; }
+    .rv-date { font-size: 12px; color: var(--text-3); }
+    .rv-stars { color: var(--warn); font-size: 14px; letter-spacing: 2px; }
+    .rv-verified { font-size: 11px; color: var(--green); background: rgba(16,185,129,.1); border: 1px solid rgba(16,185,129,.2); padding: 2px 8px; border-radius: 20px; margin-top: 4px; display: inline-block; }
+    .rv-body { font-size: 13.5px; color: var(--text-2); line-height: 1.75; }
+    .rv-helpful { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 12px; color: var(--text-3); }
+    .rv-helpful button { background: var(--bg-3); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; cursor: pointer; font-size: 12px; color: var(--text-2); transition: all .18s; font-family:'Be Vietnam Pro',sans-serif; }
+    .rv-helpful button:hover { border-color: var(--teal); color: var(--teal); }
+
+    .write-review-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1.5px solid var(--border-2); background: var(--bg-2); color: var(--text-2);
+      border-radius: 9px; padding: 11px 20px; font-size: 13.5px; font-weight: 600;
+      cursor: pointer; transition: all .22s; margin-top: 20px; font-family:'Be Vietnam Pro',sans-serif;
+    }
+    .write-review-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-glow); }
+
+    /* ══════════════════════════════
+       RELATED PRODUCTS
+    ══════════════════════════════ */
+    .related-section { padding: 0 0 80px; }
+    .sec-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .sec-title { font-family:'Exo 2',sans-serif; font-size: 20px; font-weight: 800; }
+    .sec-more { font-size: 13px; color: var(--teal); text-decoration: none; display: flex; align-items: center; gap: 5px; transition: gap .18s; }
+    .sec-more:hover { gap: 8px; }
+    .related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .r-card {
+      background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px;
+      overflow: hidden; transition: border-color .2s, transform .2s;
+      cursor: pointer; text-decoration: none; display: block;
+    }
+    .r-card:hover { border-color: var(--teal-dark); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.4); }
+    .r-thumb { aspect-ratio: 3/2; display: flex; align-items: center; justify-content: center; font-size: 36px; }
+    .r-body { padding: 14px; }
+    .r-cat { font-size: 11px; font-weight: 600; color: var(--teal); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 5px; }
+    .r-name { font-size: 14px; font-weight: 700; margin-bottom: 10px; line-height: 1.4; }
+    .r-foot { display: flex; justify-content: space-between; align-items: center; }
+    .r-price { font-family:'Exo 2',sans-serif; font-size: 15px; font-weight: 800; color: var(--teal); }
+    .r-stars { font-size: 11px; color: var(--warn); }
+
+    /* ── STICKY PURCHASE BAR (mobile / scroll) ── */
+    .sticky-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 150;
+      background: rgba(8,9,14,.97); backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      padding: 12px 40px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      transform: translateY(100%); transition: transform .3s ease;
+    }
+    .sticky-bar.visible { transform: translateY(0); }
+    .sticky-bar-info { display: flex; flex-direction: column; }
+    .sticky-bar-name { font-weight: 700; font-size: 14px; }
+    .sticky-bar-price { font-family:'Exo 2',sans-serif; font-size: 18px; font-weight: 800; color: var(--teal); }
+    .sticky-bar-actions { display: flex; gap: 10px; }
+
+    /* ── TOAST ── */
+    .toast { position: fixed; bottom: 24px; right: 24px; z-index: 9999; background: var(--bg-3); border: 1px solid var(--border-2); border-radius: 10px; padding: 13px 18px; display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 500; box-shadow: 0 8px 32px rgba(0,0,0,.5); transform: translateY(80px); opacity: 0; transition: all .3s cubic-bezier(.34,1.56,.64,1); pointer-events: none; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast .t-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    .footer { background: var(--bg-2); border-top: 1px solid var(--border); padding: 48px 0 0; }
+    .foot-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; }
+    .foot-logo { font-family:'Exo 2','Be Vietnam Pro',sans-serif; font-size: 15px; font-weight: 800; color: var(--teal); letter-spacing: 1.5px; text-decoration: none; display: inline-block; margin-bottom: 10px; }
+    .foot-logo span { color: var(--text-3); font-weight: 500; }
+    .foot-about { font-size: 13px; color: var(--text-3); line-height: 1.7; margin-bottom: 16px; }
+    .foot-social { display: flex; gap: 8px; }
+    .soc { width: 30px; height: 30px; border-radius: 7px; background: var(--bg-3); border: 1px solid var(--border); color: var(--text-2); text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all .18s; }
+    .soc:hover { border-color: var(--teal); color: var(--teal); }
+    .foot-h { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; }
+    .foot-ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .foot-ul a { font-size: 13px; color: var(--text-3); text-decoration: none; transition: color .18s; }
+    .foot-ul a:hover { color: var(--teal); }
+    .foot-bot { border-top: 1px solid var(--border); padding: 18px 0; display: flex; justify-content: space-between; align-items: center; }
+    .foot-copy { font-size: 12px; color: var(--text-3); }
+    .foot-copy span { color: var(--teal); }
+    .foot-policies { display: flex; gap: 18px; }
+    .foot-policies a { font-size: 12px; color: var(--text-3); text-decoration: none; }
+    .foot-policies a:hover { color: var(--teal); }
+
+    @media (max-width: 960px) {
+      .product-main { grid-template-columns: 1fr; }
+      .gallery { position: static; }
+      .gallery-main { max-width: 380px; margin: 0 auto 12px; }
+      .related-grid { grid-template-columns: 1fr 1fr; }
+      .review-summary { grid-template-columns: 1fr; }
+      .desc-who { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .foot-grid { grid-template-columns: 1fr 1fr; }
+      .sticky-bar { padding: 12px 20px; }
+    }
+  </style>
+  <link rel="stylesheet" href="css/animations.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<!-- PARALLAX CANVAS BACKGROUND -->
+<canvas id="parallax-canvas"></canvas>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">Thư viện <span>Sơn Nhai</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Trang chủ</a></li>
+    <li><a href="categories.html" class="on">Danh mục</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="about.html">Về chúng tôi</a></li>
+    <li><a href="support.html">Hỗ trợ</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555F75" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <span>Tìm kiếm...</span>
+    </div>
+    <a class="nav-cart" href="cart.html">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B93A8" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <div class="cart-dot" id="cart-badge" style="display: none;"></div>
+    </a>
+    <div id="nav-auth-slot"></div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb">
+    <a href="index.html">Trang chủ</a>
+    <span class="sep">›</span>
+    <a href="categories.html">Danh mục</a>
+    <span class="sep">›</span>
+    <a href="categories.html">Nhân tính</a>
+    <span class="sep">›</span>
+    <span class="cur">Thức tỉnh nhận thức</span>
+  </nav>
+
+  <!-- PRODUCT MAIN -->
+  <div class="product-main">
+
+    <!-- LEFT: GALLERY -->
+    <div class="gallery">
+      <div class="gallery-main" id="gallery-main">
+        <div class="gallery-glow"></div>
+        <div class="gallery-book" id="gallery-book">
+          <div class="book-spine-bar"></div>
+          <div class="book-face bc-1" id="book-face">
+            <div class="book-emoji-lg" id="gallery-emoji">💡</div>
+            <div class="book-title-face">Thức tỉnh nhận thức</div>
+            <div class="book-author-face">Thư viện Sơn Nhai</div>
+          </div>
+        </div>
+        <div class="gallery-badge">🔥 Bestseller</div>
+        <div class="gallery-zoom-hint">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6m-3-3h6"/></svg>
+          Xem trước
+        </div>
+      </div>
+      <!-- Thumbnails -->
+      <div class="gallery-thumbs">
+        <div class="g-thumb on" onclick="switchThumb(this,'💡','bc-1')" title="Bìa sách">💡</div>
+        <div class="g-thumb" onclick="switchThumb(this,'📖','bc-preview')" title="Trang mẫu">📖</div>
+        <div class="g-thumb" onclick="switchThumb(this,'📑','bc-toc')" title="Mục lục">📑</div>
+        <div class="g-thumb" onclick="switchThumb(this,'✍️','bc-author')" title="Tác giả">✍️</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: INFO -->
+    <div class="product-info">
+      <div class="p-badges">
+        <span class="p-badge badge-hot">🔥 Top 1 Nhận thức</span>
+        <span class="p-badge badge-digital">💾 Digital Download</span>
+        <span class="p-badge badge-exclusive">⭐ Độc quyền</span>
+      </div>
+
+      <a href="categories.html" class="p-category">Nhận thức</a>
+      <h1 class="p-title">Thức tỉnh nhận thức</h1>
+
+      <div class="p-rating-row">
+        <span class="stars">★★★★★</span>
+        <span class="rating-num">4.9</span>
+        <span class="rating-sep">·</span>
+        <span class="rating-count">94 đánh giá</span>
+        <span class="rating-sep">·</span>
+        <span class="sold-count">612 lượt mua</span>
+      </div>
+
+      <p class="p-excerpt">
+        Cuốn sách phá vỡ những niềm tin giới hạn đang kìm hãm tiềm năng của bạn. Từ tư duy cố định sang tư duy phát triển — hành trình thức tỉnh nhận thức sẽ thay đổi cách bạn nhìn bản thân, thế giới và tương lai của chính mình.
+      </p>
+
+      <!-- File info pills -->
+      <div class="p-file-info">
+        <div class="fi-pill">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+          PDF + EPUB
+        </div>
+        <div class="fi-pill">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          248 trang
+        </div>
+        <div class="fi-pill">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          1.8 MB
+        </div>
+        <div class="fi-pill">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Cập nhật 04/2025
+        </div>
+        <div class="fi-pill">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Tải tối đa 5 lần / 30 ngày
+        </div>
+      </div>
+
+      <!-- Price -->
+      <div class="p-price-row">
+        <span class="p-price-now">179.000đ</span>
+        <span class="p-price-was">249.000đ</span>
+        <span class="p-price-save">Tiết kiệm 28%</span>
+      </div>
+      <p class="p-price-note">Giá đã bao gồm thuế · Thanh toán một lần · Sở hữu vĩnh viễn</p>
+
+      <!-- Quantity -->
+      <div class="qty-row">
+        <span class="qty-label">Số lượng:</span>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty(-1)">−</button>
+          <input class="qty-num" type="text" value="1" id="qty-val" readonly>
+          <button class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+        <span style="font-size:12.5px;color:var(--text-3);">Sản phẩm số — không giới hạn tồn kho</span>
+      </div>
+
+      <!-- CTA buttons -->
+      <div class="btn-row">
+        <button class="btn-add-cart" onclick="addToCart()">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Thêm vào giỏ hàng
+        </button>
+        <button class="btn-buy-now" onclick="openBuyModal()">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+          Mua ngay
+        </button>
+      </div>
+
+      <!-- Trust signals -->
+      <div class="trust-row">
+        <div class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>
+          Hoàn tiền 7 ngày
+        </div>
+        <div class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Thanh toán bảo mật SSL
+        </div>
+        <div class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="13,2 3,14 12,14 11,22 21,10 12,10"/></svg>
+          Tải ngay sau thanh toán
+        </div>
+        <div class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Nội dung độc quyền
+        </div>
+      </div>
+
+      <!-- Share -->
+      <div class="p-social">
+        <span class="p-social-label">Chia sẻ:</span>
+        <a href="#" class="share-btn" title="Facebook">f</a>
+        <a href="#" class="share-btn" title="X / Twitter">𝕏</a>
+        <a href="#" class="share-btn" title="Copy link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DETAIL TABS ── -->
+  <div class="detail-tabs">
+    <button class="dtab on" onclick="switchDtab('desc',this)">Mô tả</button>
+    <button class="dtab" onclick="switchDtab('toc',this)">Mục lục <span class="dtab-count">7 chương</span></button>
+    <button class="dtab" onclick="switchDtab('reviews',this)">Đánh giá <span class="dtab-count">94</span></button>
+  </div>
+
+  <!-- DESC PANEL -->
+  <div class="dtab-panel show" id="panel-desc">
+    <div class="desc-content">
+      <h3>Tổng quan về cuốn sách</h3>
+      <p>Bạn có bao giờ tự hỏi tại sao mình biết điều đúng nhưng vẫn làm điều sai? Tại sao những nỗ lực của bạn không tạo ra kết quả tương xứng? Câu trả lời thường nằm ở những <strong>niềm tin giới hạn</strong> đã ăn sâu vào tiềm thức — những rào cản vô hình mà phần lớn chúng ta không hề hay biết.</p>
+      <p><strong>Thức tỉnh nhận thức</strong> là hành trình đi vào lớp sâu nhất của tư duy con người — nơi hình thành cách bạn nhìn nhận bản thân, lý giải thế giới và đưa ra mọi quyết định trong cuộc sống. Cuốn sách không chỉ chỉ ra vấn đề, mà còn trang bị cho bạn hệ thống công cụ thực tiễn để tái lập trình nhận thức từ bên trong.</p>
+
+      <div class="desc-highlight">
+        <p>"Sự thức tỉnh không phải là một khoảnh khắc — đó là một quá trình không ngừng. Mỗi ngày bạn chọn nhìn rõ hơn, bạn đang tiến gần hơn đến phiên bản thật sự của chính mình."</p>
+      </div>
+
+      <h3>Bạn sẽ học được gì?</h3>
+      <ul>
+        <li>Cách nhận diện và phá vỡ 9 niềm tin giới hạn phổ biến nhất đang kìm hãm tiến bộ của bạn</li>
+        <li>Khoa học đằng sau tư duy cố định (fixed mindset) và tư duy phát triển (growth mindset)</li>
+        <li>Kỹ thuật tái lập trình tiềm thức dựa trên nguyên lý thần kinh học hiện đại</li>
+        <li>Phương pháp "quan sát không phán xét" — nền tảng của mọi sự thay đổi bền vững</li>
+        <li>Cách xây dựng hệ thống tư duy giúp ra quyết định rõ ràng hơn trong mọi hoàn cảnh</li>
+        <li>Bài tập thực hành hàng ngày để duy trì trạng thái nhận thức cao</li>
+      </ul>
+
+      <h3>Cuốn sách này dành cho ai?</h3>
+      <div class="desc-who">
+        <div class="desc-who-card">
+          <div class="desc-who-title">✅ Phù hợp với</div>
+          <ul>
+            <li>Người cảm thấy "mắc kẹt" dù đã cố gắng</li>
+            <li>Ai muốn hiểu sâu hơn về bản thân mình</li>
+            <li>Người đang trên hành trình phát triển bản thân</li>
+            <li>Nhà lãnh đạo muốn nâng cấp tư duy chiến lược</li>
+          </ul>
+        </div>
+        <div class="desc-who-card">
+          <div class="desc-who-title">⚡ Bạn sẽ thay đổi</div>
+          <ul>
+            <li>Cách nhìn nhận thất bại và nghịch cảnh</li>
+            <li>Phản ứng với áp lực và bất định</li>
+            <li>Chất lượng các quyết định hàng ngày</li>
+            <li>Mức độ tự tin và rõ ràng trong hành động</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Nền tảng nghiên cứu</h3>
+      <p>Cuốn sách được xây dựng từ tổng hợp nghiên cứu của Carol Dweck (Stanford), Daniel Kahneman (Nobel Kinh tế), cùng hơn 150 công trình khoa học về nhận thức học, tâm lý học tích cực và thần kinh học — được chắt lọc và Việt hóa để dễ áp dụng nhất trong bối cảnh cuộc sống thực.</p>
+    </div>
+  </div>
+
+  <!-- TOC PANEL -->
+  <div class="dtab-panel" id="panel-toc">
+    <div class="toc-wrap">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <div style="font-size:13.5px;color:var(--text-2);">248 trang · 7 chương · ~4.5 giờ đọc</div>
+        <div style="font-size:12px;color:var(--teal);">Xem trước: Chương 1 & 2</div>
+      </div>
+
+      <div class="toc-chapter open" onclick="toggleToc(this)">
+        <div class="toc-chapter-head">
+          <div class="toc-chapter-name"><span class="toc-chapter-num">CH.01</span> Nhận thức là gì — Và tại sao hầu hết chúng ta đang ngủ quên?</div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="toc-chapter-pages">Trang 1–32</span>
+            <svg class="toc-chapter-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
+        <div class="toc-items">
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Định nghĩa nhận thức — rộng hơn bạn nghĩ</div><span class="toc-page">tr.3</span></div>
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Hệ thống 1 và Hệ thống 2 (Kahneman)</div><span class="toc-page">tr.11</span></div>
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Vì sao não bộ ưa thích "tự động lái"</div><span class="toc-page">tr.22</span></div>
+        </div>
+      </div>
+
+      <div class="toc-chapter" onclick="toggleToc(this)">
+        <div class="toc-chapter-head">
+          <div class="toc-chapter-name"><span class="toc-chapter-num">CH.02</span> Niềm tin giới hạn — Kẻ thù vô hình trong đầu bạn</div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="toc-chapter-pages">Trang 33–68</span>
+            <svg class="toc-chapter-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
+        <div class="toc-items">
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>9 niềm tin giới hạn phổ biến nhất</div><span class="toc-page">tr.35</span></div>
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Niềm tin hình thành như thế nào từ thuở nhỏ</div><span class="toc-page">tr.50</span></div>
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Bài kiểm tra nhận diện niềm tin của bạn</div><span class="toc-page">tr.62</span></div>
+        </div>
+      </div>
+
+      <div class="toc-chapter" onclick="toggleToc(this)">
+        <div class="toc-chapter-head">
+          <div class="toc-chapter-name"><span class="toc-chapter-num">CH.03</span> Fixed Mindset vs Growth Mindset — Khoa học đằng sau sự khác biệt</div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="toc-chapter-pages">Trang 69–108</span>
+            <svg class="toc-chapter-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
+        <div class="toc-items">
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Nghiên cứu của Carol Dweck tại Stanford</div><span class="toc-page">tr.71</span></div>
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Neuroplasticity — Não bộ có thể thay đổi</div><span class="toc-page">tr.84</span></div>
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Dấu hiệu nhận biết tư duy cố định trong cuộc sống thực</div><span class="toc-page">tr.97</span></div>
+        </div>
+      </div>
+
+      <div class="toc-chapter" onclick="toggleToc(this)">
+        <div class="toc-chapter-head">
+          <div class="toc-chapter-name"><span class="toc-chapter-num">CH.04</span> Quan sát không phán xét — Cánh cửa của mọi thay đổi</div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="toc-chapter-pages">Trang 109–148</span>
+            <svg class="toc-chapter-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
+        <div class="toc-items">
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Kỹ thuật "nhân chứng bên trong" (Inner Witness)</div><span class="toc-page">tr.111</span></div>
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Mindfulness và khoa học thần kinh</div><span class="toc-page">tr.124</span></div>
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Bài tập 10 phút quan sát suy nghĩ mỗi ngày</div><span class="toc-page">tr.140</span></div>
+        </div>
+      </div>
+
+      <div class="toc-chapter" onclick="toggleToc(this)">
+        <div class="toc-chapter-head">
+          <div class="toc-chapter-name"><span class="toc-chapter-num">CH.05</span> Tái lập trình tiềm thức — Kỹ thuật và thực hành</div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="toc-chapter-pages">Trang 149–192</span>
+            <svg class="toc-chapter-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
+        <div class="toc-items">
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Cognitive Reframing — Đổi khung nhìn thay đổi cảm xúc</div><span class="toc-page">tr.151</span></div>
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Affirmation đúng cách (không phải "tích cực độc hại")</div><span class="toc-page">tr.167</span></div>
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Xây dựng loop thói quen nhận thức mới</div><span class="toc-page">tr.182</span></div>
+        </div>
+      </div>
+
+      <div class="toc-chapter" onclick="toggleToc(this)">
+        <div class="toc-chapter-head">
+          <div class="toc-chapter-name"><span class="toc-chapter-num">CH.06</span> Ra quyết định bằng nhận thức sáng suốt</div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="toc-chapter-pages">Trang 193–228</span>
+            <svg class="toc-chapter-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
+        <div class="toc-items">
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Nhận diện 12 cognitive bias phổ biến nhất</div><span class="toc-page">tr.195</span></div>
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Khung ra quyết định 5-bước</div><span class="toc-page">tr.210</span></div>
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Phân biệt trực giác và thiên kiến</div><span class="toc-page">tr.220</span></div>
+        </div>
+      </div>
+
+      <div class="toc-chapter" onclick="toggleToc(this)">
+        <div class="toc-chapter-head">
+          <div class="toc-chapter-name"><span class="toc-chapter-num">CH.07</span> Lộ trình 90 ngày Thức tỉnh — Hệ thống thực hành hoàn chỉnh</div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="toc-chapter-pages">Trang 229–248</span>
+            <svg class="toc-chapter-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
+        <div class="toc-items">
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>30 ngày đầu: Quan sát và nhận diện</div><span class="toc-page">tr.231</span></div>
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>30 ngày giữa: Thử thách và tái lập trình</div><span class="toc-page">tr.238</span></div>
+          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>30 ngày cuối: Củng cố và mở rộng</div><span class="toc-page">tr.244</span></div>
+        </div>
+      </div>
+
+      <div class="toc-preview-note">
+        📖 Bạn có thể đọc thử <strong>Chương 1 & 2 miễn phí</strong> trước khi quyết định mua.
+        <a href="#" onclick="showToast('Đang mở xem trước...'); return false;" style="color:var(--teal);margin-left:8px;">Xem trước →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS PANEL -->
+  <div class="dtab-panel" id="panel-reviews">
+
+    <!-- Summary -->
+    <div class="review-summary">
+      <div class="rs-big">
+        <div class="rs-score">4.8</div>
+        <div class="rs-stars">★★★★★</div>
+        <div class="rs-total">94 đánh giá</div>
+      </div>
+      <div class="rs-bars">
+        <div class="rs-bar-row"><span class="rs-bar-label">5★</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:88%"></div></div><span class="rs-bar-pct">88%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">4★</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:9%;background:#10B981;"></div></div><span class="rs-bar-pct">9%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">3★</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:2%;background:#6B7280;"></div></div><span class="rs-bar-pct">2%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">2★</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:1%;background:#EF4444;"></div></div><span class="rs-bar-pct">1%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">1★</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:0%;background:#EF4444;"></div></div><span class="rs-bar-pct">0%</span></div>
+      </div>
+    </div>
+
+    <!-- Filter -->
+    <div class="review-filters">
+      <button class="rv-filter on">Tất cả (94)</button>
+      <button class="rv-filter">5 sao (81)</button>
+      <button class="rv-filter">4 sao (10)</button>
+      <button class="rv-filter">Có ảnh</button>
+      <button class="rv-filter">Đã xác minh mua hàng</button>
+    </div>
+
+    <!-- Review cards -->
+    <div class="review-list">
+      <div class="review-card">
+        <div class="rv-head">
+          <div class="rv-user">
+            <div class="rv-avatar">👩</div>
+            <div>
+              <div class="rv-name">Nguyễn Thị Mai Linh</div>
+              <div class="rv-date">21/04/2025</div>
+              <span class="rv-verified">✓ Đã xác minh mua hàng</span>
+            </div>
+          </div>
+          <div class="rv-stars">★★★★★</div>
+        </div>
+        <div class="rv-body">Tôi đã đọc rất nhiều sách self-help nhưng hầu hết chỉ dừng ở lý thuyết. Thức tỉnh nhận thức khác hẳn — có hệ thống bài tập thực hành rõ ràng và lộ trình 90 ngày cụ thể. Sau 3 tuần áp dụng chương 4, tôi bắt đầu nhận ra rõ hơn những lúc mình đang phản ứng theo "autopilot" và biết cách dừng lại. File PDF trình bày rất đẹp, dễ đọc.</div>
+        <div class="rv-helpful">Đánh giá này có hữu ích không? <button onclick="likeReview(this)">👍 Có (31)</button></div>
+      </div>
+
+      <div class="review-card">
+        <div class="rv-head">
+          <div class="rv-user">
+            <div class="rv-avatar">👨</div>
+            <div>
+              <div class="rv-name">Vũ Hoàng Nam</div>
+              <div class="rv-date">14/04/2025</div>
+              <span class="rv-verified">✓ Đã xác minh mua hàng</span>
+            </div>
+          </div>
+          <div class="rv-stars">★★★★★</div>
+        </div>
+        <div class="rv-body">Phần về Fixed Mindset và Growth Mindset không phải lần đầu tôi đọc nhưng cách cuốn này trình bày — đặc biệt là đưa vào bối cảnh Việt Nam — khiến tôi "ngộ" ra điều gì đó mà trước đây chỉ hiểu trên lý thuyết. Chương về cognitive bias trong ra quyết định thực sự làm thay đổi cách tôi nhìn nhận sai lầm của bản thân. Rất đáng tiền!</div>
+        <div class="rv-helpful">Đánh giá này có hữu ích không? <button onclick="likeReview(this)">👍 Có (22)</button></div>
+      </div>
+
+      <div class="review-card">
+        <div class="rv-head">
+          <div class="rv-user">
+            <div class="rv-avatar">👩</div>
+            <div>
+              <div class="rv-name">Trần Thị Bích Ngọc</div>
+              <div class="rv-date">07/04/2025</div>
+              <span class="rv-verified">✓ Đã xác minh mua hàng</span>
+            </div>
+          </div>
+          <div class="rv-stars">★★★★★</div>
+        </div>
+        <div class="rv-body">Mình đặt mua cho chồng nhân dịp sinh nhật nhưng cuối cùng lại tự đọc hết trước. Phần niềm tin giới hạn chương 2 như viết đúng vào tâm trạng của mình — nhận ra mình đã mang theo những niềm tin đó từ hồi còn nhỏ mà không hề hay biết. Đây là lần đầu tiên tôi đọc sách và thực sự khóc. Xứng đáng 5 sao.</div>
+        <div class="rv-helpful">Đánh giá này có hữu ích không? <button onclick="likeReview(this)">👍 Có (17)</button></div>
+      </div>
+
+      <div class="review-card">
+        <div class="rv-head">
+          <div class="rv-user">
+            <div class="rv-avatar">👨</div>
+            <div>
+              <div class="rv-name">Phạm Công Minh</div>
+              <div class="rv-date">29/03/2025</div>
+              <span class="rv-verified">✓ Đã xác minh mua hàng</span>
+            </div>
+          </div>
+          <div class="rv-stars">★★★★☆</div>
+        </div>
+        <div class="rv-body">Nội dung chắc chắn là 5 sao. Trừ 1 sao vì cá nhân tôi thấy một số đoạn chương 6 hơi trùng lặp với chương 3. Nhưng tổng thể đây vẫn là một trong những cuốn sách phát triển bản thân hay nhất tôi từng đọc bằng tiếng Việt. Phần về tái lập trình tiềm thức rất thực tế và không "huyền bí" như nhiều sách khác.</div>
+        <div class="rv-helpful">Đánh giá này có hữu ích không? <button onclick="likeReview(this)">👍 Có (9)</button></div>
+      </div>
+    </div>
+
+    <button class="write-review-btn" onclick="showToast('Vui lòng đăng nhập để viết đánh giá.')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Viết đánh giá của bạn
+    </button>
+
+  </div>
+</div>
+
+<!-- RELATED PRODUCTS -->
+<div class="related-section">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="sec-title">◆ Có thể bạn cũng thích</h2>
+      <a href="categories.html" class="sec-more">Xem tất cả <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
+    </div>
+    <div class="related-grid">
+      <a href="product.html?slug=thuc-tinh-nhan-thuc" class="r-card">
+        <div class="r-thumb" style="background:linear-gradient(145deg,#1A0D2E,#2D0A4E);">💡</div>
+        <div class="r-body">
+          <div class="r-cat">Nhận thức</div>
+          <div class="r-name">Thức tỉnh nhận thức</div>
+          <div class="r-foot"><span class="r-price">119.000đ</span><span class="r-stars">★★★★★ 4.8</span></div>
+        </div>
+      </a>
+      <a href="product.html?slug=logic-nguoi-ngheo" class="r-card">
+        <div class="r-thumb" style="background:linear-gradient(145deg,#091A0D,#0D3318);">🔮</div>
+        <div class="r-body">
+          <div class="r-cat">Tư duy</div>
+          <div class="r-name">Logic người nghèo</div>
+          <div class="r-foot"><span class="r-price">99.000đ</span><span class="r-stars">★★★★★ 4.7</span></div>
+        </div>
+      </a>
+      <a href="product.html?slug=muu-luoc-tai-chinh" class="r-card">
+        <div class="r-thumb" style="background:linear-gradient(145deg,#1F1A08,#3D2E0A);">💰</div>
+        <div class="r-body">
+          <div class="r-cat">Tài chính</div>
+          <div class="r-name">Mưu lược tài chính</div>
+          <div class="r-foot"><span class="r-price">159.000đ</span><span class="r-stars">★★★★★ 4.8</span></div>
+        </div>
+      </a>
+      <a href="product.html?slug=he-thong-manh-me" class="r-card">
+        <div class="r-thumb" style="background:linear-gradient(145deg,#0A1A1A,#0A2D2D);">⚙️</div>
+        <div class="r-body">
+          <div class="r-cat">Hệ thống</div>
+          <div class="r-name">Hệ thống mạnh mẽ</div>
+          <div class="r-foot"><span class="r-price">139.000đ</span><span class="r-stars">★★★★★ 4.9</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="index.html" class="foot-logo">Thư viện <span>Sơn Nhai</span></a>
+        <p class="foot-about">Nơi lưu giữ những tinh hoa tri thức về nhân tính, tư duy và tài chính. Sản phẩm số chất lượng cao, được cập nhật thường xuyên.</p>
+        <div class="foot-social">
+          <a class="soc" href="#">f</a><a class="soc" href="#">𝕏</a><a class="soc" href="#">in</a><a class="soc" href="#">▶</a>
+        </div>
+      </div>
+      <div>
+        <div class="foot-h">Cửa hàng</div>
+        <ul class="foot-ul">
+          <li><a href="categories.html">Sản phẩm mới</a></li>
+          <li><a href="categories.html">Bestseller</a></li>
+          <li><a href="categories.html">Tất cả danh mục</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-h">Hỗ trợ</div>
+        <ul class="foot-ul">
+          <li><a href="support.html#download">Hướng dẫn tải</a></li>
+          <li><a href="support.html#refund">Chính sách hoàn tiền</a></li>
+          <li><a href="support.html#faq">FAQ</a></li>
+          <li><a href="support.html#contact">Liên hệ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-h">Tài khoản</div>
+        <ul class="foot-ul">
+          <li><a href="account.html">Đăng nhập</a></li>
+          <li><a href="account.html">Đơn hàng của tôi</a></li>
+          <li><a href="account.html">Sản phẩm đã mua</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div class="foot-copy">© 2025 <span>Thư viện Sơn Nhai</span>. Bảo lưu mọi quyền.</div>
+      <div class="foot-policies"><a href="support.html">Điều khoản</a><a href="support.html">Bảo mật</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- STICKY BAR -->
+<div class="sticky-bar" id="sticky-bar">
+  <div class="sticky-bar-info">
+    <div class="sticky-bar-name">Thức tỉnh nhận thức</div>
+    <div class="sticky-bar-price">179.000đ</div>
+  </div>
+  <div class="sticky-bar-actions">
+    <button class="btn-add-cart" style="flex:none;padding:10px 18px;font-size:13px;" onclick="addToCart()">+ Giỏ hàng</button>
+    <button class="btn-buy-now" style="flex:none;padding:10px 22px;font-size:13px;" onclick="openBuyModal()">Mua ngay</button>
+  </div>
+</div>
+
+<!-- BUY MODAL -->
+<div id="buy-modal-overlay" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(8,9,14,.92);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--bg-2);border:1px solid var(--border-2);border-radius:20px;width:100%;max-width:460px;overflow:hidden;position:relative;">
+    <!-- Header -->
+    <div style="padding:22px 24px 18px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--teal);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:5px;">Mua ngay</div>
+        <div id="modal-product-name" style="font-family:'Exo 2',sans-serif;font-size:17px;font-weight:800;line-height:1.3;"></div>
+        <div id="modal-product-price" style="font-family:'Exo 2',sans-serif;font-size:22px;font-weight:900;color:var(--teal);margin-top:4px;"></div>
+      </div>
+      <button onclick="closeBuyModal()" style="background:none;border:none;cursor:pointer;color:var(--text-3);padding:4px;border-radius:6px;flex-shrink:0;transition:color .18s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-3)'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- State: Form -->
+    <div id="modal-state-form" style="padding:22px 24px;">
+      <div style="display:flex;flex-direction:column;gap:13px;">
+        <div>
+          <label style="font-size:11.5px;font-weight:600;color:var(--text-2);letter-spacing:.3px;display:block;margin-bottom:7px;">Họ và tên *</label>
+          <input id="modal-name" type="text" placeholder="Nguyễn Văn An" autocomplete="name"
+            style="width:100%;background:var(--bg-3);border:1px solid var(--border);border-radius:9px;padding:12px 14px;font-size:13.5px;color:var(--text);font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border-color .2s;"
+            onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
+        <div>
+          <label style="font-size:11.5px;font-weight:600;color:var(--text-2);letter-spacing:.3px;display:block;margin-bottom:7px;">Email *</label>
+          <input id="modal-email" type="email" placeholder="email@example.com" autocomplete="email"
+            style="width:100%;background:var(--bg-3);border:1px solid var(--border);border-radius:9px;padding:12px 14px;font-size:13.5px;color:var(--text);font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border-color .2s;"
+            onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'">
+          <div id="modal-email-hint" style="font-size:11px;color:var(--text-3);margin-top:5px;"></div>
+        </div>
+      </div>
+      <div id="modal-error" style="display:none;color:var(--red);font-size:13px;text-align:center;margin-top:12px;padding:10px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;"></div>
+      <button id="modal-btn-order" onclick="placeModalOrder()" style="width:100%;margin-top:18px;padding:15px;border:none;border-radius:11px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;font-size:15px;font-weight:700;background:var(--teal);color:var(--bg);transition:all .25s;display:flex;align-items:center;justify-content:center;gap:9px;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Đặt hàng ngay
+      </button>
+      <p style="text-align:center;font-size:11px;color:var(--text-3);margin-top:10px;">Thanh toán qua SeaPay · Bảo mật SSL · Nhận file ngay sau khi thanh toán</p>
+    </div>
+
+    <!-- State: Loading -->
+    <div id="modal-state-loading" style="display:none;text-align:center;padding:48px 24px;">
+      <div style="width:40px;height:40px;border:3px solid var(--border-2);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;"></div>
+      <div style="font-size:14px;font-weight:600;color:var(--text-2);">Đang tạo mã QR thanh toán…</div>
+    </div>
+
+    <!-- State: QR Ready -->
+    <div id="modal-state-qr" style="display:none;flex-direction:column;align-items:center;gap:16px;padding:24px;">
+      <div style="position:relative;">
+        <div id="modal-qr-canvas" style="padding:10px;background:#fff;border-radius:14px;box-shadow:0 0 40px rgba(0,212,212,0.15);display:inline-block;"></div>
+        <div style="position:absolute;top:-10px;right:-10px;background:var(--teal);color:#000;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;letter-spacing:.5px;">SEAPAY</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">Quét mã để thanh toán</div>
+        <div style="font-size:12px;color:var(--text-3);">Mở app ngân hàng / ví điện tử → Quét QR</div>
+      </div>
+      <div style="background:var(--bg-3);border:1px solid var(--border);border-radius:10px;padding:12px 16px;width:100%;display:flex;flex-direction:column;gap:7px;">
+        <div style="display:flex;justify-content:space-between;font-size:13px;">
+          <span style="color:var(--text-3);">Mã đơn hàng</span>
+          <span id="modal-order-num" style="font-weight:700;font-family:'Exo 2',sans-serif;letter-spacing:1px;color:var(--text);"></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;">
+          <span style="color:var(--text-3);">Số tiền</span>
+          <span id="modal-order-amount" style="font-weight:700;color:var(--teal);font-size:15px;"></span>
+        </div>
+      </div>
+      <a id="modal-open-link" href="#" target="_blank" style="font-size:12.5px;color:var(--teal);text-decoration:none;display:flex;align-items:center;gap:5px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Không quét được? Nhấn đây để mở trang thanh toán
+      </a>
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(0,212,212,0.06);border:1px solid rgba(0,212,212,0.15);border-radius:10px;padding:12px 16px;width:100%;">
+        <div style="width:20px;height:20px;border:2px solid var(--border-2);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0;"></div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--text);">Đang chờ thanh toán…</div>
+          <div style="font-size:11px;color:var(--text-3);margin-top:2px;">Tự động xác nhận sau khi bạn thanh toán</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="t-dot"></div>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+  let cartCount = 3;
+
+  // ── Tab switching ──
+  function switchDtab(id, btn) {
+    document.querySelectorAll('.dtab').forEach(b => b.classList.remove('on'));
+    document.querySelectorAll('.dtab-panel').forEach(p => p.classList.remove('show'));
+    btn.classList.add('on');
+    document.getElementById('panel-' + id).classList.add('show');
+  }
+
+  // ── Gallery thumb switch ──
+  function switchThumb(el, emoji, colorClass) {
+    document.querySelectorAll('.g-thumb').forEach(t => t.classList.remove('on'));
+    el.classList.add('on');
+    document.getElementById('gallery-emoji').textContent = emoji;
+    const face = document.getElementById('book-face');
+    face.className = 'book-face ' + colorClass;
+  }
+
+  // ── TOC accordion ──
+  function toggleToc(el) {
+    el.classList.toggle('open');
+  }
+
+  // ── Quantity ──
+  function changeQty(delta) {
+    const el = document.getElementById('qty-val');
+    const val = Math.max(1, Math.min(10, parseInt(el.value) + delta));
+    el.value = val;
+  }
+
+  // ── Add to cart ──
+  async function addToCart() {
+    const prod = window._currentProduct;
+    if (!prod) return;
+    try {
+      const qty = parseInt(document.getElementById('qty-val').value) || 1;
+      const cartId = localStorage.getItem('sonhai_cart_id') || '';
+      const res = await fetch('/api/cart/add', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'X-Cart-Id': cartId
+        },
+        body: JSON.stringify({ productId: prod.id, quantity: qty }),
+        credentials: 'include'
+      });
+      const data = await res.json();
+      if (data.success) {
+        if (data.data.cartId) localStorage.setItem('sonhai_cart_id', data.data.cartId);
+        if (window.SonHaiCartBadge && data.data.itemCount !== undefined) {
+          window.SonHaiCartBadge.setCount(data.data.itemCount);
+        } else {
+          document.getElementById('cart-badge').textContent = data.data.itemCount;
+          document.getElementById('cart-badge').style.display = 'flex';
+        }
+        showToast('Đã thêm "' + prod.name + '" vào giỏ hàng!');
+      } else {
+        showToast('Lỗi: ' + data.error);
+      }
+    } catch (e) {
+      showToast('Lỗi kết nối server.');
+    }
+  }
+
+  function handleBuyNow() {
+    cartCount++;
+    document.getElementById('cart-badge').textContent = cartCount;
+  }
+
+  // ── Buy Modal ──
+  let _modalPollTimer = null;
+
+  function openBuyModal() {
+    const prod = window._currentProduct;
+    const name = prod ? prod.name : (document.querySelector('.p-title')?.textContent || 'Sản phẩm');
+    const price = prod ? prod.price : parseInt((document.querySelector('.p-price-now')?.textContent || '0').replace(/\D/g, ''));
+    document.getElementById('modal-product-name').textContent = name;
+    document.getElementById('modal-product-price').textContent = Number(price).toLocaleString('vi-VN') + 'đ';
+    document.getElementById('modal-btn-order').innerHTML = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Đặt hàng ngay — ${Number(price).toLocaleString('vi-VN')}đ`;
+    showModalState('form');
+    document.getElementById('modal-error').style.display = 'none';
+    document.getElementById('modal-name').value = '';
+    document.getElementById('modal-email').value = '';
+    document.getElementById('buy-modal-overlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('modal-name').focus(), 50);
+  }
+
+  function closeBuyModal() {
+    document.getElementById('buy-modal-overlay').style.display = 'none';
+    document.body.style.overflow = '';
+    if (_modalPollTimer) { clearInterval(_modalPollTimer); _modalPollTimer = null; }
+  }
+
+  document.getElementById('buy-modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeBuyModal();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeBuyModal();
+  });
+
+  function showModalState(state) {
+    document.getElementById('modal-state-form').style.display = state === 'form' ? 'block' : 'none';
+    document.getElementById('modal-state-loading').style.display = state === 'loading' ? 'block' : 'none';
+    document.getElementById('modal-state-qr').style.display = state === 'qr' ? 'flex' : 'none';
+  }
+
+  async function placeModalOrder() {
+    const customerName = document.getElementById('modal-name').value.trim();
+    const customerEmail = document.getElementById('modal-email').value.trim();
+    const errEl = document.getElementById('modal-error');
+
+    if (!customerName) {
+      errEl.textContent = '✗ Vui lòng nhập họ và tên.';
+      errEl.style.display = 'block';
+      document.getElementById('modal-name').focus();
+      return;
+    }
+    if (!customerEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) {
+      errEl.textContent = '✗ Vui lòng nhập email hợp lệ.';
+      errEl.style.display = 'block';
+      document.getElementById('modal-email').focus();
+      return;
+    }
+    errEl.style.display = 'none';
+
+    showModalState('loading');
+
+    try {
+      const prod = window._currentProduct || {};
+      let cartId = localStorage.getItem('sonhai_cart_id') || '';
+
+      // Tự động thêm vào giỏ hàng nếu chưa có để lấy cartId mới nhất
+      const cartRes = await fetch('/api/cart/add', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'X-Cart-Id': cartId
+        },
+        body: JSON.stringify({ productId: prod.id, quantity: 1 }),
+        credentials: 'include'
+      });
+      const cartData = await cartRes.json();
+      if (cartData.success && cartData.data.cartId) {
+        cartId = cartData.data.cartId;
+        localStorage.setItem('sonhai_cart_id', cartId);
+      }
+
+      const checkoutRes = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customerName, customerEmail, cartId,
+          paymentMethod: 'seapay', couponCode: '',
+        }),
+        credentials: 'include',
+      });
+      const checkoutData = await checkoutRes.json();
+      if (!checkoutData.success) throw new Error(checkoutData.error || 'Không thể tạo đơn hàng.');
+
+      const spRes = await fetch('/api/seapay/create-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderNumber: checkoutData.data.order.orderNumber }),
+        credentials: 'include',
+      });
+      const spData = await spRes.json();
+      if (!spData.success) throw new Error(spData.error || 'Không thể tạo thanh toán SeaPay.');
+
+      sessionStorage.setItem('sonhai_last_order', JSON.stringify(checkoutData.data.order));
+      renderModalQR(spData.data.paymentUrl, checkoutData.data.order);
+      startModalPolling(checkoutData.data.order.orderNumber);
+
+    } catch (err) {
+      showModalState('form');
+      errEl.textContent = '✗ ' + (err.message || 'Có lỗi xảy ra. Vui lòng thử lại.');
+      errEl.style.display = 'block';
+    }
+  }
+
+  function renderModalQR(paymentUrl, order) {
+    const canvas = document.getElementById('modal-qr-canvas');
+    canvas.innerHTML = '';
+    new QRCode(canvas, { text: paymentUrl, width: 200, height: 200, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+    document.getElementById('modal-open-link').href = paymentUrl;
+    document.getElementById('modal-order-num').textContent = order.orderNumber;
+    document.getElementById('modal-order-amount').textContent = order.total.toLocaleString('vi-VN') + 'đ';
+    showModalState('qr');
+  }
+
+  function startModalPolling(orderNumber) {
+    if (_modalPollTimer) clearInterval(_modalPollTimer);
+    _modalPollTimer = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/seapay/status/${orderNumber}`, { credentials: 'include' });
+        const data = await res.json();
+        if (data.success && data.data.paymentStatus === 'paid') {
+          clearInterval(_modalPollTimer);
+          const saved = JSON.parse(sessionStorage.getItem('sonhai_last_order') || '{}');
+          sessionStorage.setItem('sonhai_last_order', JSON.stringify({ ...saved, paymentStatus: 'paid', downloadTokens: data.data.downloadTokens }));
+          window.location.href = 'thank-you.html';
+        }
+      } catch {}
+    }, 4000);
+  }
+
+  // ── Review filter ──
+  document.querySelectorAll('.rv-filter').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.rv-filter').forEach(b => b.classList.remove('on'));
+      this.classList.add('on');
+    });
+  });
+
+  // ── Like review ──
+  function likeReview(btn) {
+    const m = btn.textContent.match(/\((\d+)\)/);
+    if (m) { btn.textContent = `👍 Có (${parseInt(m[1]) + 1})`; btn.disabled = true; btn.style.color = 'var(--teal)'; }
+  }
+
+  // ── Sticky bar on scroll ──
+  const stickyBar = document.getElementById('sticky-bar');
+  const btnRow = document.querySelector('.btn-row');
+  window.addEventListener('scroll', () => {
+    const rect = btnRow.getBoundingClientRect();
+    if (rect.bottom < 0) stickyBar.classList.add('visible');
+    else stickyBar.classList.remove('visible');
+  });
+
+  // ── Toast ──
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+</script>
+<script src="js/cart-badge.js?v=4"></script>
+
+<script type="module" src="/auth-ui.js"></script>
+<script>
+(async function loadProductFromSlug() {
+  const slug = new URLSearchParams(location.search).get('slug');
+  if (!slug) return;
+
+  let product;
+  try {
+    const res = await fetch('/api/products/' + encodeURIComponent(slug));
+    const json = await res.json();
+    if (!json.success || !json.data || !json.data.product) {
+      showToast('Không tìm thấy sản phẩm. Đang hiển thị dữ liệu mẫu.');
+      return;
+    }
+    product = json.data.product;
+  } catch (e) {
+    showToast('Lỗi kết nối server. Đang hiển thị dữ liệu mẫu.');
+    console.error('Fetch error:', e);
+    return;
+  }
+
+  const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
+
+  // Title & breadcrumb
+  document.title = product.name + ' — Thư viện Sơn Nhai';
+  const breadcrumbCur = document.querySelector('.breadcrumb .cur');
+  if (breadcrumbCur) breadcrumbCur.textContent = product.name;
+
+  // Gallery emoji & book title
+  const galleryEmoji = document.getElementById('gallery-emoji');
+  if (galleryEmoji) galleryEmoji.textContent = product.emoji || '📖';
+  document.querySelectorAll('.book-title-face').forEach(el => el.textContent = product.name);
+
+  // Category
+  const catLink = document.querySelector('.p-category');
+  if (catLink && product.category_name) catLink.textContent = product.category_name;
+
+  // Product title & excerpt
+  const titleEl = document.querySelector('.p-title');
+  if (titleEl) titleEl.textContent = product.name;
+  const excerptEl = document.querySelector('.p-excerpt');
+  if (excerptEl && product.description) excerptEl.textContent = product.description;
+
+  // Cập nhật tab Mô tả chi tiết
+  const descContent = document.querySelector('.desc-content');
+  if (descContent && product.description) {
+    const pTags = descContent.querySelectorAll('p');
+    if (pTags.length >= 2) {
+      pTags[0].textContent = product.description;
+      pTags[1].style.display = 'none'; // Ẩn đoạn hardcode cũ
+    }
+  }
+
+  // Price
+  const priceNow = document.querySelector('.p-price-now');
+  if (priceNow) priceNow.textContent = fmt(product.price);
+  const priceWas = document.querySelector('.p-price-was');
+  if (priceWas) {
+    if (product.original_price && product.original_price > product.price) {
+      priceWas.textContent = fmt(product.original_price);
+      priceWas.style.display = '';
+      const save = document.querySelector('.p-price-save');
+      if (save) {
+        const pct = Math.round((1 - product.price / product.original_price) * 100);
+        save.textContent = 'Tiết kiệm ' + pct + '%';
+      }
+    } else {
+      priceWas.style.display = 'none';
+      const save = document.querySelector('.p-price-save');
+      if (save) save.style.display = 'none';
+    }
+  }
+
+  // Sticky bar
+  const stickyName = document.querySelector('.sticky-bar-name');
+  if (stickyName) stickyName.textContent = product.name;
+  const stickyPrice = document.querySelector('.sticky-bar-price');
+  if (stickyPrice) stickyPrice.textContent = fmt(product.price);
+
+  // Rating & sold
+  if (product.rating) {
+    document.querySelectorAll('.rating-num').forEach(el => el.textContent = Number(product.rating).toFixed(1));
+  }
+  if (product.sold_count) {
+    const soldEl = document.querySelector('.sold-count');
+    if (soldEl) soldEl.textContent = product.sold_count.toLocaleString('vi-VN') + ' lượt mua';
+  }
+
+  // Store product id for cart actions
+  window._currentProduct = { id: product.id, slug: product.slug, name: product.name, price: product.price, emoji: product.emoji };
+})();
+</script>
+<script src="js/parallax-engine.js?v=grid-particles-2"></script>
+</body>
+</html>
+

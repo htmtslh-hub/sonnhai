@@ -1,0 +1,22 @@
+{
+  "name": "thu-vien-son-nhai-functions",
+  "version": "1.0.0",
+  "description": "Cloud Functions for Thư viện Sơn Nhai API",
+  "main": "index.js",
+  "engines": {
+    "node": "22"
+  },
+  "dependencies": {
+    "express": "^4.22.1",
+    "cors": "^2.8.6",
+    "helmet": "^7.2.0",
+    "cookie-parser": "^1.4.7",
+    "express-rate-limit": "^7.5.1",
+    "firebase-functions": "^6.1.1",
+    "dotenv": "^16.6.1"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "shell": "firebase functions:shell"
+  }
+}
