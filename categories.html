@@ -1018,7 +1018,7 @@
     
     // Tìm productId từ data-id của thẻ cha
     const card = btn.closest('.p-card');
-    const productId = card ? parseInt(card.dataset.id) : null;
+    const productId = card ? card.dataset.id : null;
     if (!productId) return;
 
     btn.classList.add('added');
@@ -1069,8 +1069,51 @@
       if (sortEl) setSort(sortEl, 'newest');
     }
   })();
+
+  // ── Init: Load products on page load ──
+  // Wait for both cart-badge and firestore-sync to load
+  async function initProducts() {
+    // Try Firestore first
+    if (window.SonHaiData) {
+      try {
+        const products = await window.SonHaiData.getProducts();
+        if (products && products.length > 0 && window.SonHaiCartBadge) {
+          window.SonHaiCartBadge.saveProducts(products);
+        }
+      } catch(e) { console.warn('Firestore load failed:', e); }
+    }
+    renderProducts();
+  }
+
+  // Retry until SonHaiData is available (module scripts load async)
+  function waitAndInit() {
+    if (window.SonHaiData) {
+      initProducts();
+    } else if (window.SonHaiCartBadge) {
+      // Fallback: render from cart-badge localStorage 
+      renderProducts();
+      // Still try Firestore when it loads
+      let retries = 0;
+      const check = setInterval(() => {
+        retries++;
+        if (window.SonHaiData || retries > 20) {
+          clearInterval(check);
+          if (window.SonHaiData) initProducts();
+        }
+      }, 250);
+    } else {
+      setTimeout(waitAndInit, 100);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(waitAndInit, 50));
+  } else {
+    setTimeout(waitAndInit, 50);
+  }
+
 </script>
-<script src="js/cart-badge.js?v=4"></script>
+<script src="js/cart-badge.js?v=5"></script>
 <script type="module" src="js/firestore-sync.js"></script>
 <script src="js/parallax-engine.js?v=grid-particles-2"></script>
 <script type="module" src="/auth-ui.js"></script>

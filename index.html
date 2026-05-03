@@ -846,7 +846,7 @@
   </div>
 </footer>
 
-<script src="js/cart-badge.js?v=4"></script>
+<script src="js/cart-badge.js?v=5"></script>
 <script type="module" src="js/firestore-sync.js"></script>
 <script>
   // Các tab Danh mục ở trang chủ sẽ chuyển hướng thẳng sang categories.html
@@ -1055,7 +1055,7 @@
 
         try {
           const card = b.closest('[data-product-id]');
-          const productId = card ? parseInt(card.dataset.productId) : 0;
+          const productId = card ? card.dataset.productId : null;
           if (!productId) throw new Error('Không tìm thấy sản phẩm.');
           if (window.SonHaiCartBadge) {
             await window.SonHaiCartBadge.addProduct(productId, 1);

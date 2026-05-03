@@ -530,7 +530,7 @@
   </div>
 </footer>
 
-<script src="js/cart-badge.js?v=4"></script>
+<script src="js/cart-badge.js?v=5"></script>
 <script>
   //  State 
   const PRICES = {};
@@ -786,7 +786,7 @@
     el.classList.add('removing');
     try {
       if (window.SonHaiCartBadge) {
-        await window.SonHaiCartBadge.removeProduct(parseInt(id));
+        await window.SonHaiCartBadge.removeProduct(id);
       }
     } catch {}
     setTimeout(() => {

@@ -145,10 +145,10 @@
   async function addProduct(productId, quantity) {
     var cart = getCart();
     var products = getProducts();
-    var product = products.find(function(p) { return p.id == productId; });
+    var product = products.find(function(p) { return String(p.id) === String(productId); });
     if (!product) throw new Error('Không tìm thấy sản phẩm.');
 
-    var existing = cart.find(function(item) { return item.id == productId; });
+    var existing = cart.find(function(item) { return String(item.id) === String(productId); });
     if (existing) {
       existing.quantity = (existing.quantity || 1) + (quantity || 1);
     } else {
@@ -171,7 +171,7 @@
 
   function removeProduct(productId) {
     var cart = getCart();
-    cart = cart.filter(function(item) { return item.id != productId && item.productId != productId; });
+    cart = cart.filter(function(item) { return String(item.id) !== String(productId) && String(item.productId) !== String(productId); });
     saveCart(cart);
   }
 
