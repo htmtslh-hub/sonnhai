@@ -2122,10 +2122,57 @@
           localStorage.setItem('sonhai_products', JSON.stringify(products));
           console.log('✅ Loaded', products.length, 'products from Firestore');
         } else {
-          console.log('ℹ️ No products in Firestore, using localStorage');
+          console.log('ℹ️ No products in Firestore, seeding from defaults...');
+          // Auto-seed: upload default products to Firestore
+          await seedProductsToFirestore();
         }
       } catch (err) {
         console.warn('⚠️ Firestore products load failed, using local data:', err.message);
+      }
+    }
+
+    // Seed default products to Firestore (one-time)
+    async function seedProductsToFirestore() {
+      try {
+        const defaults = window.SonHaiCartBadge ? window.SonHaiCartBadge.getProducts() : [];
+        if (defaults.length === 0) {
+          console.warn('No default products to seed');
+          return;
+        }
+        const { dbFB, collection, addDoc, serverTimestamp } = window._fb;
+        let count = 0;
+        for (const p of defaults) {
+          const productData = {
+            name: p.name || '',
+            slug: p.slug || '',
+            category: p.category || '',
+            price: p.price || 0,
+            originalPrice: p.original_price || p.originalPrice || 0,
+            original_price: p.original_price || p.originalPrice || 0,
+            emoji: p.emoji || p.icon || '📚',
+            icon: p.emoji || p.icon || '📚',
+            coverGradient: p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)',
+            description: p.description || '',
+            fullDescription: p.fullDescription || '',
+            rating: p.rating || 4.5,
+            soldCount: p.sold_count || p.soldCount || 0,
+            sold_count: p.sold_count || p.soldCount || 0,
+            status: p.status || 'published',
+            pages: p.pages || 250,
+            format: p.format || 'PDF',
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+          };
+          await addDoc(collection(dbFB, 'products'), productData);
+          count++;
+        }
+        console.log('✅ Seeded', count, 'products to Firestore');
+        showToast('success', `Đã đồng bộ ${count} sản phẩm lên Firestore!`);
+        // Reload products from Firestore
+        await loadFirestoreProducts();
+      } catch (err) {
+        console.error('Seed products failed:', err);
+        showToast('error', 'Lỗi seed sản phẩm: ' + err.message);
       }
     }
 
@@ -4106,24 +4153,28 @@ function importContent() {
         <h3 id="product-modal-title">Thêm sản phẩm mới</h3>
         <button class="modal-close" onclick="closeProductModal()">✕</button>
       </div>
+      <form id="product-form" onsubmit="event.preventDefault(); saveProduct();">
       <div class="modal-body">
         <div class="editor-group">
           <label class="editor-label">Tên sản phẩm</label>
-          <input type="text" class="editor-input" id="product-name" placeholder="Nhập tên sản phẩm">
+          <input type="text" class="editor-input" id="product-name" placeholder="Nhập tên sản phẩm" required>
         </div>
 
         <div class="grid-2">
           <div class="editor-group">
             <label class="editor-label">Danh mục</label>
             <select class="editor-input" id="product-category">
-              <option value="ebook">Ebook</option>
-              <option value="course">Khóa học</option>
-              <option value="template">Template</option>
+              <option value="Nhân tính">Nhân tính</option>
+              <option value="Tư duy">Tư duy</option>
+              <option value="Kỹ năng sống">Kỹ năng sống</option>
+              <option value="Hệ thống">Hệ thống</option>
+              <option value="Tài chính">Tài chính</option>
+              <option value="Tình cảm">Tình cảm</option>
             </select>
           </div>
           <div class="editor-group">
             <label class="editor-label">Icon</label>
-            <input type="text" class="editor-input" id="product-icon" placeholder="📚">
+            <input type="text" class="editor-input" id="product-icon" placeholder="📚" value="📚">
           </div>
         </div>
 
@@ -4135,27 +4186,36 @@ function importContent() {
         <div class="grid-2">
           <div class="editor-group">
             <label class="editor-label">Giá (VNĐ)</label>
-            <input type="number" class="editor-input" id="product-price" placeholder="150000">
+            <input type="number" class="editor-input" id="product-price" placeholder="150000" required>
           </div>
           <div class="editor-group">
-            <label class="editor-label">Tồn kho</label>
-            <input type="number" class="editor-input" id="product-stock" placeholder="100">
+            <label class="editor-label">Giá gốc (VNĐ)</label>
+            <input type="number" class="editor-input" id="product-original-price" placeholder="200000">
           </div>
         </div>
 
-        <div class="editor-group">
-          <label class="editor-label">Trạng thái</label>
-          <select class="editor-input" id="product-status">
-            <option value="published">Đã xuất bản</option>
-            <option value="draft">Nháp</option>
-            <option value="archived">Lưu trữ</option>
-          </select>
+        <div class="grid-2">
+          <div class="editor-group">
+            <label class="editor-label">Tồn kho</label>
+            <input type="number" class="editor-input" id="product-stock" placeholder="100" value="100">
+          </div>
+          <div class="editor-group">
+            <label class="editor-label">Trạng thái</label>
+            <select class="editor-input" id="product-status">
+              <option value="published">Đã xuất bản</option>
+              <option value="draft">Nháp</option>
+              <option value="archived">Lưu trữ</option>
+            </select>
+          </div>
         </div>
+
+        <div id="product-file-preview"></div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-ghost-sm" onclick="closeProductModal()">Hủy</button>
-        <button class="btn btn-teal btn-sm" onclick="saveProduct()">💾 Lưu sản phẩm</button>
+        <button type="button" class="btn btn-ghost-sm" onclick="closeProductModal()">Hủy</button>
+        <button type="submit" class="btn btn-teal btn-sm">💾 Lưu sản phẩm</button>
       </div>
+      </form>
     </div>
   </div>
 

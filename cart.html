@@ -803,11 +803,11 @@
       if (window.SonHaiCartBadge) {
         const cart = window.SonHaiCartBadge.getCart();
         const allProducts = window.SonHaiCartBadge.getProducts();
-        if (cart && cart.items && cart.items.length > 0) {
-          cart.items.forEach(item => {
-            const product = allProducts.find(p => p.id === item.productId);
-            if (product) {
-              renderItemRow({ ...item, product });
+        if (cart && cart.length > 0) {
+          cart.forEach(item => {
+            const product = allProducts.find(p => String(p.id) === String(item.id) || String(p.id) === String(item.productId));
+            if (product || item.name) {
+              renderItemRow({ ...item, product: product || item });
             }
           });
         }
