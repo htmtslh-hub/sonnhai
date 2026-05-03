@@ -2238,6 +2238,19 @@
       return await getDownloadURL(snapshot.ref);
     }
 
+    // ── Sync products data to all public-page cache layers ──
+    function syncProductsToPublicPages() {
+      // 1. Update cart-badge localStorage (used as fallback by all pages)
+      localStorage.setItem('sonhai_products', JSON.stringify(mockData.products));
+      // 2. Clear firestore-sync.js cache so public pages fetch fresh data
+      localStorage.removeItem('sndata_products');
+      // 3. Update cart-badge in-memory if loaded
+      if (window.SonHaiCartBadge && window.SonHaiCartBadge.setProducts) {
+        window.SonHaiCartBadge.setProducts(mockData.products);
+      }
+      console.log('🔄 Synced products to all public page caches');
+    }
+
     // ==================== COMBO MANAGEMENT ====================
     let comboEditId = null;
 
@@ -2746,7 +2759,7 @@
         // ── Update: optimistic local, background sync ──
         const pIndex = mockData.products.findIndex(p => p.id === currentIdStr);
         if (pIndex > -1) Object.assign(mockData.products[pIndex], productData, { id: currentIdStr });
-        localStorage.setItem('sonhai_products', JSON.stringify(mockData.products));
+        syncProductsToPublicPages();
         closeProductModal();
         loadProducts();
         showToast('success', '✅ Đã cập nhật: ' + name);
@@ -2759,7 +2772,7 @@
         const tempId = 'temp_' + Date.now();
         productData.id = tempId;
         mockData.products.push(productData);
-        localStorage.setItem('sonhai_products', JSON.stringify(mockData.products));
+        syncProductsToPublicPages();
         closeProductModal();
         loadProducts();
         showToast('success', '✅ Đã thêm: ' + name);
@@ -2767,7 +2780,7 @@
           // Replace temp ID with real Firestore ID
           const p = mockData.products.find(p => p.id === tempId);
           if (p) p.id = newId;
-          localStorage.setItem('sonhai_products', JSON.stringify(mockData.products));
+          syncProductsToPublicPages();
         }).catch(err => {
           console.error('Firestore create failed:', err);
           showToast('error', '⚠️ Sync Firestore lỗi: ' + err.message);
@@ -4113,7 +4126,7 @@ function loadPageContent(page) {
 
       // ── Optimistic update: local first, instant feedback ──
       Object.assign(product, updates);
-      localStorage.setItem('sonhai_products', JSON.stringify(mockData.products));
+      syncProductsToPublicPages();
       const selectedOption = select.querySelector(`option[value="${productId}"]`);
       if (selectedOption) selectedOption.textContent = (updates.emoji || '📚') + ' ' + updates.name;
       showToast('success', '✅ Đã lưu: ' + updates.name);
