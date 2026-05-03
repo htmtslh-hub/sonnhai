@@ -27,6 +27,7 @@
     { "source": "/api/seapay/webhook", "destination": "/api/seapay/webhook" },
     { "source": "/api/seapay/status", "destination": "/api/seapay/status" },
     { "source": "/api/checkout", "destination": "/api/checkout" },
+    { "source": "/api/email/send", "destination": "/api/email/send" },
     { "source": "/(.*)", "destination": "/$1" }
   ]
 }

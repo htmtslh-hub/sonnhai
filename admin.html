@@ -1493,6 +1493,53 @@
             </div>
           </div>
         </div>
+
+<!-- Email Modal -->
+<div id="email-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">✉️ Gửi Email</div>
+      <button class="modal-close" onclick="closeEmailModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="email-form" onsubmit="event.preventDefault(); sendEmail();">
+        <div class="form-group">
+          <label class="form-label">Người nhận</label>
+          <input type="email" class="form-input" id="email-to" placeholder="email@example.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Loại email</label>
+          <select class="form-input" id="email-type">
+            <option value="order_confirmation">🛒 Xác nhận đơn hàng</option>
+            <option value="welcome">👋 Chào mừng</option>
+            <option value="custom">✏️ Tuỳ chỉnh</option>
+          </select>
+        </div>
+        <div id="email-custom-fields" style="display:none;">
+          <div class="form-group">
+            <label class="form-label">Tiêu đề</label>
+            <input type="text" class="form-input" id="email-subject" placeholder="Tiêu đề email">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nội dung</label>
+            <textarea class="form-input" id="email-body" rows="5" placeholder="Nội dung email..."></textarea>
+          </div>
+        </div>
+        <div id="email-order-fields">
+          <div class="form-group">
+            <label class="form-label">Mã đơn hàng (để test)</label>
+            <input type="text" class="form-input" id="email-order-number" placeholder="VD: SN1234567">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline-sm" onclick="closeEmailModal()">Huỷ</button>
+      <button class="btn btn-teal btn-sm" onclick="sendEmail()">📤 Gửi Email</button>
+    </div>
+  </div>
+</div>
+
 <div id="page-admins" class="page-section">
           <div class="page-header">
             <div>
@@ -3336,8 +3383,8 @@
     // ==================== EMAILS ====================
     async function loadEmails() {
       try {
-        const { dbFB, collection, getDocs, query, orderBy } = window._fb;
-        const q = query(collection(dbFB, 'emails'), orderBy('createdAt', 'desc'));
+        const { dbFB, collection, getDocs, query, orderBy, limit } = window._fb;
+        const q = query(collection(dbFB, 'emails'), orderBy('createdAt', 'desc'), limit(50));
         const snap = await getDocs(q);
         mockData.emails = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       } catch(e) { console.warn('Load emails:', e.message); }
@@ -3351,28 +3398,46 @@
           <tr><td colspan="5" style="text-align:center;padding:50px;color:var(--text-3);">
             <div style="font-size:36px;margin-bottom:12px;">✉️</div>
             <div style="font-size:15px;font-weight:600;margin-bottom:6px;">Chưa có email nào</div>
-            <div style="font-size:13px;">Email sẽ được ghi nhận khi hệ thống gửi thông báo tự động</div>
+            <div style="font-size:13px;">Email sẽ được gửi tự động khi khách hàng thanh toán qua SePay</div>
           </td></tr>`;
         return;
       }
-      const html = emails.map(e => `
-        <tr>
-          <td>${e.to}</td>
-          <td>${e.subject}</td>
-          <td>${e.type}</td>
-          <td><span class="badge badge-${e.status === 'sent' ? 'success' : 'pending'}">${e.status === 'sent' ? 'Đã gửi' : 'Đang gửi'}</span></td>
-          <td>${e.time || ''}</td>
-        </tr>
-      `).join('');
+      const statusMap = {
+        sent: { badge: 'success', text: '✅ Đã gửi' },
+        failed: { badge: 'cancelled', text: '❌ Thất bại' },
+        error: { badge: 'cancelled', text: '⚠️ Lỗi' },
+      };
+      const typeMap = {
+        order_confirmation: '🛒 Xác nhận ĐH',
+        welcome: '👋 Chào mừng',
+        custom: '✏️ Tuỳ chỉnh',
+      };
+      const html = emails.map(e => {
+        const st = statusMap[e.status] || { badge: 'draft', text: e.status || '?' };
+        const tp = typeMap[e.type] || e.type || '—';
+        let time = '';
+        if (e.createdAt && e.createdAt.toDate) {
+          time = e.createdAt.toDate().toLocaleString('vi-VN');
+        } else if (e.createdAt && e.createdAt.seconds) {
+          time = new Date(e.createdAt.seconds * 1000).toLocaleString('vi-VN');
+        }
+        return `
+          <tr>
+            <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">${e.to || ''}</td>
+            <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;">${e.subject || ''}</td>
+            <td>${tp}</td>
+            <td><span class="badge badge-${st.badge}">${st.text}</span></td>
+            <td style="white-space:nowrap;">${time}</td>
+          </tr>
+        `;
+      }).join('');
       document.getElementById('emails-tbody').innerHTML = html;
     }
 
     function renderEmailTemplates() {
       const templates = [
-        { name: 'Xác nhận đơn hàng', type: 'order-confirmation', icon: '🛒' },
-        { name: 'File đã sẵn sàng', type: 'download-ready', icon: '📥' },
-        { name: 'Chào mừng', type: 'welcome', icon: '👋' },
-        { name: 'Newsletter', type: 'newsletter', icon: '📰' }
+        { name: 'Xác nhận đơn hàng + Link tải', type: 'order_confirmation', icon: '🛒', desc: 'Gửi tự động sau thanh toán SePay' },
+        { name: 'Chào mừng thành viên', type: 'welcome', icon: '👋', desc: 'Gửi khi user đăng ký tài khoản' },
       ];
 
       const html = templates.map(t => `
@@ -3381,14 +3446,29 @@
             <div style="font-size:24px;">${t.icon}</div>
             <div>
               <div style="font-weight:600;font-size:13px;">${t.name}</div>
-              <div style="font-size:11px;color:var(--text-3);margin-top:2px;">${t.type}</div>
+              <div style="font-size:11px;color:var(--text-3);margin-top:2px;">${t.desc}</div>
             </div>
           </div>
-          <button class="btn btn-outline-sm" onclick="editEmailTemplate('${t.type}')">✏️ Sửa</button>
+          <span class="badge badge-active" style="font-size:11px;">Đang hoạt động</span>
         </div>
       `).join('');
       document.getElementById('email-templates-list').innerHTML = html;
     }
+
+    // ─── Email Type toggle ───
+    document.addEventListener('change', e => {
+      if (e.target && e.target.id === 'email-type') {
+        const customFields = document.getElementById('email-custom-fields');
+        const orderFields = document.getElementById('email-order-fields');
+        if (e.target.value === 'custom') {
+          customFields.style.display = 'block';
+          orderFields.style.display = 'none';
+        } else {
+          customFields.style.display = 'none';
+          orderFields.style.display = 'block';
+        }
+      }
+    });
 
     function openEmailModal() {
       document.getElementById('email-modal').classList.remove('hidden');
@@ -3399,31 +3479,65 @@
       document.getElementById('email-form').reset();
     }
 
-    function sendEmail() {
+    async function sendEmail() {
       const to = document.getElementById('email-to').value;
-      const subject = document.getElementById('email-subject').value;
-      const body = document.getElementById('email-body').value;
+      const type = document.getElementById('email-type').value;
 
-      if (!to || !subject || !body) {
-        showToast('error', 'Vui lòng điền đầy đủ thông tin!');
+      if (!to) {
+        showToast('error', 'Vui lòng nhập email người nhận!');
         return;
       }
 
-      // Mock send
-      showToast('success', 'Đã gửi email thành công!');
-      closeEmailModal();
-      
-      // Add to sent list
-      mockData.emails.unshift({
-        id: mockData.emails.length + 1,
-        to, subject, type: 'custom', status: 'sent',
-        time: new Date().toLocaleString('vi-VN')
-      });
-      loadEmails();
+      // Build payload
+      let payload = { to, type };
+
+      if (type === 'order_confirmation') {
+        const orderNum = document.getElementById('email-order-number').value || 'SN0000000';
+        payload.data = {
+          customerName: 'Admin Test',
+          orderNumber: orderNum,
+          total: 0,
+          paidAmount: 0,
+          paidAt: new Date().toISOString(),
+          items: [{ name: 'Sản phẩm test', price: 0, emoji: '📘' }],
+          downloadPageUrl: window.location.origin + '/thank-you.html?order=' + orderNum,
+        };
+      } else if (type === 'welcome') {
+        payload.data = { name: to.split('@')[0] || 'bạn' };
+      } else {
+        // custom
+        const subject = document.getElementById('email-subject').value;
+        const body = document.getElementById('email-body').value;
+        if (!subject || !body) { showToast('error', 'Nhập tiêu đề và nội dung!'); return; }
+        payload.data = { subject, body };
+      }
+
+      showToast('info', 'Đang gửi email...');
+
+      try {
+        const resp = await fetch('/api/email/send', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Internal-Key': 'sonnhai-internal-2026',
+          },
+          body: JSON.stringify(payload),
+        });
+        const result = await resp.json();
+        if (result.success) {
+          showToast('success', 'Email đã gửi thành công!');
+          closeEmailModal();
+          setTimeout(() => loadEmails(), 1500);
+        } else {
+          showToast('error', 'Gửi email thất bại: ' + (result.message || 'Unknown error'));
+        }
+      } catch (err) {
+        showToast('error', 'Lỗi kết nối: ' + err.message);
+      }
     }
 
     function editEmailTemplate(type) {
-      showToast('info', 'Chỉnh sửa template: ' + type);
+      showToast('info', 'Template đang hoạt động tự động — không cần chỉnh sửa');
     }
 
     // ==================== ADMINS ====================

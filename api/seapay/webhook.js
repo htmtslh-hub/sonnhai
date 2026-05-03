@@ -192,6 +192,66 @@ module.exports = async (req, res) => {
 
     console.log(`[SePay Webhook] ✓ Order ${orderNumber} marked as PAID (amount: ${paidAmount})`);
 
+    // ─── 11. Gửi email xác nhận (non-blocking) ───
+    if (orderData.customerEmail) {
+      try {
+        // Lấy download URLs cho từng sản phẩm
+        const itemsWithDownload = [];
+        for (const item of items) {
+          let downloadUrl = '';
+          if (item.productId) {
+            const pSnap = await db.collection('products').doc(item.productId).get();
+            if (pSnap.exists) {
+              const pData = pSnap.data();
+              downloadUrl = pData.downloadUrl || pData.fileUrl || '';
+            }
+          }
+          itemsWithDownload.push({
+            name: item.name || 'Sản phẩm',
+            price: item.price || 0,
+            emoji: item.emoji || '📦',
+            downloadUrl,
+          });
+        }
+
+        const baseUrl = req.headers['x-forwarded-host']
+          ? `https://${req.headers['x-forwarded-host']}`
+          : 'https://sonnhai.vercel.app';
+
+        const emailPayload = {
+          type: 'order_confirmation',
+          to: orderData.customerEmail,
+          data: {
+            customerName: orderData.customerName || 'Quý khách',
+            orderNumber,
+            total: orderData.total || 0,
+            paidAmount,
+            paidAt: new Date().toISOString(),
+            items: itemsWithDownload,
+            downloadPageUrl: `${baseUrl}/thank-you.html?order=${orderNumber}`,
+          },
+        };
+
+        // Fire-and-forget — không chờ response
+        fetch(`${baseUrl}/api/email/send`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Internal-Key': process.env.INTERNAL_API_KEY || 'sonnhai-internal-2026',
+          },
+          body: JSON.stringify(emailPayload),
+        }).then(r => {
+          console.log(`[SePay Webhook] Email trigger: ${r.status}`);
+        }).catch(e => {
+          console.error(`[SePay Webhook] Email trigger failed:`, e.message);
+        });
+
+      } catch (emailErr) {
+        // Không throw — email fail không ảnh hưởng webhook response
+        console.error('[SePay Webhook] Email prep error:', emailErr.message);
+      }
+    }
+
     return res.status(200).json({ success: true, message: `Order ${orderNumber} paid successfully` });
 
   } catch (error) {
