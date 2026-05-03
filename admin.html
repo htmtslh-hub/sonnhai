@@ -2740,26 +2740,38 @@
         rating: 4.5, soldCount: 0, sold_count: 0,
       };
 
-      try {
-        const currentIdStr = document.getElementById('product-modal').dataset.editId;
-        if (currentIdStr) {
-          // Update existing
-          await firestoreUpdateProduct(currentIdStr, productData);
-          const pIndex = mockData.products.findIndex(p => p.id === currentIdStr);
-          if (pIndex > -1) Object.assign(mockData.products[pIndex], productData, { id: currentIdStr });
-          showToast('success', 'Đã cập nhật sản phẩm!');
-        } else {
-          // Create new
-          const newId = await firestoreCreateProduct(productData);
-          productData.id = newId;
-          mockData.products.push(productData);
-          showToast('success', 'Đã thêm sản phẩm mới!');
-        }
+      const currentIdStr = document.getElementById('product-modal').dataset.editId;
+
+      if (currentIdStr) {
+        // ── Update: optimistic local, background sync ──
+        const pIndex = mockData.products.findIndex(p => p.id === currentIdStr);
+        if (pIndex > -1) Object.assign(mockData.products[pIndex], productData, { id: currentIdStr });
         localStorage.setItem('sonhai_products', JSON.stringify(mockData.products));
         closeProductModal();
         loadProducts();
-      } catch (err) {
-        showToast('error', 'Lỗi lưu: ' + err.message);
+        showToast('success', '✅ Đã cập nhật: ' + name);
+        firestoreUpdateProduct(currentIdStr, productData).catch(err => {
+          console.error('Firestore update failed:', err);
+          showToast('error', '⚠️ Sync Firestore lỗi: ' + err.message);
+        });
+      } else {
+        // ── Create: need Firestore ID, but close modal first with temp ID ──
+        const tempId = 'temp_' + Date.now();
+        productData.id = tempId;
+        mockData.products.push(productData);
+        localStorage.setItem('sonhai_products', JSON.stringify(mockData.products));
+        closeProductModal();
+        loadProducts();
+        showToast('success', '✅ Đã thêm: ' + name);
+        firestoreCreateProduct(productData).then(newId => {
+          // Replace temp ID with real Firestore ID
+          const p = mockData.products.find(p => p.id === tempId);
+          if (p) p.id = newId;
+          localStorage.setItem('sonhai_products', JSON.stringify(mockData.products));
+        }).catch(err => {
+          console.error('Firestore create failed:', err);
+          showToast('error', '⚠️ Sync Firestore lỗi: ' + err.message);
+        });
       }
     }
 
@@ -4069,13 +4081,7 @@ function loadPageContent(page) {
         status: document.getElementById('edit-product-status').value,
       };
 
-      // Show saving state
-      const saveBtn = document.querySelector('#page-product-editor .page-header .btn');
-      const originalText = saveBtn.innerHTML;
-      saveBtn.innerHTML = '⏳ Đang lưu...';
-      saveBtn.disabled = true;
-
-      // Handle image upload to Firebase Storage
+      // Handle image — only await if uploading a new file (need the URL)
       const imageInput = document.getElementById('product-image-input');
       if (imageInput.files && imageInput.files[0]) {
         try {
@@ -4083,11 +4089,18 @@ function loadPageContent(page) {
           const imageUrl = await firestoreUploadImage(imageInput.files[0], productId);
           updates.imageUrl = imageUrl;
           updates.image = imageUrl;
+          // Update preview immediately
+          const imageDisplay = document.getElementById('product-image-display');
+          imageDisplay.src = imageUrl;
+          imageDisplay.style.display = 'block';
+          document.getElementById('image-placeholder').style.display = 'none';
+          document.getElementById('remove-image-btn').style.display = 'inline-flex';
+          imageInput.value = '';
         } catch (err) {
           showToast('error', 'Lỗi upload ảnh: ' + err.message);
+          return;
         }
       } else {
-        // Keep existing image if not removed
         const imageDisplay = document.getElementById('product-image-display');
         if (imageDisplay.style.display !== 'none' && imageDisplay.src && !imageDisplay.src.endsWith('admin.html')) {
           updates.imageUrl = imageDisplay.src;
@@ -4098,20 +4111,18 @@ function loadPageContent(page) {
         }
       }
 
-      try {
-        await firestoreUpdateProduct(productId, updates);
-        Object.assign(product, updates);
-        localStorage.setItem('sonhai_products', JSON.stringify(mockData.products));
-        showToast('success', '✅ Đã cập nhật sản phẩm: ' + updates.name);
-        // Refresh dropdown text
-        const selectedOption = select.querySelector(`option[value="${productId}"]`);
-        if (selectedOption) selectedOption.textContent = (updates.emoji || '📚') + ' ' + updates.name;
-      } catch (err) {
-        showToast('error', 'Lỗi lưu Firestore: ' + err.message);
-      } finally {
-        saveBtn.innerHTML = originalText;
-        saveBtn.disabled = false;
-      }
+      // ── Optimistic update: local first, instant feedback ──
+      Object.assign(product, updates);
+      localStorage.setItem('sonhai_products', JSON.stringify(mockData.products));
+      const selectedOption = select.querySelector(`option[value="${productId}"]`);
+      if (selectedOption) selectedOption.textContent = (updates.emoji || '📚') + ' ' + updates.name;
+      showToast('success', '✅ Đã lưu: ' + updates.name);
+
+      // ── Background sync to Firestore (fire-and-forget) ──
+      firestoreUpdateProduct(productId, updates).catch(err => {
+        console.error('Firestore sync failed:', err);
+        showToast('error', '⚠️ Lưu local OK nhưng sync Firestore lỗi: ' + err.message);
+      });
     }
 
     // Image upload functions
