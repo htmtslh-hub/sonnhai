@@ -240,26 +240,54 @@ Cache: localStorage với prefix `sndata_`, TTL 5 phút.
 
 ---
 
-## Công việc tiếp theo (chưa thực hiện)
+## Công việc đã thực hiện
 
-### ⬜ Phase 9: Tích hợp SeaPay
-- Checkout flow: cart → checkout.html → SeaPay API
-- Callback: tạo `orders`, `payments` trong Firestore
-- Cập nhật `soldCount` trên products
-- Gửi email xác nhận đơn hàng
+### ✅ Phase 9: Tích hợp SePay — HOÀN THÀNH
+- Checkout flow: cart → checkout.html → SePay VietQR
+- `api/checkout.js` → tạo order Firestore, trả orderNumber
+- `api/seapay/webhook.js` → nhận webhook SePay, cập nhật paid
+- `api/seapay/status.js` → frontend poll trạng thái
+- QR code từ `qr.sepay.vn`, polling mỗi 3s, timeout 15 phút
+- Ngân hàng: BIDV 2154356816 (DINH VAN TRIEN)
 
-### ⬜ Phase 10: Email Service
-- Firebase Cloud Functions
-- Gửi email tự động: xác nhận đơn, link tải, chào mừng
-- Ghi log vào Firestore `emails`
+### ✅ Phase 10: Email Service (Resend) — HOÀN THÀNH
+- `api/email/send.js` → Vercel serverless, gửi email qua Resend SDK
+- `api/email/templates.js` → HTML templates dark theme, tiếng Việt
+- Webhook tự động trigger email sau payment (fire-and-forget)
+- Loại email: `order_confirmation` (+ link tải), `welcome`
+- Admin dashboard: hiển thị email logs từ Firestore
+- Env var: `RESEND_API_KEY` trên Vercel
+- Free tier: onboarding@resend.dev (chưa verify domain)
 
 ### ⬜ Phase 11: Security & Deploy
 - Firestore Security Rules (public read, admin write)
-- Firebase Hosting hoặc Vercel deploy
-- Domain, SSL, SEO meta tags
+- Verify domain email trên Resend (gửi từ @sonnhai.com)
+- Custom domain trên Vercel
+- SEO meta tags
+
+---
+
+## API Endpoints (Vercel Serverless)
+
+| Endpoint | Method | Auth | Mô tả |
+|---|---|---|---|
+| `/api/checkout` | POST | Public | Tạo đơn hàng → Firestore |
+| `/api/seapay/webhook` | POST | Apikey header | SePay webhook → xác nhận thanh toán |
+| `/api/seapay/status` | GET | Public | Poll trạng thái đơn hàng |
+| `/api/email/send` | POST | X-Internal-Key | Gửi email qua Resend |
+
+## Environment Variables (Vercel)
+
+| Variable | Mô tả |
+|---|---|
+| `FIREBASE_SERVICE_ACCOUNT` | JSON service account key |
+| `SEPAY_API_KEY` | SePay webhook API key |
+| `RESEND_API_KEY` | Resend email API key |
+| `INTERNAL_API_KEY` | Internal auth key (default: sonnhai-internal-2026) |
 
 ---
 
 ## Cập nhật lần cuối: 2026-05-03
 
-**Trạng thái:** Phase 1-8 hoàn thành. Admin dashboard 100% Firestore. Không còn mock data. Sẵn sàng tích hợp thanh toán SeaPay.
+**Trạng thái:** Phase 1-10 hoàn thành. Website live tại https://sonnhai.vercel.app. Thanh toán SePay + Email tự động Resend hoạt động production-ready.
+
