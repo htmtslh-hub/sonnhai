@@ -259,11 +259,14 @@ Cache: localStorage với prefix `sndata_`, TTL 5 phút.
 - Env var: `RESEND_API_KEY` trên Vercel
 - Free tier: onboarding@resend.dev (chưa verify domain)
 
-### ⬜ Phase 11: Security & Deploy
-- Firestore Security Rules (public read, admin write)
-- Verify domain email trên Resend (gửi từ @sonnhai.com)
-- Custom domain trên Vercel
-- SEO meta tags
+### ✅ Phase 11: Security & SEO — HOÀN THÀNH
+- Firestore Security Rules đã viết xong (cần deploy qua Firebase Console)
+- Vercel security headers: X-Content-Type-Options, X-Frame-Options, X-XSS-Protection, Referrer-Policy, Permissions-Policy
+- SEO meta tags (description, keywords, author, canonical, Open Graph) cho 7 trang public: index, categories, product, blog, blog-post, about, support
+- noindex/nofollow cho 5 trang private: cart, checkout, account, thank-you, seapay-return
+- Fix title separators thiếu em dash (—) ở blog, about, support
+- Fix encoding mojibake ở seapay-return.html
+- Hướng dẫn manual: deploy Firestore Rules, verify domain Resend, custom domain Vercel
 
 ---
 
@@ -289,5 +292,5 @@ Cache: localStorage với prefix `sndata_`, TTL 5 phút.
 
 ## Cập nhật lần cuối: 2026-05-03
 
-**Trạng thái:** Phase 1-10 hoàn thành. Website live tại https://sonnhai.vercel.app. Thanh toán SePay + Email tự động Resend hoạt động production-ready.
+**Trạng thái:** Phase 1-11 hoàn thành. Website live tại https://sonnhai.vercel.app. Thanh toán SePay + Email tự động Resend + Security headers + SEO meta tags đã production-ready.
 

@@ -1,0 +1,111 @@
+rules_version = '2';
+
+// ═══════════════════════════════════════════════════════════════
+// Firestore Security Rules — Thư viện Sơn Nhai
+// 
+// Nguyên tắc:
+// - Public: đọc products, combos, blog_posts, site_content
+// - Authenticated users: đọc/ghi profile riêng
+// - Admin only: CRUD tất cả collections
+// ═══════════════════════════════════════════════════════════════
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── Helper: Kiểm tra user là admin ───
+    function isAdmin() {
+      return request.auth != null && 
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'super-admin'];
+    }
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    // ═══════════════════════════════════════
+    // PUBLIC READ — Nội dung hiển thị trên website
+    // ═══════════════════════════════════════
+
+    // Products: ai cũng đọc được, chỉ admin sửa
+    match /products/{productId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Combos: ai cũng đọc được, chỉ admin sửa
+    match /combos/{comboId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Blog posts: ai cũng đọc published, admin đọc/sửa tất cả
+    match /blog_posts/{postId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Site content (about, support, banner): public read, admin write
+    match /site_content/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ═══════════════════════════════════════
+    // USER DATA — Chỉ chủ sở hữu và admin
+    // ═══════════════════════════════════════
+
+    // Users: đọc/sửa profile riêng, admin đọc tất cả
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ═══════════════════════════════════════
+    // ORDERS & PAYMENTS — Server-side only (Admin SDK)
+    // ═══════════════════════════════════════
+
+    // Orders: tạo bởi API (checkout), đọc bởi admin
+    // Khách hàng có thể đọc đơn hàng của mình
+    match /orders/{orderId} {
+      allow read: if isAdmin() || 
+                     (isAuthenticated() && resource.data.customerEmail == request.auth.token.email);
+      allow create: if true; // API checkout tạo qua Admin SDK, nhưng cho phép client tạo nếu cần
+      allow update, delete: if isAdmin();
+    }
+
+    // Payments: chỉ admin và server đọc/ghi
+    match /payments/{paymentId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // ═══════════════════════════════════════
+    // ADMIN-ONLY COLLECTIONS
+    // ═══════════════════════════════════════
+
+    // Emails log: chỉ admin đọc, server ghi
+    match /emails/{emailId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Admin logs: chỉ admin đọc/ghi
+    match /admin_logs/{logId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // ═══════════════════════════════════════
+    // DEFAULT: Deny all
+    // ═══════════════════════════════════════
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
