@@ -161,9 +161,12 @@ module.exports = async (req, res) => {
     for (const item of items) {
       if (item.productId) {
         const productRef = db.collection('products').doc(item.productId);
-        batch.update(productRef, {
-          soldCount: admin.firestore.FieldValue.increment(1),
-        });
+        const productSnap = await productRef.get();
+        if (productSnap.exists) {
+          batch.update(productRef, {
+            soldCount: admin.firestore.FieldValue.increment(1),
+          });
+        }
       }
     }
 
