@@ -324,12 +324,17 @@ Cache: localStorage với prefix `sndata_`, TTL 5 phút.
 ## Known Issues / TODO cho phiên tiếp theo
 
 1. **Cần verify thủ công:** User test lại cart flow end-to-end trên thiết bị khác (add→cart→checkout→thanh toán)
-2. **Admin "Chỉnh sửa SP":** Modal `saveProductEdit()` ở dòng ~3929 — chưa test kỹ
+2. ~~**Admin "Chỉnh sửa SP":** Modal `saveProductEdit()` — chưa test kỹ~~ → ✅ ĐÃ FIX (03/05 tối)
 3. **Firestore products:** Lần đầu admin login sẽ auto-seed. Nếu đã seed rồi thì sẽ load từ Firestore bình thường
 4. **Custom domain:** Chưa setup (sonnhai.com → Vercel)
 5. **Email domain:** Chưa verify trên Resend (đang dùng onboarding@resend.dev)
 
-## Cập nhật lần cuối: 2026-05-03 17:21
+### ✅ Đã hoàn thành (Phiên 03/05/2026 tối)
+- **Product Editor:** Fix parseInt bug, sai categories, thêm slug/emoji/gradient/rating/soldCount fields
+- **Optimistic UI:** Save product phản hồi tức thì, Firestore sync background
+- **Cross-page sync:** `syncProductsToPublicPages()` — admin save xóa cache `sndata_products` → public pages luôn lấy data mới
 
-**Trạng thái:** Phase 1-11 hoàn thành + Bugfix round (Phase 11.1). Website live tại https://sonnhai.vercel.app. Đã fix cart/checkout/categories/admin. Cần user verify trên thiết bị khác.
+## Cập nhật lần cuối: 2026-05-03 22:00
+
+**Trạng thái:** Phase 1-11 hoàn thành + tất cả Bugfix. Website live tại https://sonnhai.vercel.app. Admin Product Editor hoạt động đầy đủ. Optimistic UI cho save nhanh. Cross-page sync khi admin cập nhật sản phẩm. Cần setup custom domain + verify email domain.
 
