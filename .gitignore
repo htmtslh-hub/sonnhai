@@ -20,3 +20,7 @@ Thumbs.db
 
 # Logs
 *.log
+sonnhai-2600f-firebase-adminsdk-fbsvc-6b431889d3.json
+admin.html.backup
+*.backup
+*-firebase-adminsdk-*

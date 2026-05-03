@@ -33,13 +33,13 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA1b9PCPTo5sULv_Fa2OTI_GY7ClEeIYo0",
-  authDomain: "ban-sach-24d69.firebaseapp.com",
-  projectId: "ban-sach-24d69",
-  storageBucket: "ban-sach-24d69.firebasestorage.app",
-  messagingSenderId: "397976673420",
-  appId: "1:397976673420:web:8ab074f3717fa40b8bafa9",
-  measurementId: "G-HXK5915SRY",
+  apiKey: "AIzaSyCctQ_86VvAlZPTQDQPyGeYjV9zMHLv_Sc",
+  authDomain: "sonnhai-2600f.firebaseapp.com",
+  projectId: "sonnhai-2600f",
+  storageBucket: "sonnhai-2600f.firebasestorage.app",
+  messagingSenderId: "907935883175",
+  appId: "1:907935883175:web:0f356a63e28a45a196a082",
+  measurementId: "G-JXP5V9W6GN",
 };
 
 const app = initializeApp(firebaseConfig);

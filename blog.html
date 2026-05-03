@@ -682,113 +682,264 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  let activecat = 'all';
+  let activeCat = 'all';
   let searchQuery = '';
+  let allPosts = [];
+  const POSTS_PER_PAGE = 6;
+  let currentBlogPage = 1;
 
-  //  Filter by category tab 
+  // ── Load blog posts from Firestore ──
+  async function loadBlogPosts() {
+    if (window.SonHaiData) {
+      try {
+        const posts = await window.SonHaiData.getBlogPosts();
+        if (posts && posts.length > 0) {
+          allPosts = posts.filter(p => p.status === 'published');
+        }
+      } catch(e) { console.warn('Blog load failed:', e); }
+    }
+    if (allPosts.length > 0) {
+      renderBlogPage();
+    }
+  }
+
+  function renderBlogPage() {
+    // Update stats
+    const stats = document.querySelectorAll('.bstat-num');
+    if (stats[0]) stats[0].textContent = allPosts.length;
+    const categories = [...new Set(allPosts.map(p => p.category).filter(Boolean))];
+    if (stats[1]) stats[1].textContent = categories.length;
+
+    // Render featured post (first post)
+    renderFeatured();
+    // Render grid
+    applyFilters();
+    // Render sidebar
+    renderSidebarPopular();
+    renderSidebarCategories(categories);
+  }
+
+  function renderFeatured() {
+    const wrap = document.querySelector('.featured-wrap');
+    if (!wrap || allPosts.length === 0) return;
+    const p = allPosts[0];
+    const gradient = p.coverGradient || 'linear-gradient(145deg, #0F1D38, #091525)';
+    wrap.innerHTML = `
+      <div class="featured-label">Bài viết nổi bật</div>
+      <a href="blog-post.html?slug=${p.slug || ''}" class="featured-card">
+        <div class="fc-img" style="background:${gradient}">
+          ${p.emoji || '📝'}
+          <div class="fc-img-shine"></div>
+          <div class="fc-img-glow"></div>
+        </div>
+        <div class="fc-body">
+          <span class="fc-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+            Bài viết nổi bật
+          </span>
+          <div class="fc-cat"><div class="fc-dot"></div>${p.category || ''}</div>
+          <h2 class="fc-title">${p.title || ''}</h2>
+          <p class="fc-excerpt">${p.excerpt || ''}</p>
+          <div class="fc-meta">
+            <span class="fc-meta-item">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+              ${p.readTime || '5 phút đọc'}
+            </span>
+            <span class="fc-meta-item">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              ${formatBlogDate(p)}
+            </span>
+            <span class="fc-meta-item">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              ${p.views || 0} lượt đọc
+            </span>
+          </div>
+          <span class="fc-read">
+            Đọc ngay
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>`;
+  }
+
+  function formatBlogDate(post) {
+    if (post.createdAt && post.createdAt.seconds) {
+      return new Date(post.createdAt.seconds * 1000).toLocaleDateString('vi-VN');
+    }
+    return post.date || '';
+  }
+
+  // ── Filter by category tab ──
   function filterTab(el, cat) {
-  if (!el) return;
-  đưactivecat = cat;
-
-  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('on'));
-  el.classList.add('on');
-
-  // sync sidebar cat list
-  document.querySelectorAll('.cat-item').forEach(c => {
-  có.classList.toggle('on', có.dataset.cat === cat);
-  });
-
-  đưapplyFilters();
+    if (!el) return;
+    activeCat = cat;
+    document.querySelectorAll('.ftab').forEach(t => t.classList.remove('on'));
+    el.classList.add('on');
+    // sync sidebar cat list
+    document.querySelectorAll('.cat-item').forEach(c => {
+      c.classList.toggle('on', c.dataset.cat === cat);
+    });
+    currentBlogPage = 1;
+    applyFilters();
   }
 
-  //  Search 
+  // ── Search ──
   function searchPosts(q) {
-  searchQuery = q.toLowerCase().trim();
-  // sync both search inputs
-  document.getElementById('hero-search').value = q;
-  document.getElementById('sb-search-in').value = q;
-  đưapplyFilters();
+    searchQuery = q.toLowerCase().trim();
+    document.getElementById('hero-search').value = q;
+    document.getElementById('sb-search-in').value = q;
+    currentBlogPage = 1;
+    applyFilters();
   }
 
-  //  Apply filters 
+  // ── Apply filters + render ──
   function applyFilters() {
-  const posts = document.querySelectorAll('#blog-grid .b-card');
-  let visible = 0;
+    let filtered = allPosts;
+    if (activeCat !== 'all') {
+      filtered = filtered.filter(p => p.category === activeCat);
+    }
+    if (searchQuery) {
+      filtered = filtered.filter(p => {
+        const title = (p.title || '').toLowerCase();
+        const excerpt = (p.excerpt || '').toLowerCase();
+        const cat = (p.category || '').toLowerCase();
+        return title.includes(searchQuery) || excerpt.includes(searchQuery) || cat.includes(searchQuery);
+      });
+    }
 
-  posts.forEach(p => {
-  const cat = p.dataset.cat;
-  const title = (p.dataset.title || '').toLowerCase();
-  const bodyText = p.querySelector('.b-excerpt') ? p.querySelector('.b-excerpt').textContent.toLowerCase() : '';
+    document.getElementById('post-count').innerHTML = `<strong>${filtered.length}</strong> bài viết`;
+    document.getElementById('no-results').classList.toggle('show', filtered.length === 0);
 
-  let show = true;
-  if (activecat !== 'all' && cat !== activecat) show = false;
-  if (searchQuery && !title.includes(searchQuery) && !bodyText.includes(searchQuery) && !cat.toLowerCase().includes(searchQuery)) show = false;
+    // Pagination
+    const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE);
+    const start = (currentBlogPage - 1) * POSTS_PER_PAGE;
+    const pagePosts = filtered.slice(start, start + POSTS_PER_PAGE);
 
-  p.style.display = show ? '' : 'none';
-  if (show) visible++;
-  });
-
-  // Wide card needs special display handling
-  document.querySelectorAll('#blog-grid .b-card.wide').forEach(c => {
-  if (c.style.display !== 'none') c.style.display = 'flex';
-  });
-
-  document.getElementById('post-count').innerHTML = `<strong>${visible}</strong> bài viết`;
-  document.getElementById('no-results').classList.toggle('show', visible === 0);
-  document.getElementById('pagination').style.display = visible === 0 ? 'none' : 'flex';
+    renderBlogGrid(pagePosts);
+    renderPagination(totalPages);
   }
 
-  //  Pagination (visual only) 
-  function setPage(n, btn) {
-  document.querySelectorAll('.pg-btn:not(.arrow)').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  // Update arrow states
-  const arrows = document.querySelectorAll('.pg-btn.arrow');
-  arrows[0].disabled = n === 1;
-  arrows[1].disabled = n === 3;
-  showToast('Đang tải trang ' + n + '...');
+  function renderBlogGrid(posts) {
+    const grid = document.getElementById('blog-grid');
+    if (!grid) return;
+    if (posts.length === 0) {
+      grid.innerHTML = '';
+      return;
+    }
+    grid.innerHTML = posts.map((p, idx) => {
+      const gradient = p.coverGradient || 'linear-gradient(145deg, #0F1D38, #091525)';
+      const isWide = idx === 0 && currentBlogPage === 1 && activeCat === 'all' && !searchQuery;
+      return `
+        <a href="blog-post.html?slug=${p.slug || ''}" class="b-card${isWide ? ' wide' : ''}" data-cat="${p.category || ''}" data-title="${p.title || ''}">
+          ${isWide ? `
+          <div class="b-img" style="background:${gradient}">${p.emoji || '📝'}<div class="b-img-shine"></div></div>
+          <div style="display:flex;flex-direction:column;flex:1;">
+            <div class="b-body">
+              <div class="b-cat-row"><span class="b-cat">${p.category || ''}</span><span class="b-read-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> ${p.readTime || '5 phút'}</span></div>
+              <div class="b-title">${p.title || ''}</div>
+              <div class="b-excerpt">${p.excerpt || ''}</div>
+            </div>
+            <div class="b-foot"><span class="b-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${formatBlogDate(p)}</span><div class="b-tags"><span class="b-tag">${p.category || ''}</span></div></div>
+          </div>` : `
+          <div class="b-img" style="background:${gradient}">${p.emoji || '📝'}<div class="b-img-shine"></div></div>
+          <div class="b-body">
+            <div class="b-cat-row"><span class="b-cat">${p.category || ''}</span><span class="b-read-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> ${p.readTime || '5 phút'}</span></div>
+            <div class="b-title">${p.title || ''}</div>
+            <div class="b-excerpt">${p.excerpt || ''}</div>
+          </div>
+          <div class="b-foot"><span class="b-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${formatBlogDate(p)}</span><div class="b-tags"><span class="b-tag">${p.category || ''}</span></div></div>
+          `}
+        </a>`;
+    }).join('');
+
+    // Fix display for wide cards
+    document.querySelectorAll('#blog-grid .b-card.wide').forEach(c => {
+      c.style.display = 'flex';
+    });
   }
 
-  //  Toast 
+  function renderPagination(totalPages) {
+    const pag = document.getElementById('pagination');
+    if (!pag) return;
+    if (totalPages <= 1) { pag.style.display = 'none'; return; }
+    pag.style.display = 'flex';
+    let html = `<button class="pg-btn arrow" ${currentBlogPage === 1 ? 'disabled' : ''} onclick="setPage(${currentBlogPage - 1})">‹</button>`;
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<button class="pg-btn${i === currentBlogPage ? ' on' : ''}" onclick="setPage(${i})">${i}</button>`;
+    }
+    html += `<button class="pg-btn arrow" ${currentBlogPage === totalPages ? 'disabled' : ''} onclick="setPage(${currentBlogPage + 1})">›</button>`;
+    pag.innerHTML = html;
+  }
+
+  function setPage(n) {
+    currentBlogPage = n;
+    applyFilters();
+    window.scrollTo({ top: document.querySelector('.filter-bar').offsetTop - 80, behavior: 'smooth' });
+  }
+
+  // ── Sidebar ──
+  function renderSidebarPopular() {
+    const container = document.querySelector('.popular-list');
+    if (!container) return;
+    const popular = [...allPosts].sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, 5);
+    container.innerHTML = popular.map((p, i) => `
+      <a href="blog-post.html?slug=${p.slug || ''}" class="pop-item">
+        <div class="pop-num">${String(i + 1).padStart(2, '0')}</div>
+        <div class="pop-img" style="background:${p.coverGradient || 'linear-gradient(145deg, #0F1D38, #091525)'}">${p.emoji || '📝'}</div>
+        <div class="pop-info">
+          <div class="pop-title">${p.title || ''}</div>
+          <div class="pop-meta">${p.views || 0} lượt đọc · ${p.readTime || '5 phút'}</div>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  function renderSidebarCategories(categories) {
+    const container = document.querySelector('.cat-list');
+    if (!container) return;
+    const catCounts = {};
+    allPosts.forEach(p => {
+      if (p.category) catCounts[p.category] = (catCounts[p.category] || 0) + 1;
+    });
+    const catEmojis = { 'Nhân tính': '🧠', 'Tư duy': '💡', 'Tài chính': '💰', 'Nhận thức': '🔍', 'Tình cảm': '💜', 'Hệ thống': '⚙️', 'Kỹ năng sống': '📊' };
+    let html = `<a href="#" class="cat-item${activeCat === 'all' ? ' on' : ''}" data-cat="all" onclick="filterTab(document.querySelector('.ftab[data-cat=all]'),'all');return false;">
+      <span class="cat-left"><span class="ci-emoji">◆</span>Tất cả chủ đề</span>
+      <span class="cat-count">${allPosts.length}</span>
+    </a>`;
+    categories.forEach(cat => {
+      html += `<a href="#" class="cat-item${activeCat === cat ? ' on' : ''}" data-cat="${cat}" onclick="filterTab(document.querySelector('.ftab[data-cat=\\'${cat}\\']'),'${cat}');return false;">
+        <span class="cat-left"><span class="ci-emoji">${catEmojis[cat] || '📝'}</span>${cat}</span>
+        <span class="cat-count">${catCounts[cat] || 0}</span>
+      </a>`;
+    });
+    container.innerHTML = html;
+  }
+
+  // ── Toast ──
   let toastTimer;
   function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
   }
 
-  //  Navbar shadow on scroll 
+  // ── Navbar shadow ──
   window.addEventListener('scroll', () => {
-  document.querySelector('.nav').style.boxShadow =
-  window.scrollY > 8 ? '0 4px 32px rgba(0,0,0,.5)' : 'none';
+    document.querySelector('.nav').style.boxShadow =
+      window.scrollY > 8 ? '0 4px 32px rgba(0,0,0,.5)' : 'none';
   });
 
-  // Fix display for wide cards on load
-  document.querySelectorAll('#blog-grid .b-card.wide').forEach(c => {
-  c.style.display = 'flex';
+  // ── Init ──
+  document.addEventListener('DOMContentLoaded', () => {
+    loadBlogPosts();
   });
-
-  // Link blog cards to categories page by their data-cat
-  document.querySelectorAll('.b-card[data-cat], .featured-card').forEach(card => {
-  const cat = card.dataset.cat;
-  if (cat) {
-  card.href = 'categories.html?cat=' + encodeURIComponent(cat);
-  card.removeAttribute('onclick');
-  }
-  });
-  // Featured card links to Nhân tính (its category)
-  const fc = document.querySelector('.featured-card');
-  if (fc && !fc.dataset.cat) {
-  fc.href = 'categories.html?cat=' + encodeURIComponent('Nhân tính');
-  fc.removeAttribute('onclick');
-  }
 </script>
 <script src="js/cart-badge.js?v=4"></script>
+<script type="module" src="js/firestore-sync.js"></script>
 
 <script src="js/parallax-engine.js?v=grid-particles-2"></script>
 <script type="module" src="/auth-ui.js"></script>
 </body>
 </html>
-

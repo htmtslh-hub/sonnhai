@@ -548,7 +548,7 @@
 <canvas id="parallax-canvas"></canvas>
 
 <!-- TOP ANNOUNCEMENT BAR -->
-<div style="background:rgba(0,212,212,.1);border-bottom:1px solid rgba(0,212,212,.2);padding:7px 20px;text-align:center;font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--teal);text-transform:uppercase;font-family:'Be Vietnam Pro',sans-serif;">
+<div id="site-banner" style="background:rgba(0,212,212,.1);border-bottom:1px solid rgba(0,212,212,.2);padding:7px 20px;text-align:center;font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--teal);text-transform:uppercase;font-family:'Be Vietnam Pro',sans-serif;">
   ◆ Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật ◆
 </div>
 
@@ -646,234 +646,8 @@
       <h2 class="sec-title">◆ Sản phẩm nổi bật</h2>
       <a href="categories.html" class="sec-more">Xem tất cả <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
-    <div class="cards-row">
-
-      <!-- 1. Tuyệt mật nhân tính -->
-      <div class="card star" data-product-id="1" data-slug="tuyet-mat-nhan-tinh" onclick="if(!event.target.closest('.btn-cart'))goToProduct(this)">
-        <div class="card-thumb">
-          <span class="badge badge-hot">Hot</span>
-          <div class="card-thumb-inner">
-            <div class="book-top book-color-1"><div class="card-emoji">🧠</div></div>
-            <div class="book-bottom">
-              <div class="book-bottom-title">Tuyệt mật nhân tính</div>
-              <div class="book-bottom-author">Thư viện Sơn Nhai</div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-cat">Nhân tính</div>
-          <div class="card-name">Tuyệt mật nhân tính</div>
-          <div class="card-price"><span class="price-now">149.000đ</span><span class="price-was">199.000đ</span></div>
-        </div>
-        <div class="card-foot">
-          <div class="rating"><span class="stars">★★★★★</span> 4.9</div>
-          <button class="btn-cart">+ Giỏ</button>
-        </div>
-      </div>
-
-      <!-- 2. Thức tỉnh nhận thức -->
-      <div class="card" data-product-id="2" data-slug="thuc-tinh-nhan-thuc" onclick="if(!event.target.closest('.btn-cart'))goToProduct(this)">
-        <div class="card-thumb">
-          <span class="badge badge-new">Mới</span>
-          <div class="card-thumb-inner">
-            <div class="book-top book-color-2"><div class="card-emoji">💡</div></div>
-            <div class="book-bottom">
-              <div class="book-bottom-title">Thức tỉnh nhận thức</div>
-              <div class="book-bottom-author">Thư viện Sơn Nhai</div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-cat">Tư duy</div>
-          <div class="card-name">Thức tỉnh nhận thức</div>
-          <div class="card-price"><span class="price-now">179.000đ</span></div>
-        </div>
-        <div class="card-foot">
-          <div class="rating"><span class="stars">★★★★★</span> 4.8</div>
-          <button class="btn-cart">+ Giỏ</button>
-        </div>
-      </div>
-
-      <!-- 3. Logic người nghèo -->
-      <div class="card" data-product-id="3" data-slug="logic-nguoi-ngheo" onclick="if(!event.target.closest('.btn-cart'))goToProduct(this)">
-        <div class="card-thumb">
-          <span class="badge badge-sale">-34%</span>
-          <div class="card-thumb-inner">
-            <div class="book-top book-color-3"><div class="card-emoji">📊</div></div>
-            <div class="book-bottom">
-              <div class="book-bottom-title">Logic người nghèo</div>
-              <div class="book-bottom-author">Thư viện Sơn Nhai</div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-cat">Kỹ năng sống</div>
-          <div class="card-name">Logic người nghèo</div>
-          <div class="card-price"><span class="price-now">99.000đ</span><span class="price-was">149.000đ</span></div>
-        </div>
-        <div class="card-foot">
-          <div class="rating"><span class="stars">★★★★☆</span> 4.6</div>
-          <button class="btn-cart">+ Giỏ</button>
-        </div>
-      </div>
-
-      <!-- 4. Hệ thống mạnh mẽ -->
-      <div class="card" data-product-id="4" data-slug="he-thong-manh-me" onclick="if(!event.target.closest('.btn-cart'))goToProduct(this)">
-        <div class="card-thumb">
-          <div class="card-thumb-inner">
-            <div class="book-top book-color-4"><div class="card-emoji">⚙️</div></div>
-            <div class="book-bottom">
-              <div class="book-bottom-title">Hệ thống mạnh mẽ</div>
-              <div class="book-bottom-author">Thư viện Sơn Nhai</div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-cat">Hệ thống</div>
-          <div class="card-name">Hệ thống mạnh mẽ</div>
-          <div class="card-price"><span class="price-now">139.000đ</span></div>
-        </div>
-        <div class="card-foot">
-          <div class="rating"><span class="stars">★★★★★</span> 4.9</div>
-          <button class="btn-cart">+ Giỏ</button>
-        </div>
-      </div>
-
-      <!-- 5. Mưu lược tài chính -->
-      <div class="card" data-product-id="5" data-slug="muu-luoc-tai-chinh" onclick="if(!event.target.closest('.btn-cart'))goToProduct(this)">
-        <div class="card-thumb">
-          <span class="badge badge-new">Mới</span>
-          <div class="card-thumb-inner">
-            <div class="book-top book-color-5"><div class="card-emoji">💰</div></div>
-            <div class="book-bottom">
-              <div class="book-bottom-title">Mưu lược tài chính</div>
-              <div class="book-bottom-author">Thư viện Sơn Nhai</div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-cat">Tài chính</div>
-          <div class="card-name">Mưu lược tài chính</div>
-          <div class="card-price"><span class="price-now">159.000đ</span><span class="price-was">210.000đ</span></div>
-        </div>
-        <div class="card-foot">
-          <div class="rating"><span class="stars">★★★★★</span> 4.7</div>
-          <button class="btn-cart">+ Giỏ</button>
-        </div>
-      </div>
-
-      <!-- 6. Tư duy sâu sắc -->
-      <div class="card" data-product-id="6" data-slug="tu-duy-sau-sac" onclick="if(!event.target.closest('.btn-cart'))goToProduct(this)">
-        <div class="card-thumb">
-          <div class="card-thumb-inner">
-            <div class="book-top book-color-6"><div class="card-emoji">🔮</div></div>
-            <div class="book-bottom">
-              <div class="book-bottom-title">Tư duy sâu sắc</div>
-              <div class="book-bottom-author">Thư viện Sơn Nhai</div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-cat">Tư duy</div>
-          <div class="card-name">Tư duy sâu sắc</div>
-          <div class="card-price"><span class="price-now">119.000đ</span></div>
-        </div>
-        <div class="card-foot">
-          <div class="rating"><span class="stars">★★★★★</span> 5.0</div>
-          <button class="btn-cart">+ Giỏ</button>
-        </div>
-      </div>
-
-      <!-- 7. Tư duy cường giả -->
-      <div class="card" data-product-id="7" data-slug="tu-duy-cuong-gia" onclick="if(!event.target.closest('.btn-cart'))goToProduct(this)">
-        <div class="card-thumb">
-          <span class="badge badge-hot">Hot</span>
-          <div class="card-thumb-inner">
-            <div class="book-top book-color-7"><div class="card-emoji">⚡</div></div>
-            <div class="book-bottom">
-              <div class="book-bottom-title">Tư duy cường giả</div>
-              <div class="book-bottom-author">Thư viện Sơn Nhai</div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-cat">Tư duy</div>
-          <div class="card-name">Tư duy cường giả</div>
-          <div class="card-price"><span class="price-now">129.000đ</span><span class="price-was">169.000đ</span></div>
-        </div>
-        <div class="card-foot">
-          <div class="rating"><span class="stars">★★★★★</span> 4.8</div>
-          <button class="btn-cart">+ Giỏ</button>
-        </div>
-      </div>
-
-      <!-- 8. Tình cảm bí tịch -->
-      <div class="card" data-product-id="8" data-slug="tinh-cam-bi-tich" onclick="if(!event.target.closest('.btn-cart'))goToProduct(this)">
-        <div class="card-thumb">
-          <span class="badge badge-new">Mới</span>
-          <div class="card-thumb-inner">
-            <div class="book-top book-color-8"><div class="card-emoji">🌙</div></div>
-            <div class="book-bottom">
-              <div class="book-bottom-title">Tình cảm bí tịch</div>
-              <div class="book-bottom-author">Thư viện Sơn Nhai</div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-cat">Tình cảm</div>
-          <div class="card-name">Tình cảm bí tịch</div>
-          <div class="card-price"><span class="price-now">109.000đ</span></div>
-        </div>
-        <div class="card-foot">
-          <div class="rating"><span class="stars">★★★★☆</span> 4.7</div>
-          <button class="btn-cart">+ Giỏ</button>
-        </div>
-      </div>
-
-      <!-- 9. Xuyên thấu nhân tính -->
-      <div class="card" data-product-id="9" data-slug="xuyen-thau-nhan-tinh" onclick="if(!event.target.closest('.btn-cart'))goToProduct(this)">
-        <div class="card-thumb">
-          <div class="card-thumb-inner">
-            <div class="book-top book-color-1"><div class="card-emoji">👁️</div></div>
-            <div class="book-bottom">
-              <div class="book-bottom-title">Xuyên thấu nhân tính</div>
-              <div class="book-bottom-author">Thư viện Sơn Nhai</div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-cat">Nhân tính</div>
-          <div class="card-name">Xuyên thấu nhân tính</div>
-          <div class="card-price"><span class="price-now">149.000đ</span></div>
-        </div>
-        <div class="card-foot">
-          <div class="rating"><span class="stars">★★★★★</span> 4.9</div>
-          <button class="btn-cart">+ Giỏ</button>
-        </div>
-      </div>
-
-      <!-- 10. Nhân tính đen trắng -->
-      <div class="card" data-product-id="10" data-slug="nhan-tinh-den-trang" onclick="if(!event.target.closest('.btn-cart'))goToProduct(this)">
-        <div class="card-thumb">
-          <div class="card-thumb-inner">
-            <div class="book-top book-color-2"><div class="card-emoji">☯️</div></div>
-            <div class="book-bottom">
-              <div class="book-bottom-title">Nhân tính đen trắng</div>
-              <div class="book-bottom-author">Thư viện Sơn Nhai</div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-cat">Nhân tính</div>
-          <div class="card-name">Nhân tính đen trắng</div>
-          <div class="card-price"><span class="price-now">139.000đ</span></div>
-        </div>
-        <div class="card-foot">
-          <div class="rating"><span class="stars">★★★★★</span> 4.8</div>
-          <button class="btn-cart">+ Giỏ</button>
-        </div>
-      </div>
-
+    <div class="cards-row" id="home-featured-grid">
+      <!-- Products injected dynamically -->
     </div>
   </div>
 </section>
@@ -938,104 +712,8 @@
       <h2 class="sec-title">◆ Bán chạy nhất</h2>
       <a href="categories.html" class="sec-more">Xem tất cả <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
-    <div class="bs-grid">
-
-      <div class="bs-item" data-slug="tuyet-mat-nhan-tinh" onclick="goToProduct(this)">
-        <div class="bs-rank r1">#1</div>
-        <div class="bs-cover book-color-1">🧠</div>
-        <div class="bs-info">
-          <div class="bs-title">Tuyệt mật nhân tính</div>
-          <div class="bs-meta">
-            <span class="bs-stars">★★★★★</span>
-            <span class="bs-sold">240+ đã bán</span>
-          </div>
-        </div>
-        <div class="bs-right">
-          <div class="bs-price">149.000đ</div>
-          <div class="bs-was">199.000đ</div>
-          <div class="bs-hot">HOT</div>
-        </div>
-      </div>
-
-      <div class="bs-item" data-slug="thuc-tinh-nhan-thuc" onclick="goToProduct(this)">
-        <div class="bs-rank r2">#2</div>
-        <div class="bs-cover book-color-2">💡</div>
-        <div class="bs-info">
-          <div class="bs-title">Thức tỉnh nhận thức</div>
-          <div class="bs-meta">
-            <span class="bs-stars">★★★★★</span>
-            <span class="bs-sold">186+ đã bán</span>
-          </div>
-        </div>
-        <div class="bs-right">
-          <div class="bs-price">179.000đ</div>
-        </div>
-      </div>
-
-      <div class="bs-item" data-slug="muu-luoc-tai-chinh" onclick="goToProduct(this)">
-        <div class="bs-rank r3">#3</div>
-        <div class="bs-cover book-color-5">💰</div>
-        <div class="bs-info">
-          <div class="bs-title">Mưu lược tài chính</div>
-          <div class="bs-meta">
-            <span class="bs-stars">★★★★★</span>
-            <span class="bs-sold">165+ đã bán</span>
-          </div>
-        </div>
-        <div class="bs-right">
-          <div class="bs-price">139.000đ</div>
-          <div class="bs-was">189.000đ</div>
-        </div>
-      </div>
-
-      <div class="bs-item" data-slug="tu-duy-cuong-gia" onclick="goToProduct(this)">
-        <div class="bs-rank rn">#4</div>
-        <div class="bs-cover book-color-4">⚡</div>
-        <div class="bs-info">
-          <div class="bs-title">Tư duy cường giả</div>
-          <div class="bs-meta">
-            <span class="bs-stars">★★★★½</span>
-            <span class="bs-sold">134+ đã bán</span>
-          </div>
-        </div>
-        <div class="bs-right">
-          <div class="bs-price">119.000đ</div>
-          <div class="bs-was">159.000đ</div>
-        </div>
-      </div>
-
-      <div class="bs-item" data-slug="logic-nguoi-ngheo" onclick="goToProduct(this)">
-        <div class="bs-rank rn">#5</div>
-        <div class="bs-cover book-color-3">🔮</div>
-        <div class="bs-info">
-          <div class="bs-title">Logic người nghèo</div>
-          <div class="bs-meta">
-            <span class="bs-stars">★★★★½</span>
-            <span class="bs-sold">118+ đã bán</span>
-          </div>
-        </div>
-        <div class="bs-right">
-          <div class="bs-price">129.000đ</div>
-          <div class="bs-was">169.000đ</div>
-        </div>
-      </div>
-
-      <div class="bs-item" data-slug="he-thong-manh-me" onclick="goToProduct(this)">
-        <div class="bs-rank rn">#6</div>
-        <div class="bs-cover book-color-6">⚙️</div>
-        <div class="bs-info">
-          <div class="bs-title">Hệ thống mạnh mẽ</div>
-          <div class="bs-meta">
-            <span class="bs-stars">★★★★</span>
-            <span class="bs-sold">96+ đã bán</span>
-          </div>
-        </div>
-        <div class="bs-right">
-          <div class="bs-price">109.000đ</div>
-          <div class="bs-was">149.000đ</div>
-        </div>
-      </div>
-
+    <div class="bs-grid" id="home-bestseller-grid">
+      <!-- Bestsellers injected dynamically -->
     </div>
   </div>
 </section>
@@ -1047,89 +725,8 @@
       <h2 class="sec-title">◆ Gói combo ưu đãi</h2>
       <a href="categories.html" class="sec-more">Tất cả combo <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
-    <div class="combo-grid">
-
-      <!-- Combo 1: Nhân tính -->
-      <div class="combo-card" data-products="1,2,9">
-        <div class="combo-save">−31%</div>
-        <div class="combo-covers">
-          <div class="combo-book b1 book-color-2">💡</div>
-          <div class="combo-book b2 book-color-1">🧠</div>
-          <div class="combo-book b3 book-color-6">🔍</div>
-        </div>
-        <div class="combo-body">
-          <div class="combo-tag">◆ Bộ sưu tập · 3 cuốn</div>
-          <div class="combo-name">Nhân Tính Toàn Diện</div>
-          <ul class="combo-list">
-            <li>Tuyệt mật nhân tính (149.000đ)</li>
-            <li>Thức tỉnh nhận thức (129.000đ)</li>
-            <li>Xuyên thấu nhân tính (129.000đ)</li>
-          </ul>
-        </div>
-        <div class="combo-pricing">
-          <div class="combo-orig">Mua lẻ: 407.000đ</div>
-          <div class="combo-row">
-            <div class="combo-cost">279.000đ</div>
-            <div class="combo-off">Tiết kiệm 128.000đ</div>
-          </div>
-          <button class="btn btn-outline combo-cta" onclick="buyCombo(event)">Mua combo ngay</button>
-        </div>
-      </div>
-
-      <!-- Combo 2: Tư duy (hot/featured) -->
-      <div class="combo-card hot" data-products="7,3,10">
-        <div class="combo-save">PHỔ BIẾN</div>
-        <div class="combo-covers">
-          <div class="combo-book b1 book-color-3">🔮</div>
-          <div class="combo-book b2 book-color-4">⚡</div>
-          <div class="combo-book b3 book-color-8">☯️</div>
-        </div>
-        <div class="combo-body">
-          <div class="combo-tag">◆ Bộ sưu tập · 3 cuốn</div>
-          <div class="combo-name">Tư Duy Chiến Lược</div>
-          <ul class="combo-list">
-            <li>Tư duy cường giả (119.000đ)</li>
-            <li>Logic người nghèo (129.000đ)</li>
-            <li>Nhân tính đen trắng (109.000đ)</li>
-          </ul>
-        </div>
-        <div class="combo-pricing">
-          <div class="combo-orig">Mua lẻ: 357.000đ</div>
-          <div class="combo-row">
-            <div class="combo-cost">249.000đ</div>
-            <div class="combo-off">Tiết kiệm 108.000đ</div>
-          </div>
-          <button class="btn btn-teal combo-cta" onclick="buyCombo(event)">Mua combo ngay</button>
-        </div>
-      </div>
-
-      <!-- Combo 3: Tài chính & Cuộc sống -->
-      <div class="combo-card" data-products="5,8,4">
-        <div class="combo-save">−27%</div>
-        <div class="combo-covers">
-          <div class="combo-book b1 book-color-5">💰</div>
-          <div class="combo-book b2 book-color-7">🌙</div>
-          <div class="combo-book b3 book-color-4">⚙️</div>
-        </div>
-        <div class="combo-body">
-          <div class="combo-tag">◆ Bộ sưu tập · 3 cuốn</div>
-          <div class="combo-name">Tài Chính & Cuộc Sống</div>
-          <ul class="combo-list">
-            <li>Mưu lược tài chính (139.000đ)</li>
-            <li>Tình cảm bí tịch (119.000đ)</li>
-            <li>Hệ thống mạnh mẽ (109.000đ)</li>
-          </ul>
-        </div>
-        <div class="combo-pricing">
-          <div class="combo-orig">Mua lẻ: 367.000đ</div>
-          <div class="combo-row">
-            <div class="combo-cost">269.000đ</div>
-            <div class="combo-off">Tiết kiệm 98.000đ</div>
-          </div>
-          <button class="btn btn-outline combo-cta" onclick="buyCombo(event)">Mua combo ngay</button>
-        </div>
-      </div>
-
+    <div class="combo-grid" id="home-combo-grid">
+      <!-- Combos rendered dynamically from Firestore -->
     </div>
   </div>
 </section>
@@ -1161,43 +758,8 @@
       <h2 class="sec-title">◆ Bài viết mới nhất</h2>
       <a href="blog.html" class="sec-more">Xem tất cả <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
-    <div class="blog-grid">
-      <a href="blog.html" class="blog-card">
-        <div class="blog-img">🧠</div>
-        <div class="blog-body">
-          <span class="blog-tag">Nhân tính</span>
-          <div class="blog-ttl">Nhân tính là gì? Vì sao hiểu người là kỹ năng quan trọng nhất?</div>
-          <div class="blog-ex">Thấu hiểu bản chất con người không chỉ giúp bạn giao tiếp tốt hơn mà còn là nền tảng để xây dựng mọi mối quan hệ bền vững...</div>
-          <div class="blog-meta">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-            5 phút · 20/04/2025
-          </div>
-        </div>
-      </a>
-      <a href="blog.html" class="blog-card">
-        <div class="blog-img">💰</div>
-        <div class="blog-body">
-          <span class="blog-tag">Tài chính</span>
-          <div class="blog-ttl">5 cuốn sách thay đổi tư duy tài chính của bạn mãi mãi</div>
-          <div class="blog-ex">Từ mưu lược tài chính đến logic người nghèo — những góc nhìn đột phá giúp bạn thoát khỏi vòng xoáy tiền bạc mãi mãi...</div>
-          <div class="blog-meta">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-            7 phút · 16/04/2025
-          </div>
-        </div>
-      </a>
-      <a href="blog.html" class="blog-card">
-        <div class="blog-img">💡</div>
-        <div class="blog-body">
-          <span class="blog-tag">Tư duy</span>
-          <div class="blog-ttl">Tại sao logic người nghèo lại giam cầm bạn trong nghèo đói?</div>
-          <div class="blog-ex">Những tư duy sai lầm về tiền bạc, rủi ro và cơ hội ăn sâu vào tiềm thức — bạn cần nhận ra chúng trước khi có thể thay đổi...</div>
-          <div class="blog-meta">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-            6 phút · 12/04/2025
-          </div>
-        </div>
-      </a>
+    <div class="blog-grid" id="home-blog-grid">
+      <!-- Blog posts rendered dynamically from Firestore -->
     </div>
   </div>
 </section>
@@ -1273,6 +835,7 @@
 </footer>
 
 <script src="js/cart-badge.js?v=4"></script>
+<script type="module" src="js/firestore-sync.js"></script>
 <script>
   // Các tab Danh mục ở trang chủ sẽ chuyển hướng thẳng sang categories.html
   // (Đã xóa e.preventDefault() để link href có tác dụng)
@@ -1347,66 +910,179 @@
     return v ? v.pop() : '';
   }
 
-  // Cart button feedback + API call
-  document.querySelectorAll('.btn-cart').forEach(b => {
-    b.addEventListener('click', async (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      const originalText = b.textContent;
-      b.disabled = true;
-      b.textContent = '\u0110ang th\u00eam...';
-      b.style.background = 'var(--teal)';
-      b.style.color = 'var(--bg)';
-
-      try {
-        const card = b.closest('[data-product-id]');
-        const productId = card ? parseInt(card.dataset.productId) : 0;
-        if (!productId) throw new Error('Khong tim thay san pham.');
-        await window.SonHaiCartBadge.addProduct(productId, 1);
-        b.textContent = '\u2713 \u0110\u00e3 th\u00eam';
-      } catch (e) {
-        b.textContent = 'Ch\u01b0a th\u00eam \u0111\u01b0\u1ee3c';
-        alert('Kh\u00f4ng th\u1ec3 th\u00eam v\u00e0o gi\u1ecf h\u00e0ng. H\u00e3y ki\u1ec3m tra backend \u0111ang ch\u1ea1y \u1edf /api.');
-      } finally {
-        setTimeout(() => {
-          b.disabled = false;
-          b.textContent = originalText;
-          b.style.background = '';
-          b.style.color = '';
-        }, 1400);
-      }
-    });
-  });
-
-  // Load cart count từ backend
-  async function updateCartBadge() {
+  // Load cart count
+  function updateCartBadge() {
     if (window.SonHaiCartBadge) {
-      await window.SonHaiCartBadge.refresh();
-      return;
-    }
-    try {
-      const cartId = localStorage.getItem('sonhai_cart_id') || '';
-      const res = await fetch('/api/cart/count', { 
-        headers: { 'X-Cart-Id': cartId },
-        credentials: 'include' 
-      });
-      const data = await res.json();
-      const badge = document.querySelector('.cart-dot');
-      if (window.SonHaiCartBadge && data.success && data.data) {
-        window.SonHaiCartBadge.setCount(data.data.count);
-        return;
-      }
-      if (badge && data.success && data.data) {
-        const count = Number(data.data.count) || 0;
-        badge.textContent = count > 0 ? count : '';
-        badge.style.display = count > 0 ? 'flex' : 'none';
-      }
-    } catch (e) {
-      // Silently ignore
+      window.SonHaiCartBadge.refresh();
     }
   }
   updateCartBadge();
+
+  // ── Render Products Dynamically ──
+  function renderHomeProducts() {
+    if (!window.SonHaiCartBadge) return;
+    const allProducts = window.SonHaiCartBadge.getProducts().filter(p => p.status === 'published');
+    const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
+    // Helper: support both snake_case and camelCase field names
+    const getOrigPrice = p => p.original_price || p.originalPrice || 0;
+    const getSoldCount = p => p.sold_count || p.soldCount || 0;
+
+    // 1. Render Featured Products
+    const featGrid = document.getElementById('home-featured-grid');
+    if (featGrid) {
+      featGrid.innerHTML = '';
+      allProducts.forEach((p, idx) => {
+        let badgeHtml = '';
+        if (idx === 0) badgeHtml = `<span class="badge badge-hot">HOT</span>`;
+        else if (idx === 1) badgeHtml = `<span class="badge badge-new">MỚI</span>`;
+        else if (idx === 2) badgeHtml = `<span class="badge badge-sale">-34%</span>`;
+
+        let rating = p.rating || 4.8;
+        let stars = rating >= 4.9 ? '★★★★★' : '★★★★☆';
+        
+        let html = `
+          <div class="card ${idx === 0 ? 'star' : ''}" data-product-id="${p.id}" data-slug="${p.slug}" onclick="if(!event.target.closest('.btn-cart'))goToProduct(this)">
+            <div class="card-thumb">
+              ${badgeHtml}
+              <div class="card-thumb-inner">
+                <div class="book-top" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}"><div class="card-emoji">${p.emoji || '📚'}</div></div>
+                <div class="book-bottom">
+                  <div class="book-bottom-title">${p.name}</div>
+                  <div class="book-bottom-author">Thư viện Sơn Nhai</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-cat">${p.category}</div>
+              <div class="card-name">${p.name}</div>
+              <div class="card-price"><span class="price-now">${fmt(p.price)}</span>${getOrigPrice(p) > p.price ? `<span class="price-was">${fmt(getOrigPrice(p))}</span>` : ''}</div>
+            </div>
+            <div class="card-foot">
+              <div class="rating"><span class="stars">${stars}</span> ${rating}</div>
+              <button class="btn-cart">+ Giỏ</button>
+            </div>
+          </div>
+        `;
+        featGrid.insertAdjacentHTML('beforeend', html);
+      });
+      // Attach event listeners for new cart buttons
+      attachCartListeners(featGrid);
+    }
+
+    // 2. Render Bestsellers
+    const bsGrid = document.getElementById('home-bestseller-grid');
+    if (bsGrid) {
+      bsGrid.innerHTML = '';
+      const bestsellers = [...allProducts].sort((a,b) => getSoldCount(b) - getSoldCount(a)).slice(0, 6);
+      bestsellers.forEach((p, idx) => {
+        let rating = p.rating || 4.8;
+        let stars = rating >= 4.9 ? '★★★★★' : '★★★★☆';
+        let badgeHtml = idx === 0 ? '<div class="bs-hot">HOT</div>' : '';
+        let html = `
+          <div class="bs-item" data-slug="${p.slug}" onclick="goToProduct(this)">
+            <div class="bs-rank r${idx+1}">#${idx+1}</div>
+            <div class="bs-cover" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}">${p.emoji || '📚'}</div>
+            <div class="bs-info">
+              <div class="bs-title">${p.name}</div>
+              <div class="bs-meta">
+                <span class="bs-stars">${stars}</span>
+                <span class="bs-sold">${getSoldCount(p) || (240 - idx * 20)}+ đã bán</span>
+              </div>
+            </div>
+            <div class="bs-right">
+              <div class="bs-price">${fmt(p.price)}</div>
+              ${getOrigPrice(p) > p.price ? `<div class="bs-was">${fmt(getOrigPrice(p))}</div>` : ''}
+              ${badgeHtml}
+            </div>
+          </div>
+        `;
+        bsGrid.insertAdjacentHTML('beforeend', html);
+      });
+    }
+    
+    // 3. Render Featured Split (first product)
+    const featSplit = document.querySelector('.feat');
+    if (featSplit && allProducts.length > 0) {
+      const p = allProducts[0];
+      featSplit.querySelector('.feat-h2').innerHTML = p.name.replace(/ /g, '<br>');
+      if (p.description) featSplit.querySelector('.feat-desc').textContent = p.description;
+      featSplit.querySelector('.fn-val:nth-child(2)').textContent = p.pages || 320;
+      featSplit.querySelector('.fn-val:nth-child(4)').textContent = 'PDF';
+      featSplit.querySelector('.fn-val:nth-child(6)').textContent = (p.rating || 4.9) + '★';
+      featSplit.querySelector('.btn-teal').textContent = `Mua ngay — ${fmt(p.price)}`;
+      featSplit.querySelector('.feat-cover-emoji').textContent = p.emoji || '📚';
+      featSplit.querySelector('.feat-cover-ttl').innerHTML = `${p.name}<br>Thư viện Sơn Nhai`;
+    }
+
+    // 4. Update Category Counts
+    const catCounts = {};
+    allProducts.forEach(p => {
+      if (p.category) {
+        catCounts[p.category] = (catCounts[p.category] || 0) + 1;
+      }
+    });
+    
+    document.querySelectorAll('.cat-card').forEach(card => {
+      const catName = card.querySelector('.cat-name').textContent.trim();
+      const count = catCounts[catName] || 0;
+      card.querySelector('.cat-cnt').textContent = count + ' sản phẩm';
+    });
+  }
+
+  function attachCartListeners(container) {
+    container.querySelectorAll('.btn-cart').forEach(b => {
+      b.addEventListener('click', async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const originalText = b.textContent;
+        b.disabled = true;
+        b.textContent = 'Đang thêm...';
+        b.style.background = 'var(--teal)';
+        b.style.color = 'var(--bg)';
+
+        try {
+          const card = b.closest('[data-product-id]');
+          const productId = card ? parseInt(card.dataset.productId) : 0;
+          if (!productId) throw new Error('Không tìm thấy sản phẩm.');
+          if (window.SonHaiCartBadge) {
+            await window.SonHaiCartBadge.addProduct(productId, 1);
+          }
+          b.textContent = '✓ Đã thêm';
+        } catch (e) {
+          b.textContent = 'Chưa thêm được';
+        } finally {
+          setTimeout(() => {
+            b.disabled = false;
+            b.textContent = originalText;
+            b.style.background = '';
+            b.style.color = '';
+          }, 1400);
+        }
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Try loading products from Firestore first
+    if (window.SonHaiData) {
+      try {
+        const products = await window.SonHaiData.getProducts();
+        if (products && products.length > 0) {
+          // Update cart-badge's product list
+          if (window.SonHaiCartBadge) window.SonHaiCartBadge.saveProducts(products);
+        }
+      } catch(e) { console.warn('Firestore load failed, using local:', e); }
+    }
+    // Initialize cart badge and render
+    if (window.SonHaiCartBadge) {
+      window.SonHaiCartBadge.getProducts();
+    }
+    renderHomeProducts();
+    renderCombos();
+    renderHomeBlog();
+    loadHomeBanner();
+  });
 
   function goToProduct(el) {
     const slug = el.dataset.slug;
@@ -1414,37 +1090,193 @@
     else window.location = 'product.html';
   }
 
+  // ── Render Blog Posts on Home ──
+  async function renderHomeBlog() {
+    const grid = document.getElementById('home-blog-grid');
+    if (!grid) return;
+
+    let posts = [];
+    if (window.SonHaiData) {
+      try {
+        const allPosts = await window.SonHaiData.getBlogPosts();
+        posts = (allPosts || []).filter(p => p.status === 'published').slice(0, 3);
+      } catch(e) { console.warn('Blog load failed:', e); }
+    }
+
+    if (posts.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-3);font-size:14px;">Đang cập nhật blog...</div>';
+      return;
+    }
+
+    grid.innerHTML = posts.map(p => {
+      const gradient = p.coverGradient || 'linear-gradient(145deg, #0F1D38, #091525)';
+      const dateStr = p.createdAt && p.createdAt.seconds
+        ? new Date(p.createdAt.seconds * 1000).toLocaleDateString('vi-VN')
+        : (p.date || '');
+      return `
+        <a href="blog-post.html?slug=${p.slug || ''}" class="blog-card">
+          <div class="blog-img" style="background:${gradient};font-size:44px;">${p.emoji || '📝'}</div>
+          <div class="blog-body">
+            <span class="blog-tag">${p.category || ''}</span>
+            <div class="blog-ttl">${p.title || ''}</div>
+            <div class="blog-ex">${p.excerpt || ''}</div>
+            <div class="blog-meta">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+              ${p.readTime || '5 phút'} · ${dateStr}
+            </div>
+          </div>
+        </a>`;
+    }).join('');
+  }
+
+  // ── Load Banner from Firestore ──
+  async function loadHomeBanner() {
+    if (!window.SonHaiData) return;
+    try {
+      const data = await window.SonHaiData.getBanner();
+      if (!data) return;
+      const banner = document.getElementById('site-banner');
+      if (!banner) return;
+      if (data.enabled === false) { banner.style.display = 'none'; return; }
+      if (data.text) banner.textContent = '◆ ' + data.text + ' ◆';
+      const typeColors = {
+        info: { bg: 'rgba(0,212,212,.1)', border: 'rgba(0,212,212,.2)', color: '#00D4D4' },
+        promo: { bg: 'rgba(245,166,35,.1)', border: 'rgba(245,166,35,.2)', color: '#F5A623' },
+        warning: { bg: 'rgba(239,68,68,.1)', border: 'rgba(239,68,68,.2)', color: '#EF4444' },
+        success: { bg: 'rgba(16,185,129,.1)', border: 'rgba(16,185,129,.2)', color: '#10B981' },
+      };
+      const c = typeColors[data.type] || typeColors.info;
+      banner.style.background = c.bg;
+      banner.style.borderBottomColor = c.border;
+      banner.style.color = c.color;
+    } catch (e) { console.warn('Banner load failed:', e); }
+  }
+
+  // ── Render Combos from Firestore ──
+  const bookColors = [
+    'book-color-1','book-color-2','book-color-3','book-color-4',
+    'book-color-5','book-color-6','book-color-7','book-color-8'
+  ];
+
+  async function renderCombos() {
+    const grid = document.getElementById('home-combo-grid');
+    if (!grid) return;
+
+    let combos = [];
+    // Try Firestore
+    if (window.SonHaiData) {
+      try {
+        combos = await window.SonHaiData.getCombos();
+      } catch(e) { console.warn('Combo load failed:', e); }
+    }
+
+    if (!combos || combos.length === 0) {
+      // Fallback: show a message or hide
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-3);font-size:14px;">Đang cập nhật combo...</div>';
+      return;
+    }
+
+    const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
+    
+    // Get all products for emoji lookup
+    let allProducts = [];
+    if (window.SonHaiCartBadge) {
+      allProducts = window.SonHaiCartBadge.getProducts() || [];
+    }
+
+    grid.innerHTML = combos.map((combo, idx) => {
+      const origPrice = combo.originalPrice || 0;
+      const comboPrice = combo.comboPrice || 0;
+      const savings = origPrice - comboPrice;
+      const productIds = combo.productIds || [];
+      const productNames = combo.productNames || [];
+      
+      // Get emojis from products for book covers
+      const emojis = productIds.map((pid, i) => {
+        const prod = allProducts.find(p => String(p.id) === String(pid));
+        return prod ? (prod.emoji || prod.icon || '📚') : '📚';
+      });
+      
+      // Product items list
+      const itemsList = productNames.map((name, i) => {
+        const prod = allProducts.find(p => String(p.id) === String(productIds[i]));
+        const price = prod ? fmt(prod.price) : '';
+        return `<li>${name}${price ? ' (' + price + ')' : ''}</li>`;
+      }).join('');
+
+      // Book cover colors
+      const bc1 = bookColors[(idx * 3) % bookColors.length];
+      const bc2 = bookColors[(idx * 3 + 1) % bookColors.length];
+      const bc3 = bookColors[(idx * 3 + 2) % bookColors.length];
+
+      // Render max 3 books
+      let booksHtml = '';
+      if (emojis.length >= 3) {
+        booksHtml = `
+          <div class="combo-book b1 ${bc1}">${emojis[0]}</div>
+          <div class="combo-book b2 ${bc2}">${emojis[1]}</div>
+          <div class="combo-book b3 ${bc3}">${emojis[2]}</div>`;
+      } else if (emojis.length === 2) {
+        booksHtml = `
+          <div class="combo-book b1 ${bc1}">${emojis[0]}</div>
+          <div class="combo-book b2 ${bc2}">${emojis[1]}</div>`;
+      } else if (emojis.length === 1) {
+        booksHtml = `<div class="combo-book b2 ${bc1}">${emojis[0]}</div>`;
+      }
+
+      const isHot = combo.isHot || false;
+      const badgeText = combo.badgeText || `−${Math.round((savings / origPrice) * 100)}%`;
+
+      return `
+        <div class="combo-card${isHot ? ' hot' : ''}" data-combo-id="${combo.id}" data-products="${productIds.join(',')}">
+          <div class="combo-save">${badgeText}</div>
+          <div class="combo-covers">${booksHtml}</div>
+          <div class="combo-body">
+            <div class="combo-tag">${combo.tag || '◆ Bộ sưu tập · ' + productIds.length + ' cuốn'}</div>
+            <div class="combo-name">${combo.name || 'Combo'}</div>
+            <ul class="combo-list">${itemsList}</ul>
+          </div>
+          <div class="combo-pricing">
+            <div class="combo-orig">Mua lẻ: ${fmt(origPrice)}</div>
+            <div class="combo-row">
+              <div class="combo-cost">${fmt(comboPrice)}</div>
+              <div class="combo-off">Tiết kiệm ${fmt(savings)}</div>
+            </div>
+            <button class="btn ${isHot ? 'btn-teal' : 'btn-outline'} combo-cta" onclick="buyCombo(event)">Mua combo ngay</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
   async function buyCombo(e) {
     e.stopPropagation();
     const card = e.target.closest('.combo-card');
-    const ids = card.dataset.products.split(',').map(Number);
+    const idsRaw = card.dataset.products;
+    if (!idsRaw) return;
+    const ids = idsRaw.split(',');
     const btn = card.querySelector('.combo-cta');
     const origText = btn.textContent;
     btn.textContent = 'Đang thêm...';
     btn.disabled = true;
 
     try {
-      let cartId = localStorage.getItem('sonhai_cart_id') || '';
-      for (const productId of ids) {
-        const res = await fetch('/api/cart/add', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Cart-Id': cartId },
-          body: JSON.stringify({ productId, quantity: 1 }),
-          credentials: 'include'
-        });
-        const data = await res.json();
-        if (data.success && data.data && data.data.cartId) {
-          cartId = data.data.cartId;
-          localStorage.setItem('sonhai_cart_id', cartId);
+      if (window.SonHaiCartBadge) {
+        for (const productId of ids) {
+          // Support both string and number IDs
+          const pid = isNaN(productId) ? productId : parseInt(productId);
+          await window.SonHaiCartBadge.addProduct(pid, 1);
         }
       }
-      updateCartBadge();
-      window.location.href = 'checkout.html';
+      btn.textContent = '✓ Đã thêm vào giỏ';
+      btn.style.background = 'var(--teal-dark)';
     } catch (err) {
+      btn.textContent = 'Lỗi!';
+    }
+    setTimeout(() => {
       btn.textContent = origText;
       btn.disabled = false;
-      alert('Có lỗi xảy ra, vui lòng thử lại.');
-    }
+      btn.style.background = '';
+    }, 2000);
   }
 </script>
 <script src="js/parallax-engine.js?v=grid-particles-2"></script>

@@ -24,6 +24,9 @@
     }
   ],
   "rewrites": [
+    { "source": "/api/seapay/webhook", "destination": "/api/seapay/webhook" },
+    { "source": "/api/seapay/status", "destination": "/api/seapay/status" },
+    { "source": "/api/checkout", "destination": "/api/checkout" },
     { "source": "/(.*)", "destination": "/$1" }
   ]
 }

@@ -529,6 +529,7 @@
   </div>
 </footer>
 
+<script src="js/cart-badge.js?v=4"></script>
 <script>
   //  State 
   const PRICES = {};
@@ -777,22 +778,15 @@
     document.getElementById('upsell').style.display = 'block';
   }
 
-  // Xóa sản phẩm qua API
+  // Xóa sản phẩm qua API/LocalStorage
   async function removeItemApi(id) {
     const el = document.getElementById('item-' + id);
     if (!el) return;
     el.classList.add('removing');
     try {
-      const cartId = localStorage.getItem('sonhai_cart_id') || '';
-      await fetch('/api/cart/remove', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'X-Cart-Id': cartId
-        },
-        body: JSON.stringify({ productId: id }),
-        credentials: 'include'
-      });
+      if (window.SonHaiCartBadge) {
+        await window.SonHaiCartBadge.removeProduct(parseInt(id));
+      }
     } catch {}
     setTimeout(() => {
       el.remove();
@@ -802,23 +796,23 @@
     }, 340);
   }
 
-  // Load giỏ hàng từ API
+  // Load giỏ hàng từ API/LocalStorage
   async function loadCart() {
     try {
-      const cartId = localStorage.getItem('sonhai_cart_id') || '';
-      const res = await fetch('/api/cart', { 
-        headers: { 'X-Cart-Id': cartId },
-        credentials: 'include' 
-      });
-      const data = await res.json();
-      if (data.success && data.data && data.data.items && data.data.items.length > 0) {
-        data.data.items.forEach(item => renderItemRow(item));
-        updateSummary();
-      } else {
-        updateSummary();
+      if (window.SonHaiCartBadge) {
+        const cart = window.SonHaiCartBadge.getCart();
+        const allProducts = window.SonHaiCartBadge.getProducts();
+        if (cart && cart.items && cart.items.length > 0) {
+          cart.items.forEach(item => {
+            const product = allProducts.find(p => p.id === item.productId);
+            if (product) {
+              renderItemRow({ ...item, product });
+            }
+          });
+        }
       }
+      updateSummary();
     } catch {
-      // Backend không chạy - giữ empty state
       updateSummary();
     }
   }

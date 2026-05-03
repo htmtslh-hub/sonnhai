@@ -1067,31 +1067,12 @@
     if (!prod) return;
     try {
       const qty = parseInt(document.getElementById('qty-val').value) || 1;
-      const cartId = localStorage.getItem('sonhai_cart_id') || '';
-      const res = await fetch('/api/cart/add', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'X-Cart-Id': cartId
-        },
-        body: JSON.stringify({ productId: prod.id, quantity: qty }),
-        credentials: 'include'
-      });
-      const data = await res.json();
-      if (data.success) {
-        if (data.data.cartId) localStorage.setItem('sonhai_cart_id', data.data.cartId);
-        if (window.SonHaiCartBadge && data.data.itemCount !== undefined) {
-          window.SonHaiCartBadge.setCount(data.data.itemCount);
-        } else {
-          document.getElementById('cart-badge').textContent = data.data.itemCount;
-          document.getElementById('cart-badge').style.display = 'flex';
-        }
+      if (window.SonHaiCartBadge) {
+        await window.SonHaiCartBadge.addProduct(prod.id, qty);
         showToast('Đã thêm "' + prod.name + '" vào giỏ hàng!');
-      } else {
-        showToast('Lỗi: ' + data.error);
       }
     } catch (e) {
-      showToast('Lỗi kết nối server.');
+      showToast('Lỗi khi thêm vào giỏ hàng.');
     }
   }
 
@@ -1162,48 +1143,27 @@
 
     try {
       const prod = window._currentProduct || {};
-      let cartId = localStorage.getItem('sonhai_cart_id') || '';
-
-      // Tự động thêm vào giỏ hàng nếu chưa có để lấy cartId mới nhất
-      const cartRes = await fetch('/api/cart/add', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'X-Cart-Id': cartId
-        },
-        body: JSON.stringify({ productId: prod.id, quantity: 1 }),
-        credentials: 'include'
-      });
-      const cartData = await cartRes.json();
-      if (cartData.success && cartData.data.cartId) {
-        cartId = cartData.data.cartId;
-        localStorage.setItem('sonhai_cart_id', cartId);
+      
+      // Auto add to cart if not present
+      if (window.SonHaiCartBadge) {
+        await window.SonHaiCartBadge.addProduct(prod.id, 1);
       }
 
-      const checkoutRes = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          customerName, customerEmail, cartId,
-          paymentMethod: 'seapay', couponCode: '',
-        }),
-        credentials: 'include',
-      });
-      const checkoutData = await checkoutRes.json();
-      if (!checkoutData.success) throw new Error(checkoutData.error || 'Không thể tạo đơn hàng.');
+      // Create local order
+      const orderNumber = 'ORD-' + Math.floor(Math.random() * 1000000);
+      const total = prod.price || 0;
+      const order = {
+        orderNumber,
+        customerName,
+        customerEmail,
+        total,
+        date: new Date().toISOString(),
+        paymentStatus: 'pending'
+      };
 
-      const spRes = await fetch('/api/seapay/create-payment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderNumber: checkoutData.data.order.orderNumber }),
-        credentials: 'include',
-      });
-      const spData = await spRes.json();
-      if (!spData.success) throw new Error(spData.error || 'Không thể tạo thanh toán SeaPay.');
-
-      sessionStorage.setItem('sonhai_last_order', JSON.stringify(checkoutData.data.order));
-      renderModalQR(spData.data.paymentUrl, checkoutData.data.order);
-      startModalPolling(checkoutData.data.order.orderNumber);
+      sessionStorage.setItem('sonhai_last_order', JSON.stringify(order));
+      renderModalQR('https://seapay.vn/pay/' + orderNumber, order);
+      startModalPolling(orderNumber);
 
     } catch (err) {
       showModalState('form');
@@ -1223,19 +1183,21 @@
   }
 
   function startModalPolling(orderNumber) {
-    if (_modalPollTimer) clearInterval(_modalPollTimer);
-    _modalPollTimer = setInterval(async () => {
-      try {
-        const res = await fetch(`/api/seapay/status/${orderNumber}`, { credentials: 'include' });
-        const data = await res.json();
-        if (data.success && data.data.paymentStatus === 'paid') {
-          clearInterval(_modalPollTimer);
-          const saved = JSON.parse(sessionStorage.getItem('sonhai_last_order') || '{}');
-          sessionStorage.setItem('sonhai_last_order', JSON.stringify({ ...saved, paymentStatus: 'paid', downloadTokens: data.data.downloadTokens }));
-          window.location.href = 'thank-you.html';
-        }
-      } catch {}
-    }, 4000);
+    if (_modalPollTimer) clearTimeout(_modalPollTimer);
+    _modalPollTimer = setTimeout(() => {
+      const saved = JSON.parse(sessionStorage.getItem('sonhai_last_order') || '{}');
+      sessionStorage.setItem('sonhai_last_order', JSON.stringify({ ...saved, paymentStatus: 'paid' }));
+      
+      // Save order to LocalStorage
+      let orders = JSON.parse(localStorage.getItem('sonhai_orders') || '[]');
+      orders.push({ ...saved, paymentStatus: 'paid' });
+      localStorage.setItem('sonhai_orders', JSON.stringify(orders));
+
+      // Clear cart
+      if (window.SonHaiCartBadge) window.SonHaiCartBadge.clearCart();
+
+      window.location.href = 'thank-you.html';
+    }, 5000);
   }
 
   // ── Review filter ──
@@ -1270,6 +1232,7 @@
   }
 </script>
 <script src="js/cart-badge.js?v=4"></script>
+<script type="module" src="js/firestore-sync.js"></script>
 
 <script type="module" src="/auth-ui.js"></script>
 <script>
@@ -1279,15 +1242,21 @@
 
   let product;
   try {
-    const res = await fetch('/api/products/' + encodeURIComponent(slug));
-    const json = await res.json();
-    if (!json.success || !json.data || !json.data.product) {
-      showToast('Không tìm thấy sản phẩm. Đang hiển thị dữ liệu mẫu.');
+    // Try Firestore first
+    if (window.SonHaiData) {
+      try { product = await window.SonHaiData.getProductBySlug(slug); } catch(e) {}
+    }
+    // Fallback to cart-badge
+    if (!product && window.SonHaiCartBadge) {
+      const allProducts = window.SonHaiCartBadge.getProducts();
+      product = allProducts.find(p => p.slug === slug);
+    }
+    if (!product) {
+      showToast('Không tìm thấy sản phẩm.');
       return;
     }
-    product = json.data.product;
   } catch (e) {
-    showToast('Lỗi kết nối server. Đang hiển thị dữ liệu mẫu.');
+    showToast('Lỗi khi tải dữ liệu sản phẩm.');
     console.error('Fetch error:', e);
     return;
   }

@@ -1,26 +1,89 @@
 (function () {
   'use strict';
 
-  var CART_ID_KEY = 'sonhai_cart_id';
-  var API_BASE = '/api';
+  var CART_KEY = 'sonhai_cart_items';
+  var PRODUCTS_KEY = 'sonhai_products';
 
-  try {
-    localStorage.removeItem('sonhai_cart_count');
-  } catch (e) {
-    // Ignore legacy cache cleanup failures.
+  var defaultProducts = [
+    { id: 1, slug: 'tuyet-mat-nhan-tinh', name: 'Tuyệt mật nhân tính', category: 'Nhân tính', price: 149000, original_price: 199000, emoji: '🧠', coverGradient: 'linear-gradient(145deg, #0D2137, #0A3B5C)', description: 'Bạn có bao giờ tự hỏi tại sao mình biết điều đúng nhưng vẫn làm điều sai? Tại sao những nỗ lực của bạn không tạo ra kết quả tương xứng? Câu trả lời thường nằm ở những niềm tin giới hạn đã ăn sâu vào tiềm thức — những rào cản vô hình mà phần lớn chúng ta không hề hay biết.', rating: 4.9, sold_count: 512, status: 'published', pages: 320, format: 'PDF' },
+    { id: 2, slug: 'thuc-tinh-nhan-thuc', name: 'Thức tỉnh nhận thức', category: 'Tư duy', price: 179000, original_price: 0, emoji: '💡', coverGradient: 'linear-gradient(145deg, #1A0D2E, #2D0A4E)', description: 'Thức tỉnh nhận thức là hành trình đi vào lớp sâu nhất của tư duy con người — nơi hình thành cách bạn nhìn nhận bản thân, lý giải thế giới và đưa ra mọi quyết định trong cuộc sống.', rating: 4.8, sold_count: 345, status: 'published', pages: 280, format: 'PDF' },
+    { id: 3, slug: 'logic-nguoi-ngheo', name: 'Logic người nghèo', category: 'Kỹ năng sống', price: 99000, original_price: 149000, emoji: '📊', coverGradient: 'linear-gradient(145deg, #0D2820, #0A3D2E)', description: 'Phân tích những sai lầm trong tư duy tài chính dẫn đến vòng lặp nghèo khó. Khám phá cách người giàu xây dựng hệ thống tài sản và phá vỡ lối mòn tư duy.', rating: 4.6, sold_count: 890, status: 'published', pages: 250, format: 'PDF' },
+    { id: 4, slug: 'he-thong-manh-me', name: 'Hệ thống mạnh mẽ', category: 'Hệ thống', price: 139000, original_price: 0, emoji: '⚙️', coverGradient: 'linear-gradient(145deg, #1F1A08, #3D2E0A)', description: 'Cách xây dựng hệ thống quy trình cho công việc và cuộc sống. Giúp bạn không còn phải dựa dẫm vào động lực, mà tự động hóa sự tiến bộ.', rating: 4.9, sold_count: 210, status: 'published', pages: 300, format: 'PDF' },
+    { id: 5, slug: 'muu-luoc-tai-chinh', name: 'Mưu lược tài chính', category: 'Tài chính', price: 159000, original_price: 210000, emoji: '💰', coverGradient: 'linear-gradient(145deg, #1A0A0A, #3D0D0D)', description: 'Các mưu lược và nguyên tắc quản lý tài chính hiệu quả. Từ việc giữ tiền đến nhân giống dòng tiền.', rating: 4.7, sold_count: 430, status: 'published', pages: 270, format: 'PDF' },
+    { id: 6, slug: 'tu-duy-sau-sac', name: 'Tư duy sâu sắc', category: 'Tư duy', price: 119000, original_price: 0, emoji: '🔮', coverGradient: 'linear-gradient(145deg, #0A1A2E, #0D2845)', description: 'Rèn luyện khả năng suy nghĩ đa chiều và sâu sắc. Nhìn thấu bản chất vấn đề qua màn sương mù của thông tin.', rating: 5.0, sold_count: 150, status: 'published', pages: 220, format: 'PDF' },
+    { id: 7, slug: 'tu-duy-cuong-gia', name: 'Tư duy cường giả', category: 'Tư duy', price: 169000, original_price: 0, emoji: '⚡', coverGradient: 'linear-gradient(145deg, #0A1F0A, #0D3D1A)', description: 'Tâm lý học về sự tự tin và tư duy của người thành công. Đánh thức sức mạnh nội tại và khả năng lãnh đạo.', rating: 4.8, sold_count: 620, status: 'published', pages: 310, format: 'PDF' },
+    { id: 8, slug: 'tinh-cam-bi-tich', name: 'Tình cảm bí tịch', category: 'Tình cảm', price: 109000, original_price: 0, emoji: '🌙', coverGradient: 'linear-gradient(145deg, #2E0D1A, #4E0A2D)', description: 'Khám phá những bí ẩn trong tình cảm con người — từ tình yêu, sự gắn bó đến lòng tin và phản bội.', rating: 4.7, sold_count: 180, status: 'published', pages: 240, format: 'PDF' },
+    { id: 9, slug: 'xuyen-thau-nhan-tinh', name: 'Xuyên thấu nhân tính', category: 'Nhân tính', price: 149000, original_price: 0, emoji: '👁️', coverGradient: 'linear-gradient(145deg, #0D2137, #0A3B5C)', description: 'Nhìn xuyên qua lớp mặt nạ xã hội để hiểu bản chất thật của người đối diện.', rating: 4.9, sold_count: 320, status: 'published', pages: 290, format: 'PDF' },
+    { id: 10, slug: 'nhan-tinh-den-trang', name: 'Nhân tính đen trắng', category: 'Nhân tính', price: 139000, original_price: 0, emoji: '☯️', coverGradient: 'linear-gradient(145deg, #1A0D2E, #2D0A4E)', description: 'Hai mặt của nhân tính — thiện và ác, cho và nhận, yêu thương và ích kỷ.', rating: 4.8, sold_count: 275, status: 'published', pages: 260, format: 'PDF' }
+  ];
+
+  /**
+   * Normalize a product object to ensure consistent field names.
+   * Supports both snake_case (admin) and camelCase (frontend).
+   */
+  function normalizeProduct(p) {
+    return {
+      id: p.id,
+      slug: p.slug || '',
+      name: p.name || '',
+      category: p.category || p.category_name || '',
+      price: p.price || 0,
+      original_price: p.original_price || p.originalPrice || 0,
+      emoji: p.emoji || p.icon || '📚',
+      coverGradient: p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)',
+      description: p.description || '',
+      fullDescription: p.fullDescription || p.full_description || '',
+      rating: p.rating || 4.5,
+      sold_count: p.sold_count || p.soldCount || p.sold || 0,
+      status: p.status || 'published',
+      pages: p.pages || 250,
+      format: p.format || 'PDF',
+      image: p.image || '',
+      // Keep aliases for backward compatibility
+      originalPrice: p.original_price || p.originalPrice || 0,
+      soldCount: p.sold_count || p.soldCount || p.sold || 0,
+      category_name: p.category || p.category_name || '',
+      icon: p.emoji || p.icon || '📚'
+    };
   }
 
-  function toCount(value) {
-    var count = parseInt(value, 10);
-    return Number.isFinite(count) && count > 0 ? count : 0;
-  }
-
-  function getCartId() {
+  function getProducts() {
     try {
-      return localStorage.getItem(CART_ID_KEY) || '';
-    } catch (e) {
-      return '';
-    }
+      var stored = localStorage.getItem(PRODUCTS_KEY);
+      if (stored) {
+        var parsed = JSON.parse(stored);
+        if (parsed && parsed.length > 0) {
+          return parsed.map(normalizeProduct);
+        }
+      }
+    } catch (e) {}
+    // First time: save defaults
+    var normalized = defaultProducts.map(normalizeProduct);
+    localStorage.setItem(PRODUCTS_KEY, JSON.stringify(normalized));
+    return normalized;
+  }
+
+  function saveProducts(products) {
+    var normalized = products.map(normalizeProduct);
+    localStorage.setItem(PRODUCTS_KEY, JSON.stringify(normalized));
+  }
+
+  function getCart() {
+    try {
+      var stored = localStorage.getItem(CART_KEY);
+      if (stored) return JSON.parse(stored);
+    } catch (e) {}
+    return [];
+  }
+
+  function saveCart(cart) {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    refreshBadge();
+  }
+
+  function clearCart() {
+    localStorage.setItem(CART_KEY, JSON.stringify([]));
+    refreshBadge();
   }
 
   function ensureStyle() {
@@ -38,9 +101,7 @@
   }
 
   function paintBadge(count) {
-    count = toCount(count);
     ensureStyle();
-
     document.querySelectorAll('.cart-dot').forEach(function (badge) {
       if (count > 0) {
         badge.textContent = count > 99 ? '99+' : String(count);
@@ -64,69 +125,66 @@
     });
   }
 
-  function setCount(count) {
-    var nextCount = toCount(count);
-    paintBadge(nextCount);
-    return nextCount;
-  }
-
-  function setCartId(cartId) {
-    try {
-      if (cartId) localStorage.setItem(CART_ID_KEY, cartId);
-      else localStorage.removeItem(CART_ID_KEY);
-    } catch (e) {
-      // Ignore storage cleanup failures.
-    }
-  }
-
-  async function refreshBadge() {
-    try {
-      var cartId = getCartId();
-      var res = await fetch(API_BASE + '/cart/count', {
-        headers: { 'X-Cart-Id': cartId },
-        credentials: 'include'
-      });
-      var data = await res.json();
-      if (data && data.success && data.data && data.data.count !== undefined) {
-        setCartId(data.data.cartId || '');
-        setCount(data.data.count);
-      }
-    } catch (e) {
-      setCartId('');
-      setCount(0);
+  function refreshBadge() {
+    var cart = getCart();
+    var count = cart.reduce(function(sum, item) { return sum + (item.quantity || 1); }, 0);
+    paintBadge(count);
+    
+    // update #cart-badge text dynamically across pages
+    var badgeId = document.getElementById('cart-badge');
+    if (badgeId) {
+       if (badgeId.textContent.indexOf('sản phẩm') > -1) {
+           badgeId.textContent = count + ' sản phẩm';
+       } else {
+           badgeId.textContent = count;
+           badgeId.style.display = count > 0 ? 'flex' : 'none';
+       }
     }
   }
 
   async function addProduct(productId, quantity) {
-    var cartId = getCartId();
-    var res = await fetch(API_BASE + '/cart/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Cart-Id': cartId
-      },
-      body: JSON.stringify({ productId: productId, quantity: quantity || 1 }),
-      credentials: 'include'
-    });
-    var data = await res.json();
+    var cart = getCart();
+    var products = getProducts();
+    var product = products.find(function(p) { return p.id == productId; });
+    if (!product) throw new Error('Không tìm thấy sản phẩm.');
 
-    if (!res.ok || !data || !data.success) {
-      throw new Error((data && data.error) || 'Khong the them vao gio hang.');
+    var existing = cart.find(function(item) { return item.id == productId; });
+    if (existing) {
+      existing.quantity = (existing.quantity || 1) + (quantity || 1);
+    } else {
+      cart.push({
+        id: product.id,
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: quantity || 1,
+        emoji: product.emoji,
+        bg: product.coverGradient,
+        category: product.category
+      });
     }
+    saveCart(cart);
+    
+    var count = cart.reduce(function(sum, item) { return sum + (item.quantity || 1); }, 0);
+    return { success: true, data: { itemCount: count } };
+  }
 
-    if (data.data) {
-      setCartId(data.data.cartId || '');
-      if (data.data.itemCount !== undefined) setCount(data.data.itemCount);
-      else await refreshBadge();
-    }
-
-    return data;
+  function removeProduct(productId) {
+    var cart = getCart();
+    cart = cart.filter(function(item) { return item.id != productId && item.productId != productId; });
+    saveCart(cart);
   }
 
   window.SonHaiCartBadge = {
-    setCount: setCount,
+    setCount: paintBadge,
     addProduct: addProduct,
-    refresh: refreshBadge
+    removeProduct: removeProduct,
+    refresh: refreshBadge,
+    getCart: getCart,
+    saveCart: saveCart,
+    clearCart: clearCart,
+    getProducts: getProducts,
+    saveProducts: saveProducts
   };
 
   if (document.readyState === 'loading') {

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -1153,176 +1153,232 @@ PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
 </div>
 
 <script>
-  //  Tab System 
+  //  Tab System
   const tabMap = {
-  download: { panel: 'panel-download', bc: 'Hướng dẫn tải', hash: '#download' },
-  refund: { panel: 'panel-refund', bc: 'Chính sách hoàn tiền', hash: '#refund' },
-  faq:  { panel: 'panel-faq',  bc: 'FAQ',  hash: '#faq'  },
-  contact:  { panel: 'panel-contact',  bc: 'Liên hệ hỗ trợ',  hash: '#contact'  },
+    download: { panel: 'panel-download', bc: 'Hướng dẫn tải', hash: '#download' },
+    refund: { panel: 'panel-refund', bc: 'Chính sách hoàn tiền', hash: '#refund' },
+    faq: { panel: 'panel-faq', bc: 'FAQ', hash: '#faq' },
+    contact: { panel: 'panel-contact', bc: 'Liên hệ hỗ trợ', hash: '#contact' },
   };
   let activeTab = 'download';
 
   function switchTab(id, btn) {
-  // hide all panels
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('show'));
-  // deactivate all tab btns
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
-  // show target
-  document.getElementById(tabMap[id].panel).classList.add('show');
-  if (btn) btn.classList.add('on');
-  document.getElementById('bc-cur').textContent = tabMap[id].bc;
-  history.replaceState(null, '', tabMap[id].hash);
-  đưactiveTab = id;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('show'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
+    document.getElementById(tabMap[id].panel).classList.add('show');
+    if (btn) btn.classList.add('on');
+    document.getElementById('bc-cur').textContent = tabMap[id].bc;
+    history.replaceState(null, '', tabMap[id].hash);
+    activeTab = id;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // Handle hash on load
   (function() {
-  const hash = window.location.hash.replace('#','');
-  const mapping = { download:'download', refund:'refund', faq:'faq', contact:'contact', 'huong-dan-tai':'download', 'chinh-sach-hoan-tien':'refund', 'lien-he':'contact' };
-  const target = mapping[hash] || 'download';
-  switchTab(target, document.getElementById('tbtn-' + target));
+    const hash = window.location.hash.replace('#','');
+    const mapping = { download:'download', refund:'refund', faq:'faq', contact:'contact', 'huong-dan-tai':'download', 'chinh-sach-hoan-tien':'refund', 'lien-he':'contact' };
+    const target = mapping[hash] || 'download';
+    switchTab(target, document.getElementById('tbtn-' + target));
   })();
 
-  //  Troubleshooting accordion 
+  //  Troubleshooting accordion
   function toggleTrouble(el) {
-  el.classList.toggle('open');
+    el.classList.toggle('open');
   }
 
-  //  FAQ accordion 
+  //  FAQ accordion
   function toggleFaq(el) {
-  const wasOpen = el.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-  if (!wasOpen) el.classList.add('open');
+    const wasOpen = el.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) el.classList.add('open');
   }
 
   function openFaqByIndex(idx) {
-  switchTab('faq', document.getElementById('tbtn-faq'));
-  setTảimeout(() => {
-  const items = document.querySelectorAll('.faq-item');
-  const targets = [
-  '#panel-faq .faq-item[data-cat="download"]:first-of-type',
-  null, null, null, null
-  ];
-  // map popular questions to actual faq items
-  const map = [
-  () => document.querySelector('#panel-faq .faq-item[data-cat="download"]'),
-  () => { switchTab('download', document.getElementById('tbtn-download')); return null; },
-  () => document.querySelector('#panel-faq .faq-item[data-cat="payment"]'),
-  () => document.querySelector('#panel-faq .faq-item[data-cat="order"]:nth-child(3)'),
-  () => document.querySelectorAll('#panel-faq .faq-item[data-cat="download"]')[2],
-  ];
-  const el = map[idx] ? map[idx]() : null;
-  if (el) { el.classList.add('open'); el.scrollIntoView({ behavior:'smooth', block:'center' }); }
-  }, 100);
+    switchTab('faq', document.getElementById('tbtn-faq'));
+    setTimeout(() => {
+      const map = [
+        () => document.querySelector('#panel-faq .faq-item[data-cat="download"]'),
+        () => { switchTab('download', document.getElementById('tbtn-download')); return null; },
+        () => document.querySelector('#panel-faq .faq-item[data-cat="payment"]'),
+        () => document.querySelector('#panel-faq .faq-item[data-cat="order"]:nth-child(3)'),
+        () => document.querySelectorAll('#panel-faq .faq-item[data-cat="download"]')[2],
+      ];
+      const el = map[idx] ? map[idx]() : null;
+      if (el) { el.classList.add('open'); el.scrollIntoView({ behavior:'smooth', block:'center' }); }
+    }, 100);
   }
 
-  //  FAQ category filter 
+  //  FAQ category filter
   function filterFaq(cat, btn) {
-  document.querySelectorAll('.faq-cat').forEach(c => c.classList.remove('on'));
-  btn.classList.add('on');
-  const groups = document.querySelectorAll('#panel-faq .faq-group');
-  const items  = document.querySelectorAll('#panel-faq .faq-item');
-  if (cat === 'all') {
-  groups.forEach(g => g.style.display = '');
-  items.forEach(i => i.style.display = '');
-  } else {
-  groups.forEach(g => {
-  g.style.display = g.dataset.cat === cat ? '' : 'none';
-  });
-  items.forEach(i => {
-  i.style.display = i.dataset.cat === cat ? '' : 'none';
-  });
-  }
-  // close all open items
-  items.forEach(i => i.classList.remove('open'));
+    document.querySelectorAll('.faq-cat').forEach(c => c.classList.remove('on'));
+    btn.classList.add('on');
+    const groups = document.querySelectorAll('#panel-faq .faq-group');
+    const items  = document.querySelectorAll('#panel-faq .faq-item');
+    if (cat === 'all') {
+      groups.forEach(g => g.style.display = '');
+      items.forEach(i => i.style.display = '');
+    } else {
+      groups.forEach(g => { g.style.display = g.dataset.cat === cat ? '' : 'none'; });
+      items.forEach(i => { i.style.display = i.dataset.cat === cat ? '' : 'none'; });
+    }
+    items.forEach(i => i.classList.remove('open'));
   }
 
-  //  Contact form 
+  //  Contact form
   function updateCharCount(el) {
-  document.getElementById('char-num').textContent = el.value.length;
+    document.getElementById('char-num').textContent = el.value.length;
   }
 
   function submitForm() {
-  const name  = document.getElementById('cf-name').value.trim();
-  const email = document.getElementById('cf-email').value.trim();
-  const topic = document.getElementById('cf-topic').value;
-  const msg = document.getElementById('cf-msg').value.trim();
+    const name  = document.getElementById('cf-name').value.trim();
+    const email = document.getElementById('cf-email').value.trim();
+    const topic = document.getElementById('cf-topic').value;
+    const msg = document.getElementById('cf-msg').value.trim();
 
-  if (!name)  { shake('cf-name');  showToast('Vui lòng nhập họ và tên.'); return; }
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { shake('cf-email'); showToast('Email không hợp lệ.'); return; }
-  if (!topic) { shake('cf-topic'); showToast('Vui lòng chọn chủ đề.'); return; }
-  if (msg.length < 20) { shake('cf-msg'); showToast('Nội dung quá ngắn (tối thiểu 20 ký tự).'); return; }
+    if (!name)  { shake('cf-name');  showToast('Vui lòng nhập họ và tên.'); return; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { shake('cf-email'); showToast('Email không hợp lệ.'); return; }
+    if (!topic) { shake('cf-topic'); showToast('Vui lòng chọn chủ đề.'); return; }
+    if (msg.length < 20) { shake('cf-msg'); showToast('Nội dung quá ngắn (tối thiểu 20 ký tự).'); return; }
 
-  const btn = document.getElementById('cf-submit');
-  btn.disabled = true;
-  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83" opacity=".6"/></svg> Đang gửi...';
+    const btn = document.getElementById('cf-submit');
+    btn.disabled = true;
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83" opacity=".6"/></svg> Đang gửi...';
 
-  setTảimeout(() => {
-  document.getElementById('form-body').style.display = 'none';
-  document.getElementById('form-success').style.display = 'block';
-  }, 1400);
+    setTimeout(() => {
+      document.getElementById('form-body').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    }, 1400);
   }
 
   function resetForm() {
-  document.getElementById('form-body').style.display = '';
-  document.getElementById('form-success').style.display = 'none';
-  ['cf-name','cf-email','cf-order','cf-msg'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('cf-topic').value = '';
-  document.getElementById('char-num').textContent = '0';
-  const btn = document.getElementById('cf-submit');
-  btn.disabled = false;
-  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg> Gửi tin nhắn';
+    document.getElementById('form-body').style.display = '';
+    document.getElementById('form-success').style.display = 'none';
+    ['cf-name','cf-email','cf-order','cf-msg'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('cf-topic').value = '';
+    document.getElementById('char-num').textContent = '0';
+    const btn = document.getElementById('cf-submit');
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg> Gửi tin nhắn';
   }
 
   function shake(id) {
-  const el = document.getElementById(id);
-  el.style.borderColor = 'var(--red)';
-  el.style.animation = 'shake .35s ease';
-  setTimeout(() => { el.style.animation = ''; el.style.borderColor = ''; }, 400);
+    const el = document.getElementById(id);
+    el.style.borderColor = 'var(--red)';
+    el.style.animation = 'shake .35s ease';
+    setTimeout(() => { el.style.animation = ''; el.style.borderColor = ''; }, 400);
   }
 
-  //  Hero search 
+  //  Hero search
   function searchSupport(q) {
-  if (!q || q.length < 2) return;
-  const lower = q.toLowerCase();
-  // Auto-switch to FAQ and open matching item
-  const faqItems = document.querySelectorAll('.faq-item');
-  let found = null;
-  faqItems.forEach(item => {
-  const text = item.textContent.toLowerCase();
-  if (!found && text.includes(lower)) found = item;
-  });
-  if (found) {
-  switchTab('faq', document.getElementById('tbtn-faq'));
-  setTimeout(() => {
-  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-  found.classList.add('open');
-  found.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 150);
-  }
+    if (!q || q.length < 2) return;
+    const lower = q.toLowerCase();
+    const faqItems = document.querySelectorAll('.faq-item');
+    let found = null;
+    faqItems.forEach(item => {
+      const text = item.textContent.toLowerCase();
+      if (!found && text.includes(lower)) found = item;
+    });
+    if (found) {
+      switchTab('faq', document.getElementById('tbtn-faq'));
+      setTimeout(() => {
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        found.classList.add('open');
+        found.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 150);
+    }
   }
 
-  //  Toast 
+  //  Toast
   function showToast(msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toast-msg').textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
   }
+
+  // ── Load Support content from Firestore ──
+  async function loadSupportContent() {
+    if (!window.SonHaiData) return;
+    try {
+      const data = await window.SonHaiData.getSupport();
+      if (!data) return;
+
+      const eyebrow = document.querySelector('.page-eyebrow');
+      if (eyebrow && data.heroEyebrow) eyebrow.textContent = data.heroEyebrow;
+
+      const title = document.querySelector('.page-title');
+      if (title && data.heroTitle) title.innerHTML = data.heroTitle + '<br><span>để giúp bạn</span>';
+
+      const sub = document.querySelector('.page-sub');
+      if (sub && data.heroSub) sub.textContent = data.heroSub;
+
+      if (data.announcement) {
+        const annBar = document.querySelector('.ann-bar');
+        if (annBar) annBar.textContent = data.announcement;
+      }
+
+      const contactCards = document.querySelectorAll('.contact-card-body');
+      if (data.email && contactCards[0]) {
+        const ccVal = contactCards[0].querySelector('.cc-val');
+        if (ccVal) ccVal.textContent = data.email;
+      }
+      if (data.messenger && contactCards[1]) {
+        const ccVal = contactCards[1].querySelector('.cc-val');
+        if (ccVal) ccVal.textContent = data.messenger;
+      }
+      if (data.zalo && contactCards[2]) {
+        const ccVal = contactCards[2].querySelector('.cc-val');
+        if (ccVal) ccVal.textContent = data.zalo;
+      }
+      if (data.hours) {
+        const hoursEl = document.querySelector('.response-time div[style*="margin-top"]');
+        if (hoursEl) hoursEl.textContent = 'Giờ làm việc: ' + data.hours;
+      }
+    } catch (e) {
+      console.warn('Support content load failed:', e);
+    }
+  }
+
+  // ── Load Banner from Firestore ──
+  async function loadBannerFromFirestore() {
+    if (!window.SonHaiData) return;
+    try {
+      const data = await window.SonHaiData.getBanner();
+      if (!data) return;
+      const annBar = document.querySelector('.ann-bar');
+      if (!annBar) return;
+      if (data.enabled === false) { annBar.style.display = 'none'; return; }
+      if (data.text) annBar.textContent = data.text;
+      const typeColors = {
+        info: { bg: 'rgba(0,212,212,.1)', border: 'rgba(0,212,212,.2)', color: '#00D4D4' },
+        promo: { bg: 'rgba(245,166,35,.1)', border: 'rgba(245,166,35,.2)', color: '#F5A623' },
+        warning: { bg: 'rgba(239,68,68,.1)', border: 'rgba(239,68,68,.2)', color: '#EF4444' },
+        success: { bg: 'rgba(16,185,129,.1)', border: 'rgba(16,185,129,.2)', color: '#10B981' },
+      };
+      const c = typeColors[data.type] || typeColors.info;
+      annBar.style.background = c.bg;
+      annBar.style.borderBottomColor = c.border;
+      annBar.style.color = c.color;
+    } catch (e) { console.warn('Banner load failed:', e); }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadSupportContent();
+    loadBannerFromFirestore();
+  });
 </script>
 
 <style>
   @keyframes shake {
-  0%,100% { transform: translateX(0); }
-  25%  { transform: translateX(-6px); }
-  75%  { transform: translateX(6px); }
+    0%,100% { transform: translateX(0); }
+    25%  { transform: translateX(-6px); }
+    75%  { transform: translateX(6px); }
   }
 </style>
 
 <script src="js/cart-badge.js?v=4"></script>
+<script type="module" src="js/firestore-sync.js"></script>
 
 <script src="js/parallax-engine.js?v=grid-particles-2"></script>
 </body>
 </html>
-

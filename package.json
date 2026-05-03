@@ -7,8 +7,15 @@
     "vercel-build": "node prepare-public.js",
     "deploy": "npm run prepare-public && vercel --prod"
   },
-  "keywords": ["ebook", "digital-products", "vercel"],
+  "keywords": [
+    "ebook",
+    "digital-products",
+    "vercel"
+  ],
   "author": "Thư viện Sơn Nhai",
   "license": "UNLICENSED",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "firebase-admin": "^13.8.0"
+  }
 }

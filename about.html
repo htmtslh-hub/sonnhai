@@ -813,46 +813,46 @@
 <script>
   // Scroll-triggered fade-up animation
   const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-  if (entry.isIntersecting) {
-  setTảimeout(() => entry.target.classList.add('visible'), i * 80);
-  observer.unobserve(entry.target);
-  }
-  });
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
   }, { threshold: 0.12 });
 
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
   // Animate stat numbers counting up
   function animateCount(el, target, suffix, duration) {
-  const start = performance.now();
-  const isDecimal = target % 1 !== 0;
-  const update = (now) => {
-  const t = Math.min((now - start) / duration, 1);
-  const eased = 1 - Math.pow(1 - t, 3);
-  const val = isDecimal ? (eased * target).toFixed(1) : Math.floor(eased * target);
-  el.textContent = val + suffix;
-  if (t < 1) requestAnimationFrame(update);
-  };
-  requestAnimationFrame(update);
+    const start = performance.now();
+    const isDecimal = target % 1 !== 0;
+    const update = (now) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const val = isDecimal ? (eased * target).toFixed(1) : Math.floor(eased * target);
+      el.textContent = val + suffix;
+      if (t < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
   }
 
   const statsObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-  if (entry.isIntersecting) {
-  const nums = entry.target.querySelectorAll('.stat-num');
-  const data = [
-  { val: 10, suffix: '+' },
-  { val: 500, suffix: '+' },
-  { val: 4.9, suffix: '/5' },
-  { val: 100, suffix: '%' }
-  ];
-  nums.forEach((n, i) => {
-  if (data[i]) animateCount(n, data[i].val, data[i].suffix, 1400);
-  });
-  statsObserver.unobserve(entry.target);
-  }
-  });
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const nums = entry.target.querySelectorAll('.stat-num');
+        const data = [
+          { val: 10, suffix: '+' },
+          { val: 500, suffix: '+' },
+          { val: 4.9, suffix: '/5' },
+          { val: 100, suffix: '%' }
+        ];
+        nums.forEach((n, i) => {
+          if (data[i]) animateCount(n, data[i].val, data[i].suffix, 1400);
+        });
+        statsObserver.unobserve(entry.target);
+      }
+    });
   }, { threshold: 0.4 });
 
   const statsGrid = document.querySelector('.stats-grid');
@@ -860,14 +860,80 @@
 
   // Navbar shadow
   window.addEventListener('scroll', () => {
-  document.querySelector('.nav').style.boxShadow =
-  window.scrollY > 8 ? '0 4px 32px rgba(0,0,0,.5)' : 'none';
+    document.querySelector('.nav').style.boxShadow =
+      window.scrollY > 8 ? '0 4px 32px rgba(0,0,0,.5)' : 'none';
+  });
+
+  // ── Load About content from Firestore ──
+  async function loadAboutContent() {
+    if (!window.SonHaiData) return;
+    try {
+      const data = await window.SonHaiData.getAbout();
+      if (!data) return;
+
+      // Hero
+      const eyebrow = document.querySelector('.hero-eyebrow');
+      if (eyebrow && data.heroEyebrow) eyebrow.textContent = data.heroEyebrow;
+
+      const line1 = document.querySelector('.hero-h1 .line-1');
+      if (line1 && data.heroLine1) line1.textContent = data.heroLine1;
+
+      const line2 = document.querySelector('.hero-h1 .line-2');
+      if (line2 && data.heroLine2) line2.textContent = data.heroLine2;
+
+      const heroSub = document.querySelector('.hero-sub');
+      if (heroSub && data.heroSub) heroSub.textContent = data.heroSub;
+
+      const ctaBtn = document.querySelector('.hero-btns .btn-teal');
+      if (ctaBtn && data.heroCta) ctaBtn.textContent = data.heroCta;
+
+      // Stats
+      const statNums = document.querySelectorAll('.stat-num');
+      const statLabels = document.querySelectorAll('.stat-lbl');
+      if (data.statProducts && statNums[0]) {
+        statNums[0].innerHTML = data.statProducts.replace('+', '<sup>+</sup>');
+      }
+      if (data.statCustomers && statNums[1]) {
+        statNums[1].innerHTML = data.statCustomers.replace('+', '<sup>+</sup>');
+      }
+      if (data.statRating && statNums[2]) {
+        statNums[2].innerHTML = data.statRating.replace('/', '<sup>/</sup>');
+      }
+      if (data.statDigital && statNums[3]) {
+        statNums[3].innerHTML = data.statDigital.replace('%', '<sup>%</sup>');
+      }
+
+      // Story
+      const storyLead = document.querySelector('.story-lead');
+      if (storyLead && data.storyLead) storyLead.innerHTML = data.storyLead;
+
+      const storyBody = document.querySelector('.story-p');
+      if (storyBody && data.storyBody) storyBody.textContent = data.storyBody;
+
+      const storyQuote = document.querySelector('.story-quote');
+      if (storyQuote && data.storyQuote) {
+        storyQuote.innerHTML = '"' + data.storyQuote + '"<cite>Đội ngũ Thư viện Sơn Nhai</cite>';
+      }
+
+      // Contact
+      const contactCards = document.querySelectorAll('.cc-val');
+      if (data.contactEmail && contactCards[0]) contactCards[0].textContent = data.contactEmail;
+      if (data.contactMessenger && contactCards[1]) contactCards[1].textContent = data.contactMessenger;
+      if (data.contactZalo && contactCards[2]) contactCards[2].textContent = data.contactZalo;
+
+    } catch (e) {
+      console.warn('About content load failed:', e);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadAboutContent();
   });
 </script>
 <script src="js/cart-badge.js?v=4"></script>
+<script type="module" src="js/firestore-sync.js"></script>
 
 <script type="module" src="/auth-ui.js"></script>
 <script src="js/parallax-engine.js?v=grid-particles-2"></script>
 </body>
 </html>
-

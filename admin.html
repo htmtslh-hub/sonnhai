@@ -599,6 +599,30 @@
     .log-text strong { color: var(--teal); }
     .log-time { font-size: 11px; color: var(--text-3); }
   </style>
+  <script type="module">
+    // Firebase imports for admin auth
+    import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+    import { getFirestore, collection, doc, getDoc, getDocs, addDoc, setDoc, updateDoc, deleteDoc, query, where, orderBy, limit, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+    import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCctQ_86VvAlZPTQDQPyGeYjV9zMHLv_Sc",
+      authDomain: "sonnhai-2600f.firebaseapp.com",
+      projectId: "sonnhai-2600f",
+      storageBucket: "sonnhai-2600f.firebasestorage.app",
+      messagingSenderId: "907935883175",
+      appId: "1:907935883175:web:0f356a63e28a45a196a082",
+    };
+    const apps = getApps();
+    const app = apps.length > 0 ? apps[0] : initializeApp(firebaseConfig);
+    const authFB = getAuth(app);
+    const dbFB = getFirestore(app);
+    const storageFB = getStorage(app);
+
+    // Expose to global scope for inline handlers
+    window._fb = { authFB, dbFB, storageFB, collection, doc, getDoc, getDocs, addDoc, setDoc, updateDoc, deleteDoc, query, where, orderBy, limit, serverTimestamp, ref, uploadBytes, getDownloadURL, deleteObject, signOut, onAuthStateChanged, signInWithEmailAndPassword };
+  </script>
 </head>
 <body>
 <!--    LOGIN SCREEN    -->
@@ -648,7 +672,11 @@
 
         <div class="sb-section-label">NỘI DUNG</div>
         <a class="sb-item" onclick="switchPage('product-editor')"><span class="sb-icon">✏️</span><span class="sb-text">Chỉnh sửa SP</span></a>
+        <a class="sb-item" onclick="switchPage('combos')"><span class="sb-icon">📦</span><span class="sb-text">Combo</span></a>
         <a class="sb-item" onclick="switchPage('content')"><span class="sb-icon">📝</span><span class="sb-text">Blog</span></a>
+        <a class="sb-item" onclick="switchPage('about')"><span class="sb-icon">ℹ️</span><span class="sb-text">About</span></a>
+        <a class="sb-item" onclick="switchPage('support')"><span class="sb-icon">🆘</span><span class="sb-text">Support</span></a>
+        <a class="sb-item" onclick="switchPage('banner')"><span class="sb-icon">📢</span><span class="sb-text">Banner</span></a>
 
         <div class="sb-section-label">CÀI ĐẶT</div>
         <a class="sb-item" onclick="switchPage('layout-menu')"><span class="sb-icon">🔗</span><span class="sb-text">Menu</span></a>
@@ -1026,6 +1054,400 @@
             <div id="content-pagination" class="pagination"></div>
           </div>
         </div>
+
+<!-- CONTENT/BLOG MODAL -->
+<div class="modal-overlay hidden" id="content-modal">
+  <div class="modal-box modal-lg">
+    <div class="modal-header">
+      <div class="modal-title" id="content-modal-title">Tạo bài viết mới</div>
+      <button class="modal-close" onclick="closeContentModal()">×</button>
+    </div>
+    <form id="content-form" onsubmit="event.preventDefault();saveContent()">
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Tiêu đề *</label>
+          <input type="text" class="form-input" id="content-title" placeholder="VD: Nhân tính là gì?" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Slug (URL)</label>
+          <input type="text" class="form-input" id="content-slug" placeholder="Tự động tạo từ tiêu đề">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Danh mục *</label>
+          <select class="form-input" id="content-category">
+            <option value="Nhân tính">Nhân tính</option>
+            <option value="Tư duy">Tư duy</option>
+            <option value="Tài chính">Tài chính</option>
+            <option value="Nhận thức">Nhận thức</option>
+            <option value="Tình cảm">Tình cảm</option>
+            <option value="Hệ thống">Hệ thống</option>
+            <option value="Kỹ năng sống">Kỹ năng sống</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Emoji / Icon</label>
+          <input type="text" class="form-input" id="content-emoji" placeholder="VD: 🧠" value="📝">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tóm tắt / Excerpt *</label>
+        <textarea class="form-input" id="content-excerpt" rows="2" placeholder="Mô tả ngắn gọn nội dung bài viết..." required></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nội dung bài viết *</label>
+        <textarea class="form-input" id="content-body" rows="10" placeholder="Viết nội dung bài viết ở đây... (hỗ trợ HTML)" required style="font-family:monospace;font-size:12.5px;line-height:1.6;"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Thời gian đọc</label>
+          <input type="text" class="form-input" id="content-readtime" placeholder="VD: 5 phút" value="5 phút">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cover gradient</label>
+          <input type="text" class="form-input" id="content-gradient" placeholder="linear-gradient(145deg, #0F1D38, #091525)">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Loại</label>
+          <select class="form-input" id="content-type">
+            <option value="blog">📝 Bài viết</option>
+            <option value="page">📄 Trang tĩnh</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Trạng thái</label>
+          <select class="form-input" id="content-status">
+            <option value="published">Đã xuất bản</option>
+            <option value="draft">Nháp</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Meta Description (SEO)</label>
+        <textarea class="form-input" id="content-meta-desc" rows="2" placeholder="Mô tả cho SEO..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-sm" onclick="closeContentModal()">Hủy</button>
+      <button type="submit" class="btn btn-teal btn-sm">Lưu bài viết</button>
+    </div>
+    </form>
+  </div>
+</div>
+
+<!-- ==================== COMBO MANAGEMENT ==================== -->
+<div id="page-combos" class="page-section">
+          <div class="page-header">
+            <div>
+              <div class="page-title">Quản lý Combo</div>
+              <div class="page-sub" id="combos-count-sub">Đang tải...</div>
+            </div>
+            <button class="btn btn-teal btn-sm" onclick="openComboModal()">+ Tạo combo mới</button>
+          </div>
+
+          <div class="card-block">
+            <div class="tbl-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Combo</th>
+                    <th>Sản phẩm</th>
+                    <th>Giá gốc</th>
+                    <th>Giá combo</th>
+                    <th>Tiết kiệm</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody id="combos-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+<!-- COMBO MODAL -->
+<div class="modal-overlay hidden" id="combo-modal">
+  <div class="modal-box modal-lg">
+    <div class="modal-header">
+      <div class="modal-title" id="combo-modal-title">Tạo combo mới</div>
+      <button class="modal-close" onclick="closeComboModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Tên combo *</label>
+          <input type="text" class="form-input" id="combo-name" placeholder="VD: Nhân Tính Toàn Diện">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tag / Nhãn</label>
+          <input type="text" class="form-input" id="combo-tag" placeholder="VD: ◆ Bộ sưu tập · 3 cuốn">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Chọn sản phẩm trong combo *</label>
+        <div id="combo-products-list" style="display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto;padding:12px;background:var(--bg-3);border:1px solid var(--border-2);border-radius:8px;"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Giá combo (VNĐ) *</label>
+          <input type="number" class="form-input" id="combo-price" placeholder="279000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Thứ tự hiển thị</label>
+          <input type="number" class="form-input" id="combo-order" placeholder="1" value="1">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Badge text</label>
+          <input type="text" class="form-input" id="combo-badge" placeholder="VD: −31% hoặc PHỔ BIẾN">
+        </div>
+        <div class="form-group" style="display:flex;align-items:flex-end;gap:16px;">
+          <label class="form-checkbox">
+            <input type="checkbox" id="combo-is-hot">
+            🔥 Đánh dấu combo HOT (nổi bật)
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline-sm" onclick="closeComboModal()">Hủy</button>
+      <button class="btn btn-teal btn-sm" onclick="saveCombo()">Lưu combo</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ABOUT PAGE EDITOR ==================== -->
+<div id="page-about" class="page-section">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Trang About</div>
+      <div class="page-sub" id="about-status-sub">Chỉnh sửa nội dung trang "Về chúng tôi"</div>
+    </div>
+    <button class="btn btn-teal btn-sm" onclick="saveAboutContent()">💾 Lưu thay đổi</button>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:20px;">
+    <!-- Hero Section -->
+    <div class="card-block" style="padding:24px;">
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">🏠 Hero Section</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Eyebrow text</label>
+          <input type="text" class="form-input" id="about-hero-eyebrow" placeholder="Câu chuyện của chúng tôi">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tiêu đề dòng 1</label>
+          <input type="text" class="form-input" id="about-hero-line1" placeholder="Nơi tri thức">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Tiêu đề dòng 2 (gradient)</label>
+          <input type="text" class="form-input" id="about-hero-line2" placeholder="chạm tới tâm hồn">
+        </div>
+        <div class="form-group">
+          <label class="form-label">CTA Button text</label>
+          <input type="text" class="form-input" id="about-hero-cta" placeholder="Khám phá sản phẩm">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mô tả hero</label>
+        <textarea class="form-input" id="about-hero-sub" rows="3" placeholder="Thư viện Sơn Nhai ra đời từ niềm tin..."></textarea>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="card-block" style="padding:24px;">
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">📊 Thống kê</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Số sản phẩm</label>
+          <input type="text" class="form-input" id="about-stat-products" placeholder="10+">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Số khách hàng</label>
+          <input type="text" class="form-input" id="about-stat-customers" placeholder="500+">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Đánh giá</label>
+          <input type="text" class="form-input" id="about-stat-rating" placeholder="4.9/5">
+        </div>
+        <div class="form-group">
+          <label class="form-label">% sản phẩm số</label>
+          <input type="text" class="form-input" id="about-stat-digital" placeholder="100%">
+        </div>
+      </div>
+    </div>
+
+    <!-- Story -->
+    <div class="card-block" style="padding:24px;">
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">📖 Câu chuyện</div>
+      <div class="form-group">
+        <label class="form-label">Tiêu đề section</label>
+        <input type="text" class="form-input" id="about-story-title" placeholder="Từ một người đọc sách đến một thư viện">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Đoạn mở đầu (lead)</label>
+        <textarea class="form-input" id="about-story-lead" rows="2" placeholder="Thư viện Sơn Nhai bắt đầu từ..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nội dung câu chuyện</label>
+        <textarea class="form-input" id="about-story-body" rows="4" placeholder="Năm 2023, khi thấy rằng..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Trích dẫn (quote)</label>
+        <textarea class="form-input" id="about-story-quote" rows="2" placeholder="Một cuốn sách đúng lúc..."></textarea>
+      </div>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="card-block" style="padding:24px;">
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">📞 Thông tin liên hệ</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="text" class="form-input" id="about-contact-email" placeholder="sonhailibrary@gmail.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Facebook Messenger</label>
+          <input type="text" class="form-input" id="about-contact-messenger" placeholder="Facebook Messenger">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Zalo / SĐT</label>
+          <input type="text" class="form-input" id="about-contact-zalo" placeholder="0900 000 000">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SUPPORT PAGE EDITOR ==================== -->
+<div id="page-support" class="page-section">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Trang Support</div>
+      <div class="page-sub" id="support-status-sub">Chỉnh sửa nội dung trang "Hỗ trợ"</div>
+    </div>
+    <button class="btn btn-teal btn-sm" onclick="saveSupportContent()">💾 Lưu thay đổi</button>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:20px;">
+    <!-- Hero -->
+    <div class="card-block" style="padding:24px;">
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">🏠 Hero Section</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Eyebrow</label>
+          <input type="text" class="form-input" id="support-hero-eyebrow" placeholder="Trung tâm hỗ trợ">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tiêu đề</label>
+          <input type="text" class="form-input" id="support-hero-title" placeholder="Chúng tôi luôn ở đây">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mô tả</label>
+        <textarea class="form-input" id="support-hero-sub" rows="2" placeholder="Tìm câu trả lời nhanh chóng..."></textarea>
+      </div>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="card-block" style="padding:24px;">
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">📞 Thông tin liên hệ</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Email hỗ trợ</label>
+          <input type="text" class="form-input" id="support-email" placeholder="sonhailibrary@gmail.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Messenger page name</label>
+          <input type="text" class="form-input" id="support-messenger" placeholder="Thư viện Sơn Nhai">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Zalo / SĐT</label>
+          <input type="text" class="form-input" id="support-zalo" placeholder="0987 654 321">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Giờ làm việc</label>
+          <input type="text" class="form-input" id="support-hours" placeholder="Thứ 2 – Thứ 7, 8:00 – 22:00">
+        </div>
+      </div>
+    </div>
+
+    <!-- Announcement Bar -->
+    <div class="card-block" style="padding:24px;">
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">📢 Announcement Bar (trang Support)</div>
+      <div class="form-group">
+        <label class="form-label">Nội dung announcement</label>
+        <input type="text" class="form-input" id="support-announcement" placeholder="Hỗ trợ 7 ngày / tuần — Phản hồi trong vòng 2 giờ">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BANNER EDITOR ==================== -->
+<div id="page-banner" class="page-section">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Banner Thông Báo</div>
+      <div class="page-sub" id="banner-status-sub">Quản lý banner thông báo hiển thị trên tất cả trang</div>
+    </div>
+    <button class="btn btn-teal btn-sm" onclick="saveBannerContent()">💾 Lưu thay đổi</button>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:20px;">
+    <div class="card-block" style="padding:24px;">
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">📢 Cài đặt Banner</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Bật/Tắt Banner</label>
+          <select class="form-input" id="banner-enabled">
+            <option value="true">✅ Bật — Hiển thị trên tất cả trang</option>
+            <option value="false">❌ Tắt — Ẩn banner</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Loại banner</label>
+          <select class="form-input" id="banner-type">
+            <option value="info">ℹ️ Thông tin</option>
+            <option value="promo">🎁 Khuyến mãi</option>
+            <option value="warning">⚠️ Cảnh báo</option>
+            <option value="success">✅ Thành công</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nội dung banner</label>
+        <input type="text" class="form-input" id="banner-text" placeholder="Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Link (nếu có)</label>
+          <input type="text" class="form-input" id="banner-link" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Text nút link</label>
+          <input type="text" class="form-input" id="banner-link-text" placeholder="Xem ngay">
+        </div>
+      </div>
+    </div>
+
+    <div class="card-block" style="padding:24px;">
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">👁️ Xem trước</div>
+      <div id="banner-preview" style="background:rgba(0,212,212,.1);border:1px solid rgba(0,212,212,.2);padding:7px 20px;text-align:center;font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--teal);text-transform:uppercase;border-radius:6px;">
+        Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="page-emails" class="page-section">
           <div class="page-header">
             <div>
@@ -1413,131 +1835,107 @@
     <span class="toast-text" id="toast-text">Thao tác thành công!</span>
   </div>
 
+  <script src="js/cart-badge.js?v=5"></script>
   <script>
     // ==================== GLOBAL STATE ====================
     let currentPage = 'dashboard';
     let currentAdmin = null;
     let sidebarCollapsed = false;
 
+    // Lấy products thật từ LocalStorage (qua cart-badge.js)
+    let realProducts = [];
+    if (window.SonHaiCartBadge) {
+      realProducts = window.SonHaiCartBadge.getProducts();
+    } else {
+      try {
+        let stored = localStorage.getItem('sonhai_products');
+        if (stored) realProducts = JSON.parse(stored);
+      } catch(e) {}
+    }
+
     // Mock data
     const mockData = {
-      stats: {
-        revenue: 45800000,
-        revenueChange: 12.5,
-        orders: 156,
-        ordersChange: 8.3,
-        customers: 89,
-        customersChange: 15.2,
-        products: 24,
-        productsNew: 3
-      },
-      revenueChart: {
-        labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
-        data: [5200000, 6800000, 5900000, 7200000, 8100000, 6500000, 5300000]
-      },
-      topProducts: [
-        { id: 1, name: 'JavaScript từ A-Z', icon: '📚', sold: 45, price: 299000 },
-        { id: 2, name: 'React Master Course', icon: '⚛️', sold: 38, price: 499000 },
-        { id: 3, name: 'Node.js Backend', icon: '🟢', sold: 32, price: 399000 },
-        { id: 4, name: 'Python cho AI', icon: '🐍', sold: 28, price: 599000 },
-        { id: 5, name: 'UI/UX Design', icon: '🎨', sold: 24, price: 349000 }
-      ],
-      recentOrders: [
-        { id: 'ORD-001', customer: 'Nguyễn Văn A', product: 'JavaScript từ A-Z', amount: 299000, status: 'paid' },
-        { id: 'ORD-002', customer: 'Trần Thị B', product: 'React Master Course', amount: 499000, status: 'paid' },
-        { id: 'ORD-003', customer: 'Lê Văn C', product: 'Node.js Backend', amount: 399000, status: 'pending' },
-        { id: 'ORD-004', customer: 'Phạm Thị D', product: 'Python cho AI', amount: 599000, status: 'paid' },
-        { id: 'ORD-005', customer: 'Hoàng Văn E', product: 'UI/UX Design', amount: 349000, status: 'paid' }
-      ],
-      recentActivity: [
-        { type: 'add', user: 'Admin', action: 'Thêm sản phẩm mới', detail: 'JavaScript từ A-Z', time: '5 phút trước' },
-        { type: 'order', user: 'Nguyễn Văn A', action: 'Đặt hàng thành công', detail: 'ORD-001', time: '12 phút trước' },
-        { type: 'edit', user: 'Admin', action: 'Cập nhật giá', detail: 'React Master Course', time: '25 phút trước' },
-        { type: 'order', user: 'Trần Thị B', action: 'Đặt hàng thành công', detail: 'ORD-002', time: '1 giờ trước' },
-        { type: 'delete', user: 'Admin', action: 'Xóa sản phẩm', detail: 'Old Course', time: '2 giờ trước' }
-      ],
-      products: [
-        { id: 1, name: 'JavaScript từ A-Z', icon: '📚', category: 'ebook', price: 299000, sold: 45, stock: 100, status: 'published' },
-        { id: 2, name: 'React Master Course', icon: '⚛️', category: 'course', price: 499000, sold: 38, stock: 50, status: 'published' },
-        { id: 3, name: 'Node.js Backend', icon: '🟢', category: 'course', price: 399000, sold: 32, stock: 75, status: 'published' },
-        { id: 4, name: 'Python cho AI', icon: '🐍', category: 'course', price: 599000, sold: 28, stock: 60, status: 'published' },
-        { id: 5, name: 'UI/UX Design', icon: '🎨', category: 'ebook', price: 349000, sold: 24, stock: 80, status: 'published' },
-        { id: 6, name: 'TypeScript Guide', icon: '📘', category: 'ebook', price: 249000, sold: 18, stock: 100, status: 'draft' }
-      ],
-      orders: [
-        { id: 'ORD-001', customer: 'Nguyễn Văn A', email: 'nguyenvana@email.com', product: 'JavaScript từ A-Z', amount: 299000, payment: 'stripe', status: 'paid', date: '2026-05-01' },
-        { id: 'ORD-002', customer: 'Trần Thị B', email: 'tranthib@email.com', product: 'React Master Course', amount: 499000, payment: 'vnpay', status: 'paid', date: '2026-05-01' },
-        { id: 'ORD-003', customer: 'Lê Văn C', email: 'levanc@email.com', product: 'Node.js Backend', amount: 399000, payment: 'momo', status: 'pending', date: '2026-05-01' },
-        { id: 'ORD-004', customer: 'Phạm Thị D', email: 'phamthid@email.com', product: 'Python cho AI', amount: 599000, payment: 'stripe', status: 'paid', date: '2026-04-30' },
-        { id: 'ORD-005', customer: 'Hoàng Văn E', email: 'hoangvane@email.com', product: 'UI/UX Design', amount: 349000, payment: 'vnpay', status: 'paid', date: '2026-04-30' }
-      ],
-      customers: [
-        { id: 1, name: 'Nguyễn Văn A', email: 'nguyenvana@email.com', orders: 3, spending: 897000, joined: '2026-03-15' },
-        { id: 2, name: 'Trần Thị B', email: 'tranthib@email.com', orders: 2, spending: 798000, joined: '2026-03-20' },
-        { id: 3, name: 'Lê Văn C', email: 'levanc@email.com', orders: 1, spending: 399000, joined: '2026-04-01' },
-        { id: 4, name: 'Phạm Thị D', email: 'phamthid@email.com', orders: 4, spending: 1596000, joined: '2026-02-10' },
-        { id: 5, name: 'Hoàng Văn E', email: 'hoangvane@email.com', orders: 2, spending: 698000, joined: '2026-04-15' }
-      ],
-      payments: [
-        { id: 'TXN-001', order: 'ORD-001', customer: 'Nguyễn Văn A', amount: 299000, method: 'stripe', status: 'completed', time: '2026-05-01 10:30' },
-        { id: 'TXN-002', order: 'ORD-002', customer: 'Trần Thị B', amount: 499000, method: 'vnpay', status: 'completed', time: '2026-05-01 09:15' },
-        { id: 'TXN-003', order: 'ORD-003', customer: 'Lê Văn C', amount: 399000, method: 'momo', status: 'pending', time: '2026-05-01 08:45' },
-        { id: 'TXN-004', order: 'ORD-004', customer: 'Phạm Thị D', amount: 599000, method: 'stripe', status: 'completed', time: '2026-04-30 16:20' }
-      ],
-      content: [
-        { id: 1, title: '10 Tips học JavaScript hiệu quả', type: 'blog', author: 'Admin', views: 1250, status: 'published', date: '2026-04-25' },
-        { id: 2, title: 'Hướng dẫn cài đặt React', type: 'blog', author: 'Admin', views: 890, status: 'published', date: '2026-04-20' },
-        { id: 3, title: 'Về chúng tôi', type: 'page', author: 'Admin', views: 450, status: 'published', date: '2026-03-15' },
-        { id: 4, title: 'Node.js Best Practices', type: 'blog', author: 'Admin', views: 0, status: 'draft', date: '2026-05-01' }
-      ],
-      emails: [
-        { id: 1, to: 'nguyenvana@email.com', subject: 'Xác nhận đơn hàng ORD-001', type: 'order-confirmation', status: 'sent', time: '2026-05-01 10:31' },
-        { id: 2, to: 'tranthib@email.com', subject: 'File đã sẵn sàng tải', type: 'download-ready', status: 'sent', time: '2026-05-01 09:16' },
-        { id: 3, to: 'levanc@email.com', subject: 'Chào mừng đến Sơn Nhai', type: 'welcome', status: 'sent', time: '2026-04-01 14:20' }
-      ],
-      admins: [
-        { id: 1, name: 'Admin Chính', email: 'admin@sonnhai.com', role: 'super-admin', status: 'active', lastLogin: '2026-05-01 10:00' },
-        { id: 2, name: 'Editor A', email: 'editor@sonnhai.com', role: 'editor', status: 'active', lastLogin: '2026-04-30 15:30' }
-      ],
-      logs: [
-        { id: 1, time: '2026-05-01 10:30', admin: 'Admin Chính', action: 'Tạo mới', module: 'Sản phẩm', detail: 'JavaScript từ A-Z', ip: '192.168.1.1' },
-        { id: 2, time: '2026-05-01 10:00', admin: 'Admin Chính', action: 'Đăng nhập', module: 'Hệ thống', detail: 'Đăng nhập thành công', ip: '192.168.1.1' },
-        { id: 3, time: '2026-04-30 16:45', admin: 'Admin Chính', action: 'Cập nhật', module: 'Đơn hàng', detail: 'ORD-004 - Đã thanh toán', ip: '192.168.1.1' },
-        { id: 4, time: '2026-04-30 15:30', admin: 'Editor A', action: 'Đăng nhập', module: 'Hệ thống', detail: 'Đăng nhập thành công', ip: '192.168.1.5' }
-      ]
+      stats: { revenue: 0, revenueChange: 0, orders: 0, ordersChange: 0, customers: 0, customersChange: 0, products: 0, productsNew: 0 },
+      revenueChart: { labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'], data: [0, 0, 0, 0, 0, 0, 0] },
+      topProducts: [],
+      recentOrders: [],
+      recentActivity: [],
+      products: realProducts,
+      orders: [],
+      customers: [],
+      payments: [],
+      content: [],
+      emails: [],
+      admins: [],
+      logs: []
     };
 
     // ==================== INIT ====================
     window.addEventListener('DOMContentLoaded', () => {
-      // Check if already logged in
-      const savedAdmin = localStorage.getItem('admin');
-      if (savedAdmin) {
-        currentAdmin = JSON.parse(savedAdmin);
-        showApp();
-      }
+      // Use Firebase Auth state
+      const { authFB, dbFB, onAuthStateChanged, doc, getDoc } = window._fb;
+      onAuthStateChanged(authFB, async (user) => {
+        if (!user) {
+          document.getElementById('login-screen').classList.remove('hidden');
+          document.getElementById('app').classList.add('hidden');
+          return;
+        }
+        // Check admin role in Firestore
+        try {
+          const userDoc = await getDoc(doc(dbFB, 'users', user.uid));
+          const userData = userDoc.exists() ? userDoc.data() : null;
+          if (!userData || (userData.role !== 'admin' && userData.role !== 'super-admin')) {
+            alert('Bạn không có quyền truy cập trang admin!');
+            await window._fb.signOut(authFB);
+            return;
+          }
+          currentAdmin = { name: userData.name || user.displayName || user.email, email: user.email, role: userData.role, uid: user.uid };
+          showApp();
+        } catch (err) {
+          console.error('Auth check failed:', err);
+          // Fallback: allow if user exists (for first setup)
+          currentAdmin = { name: user.displayName || user.email, email: user.email, role: 'admin', uid: user.uid };
+          showApp();
+        }
+      });
     });
 
     // ==================== AUTH ====================
-    function handleLogin(e) {
+    async function handleLogin(e) {
       e.preventDefault();
       const email = document.getElementById('login-email').value;
       const password = document.getElementById('login-password').value;
+      const btn = document.getElementById('login-btn');
+      const errorDiv = document.getElementById('login-error');
 
-      // Simple mock auth
-      if (email === 'admin@sonnhai.com' && password === 'admin123') {
-        currentAdmin = { name: 'Admin Chính', email: email, role: 'super-admin' };
-        localStorage.setItem('admin', JSON.stringify(currentAdmin));
-        showApp();
-      } else {
-        const errorDiv = document.getElementById('login-error');
-        errorDiv.textContent = '❌ Email hoặc mật khẩu không đúng';
+      btn.disabled = true;
+      btn.textContent = 'Đang đăng nhập...';
+      errorDiv.style.display = 'none';
+
+      try {
+        const { authFB, signInWithEmailAndPassword } = window._fb;
+        await signInWithEmailAndPassword(authFB, email, password);
+        // onAuthStateChanged will handle the rest
+      } catch (err) {
+        const msgMap = {
+          'auth/user-not-found': 'Email không tồn tại',
+          'auth/wrong-password': 'Mật khẩu không đúng',
+          'auth/invalid-email': 'Email không hợp lệ',
+          'auth/too-many-requests': 'Quá nhiều lần thử, vui lòng đợi',
+          'auth/invalid-credential': 'Email hoặc mật khẩu không đúng',
+        };
+        errorDiv.textContent = '❌ ' + (msgMap[err.code] || err.message);
         errorDiv.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Đăng nhập';
       }
     }
 
-    function handleLogout() {
+    async function handleLogout() {
       if (confirm('Bạn có chắc muốn đăng xuất?')) {
-        localStorage.removeItem('admin');
+        try {
+          await window._fb.signOut(window._fb.authFB);
+        } catch(e) {}
         currentAdmin = null;
         location.reload();
       }
@@ -1549,10 +1947,10 @@
       
       // Update admin info
       document.getElementById('admin-name').textContent = currentAdmin.name;
-      document.getElementById('admin-avatar').textContent = currentAdmin.name.charAt(0);
+      document.getElementById('admin-avatar').textContent = currentAdmin.name.charAt(0).toUpperCase();
       
-      // Load dashboard
-      loadDashboard();
+      // Load Firestore products into mockData
+      loadFirestoreProducts().then(() => loadDashboard());
     }
 
     // ==================== NAVIGATION ====================
@@ -1580,7 +1978,11 @@
         'orders': 'Đơn hàng',
         'customers': 'Khách hàng',
         'payments': 'Thanh toán',
+        'combos': 'Quản lý Combo',
         'content': 'Nội dung',
+        'about': 'Trang About',
+        'support': 'Trang Support',
+        'banner': 'Banner Thông Báo',
         'emails': 'Email',
         'admins': 'Tài khoản Admin',
         'settings': 'Cài đặt',
@@ -1618,6 +2020,10 @@
         case 'logs': loadLogs(); break;
         case 'product-editor': loadProductEditor(); break;
         case 'layout-menu': loadMenu(); break;
+        case 'combos': loadCombos(); break;
+        case 'about': loadAboutEditor(); break;
+        case 'support': loadSupportEditor(); break;
+        case 'banner': loadBannerEditor(); break;
         case 'layout-footer': break;
         case 'seo': break;
         case 'settings': break;
@@ -1631,40 +2037,337 @@
       document.getElementById('sb-toggle-icon').textContent = sidebarCollapsed ? '▶' : '◀';
     }
 
-    // ==================== DASHBOARD ====================
-    function loadDashboard() {
-      // Load stats
-      document.getElementById('stat-revenue').textContent = formatCurrency(mockData.stats.revenue);
-      document.getElementById('stat-revenue-change').textContent = '+' + mockData.stats.revenueChange + '%';
-      document.getElementById('stat-orders').textContent = mockData.stats.orders;
-      document.getElementById('stat-orders-change').textContent = '+' + mockData.stats.ordersChange + '%';
-      document.getElementById('stat-customers').textContent = mockData.stats.customers;
-      document.getElementById('stat-customers-change').textContent = '+' + mockData.stats.customersChange + '%';
-      document.getElementById('stat-products').textContent = mockData.stats.products;
-      document.getElementById('stat-products-change').textContent = mockData.stats.productsNew + ' mới';
+    // ==================== FIRESTORE DATA LOADING ====================
+    async function loadFirestoreProducts() {
+      try {
+        const { dbFB, collection, getDocs, query, orderBy } = window._fb;
+        const snapshot = await getDocs(collection(dbFB, 'products'));
+        if (!snapshot.empty) {
+          const products = snapshot.docs.map(d => {
+            const data = d.data();
+            return {
+              id: d.id,
+              slug: data.slug || '',
+              name: data.name || '',
+              category: data.category || '',
+              price: data.price || 0,
+              originalPrice: data.originalPrice || data.original_price || 0,
+              original_price: data.originalPrice || data.original_price || 0,
+              emoji: data.emoji || data.icon || '📚',
+              icon: data.emoji || data.icon || '📚',
+              coverGradient: data.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)',
+              description: data.description || '',
+              fullDescription: data.fullDescription || '',
+              rating: data.rating || 4.5,
+              sold_count: data.soldCount || data.sold_count || 0,
+              soldCount: data.soldCount || data.sold_count || 0,
+              sold: data.soldCount || data.sold_count || 0,
+              status: data.status || 'published',
+              pages: data.pages || 250,
+              format: data.format || 'PDF',
+              imageUrl: data.imageUrl || '',
+              image: data.imageUrl || '',
+              stock: data.stock || '∞',
+            };
+          });
+          mockData.products = products;
+          // Also sync to localStorage for public pages
+          localStorage.setItem('sonhai_products', JSON.stringify(products));
+          console.log('✅ Loaded', products.length, 'products from Firestore');
+        } else {
+          console.log('ℹ️ No products in Firestore, using localStorage');
+        }
+      } catch (err) {
+        console.warn('⚠️ Firestore products load failed, using local data:', err.message);
+      }
+    }
 
-      // Load revenue chart
+    // ── Firestore Product CRUD ──
+    async function firestoreCreateProduct(productData) {
+      const { dbFB, collection, addDoc, serverTimestamp } = window._fb;
+      const docRef = await addDoc(collection(dbFB, 'products'), {
+        ...productData,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+      return docRef.id;
+    }
+
+    async function firestoreUpdateProduct(docId, productData) {
+      const { dbFB, doc, updateDoc, serverTimestamp } = window._fb;
+      await updateDoc(doc(dbFB, 'products', docId), {
+        ...productData,
+        updatedAt: serverTimestamp(),
+      });
+    }
+
+    async function firestoreDeleteProduct(docId) {
+      const { dbFB, doc, deleteDoc } = window._fb;
+      await deleteDoc(doc(dbFB, 'products', docId));
+    }
+
+    async function firestoreUploadImage(file, productId) {
+      const { storageFB, ref, uploadBytes, getDownloadURL } = window._fb;
+      const filename = `${productId || Date.now()}_${file.name}`;
+      const storageRef = ref(storageFB, `products/${filename}`);
+      const snapshot = await uploadBytes(storageRef, file);
+      return await getDownloadURL(snapshot.ref);
+    }
+
+    // ==================== COMBO MANAGEMENT ====================
+    let comboEditId = null;
+
+    async function loadCombos() {
+      const tbody = document.getElementById('combos-tbody');
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-3)">Đang tải combos...</td></tr>';
+      try {
+        const { dbFB, collection, getDocs, query, orderBy } = window._fb;
+        const q = query(collection(dbFB, 'combos'), orderBy('order', 'asc'));
+        const snapshot = await getDocs(q);
+        const combos = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        document.getElementById('combos-count-sub').textContent = combos.length + ' combos';
+        
+        if (combos.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">📦</div><div class="empty-title">Chưa có combo nào</div><div class="empty-text">Tạo combo đầu tiên để hiển thị trên trang chủ</div></div></td></tr>';
+          return;
+        }
+        
+        const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
+        tbody.innerHTML = combos.map(c => {
+          const productNames = (c.productNames || []).join(', ') || (c.productIds || []).length + ' sản phẩm';
+          const origPrice = c.originalPrice || 0;
+          const comboPrice = c.comboPrice || 0;
+          const savings = origPrice - comboPrice;
+          const savePct = origPrice > 0 ? Math.round((savings / origPrice) * 100) : 0;
+          return `<tr>
+            <td>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="prod-icon" style="font-size:16px;">${c.isHot ? '🔥' : '📦'}</div>
+                <div>
+                  <div style="font-weight:600;">${c.name || 'Chưa đặt tên'}</div>
+                  <div style="font-size:11px;color:var(--text-3);">${c.tag || ''}</div>
+                </div>
+              </div>
+            </td>
+            <td style="font-size:12px;max-width:200px;">${productNames}</td>
+            <td>${fmt(origPrice)}</td>
+            <td style="color:var(--teal);font-weight:700;">${fmt(comboPrice)}</td>
+            <td><span class="badge badge-success">−${savePct}% (${fmt(savings)})</span></td>
+            <td>${c.isHot ? '<span class="badge badge-published">🔥 HOT</span>' : '<span class="badge badge-draft">Thường</span>'}</td>
+            <td>
+              <button class="btn btn-outline-sm" onclick="editCombo('${c.id}')">✏️ Sửa</button>
+              <button class="btn btn-danger-sm" onclick="deleteCombo('${c.id}')">🗑️ Xóa</button>
+            </td>
+          </tr>`;
+        }).join('');
+      } catch (err) {
+        console.error('Load combos error:', err);
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--red)">Lỗi tải combos: ' + err.message + '</td></tr>';
+      }
+    }
+
+    function openComboModal(editData = null) {
+      comboEditId = editData ? editData.id : null;
+      document.getElementById('combo-modal-title').textContent = editData ? 'Sửa combo' : 'Tạo combo mới';
+      document.getElementById('combo-name').value = editData ? editData.name || '' : '';
+      document.getElementById('combo-tag').value = editData ? editData.tag || '' : '◆ Bộ sưu tập';
+      document.getElementById('combo-price').value = editData ? editData.comboPrice || '' : '';
+      document.getElementById('combo-order').value = editData ? editData.order || 1 : 1;
+      document.getElementById('combo-badge').value = editData ? editData.badgeText || '' : '';
+      document.getElementById('combo-is-hot').checked = editData ? editData.isHot || false : false;
+      
+      // Populate product checkboxes
+      const listEl = document.getElementById('combo-products-list');
+      const selectedIds = editData ? (editData.productIds || []).map(String) : [];
+      listEl.innerHTML = mockData.products.map(p => {
+        const checked = selectedIds.includes(String(p.id)) ? 'checked' : '';
+        const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
+        return `<label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 8px;border-radius:6px;transition:background .15s;" onmouseover="this.style.background='var(--bg-2)'" onmouseout="this.style.background=''">
+          <input type="checkbox" value="${p.id}" ${checked} style="width:16px;height:16px;cursor:pointer;">
+          <span style="font-size:18px;">${p.emoji || '📚'}</span>
+          <span style="flex:1;font-size:13px;font-weight:500;color:var(--text);">${p.name}</span>
+          <span style="font-size:12px;color:var(--teal);font-weight:600;">${fmt(p.price)}</span>
+        </label>`;
+      }).join('');
+      
+      document.getElementById('combo-modal').classList.remove('hidden');
+    }
+
+    function closeComboModal() {
+      document.getElementById('combo-modal').classList.add('hidden');
+      comboEditId = null;
+    }
+
+    async function saveCombo() {
+      const name = document.getElementById('combo-name').value.trim();
+      const tag = document.getElementById('combo-tag').value.trim();
+      const comboPrice = parseInt(document.getElementById('combo-price').value) || 0;
+      const order = parseInt(document.getElementById('combo-order').value) || 1;
+      const badgeText = document.getElementById('combo-badge').value.trim();
+      const isHot = document.getElementById('combo-is-hot').checked;
+      
+      // Get selected products
+      const checkboxes = document.querySelectorAll('#combo-products-list input[type="checkbox"]:checked');
+      const productIds = Array.from(checkboxes).map(cb => cb.value);
+      
+      if (!name) { showToast('error', 'Vui lòng nhập tên combo!'); return; }
+      if (productIds.length < 2) { showToast('error', 'Combo cần ít nhất 2 sản phẩm!'); return; }
+      if (!comboPrice) { showToast('error', 'Vui lòng nhập giá combo!'); return; }
+      
+      // Calculate original price from selected products
+      let originalPrice = 0;
+      const productNames = [];
+      productIds.forEach(pid => {
+        const prod = mockData.products.find(p => String(p.id) === String(pid));
+        if (prod) {
+          originalPrice += prod.price;
+          productNames.push(prod.name);
+        }
+      });
+      
+      const comboData = {
+        name,
+        tag: tag || `◆ Bộ sưu tập · ${productIds.length} cuốn`,
+        productIds,
+        productNames,
+        originalPrice,
+        comboPrice,
+        savings: originalPrice - comboPrice,
+        badgeText: badgeText || `−${Math.round(((originalPrice - comboPrice) / originalPrice) * 100)}%`,
+        isHot,
+        order,
+      };
+      
+      try {
+        const { dbFB, collection, doc, addDoc, updateDoc, serverTimestamp } = window._fb;
+        if (comboEditId) {
+          await updateDoc(doc(dbFB, 'combos', comboEditId), { ...comboData, updatedAt: serverTimestamp() });
+          showToast('success', 'Cập nhật combo thành công!');
+        } else {
+          await addDoc(collection(dbFB, 'combos'), { ...comboData, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+          showToast('success', 'Tạo combo mới thành công!');
+        }
+        closeComboModal();
+        loadCombos();
+      } catch (err) {
+        console.error('Save combo error:', err);
+        showToast('error', 'Lỗi lưu combo: ' + err.message);
+      }
+    }
+
+    async function editCombo(comboId) {
+      try {
+        const { dbFB, doc, getDoc } = window._fb;
+        const docSnap = await getDoc(doc(dbFB, 'combos', comboId));
+        if (docSnap.exists()) {
+          openComboModal({ id: comboId, ...docSnap.data() });
+        } else {
+          showToast('error', 'Không tìm thấy combo!');
+        }
+      } catch (err) {
+        showToast('error', 'Lỗi tải combo: ' + err.message);
+      }
+    }
+
+    async function deleteCombo(comboId) {
+      if (!confirm('Bạn có chắc muốn xóa combo này?')) return;
+      try {
+        const { dbFB, doc, deleteDoc } = window._fb;
+        await deleteDoc(doc(dbFB, 'combos', comboId));
+        showToast('success', 'Đã xóa combo!');
+        loadCombos();
+      } catch (err) {
+        showToast('error', 'Lỗi xóa combo: ' + err.message);
+      }
+    }
+
+    // ==================== DASHBOARD ==
+    async function loadDashboard() {
+      try {
+        const { dbFB, collection, getDocs, query, orderBy } = window._fb;
+
+        // Count products from Firestore
+        const prodSnap = await getDocs(collection(dbFB, 'products'));
+        const productCount = prodSnap.size;
+        mockData.products = prodSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        // Count combos
+        let comboCount = 0;
+        try { const comboSnap = await getDocs(collection(dbFB, 'combos')); comboCount = comboSnap.size; } catch(e) {}
+
+        // Count blog posts
+        let blogCount = 0;
+        try { const blogSnap = await getDocs(collection(dbFB, 'blog_posts')); blogCount = blogSnap.size; } catch(e) {}
+
+        // Count orders (real, from Firestore)
+        let orderCount = 0, totalRevenue = 0;
+        try {
+          const orderSnap = await getDocs(collection(dbFB, 'orders'));
+          orderCount = orderSnap.size;
+          mockData.orders = orderSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+          totalRevenue = mockData.orders.reduce((sum, o) => sum + (o.amount || 0), 0);
+        } catch(e) {}
+
+        // Count customers
+        let customerCount = 0;
+        try {
+          const userSnap = await getDocs(collection(dbFB, 'users'));
+          customerCount = userSnap.size;
+          mockData.customers = userSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+        } catch(e) {}
+
+        // Update stats
+        document.getElementById('stat-revenue').textContent = formatCurrency(totalRevenue);
+        document.getElementById('stat-revenue-change').textContent = totalRevenue > 0 ? 'Doanh thu thực' : 'Chưa có';
+        document.getElementById('stat-orders').textContent = orderCount;
+        document.getElementById('stat-orders-change').textContent = orderCount > 0 ? orderCount + ' đơn' : 'Chưa có';
+        document.getElementById('stat-customers').textContent = customerCount;
+        document.getElementById('stat-customers-change').textContent = customerCount > 0 ? customerCount + ' KH' : 'Chưa có';
+        document.getElementById('stat-products').textContent = productCount;
+        document.getElementById('stat-products-change').textContent = productCount + ' SP, ' + comboCount + ' combo, ' + blogCount + ' blog';
+
+      } catch (err) {
+        console.warn('Dashboard load error:', err);
+        // Fallback
+        document.getElementById('stat-revenue').textContent = '0₫';
+        document.getElementById('stat-revenue-change').textContent = 'Chưa có dữ liệu';
+        document.getElementById('stat-orders').textContent = '0';
+        document.getElementById('stat-orders-change').textContent = 'Chưa có';
+        document.getElementById('stat-customers').textContent = '0';
+        document.getElementById('stat-customers-change').textContent = 'Chưa có';
+        document.getElementById('stat-products').textContent = mockData.products.length;
+        document.getElementById('stat-products-change').textContent = mockData.products.length + ' tổng';
+      }
+
       loadRevenueChart();
-
-      // Load top products
       loadTopProducts();
-
-      // Load recent orders
       loadRecentOrders();
-
-      // Load recent activity
       loadRecentActivity();
     }
 
     function loadRevenueChart() {
       const ctx = document.getElementById('revenue-chart').getContext('2d');
+      // Use real order data if available, otherwise show empty chart
+      const chartData = mockData.orders.length > 0
+        ? (() => {
+            const days = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+            const labels = days;
+            const data = new Array(7).fill(0);
+            mockData.orders.forEach(o => {
+              const d = new Date(o.date || o.createdAt?.seconds * 1000);
+              if (!isNaN(d)) data[d.getDay()] += (o.amount || 0);
+            });
+            return { labels, data };
+          })()
+        : { labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'], data: [0, 0, 0, 0, 0, 0, 0] };
+
       new Chart(ctx, {
         type: 'line',
         data: {
-          labels: mockData.revenueChart.labels,
+          labels: chartData.labels,
           datasets: [{
             label: 'Doanh thu',
-            data: mockData.revenueChart.data,
+            data: chartData.data,
             borderColor: '#00D4D4',
             backgroundColor: 'rgba(0, 212, 212, 0.1)',
             tension: 0.4,
@@ -1699,7 +2402,7 @@
               grid: { color: '#1C2232' },
               ticks: { 
                 color: '#8B93A8',
-                callback: (value) => (value / 1000000) + 'M'
+                callback: (value) => value >= 1000000 ? (value / 1000000) + 'M' : value >= 1000 ? (value / 1000) + 'K' : value
               }
             },
             x: {
@@ -1712,32 +2415,65 @@
     }
 
     function loadTopProducts() {
-      const html = mockData.topProducts.map((p, i) => `
+      // Use real products sorted by soldCount
+      const top = [...mockData.products]
+        .filter(p => p.soldCount > 0 || p.sold > 0)
+        .sort((a, b) => (b.soldCount || b.sold || 0) - (a.soldCount || a.sold || 0))
+        .slice(0, 5);
+
+      if (top.length === 0) {
+        document.getElementById('top-products-list').innerHTML = `
+          <div style="text-align:center;padding:30px 20px;color:var(--text-3);">
+            <div style="font-size:28px;margin-bottom:8px;">📊</div>
+            <div>Chưa có dữ liệu bán hàng</div>
+            <div style="font-size:12px;margin-top:4px;">Dữ liệu sẽ hiển thị khi có đơn hàng đầu tiên</div>
+          </div>`;
+        return;
+      }
+      const html = top.map((p, i) => `
         <div class="top-prod-item">
           <div class="top-prod-rank">${i + 1}</div>
-          <div class="prod-icon">${p.icon}</div>
-          <div class="top-prod-name">${p.name}</div>
-          <div class="top-prod-sold">${p.sold} đã bán</div>
-          <div class="top-prod-price">${formatCurrency(p.price)}</div>
+          <div class="prod-icon">${p.emoji || p.icon || '📚'}</div>
+          <div class="top-prod-name">${p.name || p.title || ''}</div>
+          <div class="top-prod-sold">${p.soldCount || p.sold || 0} đã bán</div>
+          <div class="top-prod-price">${formatCurrency(p.price || 0)}</div>
         </div>
       `).join('');
       document.getElementById('top-products-list').innerHTML = html;
     }
 
     function loadRecentOrders() {
-      const html = mockData.recentOrders.map(o => `
+      if (mockData.orders.length === 0) {
+        document.getElementById('recent-orders-tbody').innerHTML = `
+          <tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-3);">
+            <div style="font-size:28px;margin-bottom:8px;">🛒</div>
+            Chưa có đơn hàng nào<br><span style="font-size:12px;">Đơn hàng sẽ xuất hiện khi khách thanh toán thành công</span>
+          </td></tr>`;
+        return;
+      }
+      const recent = mockData.orders.slice(0, 5);
+      const html = recent.map(o => `
         <tr>
           <td><strong>${o.id}</strong></td>
-          <td>${o.customer}</td>
-          <td>${o.product}</td>
-          <td><strong>${formatCurrency(o.amount)}</strong></td>
-          <td><span class="badge badge-${o.status}">${getStatusText(o.status)}</span></td>
+          <td>${o.customer || o.customerName || ''}</td>
+          <td>${o.product || o.productName || ''}</td>
+          <td><strong>${formatCurrency(o.amount || 0)}</strong></td>
+          <td><span class="badge badge-${o.status || 'pending'}">${getStatusText(o.status || 'pending')}</span></td>
         </tr>
       `).join('');
       document.getElementById('recent-orders-tbody').innerHTML = html;
     }
 
     function loadRecentActivity() {
+      if (mockData.recentActivity.length === 0) {
+        document.getElementById('recent-activity-list').innerHTML = `
+          <div style="text-align:center;padding:30px 20px;color:var(--text-3);">
+            <div style="font-size:28px;margin-bottom:8px;">📝</div>
+            <div>Chưa có hoạt động nào</div>
+            <div style="font-size:12px;margin-top:4px;">Hoạt động quản trị sẽ được ghi nhận tại đây</div>
+          </div>`;
+        return;
+      }
       const iconMap = { add: 'icon-add', edit: 'icon-edit', delete: 'icon-delete', order: 'icon-order' };
       const html = mockData.recentActivity.map(a => `
         <div class="activity-item">
@@ -1764,7 +2500,7 @@
         <tr>
           <td>
             <div style="display:flex;align-items:center;gap:12px;">
-              <div class="prod-icon">${p.icon}</div>
+              <div class="prod-icon">${p.emoji || p.icon || '📚'}</div>
               <div>
                 <div style="font-weight:600;">${p.name}</div>
                 <div style="font-size:11px;color:var(--text-3);margin-top:2px;">ID: ${p.id}</div>
@@ -1773,12 +2509,12 @@
           </td>
           <td>${getCategoryText(p.category)}</td>
           <td><strong>${formatCurrency(p.price)}</strong></td>
-          <td>${p.sold}</td>
-          <td>${p.stock}</td>
-          <td><span class="badge badge-${p.status}">${getStatusText(p.status)}</span></td>
+          <td>${p.sold_count || p.soldCount || p.sold || 0}</td>
+          <td>${p.stock || '∞'}</td>
+          <td><span class="badge badge-${p.status || 'published'}">${getStatusText(p.status || 'published')}</span></td>
           <td>
-            <button class="btn btn-outline-sm" onclick="editProduct(${p.id})">✏️ Sửa</button>
-            <button class="btn btn-danger-sm" onclick="deleteProduct(${p.id})">🗑️</button>
+            <button class="btn btn-outline-sm" onclick="editProduct('${p.id}')">✏️ Sửa</button>
+            <button class="btn btn-danger-sm" onclick="deleteProduct('${p.id}')">🗑️</button>
           </td>
         </tr>
       `).join('');
@@ -1813,17 +2549,19 @@
       modal.classList.remove('hidden');
 
       if (id) {
-        const product = mockData.products.find(p => p.id === id);
+        document.getElementById('product-modal').dataset.editId = String(id);
+        const product = mockData.products.find(p => String(p.id) === String(id));
         document.getElementById('product-modal-title').textContent = 'Chỉnh sửa sản phẩm';
         document.getElementById('product-name').value = product.name;
         document.getElementById('product-category').value = product.category;
-        document.getElementById('product-icon').value = product.icon;
+        document.getElementById('product-icon').value = product.emoji || product.icon || '📚';
         document.getElementById('product-description').value = product.description || '';
         document.getElementById('product-price').value = product.price;
-        document.getElementById('product-original-price').value = product.originalPrice || '';
-        document.getElementById('product-stock').value = product.stock;
-        document.getElementById('product-status').value = product.status;
+        document.getElementById('product-original-price').value = product.original_price || product.originalPrice || '';
+        document.getElementById('product-stock').value = product.stock || 100;
+        document.getElementById('product-status').value = product.status || 'published';
       } else {
+        delete document.getElementById('product-modal').dataset.editId;
         document.getElementById('product-modal-title').textContent = 'Thêm sản phẩm mới';
         document.getElementById('product-form').reset();
       }
@@ -1839,22 +2577,28 @@
       openProductModal(id);
     }
 
-    function deleteProduct(id) {
+    async function deleteProduct(id) {
       if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
-        const index = mockData.products.findIndex(p => p.id === id);
-        if (index > -1) {
-          mockData.products.splice(index, 1);
+        try {
+          await firestoreDeleteProduct(id);
+          const index = mockData.products.findIndex(p => p.id === id);
+          if (index > -1) mockData.products.splice(index, 1);
+          localStorage.setItem('sonhai_products', JSON.stringify(mockData.products));
           loadProducts();
           showToast('success', 'Đã xóa sản phẩm thành công!');
+        } catch (err) {
+          showToast('error', 'Lỗi xóa: ' + err.message);
         }
       }
     }
 
-    function saveProduct() {
+    async function saveProduct() {
       const name = document.getElementById('product-name').value;
       const category = document.getElementById('product-category').value;
       const icon = document.getElementById('product-icon').value;
+      const description = document.getElementById('product-description').value;
       const price = parseInt(document.getElementById('product-price').value);
+      const originalPrice = parseInt(document.getElementById('product-original-price').value) || 0;
       const stock = parseInt(document.getElementById('product-stock').value);
       const status = document.getElementById('product-status').value;
 
@@ -1863,16 +2607,36 @@
         return;
       }
 
-      // Mock save
-      const newProduct = {
-        id: mockData.products.length + 1,
-        name, icon: icon || '📚', category, price, sold: 0, stock, status
+      const slug = name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, 'd').replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-');
+      const productData = {
+        name, category, emoji: icon || '📚', icon: icon || '📚', description,
+        price, originalPrice, original_price: originalPrice,
+        stock, status, slug,
+        coverGradient: 'linear-gradient(145deg, #0A1A2E, #0D2845)',
+        rating: 4.5, soldCount: 0, sold_count: 0,
       };
-      mockData.products.push(newProduct);
-      
-      closeProductModal();
-      loadProducts();
-      showToast('success', 'Đã lưu sản phẩm thành công!');
+
+      try {
+        const currentIdStr = document.getElementById('product-modal').dataset.editId;
+        if (currentIdStr) {
+          // Update existing
+          await firestoreUpdateProduct(currentIdStr, productData);
+          const pIndex = mockData.products.findIndex(p => p.id === currentIdStr);
+          if (pIndex > -1) Object.assign(mockData.products[pIndex], productData, { id: currentIdStr });
+          showToast('success', 'Đã cập nhật sản phẩm!');
+        } else {
+          // Create new
+          const newId = await firestoreCreateProduct(productData);
+          productData.id = newId;
+          mockData.products.push(productData);
+          showToast('success', 'Đã thêm sản phẩm mới!');
+        }
+        localStorage.setItem('sonhai_products', JSON.stringify(mockData.products));
+        closeProductModal();
+        loadProducts();
+      } catch (err) {
+        showToast('error', 'Lỗi lưu: ' + err.message);
+      }
     }
 
     function handleProductFileUpload(event) {
@@ -1898,12 +2662,30 @@
     }
 
     // ==================== ORDERS ====================
-    function loadOrders() {
+    async function loadOrders() {
+      document.getElementById('orders-count-sub').textContent = 'Đang tải...';
+      try {
+        const { dbFB, collection, getDocs, query, orderBy } = window._fb;
+        const q = query(collection(dbFB, 'orders'), orderBy('createdAt', 'desc'));
+        const snap = await getDocs(q);
+        mockData.orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch(e) {
+        console.warn('Load orders from Firestore:', e.message);
+      }
       document.getElementById('orders-count-sub').textContent = `${mockData.orders.length} đơn hàng`;
       renderOrders(mockData.orders);
     }
 
     function renderOrders(orders) {
+      if (orders.length === 0) {
+        document.getElementById('orders-tbody').innerHTML = `
+          <tr><td colspan="8" style="text-align:center;padding:50px;color:var(--text-3);">
+            <div style="font-size:36px;margin-bottom:12px;">🛒</div>
+            <div style="font-size:15px;font-weight:600;margin-bottom:6px;">Chưa có đơn hàng nào</div>
+            <div style="font-size:13px;">Đơn hàng sẽ tự động xuất hiện khi khách hàng thanh toán qua SeaPay</div>
+          </td></tr>`;
+        return;
+      }
       const html = orders.map(o => `
         <tr onclick="viewOrderDetail('${o.id}')" style="cursor:pointer;">
           <td><strong>${o.id}</strong></td>
@@ -2011,12 +2793,29 @@
     }
 
     // ==================== CUSTOMERS ====================
-    function loadCustomers() {
+    async function loadCustomers() {
+      document.getElementById('customers-count-sub').textContent = 'Đang tải...';
+      try {
+        const { dbFB, collection, getDocs } = window._fb;
+        const snap = await getDocs(collection(dbFB, 'users'));
+        mockData.customers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch(e) {
+        console.warn('Load customers from Firestore:', e.message);
+      }
       document.getElementById('customers-count-sub').textContent = `${mockData.customers.length} khách hàng`;
       renderCustomers(mockData.customers);
     }
 
     function renderCustomers(customers) {
+      if (customers.length === 0) {
+        document.getElementById('customers-tbody').innerHTML = `
+          <tr><td colspan="6" style="text-align:center;padding:50px;color:var(--text-3);">
+            <div style="font-size:36px;margin-bottom:12px;">👥</div>
+            <div style="font-size:15px;font-weight:600;margin-bottom:6px;">Chưa có khách hàng nào</div>
+            <div style="font-size:13px;">Khách hàng sẽ xuất hiện khi có người đăng ký tài khoản</div>
+          </td></tr>`;
+        return;
+      }
       const html = customers.map(c => `
         <tr onclick="viewCustomerDetail(${c.id})" style="cursor:pointer;">
           <td>
@@ -2122,12 +2921,30 @@
     }
 
     // ==================== PAYMENTS ====================
-    function loadPayments() {
+    async function loadPayments() {
+      document.getElementById('payments-count-sub').textContent = 'Đang tải...';
+      try {
+        const { dbFB, collection, getDocs, query, orderBy } = window._fb;
+        const q = query(collection(dbFB, 'payments'), orderBy('createdAt', 'desc'));
+        const snap = await getDocs(q);
+        mockData.payments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch(e) {
+        console.warn('Load payments from Firestore:', e.message);
+      }
       document.getElementById('payments-count-sub').textContent = `${mockData.payments.length} giao dịch`;
       renderPayments(mockData.payments);
     }
 
     function renderPayments(payments) {
+      if (payments.length === 0) {
+        document.getElementById('payments-tbody').innerHTML = `
+          <tr><td colspan="8" style="text-align:center;padding:50px;color:var(--text-3);">
+            <div style="font-size:36px;margin-bottom:12px;">💳</div>
+            <div style="font-size:15px;font-weight:600;margin-bottom:6px;">Chưa có giao dịch nào</div>
+            <div style="font-size:13px;">Giao dịch sẽ được ghi nhận khi khách thanh toán qua SeaPay</div>
+          </td></tr>`;
+        return;
+      }
       const html = payments.map(p => `
         <tr>
           <td><strong>${p.id}</strong></td>
@@ -2165,29 +2982,57 @@
     }
 
     // ==================== CONTENT ====================
-    function loadContent() {
-      renderContent(mockData.content);
+    // ==================== BLOG / CONTENT MANAGEMENT (Firestore) ====================
+    let contentEditId = null;
+    let blogPostsCache = [];
+
+    async function loadContent() {
+      const tbody = document.getElementById('content-tbody');
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-3)">Đang tải bài viết...</td></tr>';
+      try {
+        const { dbFB, collection, getDocs, query, orderBy } = window._fb;
+        const q = query(collection(dbFB, 'blog_posts'), orderBy('createdAt', 'desc'));
+        const snapshot = await getDocs(q);
+        blogPostsCache = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderContent(blogPostsCache);
+      } catch (err) {
+        console.error('Load blog posts error:', err);
+        // Show error
+        document.getElementById('content-tbody').innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-3)">Lỗi tải bài viết: ' + err.message + '</td></tr>';
+      }
     }
 
     function renderContent(content) {
-      const html = content.map(c => `
-        <tr>
+      const html = content.map(c => {
+        const title = c.title || 'Chưa có tiêu đề';
+        const type = c.type || 'blog';
+        const author = c.author || 'Admin';
+        const views = c.views || 0;
+        const status = c.status || 'draft';
+        const date = c.date || (c.createdAt ? new Date(c.createdAt.seconds * 1000).toLocaleDateString('vi-VN') : '');
+        const idDisplay = typeof c.id === 'string' ? c.id.substring(0, 8) + '...' : c.id;
+        return `<tr>
           <td>
-            <div style="font-weight:600;">${c.title}</div>
-            <div style="font-size:11px;color:var(--text-3);margin-top:2px;">ID: ${c.id}</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:18px;">${c.emoji || '📝'}</span>
+              <div>
+                <div style="font-weight:600;">${title}</div>
+                <div style="font-size:11px;color:var(--text-3);margin-top:2px;">${c.slug || idDisplay}</div>
+              </div>
+            </div>
           </td>
-          <td>${c.type === 'blog' ? '📝 Blog' : '📄 Page'}</td>
-          <td>${c.author}</td>
-          <td>${c.views}</td>
-          <td><span class="badge badge-${c.status}">${getStatusText(c.status)}</span></td>
-          <td>${formatDate(c.date)}</td>
+          <td>${type === 'blog' ? '📝 Blog' : '📄 Page'}</td>
+          <td>${author}</td>
+          <td>${views}</td>
+          <td><span class="badge badge-${status}">${getStatusText(status)}</span></td>
+          <td>${date}</td>
           <td>
-            <button class="btn btn-outline-sm" onclick="editContent(${c.id})">✏️ Sửa</button>
-            <button class="btn btn-danger-sm" onclick="deleteContent(${c.id})">🗑️</button>
+            <button class="btn btn-outline-sm" onclick="editContent('${c.id}')">✏️ Sửa</button>
+            <button class="btn btn-danger-sm" onclick="deleteContent('${c.id}')">🗑️</button>
           </td>
-        </tr>
-      `).join('');
-      document.getElementById('content-tbody').innerHTML = html || '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-3);">Không có nội dung nào</td></tr>';
+        </tr>`;
+      }).join('');
+      document.getElementById('content-tbody').innerHTML = html || '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-3);">Không có bài viết nào</td></tr>';
     }
 
     function filterContent() {
@@ -2195,91 +3040,331 @@
       const type = document.getElementById('content-type-filter').value;
       const status = document.getElementById('content-status-filter').value;
 
-      const filtered = mockData.content.filter(c => {
-        const matchSearch = c.title.toLowerCase().includes(search);
+      const filtered = blogPostsCache.filter(c => {
+        const matchSearch = (c.title || '').toLowerCase().includes(search);
         const matchType = !type || c.type === type;
         const matchStatus = !status || c.status === status;
         return matchSearch && matchType && matchStatus;
       });
-
       renderContent(filtered);
     }
 
-    function openContentModal(id = null) {
+    function openContentModal(editData = null) {
+      contentEditId = editData ? editData.id : null;
+      document.getElementById('content-modal-title').textContent = editData ? 'Chỉnh sửa bài viết' : 'Tạo bài viết mới';
+      document.getElementById('content-title').value = editData ? editData.title || '' : '';
+      document.getElementById('content-slug').value = editData ? editData.slug || '' : '';
+      document.getElementById('content-category').value = editData ? editData.category || 'Nhân tính' : 'Nhân tính';
+      document.getElementById('content-emoji').value = editData ? editData.emoji || '📝' : '📝';
+      document.getElementById('content-excerpt').value = editData ? editData.excerpt || '' : '';
+      document.getElementById('content-body').value = editData ? editData.body || editData.content || '' : '';
+      document.getElementById('content-readtime').value = editData ? editData.readTime || '5 phút' : '5 phút';
+      document.getElementById('content-gradient').value = editData ? editData.coverGradient || '' : '';
+      document.getElementById('content-type').value = editData ? editData.type || 'blog' : 'blog';
+      document.getElementById('content-status').value = editData ? editData.status || 'draft' : 'draft';
+      document.getElementById('content-meta-desc').value = editData ? editData.metaDesc || '' : '';
       document.getElementById('content-modal').classList.remove('hidden');
-      if (id) {
-        const content = mockData.content.find(c => c.id === id);
-        document.getElementById('content-modal-title').textContent = 'Chỉnh sửa nội dung';
-        document.getElementById('content-title').value = content.title;
-        document.getElementById('content-type').value = content.type;
-        document.getElementById('content-status').value = content.status;
-        document.getElementById('content-body').value = content.body || '';
-        document.getElementById('content-meta-desc').value = content.metaDesc || '';
-      } else {
-        document.getElementById('content-modal-title').textContent = 'Tạo bài viết mới';
-        document.getElementById('content-form').reset();
-      }
     }
 
     function closeContentModal() {
       document.getElementById('content-modal').classList.add('hidden');
       document.getElementById('content-form').reset();
+      contentEditId = null;
     }
 
-    function editContent(id) {
-      openContentModal(id);
-    }
-
-    function deleteContent(id) {
-      if (confirm('Bạn có chắc chắn muốn xóa nội dung này?')) {
-        const index = mockData.content.findIndex(c => c.id === id);
-        if (index > -1) {
-          mockData.content.splice(index, 1);
-          loadContent();
-          showToast('success', 'Đã xóa nội dung thành công!');
-        }
+    async function editContent(postId) {
+      // First check blogPostsCache
+      let post = blogPostsCache.find(p => String(p.id) === String(postId));
+      if (!post) {
+        try {
+          const { dbFB, doc, getDoc } = window._fb;
+          const docSnap = await getDoc(doc(dbFB, 'blog_posts', postId));
+          if (docSnap.exists()) post = { id: postId, ...docSnap.data() };
+        } catch(e) {}
+      }
+      if (post) {
+        openContentModal(post);
+      } else {
+        showToast('error', 'Không tìm thấy bài viết!');
       }
     }
 
-    function saveContent() {
-      const title = document.getElementById('content-title').value;
+    async function deleteContent(postId) {
+      if (!confirm('Bạn có chắc chắn muốn xóa bài viết này?')) return;
+      try {
+        const { dbFB, doc, deleteDoc } = window._fb;
+        await deleteDoc(doc(dbFB, 'blog_posts', String(postId)));
+        showToast('success', 'Đã xóa bài viết!');
+        loadContent();
+      } catch (err) {
+        showToast('error', 'Lỗi xóa: ' + err.message);
+      }
+    }
+
+    async function saveContent() {
+      const title = document.getElementById('content-title').value.trim();
+      const excerpt = document.getElementById('content-excerpt').value.trim();
+      const body = document.getElementById('content-body').value.trim();
+      const category = document.getElementById('content-category').value;
+      const emoji = document.getElementById('content-emoji').value.trim() || '📝';
+      const readTime = document.getElementById('content-readtime').value.trim() || '5 phút';
+      const coverGradient = document.getElementById('content-gradient').value.trim() || 'linear-gradient(145deg, #0F1D38, #091525)';
       const type = document.getElementById('content-type').value;
       const status = document.getElementById('content-status').value;
-      const body = document.getElementById('content-body').value;
+      const metaDesc = document.getElementById('content-meta-desc').value.trim();
 
-      if (!title || !body) {
-        showToast('error', 'Vui lòng điền đầy đủ thông tin!');
+      if (!title || !excerpt || !body) {
+        showToast('error', 'Vui lòng điền đầy đủ tiêu đề, tóm tắt và nội dung!');
         return;
       }
 
-      const newContent = {
-        id: mockData.content.length + 1,
-        title, type, author: currentAdmin.name, views: 0, status, date: '2026-05-01'
+      // Auto-generate slug from title
+      let slug = document.getElementById('content-slug').value.trim();
+      if (!slug) {
+        slug = title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-');
+      }
+
+      const postData = {
+        title, slug, category, emoji, excerpt, body,
+        readTime, coverGradient, type, status, metaDesc,
+        author: currentAdmin ? currentAdmin.name : 'Admin',
+        views: 0,
       };
-      mockData.content.push(newContent);
-      
-      closeContentModal();
-      loadContent();
-      showToast('success', 'Đã lưu nội dung thành công!');
+
+      try {
+        const { dbFB, collection, doc, addDoc, updateDoc, serverTimestamp } = window._fb;
+        if (contentEditId) {
+          await updateDoc(doc(dbFB, 'blog_posts', contentEditId), { ...postData, updatedAt: serverTimestamp() });
+          showToast('success', 'Cập nhật bài viết thành công!');
+        } else {
+          await addDoc(collection(dbFB, 'blog_posts'), { ...postData, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+          showToast('success', 'Tạo bài viết mới thành công!');
+        }
+        closeContentModal();
+        loadContent();
+      } catch (err) {
+        console.error('Save blog post error:', err);
+        showToast('error', 'Lỗi lưu bài viết: ' + err.message);
+      }
+    }
+
+    // ==================== ABOUT PAGE EDITOR ====================
+    async function loadAboutEditor() {
+      document.getElementById('about-status-sub').textContent = 'Đang tải...';
+      try {
+        const { dbFB, doc, getDoc } = window._fb;
+        const docSnap = await getDoc(doc(dbFB, 'site_content', 'about'));
+        if (docSnap.exists()) {
+          const d = docSnap.data();
+          // Hero
+          document.getElementById('about-hero-eyebrow').value = d.heroEyebrow || '';
+          document.getElementById('about-hero-line1').value = d.heroLine1 || '';
+          document.getElementById('about-hero-line2').value = d.heroLine2 || '';
+          document.getElementById('about-hero-sub').value = d.heroSub || '';
+          document.getElementById('about-hero-cta').value = d.heroCta || '';
+          // Stats
+          document.getElementById('about-stat-products').value = d.statProducts || '';
+          document.getElementById('about-stat-customers').value = d.statCustomers || '';
+          document.getElementById('about-stat-rating').value = d.statRating || '';
+          document.getElementById('about-stat-digital').value = d.statDigital || '';
+          // Story
+          document.getElementById('about-story-title').value = d.storyTitle || '';
+          document.getElementById('about-story-lead').value = d.storyLead || '';
+          document.getElementById('about-story-body').value = d.storyBody || '';
+          document.getElementById('about-story-quote').value = d.storyQuote || '';
+          // Contact
+          document.getElementById('about-contact-email').value = d.contactEmail || '';
+          document.getElementById('about-contact-messenger').value = d.contactMessenger || '';
+          document.getElementById('about-contact-zalo').value = d.contactZalo || '';
+          document.getElementById('about-status-sub').textContent = 'Đã tải dữ liệu từ Firestore';
+        } else {
+          document.getElementById('about-status-sub').textContent = 'Chưa có dữ liệu — hãy điền và lưu';
+        }
+      } catch (err) {
+        console.error('Load about error:', err);
+        document.getElementById('about-status-sub').textContent = 'Lỗi tải: ' + err.message;
+      }
+    }
+
+    async function saveAboutContent() {
+      const aboutData = {
+        heroEyebrow: document.getElementById('about-hero-eyebrow').value.trim(),
+        heroLine1: document.getElementById('about-hero-line1').value.trim(),
+        heroLine2: document.getElementById('about-hero-line2').value.trim(),
+        heroSub: document.getElementById('about-hero-sub').value.trim(),
+        heroCta: document.getElementById('about-hero-cta').value.trim(),
+        statProducts: document.getElementById('about-stat-products').value.trim(),
+        statCustomers: document.getElementById('about-stat-customers').value.trim(),
+        statRating: document.getElementById('about-stat-rating').value.trim(),
+        statDigital: document.getElementById('about-stat-digital').value.trim(),
+        storyTitle: document.getElementById('about-story-title').value.trim(),
+        storyLead: document.getElementById('about-story-lead').value.trim(),
+        storyBody: document.getElementById('about-story-body').value.trim(),
+        storyQuote: document.getElementById('about-story-quote').value.trim(),
+        contactEmail: document.getElementById('about-contact-email').value.trim(),
+        contactMessenger: document.getElementById('about-contact-messenger').value.trim(),
+        contactZalo: document.getElementById('about-contact-zalo').value.trim(),
+      };
+
+      try {
+        const { dbFB, doc, setDoc, serverTimestamp } = window._fb;
+        await setDoc(doc(dbFB, 'site_content', 'about'), { ...aboutData, updatedAt: serverTimestamp() }, { merge: true });
+        showToast('success', 'Đã lưu trang About!');
+        document.getElementById('about-status-sub').textContent = 'Đã lưu thành công ✓';
+      } catch (err) {
+        console.error('Save about error:', err);
+        showToast('error', 'Lỗi lưu: ' + err.message);
+      }
+    }
+
+    // ==================== SUPPORT PAGE EDITOR ====================
+    async function loadSupportEditor() {
+      document.getElementById('support-status-sub').textContent = 'Đang tải...';
+      try {
+        const { dbFB, doc, getDoc } = window._fb;
+        const docSnap = await getDoc(doc(dbFB, 'site_content', 'support'));
+        if (docSnap.exists()) {
+          const d = docSnap.data();
+          document.getElementById('support-hero-eyebrow').value = d.heroEyebrow || '';
+          document.getElementById('support-hero-title').value = d.heroTitle || '';
+          document.getElementById('support-hero-sub').value = d.heroSub || '';
+          document.getElementById('support-email').value = d.email || '';
+          document.getElementById('support-messenger').value = d.messenger || '';
+          document.getElementById('support-zalo').value = d.zalo || '';
+          document.getElementById('support-hours').value = d.hours || '';
+          document.getElementById('support-announcement').value = d.announcement || '';
+          document.getElementById('support-status-sub').textContent = 'Đã tải dữ liệu từ Firestore';
+        } else {
+          document.getElementById('support-status-sub').textContent = 'Chưa có dữ liệu — hãy điền và lưu';
+        }
+      } catch (err) {
+        console.error('Load support error:', err);
+        document.getElementById('support-status-sub').textContent = 'Lỗi: ' + err.message;
+      }
+    }
+
+    async function saveSupportContent() {
+      const data = {
+        heroEyebrow: document.getElementById('support-hero-eyebrow').value.trim(),
+        heroTitle: document.getElementById('support-hero-title').value.trim(),
+        heroSub: document.getElementById('support-hero-sub').value.trim(),
+        email: document.getElementById('support-email').value.trim(),
+        messenger: document.getElementById('support-messenger').value.trim(),
+        zalo: document.getElementById('support-zalo').value.trim(),
+        hours: document.getElementById('support-hours').value.trim(),
+        announcement: document.getElementById('support-announcement').value.trim(),
+      };
+      try {
+        const { dbFB, doc, setDoc, serverTimestamp } = window._fb;
+        await setDoc(doc(dbFB, 'site_content', 'support'), { ...data, updatedAt: serverTimestamp() }, { merge: true });
+        showToast('success', 'Đã lưu trang Support!');
+        document.getElementById('support-status-sub').textContent = 'Đã lưu thành công ✓';
+      } catch (err) {
+        console.error('Save support error:', err);
+        showToast('error', 'Lỗi lưu: ' + err.message);
+      }
+    }
+
+    // ==================== BANNER EDITOR ====================
+    async function loadBannerEditor() {
+      document.getElementById('banner-status-sub').textContent = 'Đang tải...';
+      try {
+        const { dbFB, doc, getDoc } = window._fb;
+        const docSnap = await getDoc(doc(dbFB, 'site_content', 'banner'));
+        if (docSnap.exists()) {
+          const d = docSnap.data();
+          document.getElementById('banner-enabled').value = String(d.enabled !== false);
+          document.getElementById('banner-type').value = d.type || 'info';
+          document.getElementById('banner-text').value = d.text || '';
+          document.getElementById('banner-link').value = d.link || '';
+          document.getElementById('banner-link-text').value = d.linkText || '';
+          updateBannerPreview();
+          document.getElementById('banner-status-sub').textContent = 'Đã tải dữ liệu từ Firestore';
+        } else {
+          document.getElementById('banner-status-sub').textContent = 'Chưa có dữ liệu — hãy điền và lưu';
+        }
+      } catch (err) {
+        console.error('Load banner error:', err);
+        document.getElementById('banner-status-sub').textContent = 'Lỗi: ' + err.message;
+      }
+
+      // Live preview listeners
+      ['banner-text', 'banner-type', 'banner-enabled'].forEach(id => {
+        document.getElementById(id).addEventListener('input', updateBannerPreview);
+        document.getElementById(id).addEventListener('change', updateBannerPreview);
+      });
+    }
+
+    function updateBannerPreview() {
+      const text = document.getElementById('banner-text').value || 'Banner text...';
+      const type = document.getElementById('banner-type').value;
+      const enabled = document.getElementById('banner-enabled').value === 'true';
+      const preview = document.getElementById('banner-preview');
+      const colors = {
+        info: { bg: 'rgba(0,212,212,.1)', border: 'rgba(0,212,212,.2)', color: 'var(--teal)' },
+        promo: { bg: 'rgba(245,166,35,.1)', border: 'rgba(245,166,35,.2)', color: '#F5A623' },
+        warning: { bg: 'rgba(239,68,68,.1)', border: 'rgba(239,68,68,.2)', color: '#EF4444' },
+        success: { bg: 'rgba(16,185,129,.1)', border: 'rgba(16,185,129,.2)', color: '#10B981' },
+      };
+      const c = colors[type] || colors.info;
+      preview.style.background = c.bg;
+      preview.style.borderColor = c.border;
+      preview.style.color = c.color;
+      preview.style.opacity = enabled ? '1' : '0.4';
+      preview.textContent = (enabled ? '' : '[ẨN] ') + text;
+    }
+
+    async function saveBannerContent() {
+      const data = {
+        enabled: document.getElementById('banner-enabled').value === 'true',
+        type: document.getElementById('banner-type').value,
+        text: document.getElementById('banner-text').value.trim(),
+        link: document.getElementById('banner-link').value.trim(),
+        linkText: document.getElementById('banner-link-text').value.trim(),
+      };
+      try {
+        const { dbFB, doc, setDoc, serverTimestamp } = window._fb;
+        await setDoc(doc(dbFB, 'site_content', 'banner'), { ...data, updatedAt: serverTimestamp() }, { merge: true });
+        showToast('success', 'Đã lưu Banner!');
+        document.getElementById('banner-status-sub').textContent = 'Đã lưu thành công ✓';
+      } catch (err) {
+        console.error('Save banner error:', err);
+        showToast('error', 'Lỗi lưu: ' + err.message);
+      }
     }
 
     // ==================== EMAILS ====================
-    function loadEmails() {
+    async function loadEmails() {
+      try {
+        const { dbFB, collection, getDocs, query, orderBy } = window._fb;
+        const q = query(collection(dbFB, 'emails'), orderBy('createdAt', 'desc'));
+        const snap = await getDocs(q);
+        mockData.emails = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch(e) { console.warn('Load emails:', e.message); }
       renderEmails(mockData.emails);
       renderEmailTemplates();
     }
 
     function renderEmails(emails) {
+      if (emails.length === 0) {
+        document.getElementById('emails-tbody').innerHTML = `
+          <tr><td colspan="5" style="text-align:center;padding:50px;color:var(--text-3);">
+            <div style="font-size:36px;margin-bottom:12px;">✉️</div>
+            <div style="font-size:15px;font-weight:600;margin-bottom:6px;">Chưa có email nào</div>
+            <div style="font-size:13px;">Email sẽ được ghi nhận khi hệ thống gửi thông báo tự động</div>
+          </td></tr>`;
+        return;
+      }
       const html = emails.map(e => `
         <tr>
           <td>${e.to}</td>
           <td>${e.subject}</td>
           <td>${e.type}</td>
           <td><span class="badge badge-${e.status === 'sent' ? 'success' : 'pending'}">${e.status === 'sent' ? 'Đã gửi' : 'Đang gửi'}</span></td>
-          <td>${e.time}</td>
+          <td>${e.time || ''}</td>
         </tr>
       `).join('');
-      document.getElementById('emails-tbody').innerHTML = html || '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-3);">Chưa có email nào</td></tr>';
+      document.getElementById('emails-tbody').innerHTML = html;
     }
 
     function renderEmailTemplates() {
@@ -2342,32 +3427,52 @@
     }
 
     // ==================== ADMINS ====================
-    function loadAdmins() {
+    async function loadAdmins() {
+      document.getElementById('admins-count-sub').textContent = 'Đang tải...';
+      try {
+        const { dbFB, collection, getDocs, query, where } = window._fb;
+        const q = query(collection(dbFB, 'users'), where('role', 'in', ['admin', 'super-admin']));
+        const snap = await getDocs(q);
+        mockData.admins = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch(e) {
+        console.warn('Load admins from Firestore:', e.message);
+        // Fallback: show current logged-in admin
+        if (currentAdmin) {
+          mockData.admins = [{ id: currentAdmin.uid, name: currentAdmin.name, email: currentAdmin.email, role: currentAdmin.role, status: 'active', lastLogin: 'Phiên hiện tại' }];
+        }
+      }
       document.getElementById('admins-count-sub').textContent = `${mockData.admins.length} admin`;
       renderAdmins(mockData.admins);
     }
 
     function renderAdmins(admins) {
+      if (admins.length === 0) {
+        document.getElementById('admins-tbody').innerHTML = `
+          <tr><td colspan="6" style="text-align:center;padding:50px;color:var(--text-3);">
+            <div style="font-size:36px;margin-bottom:12px;">🔐</div>
+            <div style="font-size:15px;font-weight:600;">Chưa có admin nào</div>
+          </td></tr>`;
+        return;
+      }
       const html = admins.map(a => `
         <tr>
           <td>
             <div style="display:flex;align-items:center;gap:12px;">
               <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--teal-dim));display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--bg);">
-                ${a.name.charAt(0)}
+                ${(a.name || a.email || '?').charAt(0).toUpperCase()}
               </div>
               <div>
-                <div style="font-weight:600;">${a.name}</div>
-                <div style="font-size:11px;color:var(--text-3);margin-top:2px;">ID: ${a.id}</div>
+                <div style="font-weight:600;">${a.name || a.email}</div>
+                <div style="font-size:11px;color:var(--text-3);margin-top:2px;">UID: ${typeof a.id === 'string' ? a.id.substring(0,8) + '...' : a.id}</div>
               </div>
             </div>
           </td>
           <td>${a.email}</td>
           <td><span class="badge badge-${a.role === 'super-admin' ? 'success' : 'pending'}">${getRoleText(a.role)}</span></td>
-          <td><span class="badge badge-${a.status}">${getStatusText(a.status)}</span></td>
-          <td>${a.lastLogin}</td>
+          <td><span class="badge badge-${a.status || 'active'}">${getStatusText(a.status || 'active')}</span></td>
+          <td>${a.lastLogin || '—'}</td>
           <td>
-            <button class="btn btn-outline-sm" onclick="editAdmin(${a.id})">✏️ Sửa</button>
-            ${a.id !== 1 ? '<button class="btn btn-danger-sm" onclick="deleteAdmin(' + a.id + ')">🗑️</button>' : ''}
+            <button class="btn btn-outline-sm" onclick="editAdmin('${a.id}')">✏️ Sửa</button>
           </td>
         </tr>
       `).join('');
@@ -2440,22 +3545,37 @@
     }
 
     // ==================== LOGS ====================
-    function loadLogs() {
+    async function loadLogs() {
+      try {
+        const { dbFB, collection, getDocs, query, orderBy, limit } = window._fb;
+        const q = query(collection(dbFB, 'admin_logs'), orderBy('time', 'desc'), limit(50));
+        const snap = await getDocs(q);
+        mockData.logs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch(e) { console.warn('Load logs:', e.message); }
       renderLogs(mockData.logs);
     }
 
     function renderLogs(logs) {
+      if (logs.length === 0) {
+        document.getElementById('logs-tbody').innerHTML = `
+          <tr><td colspan="6" style="text-align:center;padding:50px;color:var(--text-3);">
+            <div style="font-size:36px;margin-bottom:12px;">📋</div>
+            <div style="font-size:15px;font-weight:600;margin-bottom:6px;">Chưa có nhật ký nào</div>
+            <div style="font-size:13px;">Hoạt động quản trị sẽ được ghi nhận tại đây</div>
+          </td></tr>`;
+        return;
+      }
       const html = logs.map(l => `
         <tr>
-          <td>${l.time}</td>
-          <td>${l.admin}</td>
-          <td><span class="badge badge-${l.action === 'Tạo mới' ? 'success' : l.action === 'Xóa' ? 'cancelled' : 'pending'}">${l.action}</span></td>
-          <td>${l.module}</td>
-          <td>${l.detail}</td>
-          <td style="font-family:monospace;font-size:11px;">${l.ip}</td>
+          <td>${l.time || ''}</td>
+          <td>${l.admin || ''}</td>
+          <td><span class="badge badge-${l.action === 'Tạo mới' ? 'success' : l.action === 'Xóa' ? 'cancelled' : 'pending'}">${l.action || ''}</span></td>
+          <td>${l.module || ''}</td>
+          <td>${l.detail || ''}</td>
+          <td style="font-family:monospace;font-size:11px;">${l.ip || ''}</td>
         </tr>
       `).join('');
-      document.getElementById('logs-tbody').innerHTML = html || '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-3);">Không có nhật ký nào</td></tr>';
+      document.getElementById('logs-tbody').innerHTML = html;
     }
 
     function filterLogs() {
@@ -2641,7 +3761,7 @@ function loadPageContent(page) {
       const select = document.getElementById('product-select');
       select.innerHTML = '<option value="">-- Chọn sản phẩm --</option>';
 
-      mockProducts.forEach(product => {
+      mockData.products.forEach(product => {
         const option = document.createElement('option');
         option.value = product.id;
         option.textContent = product.name;
@@ -2659,7 +3779,7 @@ function loadPageContent(page) {
         return;
       }
 
-      const product = mockProducts.find(p => p.id === productId);
+      const product = mockData.products.find(p => p.id === productId);
       if (!product) return;
 
       document.getElementById('edit-product-name').value = product.name;
@@ -2692,35 +3812,57 @@ function loadPageContent(page) {
       form.style.display = 'block';
     }
 
-    function saveProductEdit() {
+    async function saveProductEdit() {
       const select = document.getElementById('product-select');
-      const productId = parseInt(select.value);
+      const productId = select.value;
 
       if (!productId) {
         showToast('error', 'Vui lòng chọn sản phẩm!');
         return;
       }
 
-      const product = mockProducts.find(p => p.id === productId);
+      const product = mockData.products.find(p => String(p.id) === String(productId));
       if (!product) return;
 
-      product.name = document.getElementById('edit-product-name').value;
-      product.price = parseInt(document.getElementById('edit-product-price').value);
-      product.originalPrice = parseInt(document.getElementById('edit-product-original-price').value);
-      product.category = document.getElementById('edit-product-category').value;
-      product.description = document.getElementById('edit-product-description').value;
-      product.fullDescription = document.getElementById('edit-product-full-description').value;
-      product.pages = parseInt(document.getElementById('edit-product-pages').value);
-      product.format = document.getElementById('edit-product-format').value;
-      product.status = document.getElementById('edit-product-status').value;
+      const updates = {
+        name: document.getElementById('edit-product-name').value,
+        price: parseInt(document.getElementById('edit-product-price').value),
+        originalPrice: parseInt(document.getElementById('edit-product-original-price').value) || 0,
+        original_price: parseInt(document.getElementById('edit-product-original-price').value) || 0,
+        category: document.getElementById('edit-product-category').value,
+        description: document.getElementById('edit-product-description').value,
+        fullDescription: document.getElementById('edit-product-full-description').value,
+        pages: parseInt(document.getElementById('edit-product-pages').value) || 250,
+        format: document.getElementById('edit-product-format').value,
+        status: document.getElementById('edit-product-status').value,
+      };
 
-      // Save image if uploaded
-      const imageDisplay = document.getElementById('product-image-display');
-      if (imageDisplay.src && imageDisplay.style.display !== 'none') {
-        product.image = imageDisplay.src;
+      // Handle image upload to Firebase Storage
+      const imageInput = document.getElementById('product-image-input');
+      if (imageInput.files && imageInput.files[0]) {
+        try {
+          const imageUrl = await firestoreUploadImage(imageInput.files[0], productId);
+          updates.imageUrl = imageUrl;
+          updates.image = imageUrl;
+        } catch (err) {
+          showToast('error', 'Lỗi upload ảnh: ' + err.message);
+        }
+      } else {
+        const imageDisplay = document.getElementById('product-image-display');
+        if (imageDisplay.src && imageDisplay.style.display !== 'none' && !imageDisplay.src.startsWith('data:')) {
+          updates.imageUrl = imageDisplay.src;
+          updates.image = imageDisplay.src;
+        }
       }
 
-      showToast('success', 'Đã cập nhật sản phẩm: ' + product.name);
+      try {
+        await firestoreUpdateProduct(productId, updates);
+        Object.assign(product, updates);
+        localStorage.setItem('sonhai_products', JSON.stringify(mockData.products));
+        showToast('success', 'Đã cập nhật sản phẩm: ' + updates.name);
+      } catch (err) {
+        showToast('error', 'Lỗi lưu Firestore: ' + err.message);
+      }
     }
 
     // Image upload functions
@@ -2821,7 +3963,7 @@ function importContent() {
       input.click();
     }
 
-    // ==================== INIT ====================
+    // ==================== INIT (Login Form + Shortcuts) ====================
     document.addEventListener('DOMContentLoaded', function() {
       // Add login form event listener
       const loginForm = document.getElementById('login-form');
@@ -2829,18 +3971,10 @@ function importContent() {
         loginForm.addEventListener('submit', handleLogin);
       }
 
-      // Check if already logged in
-      const savedAdmin = localStorage.getItem('admin');
-      if (savedAdmin) {
-        currentAdmin = JSON.parse(savedAdmin);
-        showApp();
-      }
-
       // Keyboard shortcuts
       document.addEventListener('keydown', function(e) {
         if (e.ctrlKey && e.key === 's') {
           e.preventDefault();
-          // Save current page
           const saveButtons = document.querySelectorAll('.page-section.active .btn-teal');
           if (saveButtons.length > 0) {
             saveButtons[0].click();
@@ -2985,6 +4119,7 @@ function importContent() {
       border-top: 1px solid var(--border);
     }
   </style>
+
 
 </body>
 </html>

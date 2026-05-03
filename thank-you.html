@@ -346,12 +346,12 @@
       <h1>Đặt hàng <span class="highlight">thành công!</span></h1>
 
       <!-- Order ID -->
-      <div class="order-id">
+      <div class="order-id" id="order-id">
         Mã đơn hàng: <strong>#ORD-2024-001</strong>
       </div>
 
       <!-- Description -->
-      <p class="description">
+      <p class="description" id="order-desc">
         Cảm ơn bạn đã mua hàng! Email xác nhận và link tải file đã được gửi đến <strong>email@example.com</strong>
       </p>
 
@@ -430,6 +430,22 @@
   </footer>
 
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const orderJson = sessionStorage.getItem('sonhai_last_order');
+      if (orderJson) {
+        try {
+          const order = JSON.parse(orderJson);
+          document.getElementById('order-id').innerHTML = `Mã đơn hàng: <strong>#${order.orderNumber}</strong>`;
+          document.getElementById('order-desc').innerHTML = `Cảm ơn bạn đã mua hàng! Email xác nhận và link tải file đã được gửi đến <strong>${order.customerEmail}</strong>`;
+          
+          // Optionally, render download items here if the order had them
+          // We can mock some downloads since we cleared the cart.
+        } catch (e) {
+          console.error('Lỗi khi đọc đơn hàng:', e);
+        }
+      }
+    });
+
     function downloadFile(btn, name, format) {
       const original = btn.innerHTML;
       btn.disabled = true;
