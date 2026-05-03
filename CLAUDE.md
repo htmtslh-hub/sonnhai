@@ -259,14 +259,45 @@ Cache: localStorage với prefix `sndata_`, TTL 5 phút.
 - Env var: `RESEND_API_KEY` trên Vercel
 - Free tier: onboarding@resend.dev (chưa verify domain)
 
-### ✅ Phase 11: Security & SEO — HOÀN THÀNH
-- Firestore Security Rules đã viết xong (cần deploy qua Firebase Console)
-- Vercel security headers: X-Content-Type-Options, X-Frame-Options, X-XSS-Protection, Referrer-Policy, Permissions-Policy
-- SEO meta tags (description, keywords, author, canonical, Open Graph) cho 7 trang public: index, categories, product, blog, blog-post, about, support
-- noindex/nofollow cho 5 trang private: cart, checkout, account, thank-you, seapay-return
-- Fix title separators thiếu em dash (—) ở blog, about, support
-- Fix encoding mojibake ở seapay-return.html
-- Hướng dẫn manual: deploy Firestore Rules, verify domain Resend, custom domain Vercel
+### ✅ Phase 11.1: Critical Bugfix — Cart, Categories, Admin (2026-05-03)
+- **Root cause:** Firestore IDs là string, code dùng `parseInt()` → NaN → cart không hoạt động
+- **10 bugs đã fix:**
+  1. `cart-badge.js`: `p.id == productId` → `String(p.id) === String(productId)` (addProduct, removeProduct)
+  2. `index.html`: Bỏ `parseInt(card.dataset.productId)` → dùng string trực tiếp
+  3. `categories.html`: Bỏ `parseInt(card.dataset.id)` → dùng string
+  4. `categories.html`: `renderProducts()` không bao giờ được gọi → thêm init + retry chờ Firestore
+  5. `cart.html`: `cart.items` → `cart` (getCart() trả array, không phải object)
+  6. `checkout.html`: Cùng bug `cart.items` → `cart.length > 0`
+  7. `cart.html`: `removeProduct(parseInt(id))` → bỏ parseInt
+  8. `admin.html`: Product modal categories sai (ebook/course) → đúng (Nhân tính/Tư duy/...)
+  9. `admin.html`: Thiếu field `product-original-price`, `product-form`, `product-file-preview`
+  10. `admin.html`: Auto-seed 10 sản phẩm mặc định vào Firestore khi collection rỗng
+
+---
+
+## Kiến trúc Data Flow
+
+```
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│  cart-badge.js   │ ←── │  localStorage    │ ←── │ firestore-sync  │
+│  (IIFE, v5)     │     │  sonhai_products │     │  (ES Module)    │
+│  - defaultData  │     │  sonhai_cart_items│     │  - Firestore DB │
+│  - addProduct() │     └──────────────────┘     │  - Cache 5min   │
+│  - getCart()     │                              │  - normalizeProduct│
+└─────────────────┘                              └─────────────────┘
+        ↑                                                ↑
+   index.html                                      admin.html
+   categories.html                              (loadFirestoreProducts)
+   product.html                                 (seedProductsToFirestore)
+   cart.html
+   checkout.html
+```
+
+**Quan trọng:**
+- Product ID trên Firestore là **string** (ví dụ: `abc123xyz`), KHÔNG phải number
+- Luôn dùng `String(id)` khi so sánh ID
+- `getCart()` trả về **array[]**, KHÔNG phải `{items: []}`
+- cart-badge.js version hiện tại: `v=5` — tất cả page phải dùng cùng version
 
 ---
 
@@ -290,7 +321,15 @@ Cache: localStorage với prefix `sndata_`, TTL 5 phút.
 
 ---
 
-## Cập nhật lần cuối: 2026-05-03
+## Known Issues / TODO cho phiên tiếp theo
 
-**Trạng thái:** Phase 1-11 hoàn thành. Website live tại https://sonnhai.vercel.app. Thanh toán SePay + Email tự động Resend + Security headers + SEO meta tags đã production-ready.
+1. **Cần verify thủ công:** User test lại cart flow end-to-end trên thiết bị khác (add→cart→checkout→thanh toán)
+2. **Admin "Chỉnh sửa SP":** Modal `saveProductEdit()` ở dòng ~3929 — chưa test kỹ
+3. **Firestore products:** Lần đầu admin login sẽ auto-seed. Nếu đã seed rồi thì sẽ load từ Firestore bình thường
+4. **Custom domain:** Chưa setup (sonnhai.com → Vercel)
+5. **Email domain:** Chưa verify trên Resend (đang dùng onboarding@resend.dev)
+
+## Cập nhật lần cuối: 2026-05-03 17:21
+
+**Trạng thái:** Phase 1-11 hoàn thành + Bugfix round (Phase 11.1). Website live tại https://sonnhai.vercel.app. Đã fix cart/checkout/categories/admin. Cần user verify trên thiết bị khác.
 
