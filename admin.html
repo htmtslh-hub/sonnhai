@@ -1749,8 +1749,19 @@
                   <input type="text" class="editor-input" id="edit-product-name">
                 </div>
 
+                <div class="grid-2">
+                  <div class="editor-group">
+                    <label class="editor-label">Slug (URL)</label>
+                    <input type="text" class="editor-input" id="edit-product-slug" placeholder="vd: thuc-tinh-nhan-thuc">
+                  </div>
+                  <div class="editor-group">
+                    <label class="editor-label">Emoji / Icon</label>
+                    <input type="text" class="editor-input" id="edit-product-emoji" placeholder="💡" style="font-size:20px;">
+                  </div>
+                </div>
+
                 <div class="editor-group">
-                  <label class="editor-label">Ảnh sản phẩm</label>
+                  <label class="editor-label">Ảnh bìa sản phẩm</label>
                   <div class="image-upload-wrapper">
                     <div class="image-preview" id="product-image-preview">
                       <img id="product-image-display" src="" alt="Preview" style="display:none;">
@@ -1760,25 +1771,31 @@
                           <circle cx="8.5" cy="8.5" r="1.5"></circle>
                           <polyline points="21 15 16 10 5 21"></polyline>
                         </svg>
-                        <p>Chưa có ảnh</p>
+                        <p>Chưa có ảnh bìa</p>
                       </div>
                     </div>
                     <div class="image-upload-actions">
                       <input type="file" id="product-image-input" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
                       <button type="button" class="btn btn-outline-sm" onclick="document.getElementById('product-image-input').click()">
-                        📁 Chọn ảnh
+                        📁 Chọn ảnh bìa
                       </button>
                       <button type="button" class="btn btn-danger-sm" onclick="removeProductImage()" id="remove-image-btn" style="display:none;">
                         🗑️ Xóa ảnh
                       </button>
                     </div>
-                    <p class="image-upload-hint">Định dạng: JPG, PNG, WebP. Tối đa 5MB. Khuyến nghị: 800x1000px</p>
+                    <p class="image-upload-hint">Định dạng: JPG, PNG, WebP. Tối đa 5MB. Khuyến nghị: 800x1200px</p>
                   </div>
+                </div>
+
+                <div class="editor-group">
+                  <label class="editor-label">Cover Gradient (nền card khi không có ảnh)</label>
+                  <input type="text" class="editor-input" id="edit-product-cover-gradient" placeholder="linear-gradient(145deg, #0A1A2E, #0D2845)">
+                  <div id="cover-gradient-preview" style="height:60px;border-radius:10px;margin-top:8px;border:1px solid var(--border);"></div>
                 </div>
 
                 <div class="grid-2">
                   <div class="editor-group">
-                    <label class="editor-label">Giá (VNĐ)</label>
+                    <label class="editor-label">Giá bán (VNĐ)</label>
                     <input type="number" class="editor-input" id="edit-product-price">
                   </div>
                   <div class="editor-group">
@@ -1790,21 +1807,34 @@
                 <div class="editor-group">
                   <label class="editor-label">Danh mục</label>
                   <select class="editor-input" id="edit-product-category">
-                    <option value="Sách Kỹ Năng">Sách Kỹ Năng</option>
-                    <option value="Sách Kinh Doanh">Sách Kinh Doanh</option>
-                    <option value="Sách Tâm Lý">Sách Tâm Lý</option>
-                    <option value="Sách Công Nghệ">Sách Công Nghệ</option>
+                    <option value="Nhân tính">Nhân tính</option>
+                    <option value="Tư duy">Tư duy</option>
+                    <option value="Kỹ năng sống">Kỹ năng sống</option>
+                    <option value="Hệ thống">Hệ thống</option>
+                    <option value="Tài chính">Tài chính</option>
+                    <option value="Tình cảm">Tình cảm</option>
                   </select>
                 </div>
 
                 <div class="editor-group">
-                  <label class="editor-label">Mô tả ngắn</label>
-                  <textarea class="editor-input" id="edit-product-description" rows="3"></textarea>
+                  <label class="editor-label">Mô tả ngắn (hiện trên card sản phẩm)</label>
+                  <textarea class="editor-input" id="edit-product-description" rows="3" placeholder="Mô tả ngắn gọn về sản phẩm..."></textarea>
                 </div>
 
                 <div class="editor-group">
-                  <label class="editor-label">Mô tả chi tiết</label>
-                  <textarea class="editor-input" id="edit-product-full-description" rows="6"></textarea>
+                  <label class="editor-label">Giới thiệu chi tiết (hiện trên trang sản phẩm)</label>
+                  <textarea class="editor-input" id="edit-product-full-description" rows="8" placeholder="Nội dung giới thiệu đầy đủ..."></textarea>
+                </div>
+
+                <div class="grid-2">
+                  <div class="editor-group">
+                    <label class="editor-label">Đánh giá (1-5)</label>
+                    <input type="number" class="editor-input" id="edit-product-rating" min="1" max="5" step="0.1">
+                  </div>
+                  <div class="editor-group">
+                    <label class="editor-label">Đã bán</label>
+                    <input type="number" class="editor-input" id="edit-product-sold-count">
+                  </div>
                 </div>
 
                 <div class="grid-2">
@@ -1821,8 +1851,8 @@
                 <div class="editor-group">
                   <label class="editor-label">Trạng thái</label>
                   <select class="editor-input" id="edit-product-status">
-                    <option value="published">Published</option>
-                    <option value="draft">Draft</option>
+                    <option value="published">✅ Đã xuất bản</option>
+                    <option value="draft">📝 Nháp</option>
                   </select>
                 </div>
               </div>
@@ -3925,14 +3955,14 @@ function loadPageContent(page) {
       mockData.products.forEach(product => {
         const option = document.createElement('option');
         option.value = product.id;
-        option.textContent = product.name;
+        option.textContent = (product.emoji || '📚') + ' ' + product.name;
         select.appendChild(option);
       });
     }
 
     function loadSelectedProduct() {
       const select = document.getElementById('product-select');
-      const productId = parseInt(select.value);
+      const productId = select.value;
       const form = document.getElementById('product-edit-form');
 
       if (!productId) {
@@ -3940,26 +3970,42 @@ function loadPageContent(page) {
         return;
       }
 
-      const product = mockData.products.find(p => p.id === productId);
-      if (!product) return;
+      const product = mockData.products.find(p => String(p.id) === String(productId));
+      if (!product) {
+        showToast('error', 'Không tìm thấy sản phẩm!');
+        return;
+      }
 
-      document.getElementById('edit-product-name').value = product.name;
-      document.getElementById('edit-product-price').value = product.price;
-      document.getElementById('edit-product-original-price').value = product.originalPrice || product.price;
-      document.getElementById('edit-product-category').value = product.category;
+      document.getElementById('edit-product-name').value = product.name || '';
+      document.getElementById('edit-product-slug').value = product.slug || '';
+      document.getElementById('edit-product-emoji').value = product.emoji || product.icon || '📚';
+      document.getElementById('edit-product-price').value = product.price || 0;
+      document.getElementById('edit-product-original-price').value = product.originalPrice || product.original_price || 0;
+      document.getElementById('edit-product-category').value = product.category || '';
       document.getElementById('edit-product-description').value = product.description || '';
-      document.getElementById('edit-product-full-description').value = product.fullDescription || product.description || '';
+      document.getElementById('edit-product-full-description').value = product.fullDescription || '';
+      document.getElementById('edit-product-rating').value = product.rating || 4.5;
+      document.getElementById('edit-product-sold-count').value = product.soldCount || product.sold_count || 0;
       document.getElementById('edit-product-pages').value = product.pages || 0;
       document.getElementById('edit-product-format').value = product.format || 'PDF';
       document.getElementById('edit-product-status').value = product.status || 'published';
+
+      // Cover gradient
+      const gradientInput = document.getElementById('edit-product-cover-gradient');
+      const gradientPreview = document.getElementById('cover-gradient-preview');
+      gradientInput.value = product.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)';
+      gradientPreview.style.background = gradientInput.value;
+      gradientInput.addEventListener('input', function() {
+        gradientPreview.style.background = this.value;
+      });
 
       // Load product image
       const imageDisplay = document.getElementById('product-image-display');
       const placeholder = document.getElementById('image-placeholder');
       const removeBtn = document.getElementById('remove-image-btn');
 
-      if (product.image) {
-        imageDisplay.src = product.image;
+      if (product.imageUrl || product.image) {
+        imageDisplay.src = product.imageUrl || product.image;
         imageDisplay.style.display = 'block';
         placeholder.style.display = 'none';
         removeBtn.style.display = 'inline-flex';
@@ -3970,7 +4016,11 @@ function loadPageContent(page) {
         removeBtn.style.display = 'none';
       }
 
+      // Clear file input
+      document.getElementById('product-image-input').value = '';
+
       form.style.display = 'block';
+      showToast('info', 'Đang chỉnh sửa: ' + product.name);
     }
 
     async function saveProductEdit() {
@@ -3983,25 +4033,53 @@ function loadPageContent(page) {
       }
 
       const product = mockData.products.find(p => String(p.id) === String(productId));
-      if (!product) return;
+      if (!product) {
+        showToast('error', 'Không tìm thấy sản phẩm trong danh sách!');
+        return;
+      }
+
+      // Auto-generate slug if empty
+      const nameVal = document.getElementById('edit-product-name').value.trim();
+      let slugVal = document.getElementById('edit-product-slug').value.trim();
+      if (!slugVal && nameVal) {
+        slugVal = nameVal.toLowerCase()
+          .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+          .replace(/đ/g, 'd').replace(/Đ/g, 'D')
+          .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        document.getElementById('edit-product-slug').value = slugVal;
+      }
 
       const updates = {
-        name: document.getElementById('edit-product-name').value,
-        price: parseInt(document.getElementById('edit-product-price').value),
+        name: nameVal,
+        slug: slugVal,
+        emoji: document.getElementById('edit-product-emoji').value.trim() || '📚',
+        icon: document.getElementById('edit-product-emoji').value.trim() || '📚',
+        price: parseInt(document.getElementById('edit-product-price').value) || 0,
         originalPrice: parseInt(document.getElementById('edit-product-original-price').value) || 0,
         original_price: parseInt(document.getElementById('edit-product-original-price').value) || 0,
         category: document.getElementById('edit-product-category').value,
         description: document.getElementById('edit-product-description').value,
         fullDescription: document.getElementById('edit-product-full-description').value,
+        coverGradient: document.getElementById('edit-product-cover-gradient').value || 'linear-gradient(145deg, #0A1A2E, #0D2845)',
+        rating: parseFloat(document.getElementById('edit-product-rating').value) || 4.5,
+        soldCount: parseInt(document.getElementById('edit-product-sold-count').value) || 0,
+        sold_count: parseInt(document.getElementById('edit-product-sold-count').value) || 0,
         pages: parseInt(document.getElementById('edit-product-pages').value) || 250,
-        format: document.getElementById('edit-product-format').value,
+        format: document.getElementById('edit-product-format').value || 'PDF',
         status: document.getElementById('edit-product-status').value,
       };
+
+      // Show saving state
+      const saveBtn = document.querySelector('#page-product-editor .page-header .btn');
+      const originalText = saveBtn.innerHTML;
+      saveBtn.innerHTML = '⏳ Đang lưu...';
+      saveBtn.disabled = true;
 
       // Handle image upload to Firebase Storage
       const imageInput = document.getElementById('product-image-input');
       if (imageInput.files && imageInput.files[0]) {
         try {
+          showToast('info', 'Đang upload ảnh bìa...');
           const imageUrl = await firestoreUploadImage(imageInput.files[0], productId);
           updates.imageUrl = imageUrl;
           updates.image = imageUrl;
@@ -4009,10 +4087,14 @@ function loadPageContent(page) {
           showToast('error', 'Lỗi upload ảnh: ' + err.message);
         }
       } else {
+        // Keep existing image if not removed
         const imageDisplay = document.getElementById('product-image-display');
-        if (imageDisplay.src && imageDisplay.style.display !== 'none' && !imageDisplay.src.startsWith('data:')) {
+        if (imageDisplay.style.display !== 'none' && imageDisplay.src && !imageDisplay.src.endsWith('admin.html')) {
           updates.imageUrl = imageDisplay.src;
           updates.image = imageDisplay.src;
+        } else {
+          updates.imageUrl = '';
+          updates.image = '';
         }
       }
 
@@ -4020,9 +4102,15 @@ function loadPageContent(page) {
         await firestoreUpdateProduct(productId, updates);
         Object.assign(product, updates);
         localStorage.setItem('sonhai_products', JSON.stringify(mockData.products));
-        showToast('success', 'Đã cập nhật sản phẩm: ' + updates.name);
+        showToast('success', '✅ Đã cập nhật sản phẩm: ' + updates.name);
+        // Refresh dropdown text
+        const selectedOption = select.querySelector(`option[value="${productId}"]`);
+        if (selectedOption) selectedOption.textContent = (updates.emoji || '📚') + ' ' + updates.name;
       } catch (err) {
         showToast('error', 'Lỗi lưu Firestore: ' + err.message);
+      } finally {
+        saveBtn.innerHTML = originalText;
+        saveBtn.disabled = false;
       }
     }
 
