@@ -38,7 +38,7 @@ htmlFiles.forEach(file => {
 console.log(`\n✓ Copied ${htmlCount} HTML files`);
 
 // Copy directories
-const dirs = ['css', 'js'];
+const dirs = ['css', 'js', 'chuan'];
 dirs.forEach(dir => {
   if (fs.existsSync(dir)) {
     fs.cpSync(dir, path.join('public', dir), { recursive: true });
