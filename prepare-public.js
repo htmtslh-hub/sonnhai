@@ -66,7 +66,7 @@ images.forEach(img => {
 console.log(`\n✓ Copied ${images.length} images`);
 
 // Create .gitignore in public
-fs.writeFileSync('public/.gitignore', '# Ignore everything\n*\n');
+// NOTE: Do NOT create .gitignore in public/ — it causes Vercel to skip files
 
 console.log('\n✅ Frontend preparation complete!');
 console.log(`📁 Files in public/: ${fs.readdirSync('public').length}`);

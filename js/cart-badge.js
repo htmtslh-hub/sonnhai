@@ -169,6 +169,13 @@
     var existing = cart.find(function(item) { return String(item.id) === String(productId); });
     if (existing) {
       existing.quantity = (existing.quantity || 1) + (quantity || 1);
+      // Update product info in case it changed
+      existing.name = product.name;
+      existing.price = product.price;
+      existing.emoji = product.emoji;
+      existing.bg = product.coverGradient;
+      existing.category = product.category;
+      existing.imageUrl = product.imageUrl || '';
     } else {
       cart.push({
         id: product.id,
@@ -178,7 +185,8 @@
         quantity: quantity || 1,
         emoji: product.emoji,
         bg: product.coverGradient,
-        category: product.category
+        category: product.category,
+        imageUrl: product.imageUrl || ''
       });
     }
     saveCart(cart);

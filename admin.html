@@ -2115,6 +2115,42 @@
     }
 
     // ==================== FIRESTORE DATA LOADING ====================
+    // Auto-generate imageUrl from slug (shared helper)
+    function autoImageUrl(slug) {
+      if (!slug) return '';
+      return 'chuan/' + slug.replace(/-/g, '_') + '.jpeg';
+    }
+
+    // Normalize a product object for consistent fields across admin + public
+    function normalizeAdminProduct(p) {
+      const imgUrl = p.imageUrl || p.image || autoImageUrl(p.slug);
+      return {
+        id: p.id,
+        slug: p.slug || '',
+        name: p.name || '',
+        category: p.category || '',
+        price: p.price || 0,
+        originalPrice: p.originalPrice || p.original_price || 0,
+        original_price: p.originalPrice || p.original_price || 0,
+        emoji: p.emoji || p.icon || '📚',
+        icon: p.emoji || p.icon || '📚',
+        coverGradient: p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)',
+        description: p.description || '',
+        fullDescription: p.fullDescription || p.full_description || '',
+        rating: p.rating || 4.5,
+        sold_count: p.soldCount || p.sold_count || 0,
+        soldCount: p.soldCount || p.sold_count || 0,
+        sold: p.soldCount || p.sold_count || 0,
+        status: p.status || 'published',
+        pages: p.pages || 250,
+        format: p.format || 'PDF',
+        imageUrl: imgUrl,
+        image: imgUrl,
+        stock: p.stock || '∞',
+        category_name: p.category || '',
+      };
+    }
+
     async function loadFirestoreProducts() {
       try {
         const { dbFB, collection, getDocs, query, orderBy } = window._fb;
@@ -2122,30 +2158,7 @@
         if (!snapshot.empty) {
           const products = snapshot.docs.map(d => {
             const data = d.data();
-            return {
-              id: d.id,
-              slug: data.slug || '',
-              name: data.name || '',
-              category: data.category || '',
-              price: data.price || 0,
-              originalPrice: data.originalPrice || data.original_price || 0,
-              original_price: data.originalPrice || data.original_price || 0,
-              emoji: data.emoji || data.icon || '📚',
-              icon: data.emoji || data.icon || '📚',
-              coverGradient: data.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)',
-              description: data.description || '',
-              fullDescription: data.fullDescription || '',
-              rating: data.rating || 4.5,
-              sold_count: data.soldCount || data.sold_count || 0,
-              soldCount: data.soldCount || data.sold_count || 0,
-              sold: data.soldCount || data.sold_count || 0,
-              status: data.status || 'published',
-              pages: data.pages || 250,
-              format: data.format || 'PDF',
-              imageUrl: data.imageUrl || '',
-              image: data.imageUrl || '',
-              stock: data.stock || '∞',
-            };
+            return normalizeAdminProduct({ id: d.id, ...data });
           });
           mockData.products = products;
           // Also sync to localStorage for public pages
@@ -2240,15 +2253,20 @@
 
     // ── Sync products data to all public-page cache layers ──
     function syncProductsToPublicPages() {
+      // Normalize all products before syncing
+      const normalized = mockData.products.map(normalizeAdminProduct);
+      mockData.products = normalized;
       // 1. Update cart-badge localStorage (used as fallback by all pages)
-      localStorage.setItem('sonhai_products', JSON.stringify(mockData.products));
+      localStorage.setItem('sonhai_products', JSON.stringify(normalized));
       // 2. Clear firestore-sync.js cache so public pages fetch fresh data
       localStorage.removeItem('sndata_products');
-      // 3. Update cart-badge in-memory if loaded
-      if (window.SonHaiCartBadge && window.SonHaiCartBadge.setProducts) {
-        window.SonHaiCartBadge.setProducts(mockData.products);
+      // 3. Bump version to force cart-badge.js to use fresh data
+      localStorage.setItem('sonhai_products_version', '99');
+      // 4. Update cart-badge in-memory if loaded
+      if (window.SonHaiCartBadge && window.SonHaiCartBadge.saveProducts) {
+        window.SonHaiCartBadge.saveProducts(normalized);
       }
-      console.log('🔄 Synced products to all public page caches');
+      console.log('🔄 Synced', normalized.length, 'products to all public page caches');
     }
 
     // ==================== COMBO MANAGEMENT ====================
@@ -2426,7 +2444,7 @@
         // Count products from Firestore
         const prodSnap = await getDocs(collection(dbFB, 'products'));
         const productCount = prodSnap.size;
-        mockData.products = prodSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+        mockData.products = prodSnap.docs.map(d => normalizeAdminProduct({ id: d.id, ...d.data() }));
 
         // Count combos
         let comboCount = 0;
@@ -2633,14 +2651,19 @@
     }
 
     function renderProducts(products) {
-      const html = products.map(p => `
+      const html = products.map(p => {
+        const imgUrl = p.imageUrl || p.image || '';
+        const thumbHtml = imgUrl
+          ? `<div class="prod-icon" style="width:40px;height:52px;border-radius:6px;overflow:hidden;padding:0;font-size:0;flex-shrink:0;"><img src="${imgUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.fontSize='18px';this.parentElement.textContent='${p.emoji || '📚'}'"></div>`
+          : `<div class="prod-icon">${p.emoji || p.icon || '📚'}</div>`;
+        return `
         <tr>
           <td>
             <div style="display:flex;align-items:center;gap:12px;">
-              <div class="prod-icon">${p.emoji || p.icon || '📚'}</div>
+              ${thumbHtml}
               <div>
                 <div style="font-weight:600;">${p.name}</div>
-                <div style="font-size:11px;color:var(--text-3);margin-top:2px;">ID: ${p.id}</div>
+                <div style="font-size:11px;color:var(--text-3);margin-top:2px;">${p.slug || p.id}</div>
               </div>
             </div>
           </td>
@@ -2653,8 +2676,8 @@
             <button class="btn btn-outline-sm" onclick="editProduct('${p.id}')">✏️ Sửa</button>
             <button class="btn btn-danger-sm" onclick="deleteProduct('${p.id}')">🗑️</button>
           </td>
-        </tr>
-      `).join('');
+        </tr>`;
+      }).join('');
       document.getElementById('products-tbody').innerHTML = html || '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-3);">Không có sản phẩm nào</td></tr>';
     }
 
@@ -2664,7 +2687,7 @@
       const status = document.getElementById('products-status-filter').value;
 
       const filtered = mockData.products.filter(p => {
-        const matchSearch = p.name.toLowerCase().includes(search);
+        const matchSearch = (p.name || '').toLowerCase().includes(search);
         const matchCategory = !category || p.category === category;
         const matchStatus = !status || p.status === status;
         return matchSearch && matchCategory && matchStatus;
@@ -2673,21 +2696,32 @@
       renderProducts(filtered);
     }
 
-    function openProductModal(id = null) {
-      console.log('openProductModal called with id:', id);
-      const modal = document.getElementById('product-modal');
-      console.log('Modal element:', modal);
+    // Available images in chuan/ folder
+    const CHUAN_IMAGES = [
+      'an_chua_huyen_co.jpeg', 'ban_chat_tai_chinh.jpeg', 'goc_nhin_tao_lap.jpeg',
+      'he_thong_manh_me.jpeg', 'logic_nguoi_ngheo.jpeg', 'muu_luoc_tai_chinh.jpeg',
+      'muu_luoc_tuoir_tre.jpeg', 'nhan_tinh_den_trang.jpeg', 'thuc_tinh_nhan_thuc.jpeg',
+      'tinh_cam_bi_tich.jpeg', 'tu_duy_cuong_gia.jpeg', 'tu_duy_sau_sac.jpeg',
+      'tuyet_mat_nhan_tinh.jpeg', 'xuyen_thau_nhan_tinh.jpeg'
+    ];
 
-      if (!modal) {
-        console.error('Modal not found!');
-        return;
-      }
+    function openProductModal(id = null) {
+      const modal = document.getElementById('product-modal');
+      if (!modal) { console.error('Modal not found!'); return; }
 
       modal.classList.remove('hidden');
+
+      // Populate image select dropdown
+      const imgSelect = document.getElementById('product-image-select');
+      if (imgSelect) {
+        imgSelect.innerHTML = '<option value="">Tự động từ slug</option>' +
+          CHUAN_IMAGES.map(img => `<option value="chuan/${img}">${img.replace('.jpeg','').replace(/_/g,' ')}</option>`).join('');
+      }
 
       if (id) {
         document.getElementById('product-modal').dataset.editId = String(id);
         const product = mockData.products.find(p => String(p.id) === String(id));
+        if (!product) { showToast('error', 'Không tìm thấy sản phẩm!'); return; }
         document.getElementById('product-modal-title').textContent = 'Chỉnh sửa sản phẩm';
         document.getElementById('product-name').value = product.name;
         document.getElementById('product-category').value = product.category;
@@ -2697,10 +2731,31 @@
         document.getElementById('product-original-price').value = product.original_price || product.originalPrice || '';
         document.getElementById('product-stock').value = product.stock || 100;
         document.getElementById('product-status').value = product.status || 'published';
+        // New fields
+        if (imgSelect) imgSelect.value = product.imageUrl || '';
+        document.getElementById('product-cover-gradient').value = product.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)';
+        document.getElementById('product-rating').value = product.rating || 4.5;
+        document.getElementById('product-sold-count').value = product.soldCount || product.sold_count || 0;
+        // Show image preview
+        updateImagePreview(product.imageUrl || autoImageUrl(product.slug));
       } else {
         delete document.getElementById('product-modal').dataset.editId;
         document.getElementById('product-modal-title').textContent = 'Thêm sản phẩm mới';
         document.getElementById('product-form').reset();
+        document.getElementById('product-cover-gradient').value = 'linear-gradient(145deg, #0A1A2E, #0D2845)';
+        document.getElementById('product-rating').value = 4.5;
+        document.getElementById('product-sold-count').value = 0;
+        updateImagePreview('');
+      }
+    }
+
+    function updateImagePreview(url) {
+      const preview = document.getElementById('product-image-preview');
+      if (!preview) return;
+      if (url) {
+        preview.innerHTML = `<img src="${url}" alt="Preview" style="width:80px;height:110px;object-fit:cover;border-radius:8px;border:1px solid var(--border);" onerror="this.parentElement.innerHTML='<span style=color:var(--text-3);font-size:12px>Ảnh không tìm thấy</span>'">`;
+      } else {
+        preview.innerHTML = '<span style="color:var(--text-3);font-size:12px;">Sẽ tự tạo từ slug</span>';
       }
     }
 
@@ -2738,27 +2793,43 @@
       const originalPrice = parseInt(document.getElementById('product-original-price').value) || 0;
       const stock = parseInt(document.getElementById('product-stock').value);
       const status = document.getElementById('product-status').value;
+      const selectedImage = document.getElementById('product-image-select')?.value || '';
+      const coverGradient = document.getElementById('product-cover-gradient')?.value || 'linear-gradient(145deg, #0A1A2E, #0D2845)';
+      const rating = parseFloat(document.getElementById('product-rating')?.value) || 4.5;
+      const soldCount = parseInt(document.getElementById('product-sold-count')?.value) || 0;
 
       if (!name || !category || !price) {
         showToast('error', 'Vui lòng điền đầy đủ thông tin!');
         return;
       }
 
-      const slug = name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, 'd').replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-');
+      const currentIdStr = document.getElementById('product-modal').dataset.editId;
+      const existingProduct = currentIdStr ? mockData.products.find(p => String(p.id) === currentIdStr) : null;
+
+      // Preserve slug on edit, or generate new one
+      const slug = existingProduct?.slug || name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, 'd').replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-');
+      // Determine imageUrl: selected > existing > auto-generate
+      const imageUrl = selectedImage || (existingProduct?.imageUrl) || autoImageUrl(slug);
+
       const productData = {
         name, category, emoji: icon || '📚', icon: icon || '📚', description,
         price, originalPrice, original_price: originalPrice,
         stock, status, slug,
-        coverGradient: 'linear-gradient(145deg, #0A1A2E, #0D2845)',
-        rating: 4.5, soldCount: 0, sold_count: 0,
+        coverGradient,
+        imageUrl,
+        image: imageUrl,
+        rating,
+        soldCount,
+        sold_count: soldCount,
       };
-
-      const currentIdStr = document.getElementById('product-modal').dataset.editId;
 
       if (currentIdStr) {
         // ── Update: optimistic local, background sync ──
-        const pIndex = mockData.products.findIndex(p => p.id === currentIdStr);
-        if (pIndex > -1) Object.assign(mockData.products[pIndex], productData, { id: currentIdStr });
+        const pIndex = mockData.products.findIndex(p => String(p.id) === currentIdStr);
+        if (pIndex > -1) {
+          // Merge: keep existing fields not in form, override with new values
+          Object.assign(mockData.products[pIndex], productData, { id: currentIdStr });
+        }
         syncProductsToPublicPages();
         closeProductModal();
         loadProducts();
@@ -4260,7 +4331,7 @@ function importContent() {
   <!-- PRODUCT MODAL -->
   <div id="product-modal" class="modal hidden">
     <div class="modal-overlay" onclick="closeProductModal()"></div>
-    <div class="modal-content" style="max-width: 600px;">
+    <div class="modal-content" style="max-width: 640px;">
       <div class="modal-header">
         <h3 id="product-modal-title">Thêm sản phẩm mới</h3>
         <button class="modal-close" onclick="closeProductModal()">✕</button>
@@ -4285,8 +4356,22 @@ function importContent() {
             </select>
           </div>
           <div class="editor-group">
-            <label class="editor-label">Icon</label>
+            <label class="editor-label">Icon / Emoji</label>
             <input type="text" class="editor-input" id="product-icon" placeholder="📚" value="📚">
+          </div>
+        </div>
+
+        <!-- IMAGE SELECTION -->
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <div class="editor-group" style="flex:1;">
+            <label class="editor-label">🖼️ Ảnh bìa sản phẩm</label>
+            <select class="editor-input" id="product-image-select" onchange="updateImagePreview(this.value)">
+              <option value="">Tự động từ slug</option>
+            </select>
+            <div style="font-size:11px;color:var(--text-3);margin-top:4px;">Chọn ảnh từ folder chuan/ hoặc để trống để tự sinh từ slug</div>
+          </div>
+          <div id="product-image-preview" style="flex-shrink:0;margin-top:22px;">
+            <span style="color:var(--text-3);font-size:12px;">Chưa có ảnh</span>
           </div>
         </div>
 
@@ -4321,6 +4406,24 @@ function importContent() {
           </div>
         </div>
 
+        <!-- COVER GRADIENT -->
+        <div class="editor-group">
+          <label class="editor-label">🎨 Cover Gradient (CSS)</label>
+          <input type="text" class="editor-input" id="product-cover-gradient" placeholder="linear-gradient(145deg, #0A1A2E, #0D2845)" value="linear-gradient(145deg, #0A1A2E, #0D2845)">
+          <div style="height:24px;border-radius:6px;margin-top:6px;border:1px solid var(--border);" id="gradient-preview"></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="editor-group">
+            <label class="editor-label">⭐ Đánh giá (1-5)</label>
+            <input type="number" class="editor-input" id="product-rating" min="1" max="5" step="0.1" value="4.5">
+          </div>
+          <div class="editor-group">
+            <label class="editor-label">📊 Đã bán</label>
+            <input type="number" class="editor-input" id="product-sold-count" min="0" value="0">
+          </div>
+        </div>
+
         <div id="product-file-preview"></div>
       </div>
       <div class="modal-footer">
@@ -4330,6 +4433,24 @@ function importContent() {
       </form>
     </div>
   </div>
+
+  <script>
+    // Live gradient preview
+    const gradInput = document.getElementById('product-cover-gradient');
+    const gradPreview = document.getElementById('gradient-preview');
+    if (gradInput && gradPreview) {
+      gradInput.addEventListener('input', () => {
+        gradPreview.style.background = gradInput.value;
+      });
+      // Also set on modal open via MutationObserver
+      const observer = new MutationObserver(() => {
+        if (!document.getElementById('product-modal').classList.contains('hidden')) {
+          gradPreview.style.background = gradInput.value;
+        }
+      });
+      observer.observe(document.getElementById('product-modal'), { attributes: true, attributeFilter: ['class'] });
+    }
+  </script>
 
   <style>
     /* Modal styles */
