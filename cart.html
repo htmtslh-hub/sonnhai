@@ -432,7 +432,7 @@
     <div class="upsell-grid">
 
       <div class="u-card">
-        <div class="u-thumb" style="background:linear-gradient(145deg,#1A0D2E,#2D0A4E);">◆</div>
+        <div class="u-thumb" style="background:linear-gradient(145deg,#1A0D2E,#2D0A4E);padding:0;overflow:hidden;"><img src="chuan/thuc_tinh_nhan_thuc.jpeg" alt="Thức tỉnh nhận thức" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='◆'"></div>
         <div class="u-body">
           <div class="u-cat">Tư duy</div>
           <div class="u-name">Thức tỉnh nhận thức</div>
@@ -444,7 +444,7 @@
       </div>
 
       <div class="u-card">
-        <div class="u-thumb" style="background:linear-gradient(145deg,#1F1A08,#3D2E0A);">✦</div>
+        <div class="u-thumb" style="background:linear-gradient(145deg,#1F1A08,#3D2E0A);padding:0;overflow:hidden;"><img src="chuan/he_thong_manh_me.jpeg" alt="Hệ thống mạnh mẽ" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='✦'"></div>
         <div class="u-body">
           <div class="u-cat">Hệ thống</div>
           <div class="u-name">Hệ thống mạnh mẽ</div>
@@ -456,7 +456,7 @@
       </div>
 
       <div class="u-card">
-        <div class="u-thumb" style="background:linear-gradient(145deg,#0A1A2E,#0D2845);">◆</div>
+        <div class="u-thumb" style="background:linear-gradient(145deg,#0A1A2E,#0D2845);padding:0;overflow:hidden;"><img src="chuan/tu_duy_sau_sac.jpeg" alt="Tư duy sâu sắc" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='◆'"></div>
         <div class="u-body">
           <div class="u-cat">Tư duy</div>
           <div class="u-name">Tư duy sâu sắc</div>
@@ -468,10 +468,10 @@
       </div>
 
       <div class="u-card">
-        <div class="u-thumb" style="background:linear-gradient(145deg,#1A0F2E,#2D1A4E);">♡</div>
+        <div class="u-thumb" style="background:linear-gradient(145deg,#1A0F2E,#2D1A4E);padding:0;overflow:hidden;"><img src="chuan/tinh_cam_bi_tich.jpeg" alt="Tình cảm bí tịch" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='♡'"></div>
         <div class="u-body">
           <div class="u-cat">Tình cảm</div>
-          <div class="u-name">Tình cảm bế tắc</div>
+          <div class="u-name">Tình cảm bí tịch</div>
           <div class="u-foot">
             <span class="u-price">109.000đ</span>
             <button class="u-add" onclick="addUpsell(this)">+ Thêm</button>
@@ -727,6 +727,7 @@
     const cat = item.category || item.product?.category || 'Sản phẩm số';
     const pages = item.pages || item.product?.pages || '';
     const size = item.fileSize || item.product?.fileSize || '';
+    const imgUrl = item.product?.imageUrl || item.imageUrl || '';
 
     PRICES[id] = price;
     activeItems.add(id);
@@ -736,8 +737,15 @@
     const row = document.createElement('div');
     row.className = 'cart-item';
     row.id = 'item-' + id;
+    
+    let thumbHtml;
+    if (imgUrl) {
+      thumbHtml = `<div class="item-thumb" style="background:${bg};padding:0;overflow:hidden;"><img src="${imgUrl}" alt="${name}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${emoji}'"></div>`;
+    } else {
+      thumbHtml = `<div class="item-thumb" style="background:${bg};">${emoji}</div>`;
+    }
     row.innerHTML = `
-      <div class="item-thumb" style="background:${bg};">${emoji}</div>
+      ${thumbHtml}
       <div class="item-info">
         <div class="item-cat">${cat}</div>
         <div class="item-name">${name}</div>

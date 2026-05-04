@@ -861,7 +861,7 @@
     </div>
     <div class="related-grid">
       <a href="product.html?slug=thuc-tinh-nhan-thuc" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(145deg,#1A0D2E,#2D0A4E);">💡</div>
+        <div class="r-thumb" style="background:linear-gradient(145deg,#1A0D2E,#2D0A4E);padding:0;overflow:hidden;"><img src="chuan/thuc_tinh_nhan_thuc.jpeg" alt="Thức tỉnh nhận thức" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent='💡'"></div>
         <div class="r-body">
           <div class="r-cat">Nhận thức</div>
           <div class="r-name">Thức tỉnh nhận thức</div>
@@ -869,7 +869,7 @@
         </div>
       </a>
       <a href="product.html?slug=logic-nguoi-ngheo" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(145deg,#091A0D,#0D3318);">🔮</div>
+        <div class="r-thumb" style="background:linear-gradient(145deg,#091A0D,#0D3318);padding:0;overflow:hidden;"><img src="chuan/logic_nguoi_ngheo.jpeg" alt="Logic người nghèo" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent='🔮'"></div>
         <div class="r-body">
           <div class="r-cat">Tư duy</div>
           <div class="r-name">Logic người nghèo</div>
@@ -877,7 +877,7 @@
         </div>
       </a>
       <a href="product.html?slug=muu-luoc-tai-chinh" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(145deg,#1F1A08,#3D2E0A);">💰</div>
+        <div class="r-thumb" style="background:linear-gradient(145deg,#1F1A08,#3D2E0A);padding:0;overflow:hidden;"><img src="chuan/muu_luoc_tai_chinh.jpeg" alt="Mưu lược tài chính" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent='💰'"></div>
         <div class="r-body">
           <div class="r-cat">Tài chính</div>
           <div class="r-name">Mưu lược tài chính</div>
@@ -885,7 +885,7 @@
         </div>
       </a>
       <a href="product.html?slug=he-thong-manh-me" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(145deg,#0A1A1A,#0A2D2D);">⚙️</div>
+        <div class="r-thumb" style="background:linear-gradient(145deg,#0A1A1A,#0A2D2D);padding:0;overflow:hidden;"><img src="chuan/he_thong_manh_me.jpeg" alt="Hệ thống mạnh mẽ" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent='⚙️'"></div>
         <div class="r-body">
           <div class="r-cat">Hệ thống</div>
           <div class="r-name">Hệ thống mạnh mẽ</div>
@@ -1278,9 +1278,37 @@
   const breadcrumbCur = document.querySelector('.breadcrumb .cur');
   if (breadcrumbCur) breadcrumbCur.textContent = product.name;
 
-  // Gallery emoji & book title
-  const galleryEmoji = document.getElementById('gallery-emoji');
-  if (galleryEmoji) galleryEmoji.textContent = product.emoji || '📖';
+  // Gallery emoji & book title — or real image
+  const galleryMain = document.getElementById('gallery-main');
+  const galleryBook = document.getElementById('gallery-book');
+  if (product.imageUrl && galleryMain) {
+    // Replace book with real image
+    galleryBook.style.display = 'none';
+    // Hide glow overlay
+    const galleryGlow = galleryMain.querySelector('.gallery-glow');
+    if (galleryGlow) galleryGlow.style.display = 'none';
+    // Check if image element already exists
+    let imgEl = galleryMain.querySelector('.gallery-real-img');
+    if (!imgEl) {
+      imgEl = document.createElement('img');
+      imgEl.className = 'gallery-real-img';
+      imgEl.style.cssText = 'width:72%;max-height:85%;object-fit:contain;border-radius:8px 12px 12px 8px;position:relative;z-index:2;box-shadow:-6px 10px 40px rgba(0,0,0,.7), 6px 6px 0 0 rgba(0,212,212,.08);transition:transform .35s cubic-bezier(.34,1.56,.64,1);';
+      imgEl.loading = 'lazy';
+      galleryMain.insertBefore(imgEl, galleryMain.querySelector('.gallery-badge'));
+      galleryMain.addEventListener('mouseenter', () => imgEl.style.transform = 'rotate(-3deg) scale(1.04)');
+      galleryMain.addEventListener('mouseleave', () => imgEl.style.transform = '');
+    }
+    imgEl.src = product.imageUrl;
+    imgEl.alt = product.name;
+    imgEl.onerror = function() { 
+      this.style.display = 'none'; 
+      galleryBook.style.display = ''; 
+      if (galleryGlow) galleryGlow.style.display = '';
+    };
+  } else {
+    const galleryEmoji = document.getElementById('gallery-emoji');
+    if (galleryEmoji) galleryEmoji.textContent = product.emoji || '📖';
+  }
   document.querySelectorAll('.book-title-face').forEach(el => el.textContent = product.name);
 
   // Category
@@ -1339,7 +1367,7 @@
   }
 
   // Store product id for cart actions
-  window._currentProduct = { id: product.id, slug: product.slug, name: product.name, price: product.price, emoji: product.emoji };
+  window._currentProduct = { id: product.id, slug: product.slug, name: product.name, price: product.price, emoji: product.emoji, imageUrl: product.imageUrl };
 })();
 </script>
 <script src="js/parallax-engine.js?v=grid-particles-2"></script>

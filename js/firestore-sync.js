@@ -63,6 +63,8 @@ function cacheSet(key, data) {
 
 // ─── Normalize product for compatibility with existing frontend ───
 function normalizeProduct(p) {
+  // Auto-generate imageUrl from slug if not provided
+  const imgUrl = p.imageUrl || p.image || (p.slug ? 'chuan/' + p.slug.replace(/-/g, '_') + '.jpeg' : '');
   return {
     id: p.id,
     slug: p.slug || '',
@@ -82,8 +84,8 @@ function normalizeProduct(p) {
     status: p.status || 'published',
     pages: p.pages || 250,
     format: p.format || 'PDF',
-    imageUrl: p.imageUrl || p.image || '',
-    image: p.imageUrl || p.image || '',
+    imageUrl: imgUrl,
+    image: imgUrl,
     category_name: p.category || '',
   };
 }
