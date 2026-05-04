@@ -101,6 +101,11 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // OTP codes: chỉ server (Admin SDK) access
+    match /otp_codes/{otpId} {
+      allow read, write: if false;
+    }
+
     // ═══════════════════════════════════════
     // DEFAULT: Deny all
     // ═══════════════════════════════════════

@@ -222,4 +222,91 @@ function welcomeEmail(data) {
 </html>`;
 }
 
-module.exports = { orderConfirmation, welcomeEmail };
+/**
+ * Email mã xác thực OTP
+ * @param {Object} data
+ * @param {string} data.code - Mã OTP 6 số
+ * @param {string} data.email
+ * @param {number} data.expiryMinutes - Số phút hết hạn
+ */
+function otpEmail(data) {
+  const { code = '000000', email = '', expiryMinutes = 2 } = data;
+
+  // Tách mã thành từng số để hiển thị đẹp
+  const codeDigits = code.split('').map(d => `
+    <td style="width:48px;height:56px;background:#12161F;border:2px solid #00D4D4;border-radius:12px;text-align:center;font-family:'Segoe UI',Roboto,monospace;font-size:28px;font-weight:900;color:#00D4D4;letter-spacing:2px;">
+      ${d}
+    </td>
+  `).join('<td style="width:8px;"></td>');
+
+  return `<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mã xác thực — Thư viện Sơn Nhai</title>
+</head>
+<body style="margin:0;padding:0;background:#08090E;font-family:'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+  <div style="max-width:600px;margin:0 auto;padding:20px;">
+
+    <!-- Header -->
+    <div style="text-align:center;padding:32px 20px;background:linear-gradient(135deg,#0D1018 0%,#12161F 100%);border:1px solid #1C2232;border-radius:16px 16px 0 0;">
+      <div style="display:inline-block;width:48px;height:48px;line-height:48px;background:#00D4D4;border-radius:12px;font-size:18px;font-weight:900;color:#08090E;text-align:center;font-family:'Segoe UI',sans-serif;">SN</div>
+      <h1 style="margin:16px 0 0;font-size:22px;color:#DDE1EC;font-weight:700;">Thư viện Sơn Nhai</h1>
+      <p style="margin:8px 0 0;font-size:13px;color:#8B93A8;">Xác thực đăng nhập</p>
+    </div>
+
+    <!-- Body -->
+    <div style="padding:32px 28px;background:#0D1018;border-left:1px solid #1C2232;border-right:1px solid #1C2232;">
+
+      <!-- Lock Icon -->
+      <div style="text-align:center;margin-bottom:24px;">
+        <div style="display:inline-block;width:64px;height:64px;line-height:64px;background:rgba(0,212,212,0.15);border-radius:50%;font-size:28px;text-align:center;">🔐</div>
+        <h2 style="margin:16px 0 4px;font-size:20px;color:#00D4D4;font-weight:700;">Mã xác thực của bạn</h2>
+        <p style="margin:0;font-size:14px;color:#8B93A8;">Nhập mã bên dưới để đăng nhập</p>
+      </div>
+
+      <!-- OTP Code -->
+      <div style="text-align:center;margin:28px 0;">
+        <table style="margin:0 auto;border-collapse:separate;border-spacing:0;">
+          <tr>${codeDigits}</tr>
+        </table>
+      </div>
+
+      <!-- Info -->
+      <div style="background:#12161F;border:1px solid #1C2232;border-radius:12px;padding:18px 22px;margin:24px 0;">
+        <p style="margin:0 0 10px;font-size:13px;color:#DDE1EC;">
+          📧 Mã được gửi đến: <strong style="color:#00D4D4;">${email}</strong>
+        </p>
+        <p style="margin:0 0 10px;font-size:13px;color:#DDE1EC;">
+          ⏱️ Mã có hiệu lực trong <strong style="color:#F5A623;">${expiryMinutes} phút</strong>
+        </p>
+        <p style="margin:0;font-size:13px;color:#DDE1EC;">
+          🔒 Không chia sẻ mã này với bất kỳ ai
+        </p>
+      </div>
+
+      <!-- Warning -->
+      <p style="font-size:12px;color:#555F75;text-align:center;line-height:1.6;margin-top:20px;">
+        Nếu bạn không yêu cầu mã này, vui lòng bỏ qua email này.<br>
+        Tài khoản của bạn vẫn an toàn.
+      </p>
+
+    </div>
+
+    <!-- Footer -->
+    <div style="padding:24px 28px;background:#0A0B10;border:1px solid #1C2232;border-radius:0 0 16px 16px;text-align:center;">
+      <p style="margin:0 0 8px;font-size:13px;color:#555F75;">
+        Cần hỗ trợ? Truy cập <a href="https://sonnhai.vercel.app/support" style="color:#00AEAE;text-decoration:none;">trang hỗ trợ</a>
+      </p>
+      <p style="margin:0;font-size:11px;color:#3A4255;">
+        © ${new Date().getFullYear()} Thư viện Sơn Nhai. Email này được gửi tự động, vui lòng không trả lời.
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>`;
+}
+
+module.exports = { orderConfirmation, welcomeEmail, otpEmail };

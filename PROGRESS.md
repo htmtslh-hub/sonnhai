@@ -1,5 +1,5 @@
 # Báo Cáo Tiến Độ - Thư viện Sơn Nhai
-**Ngày cập nhật:** 03/05/2026 - 22:00
+**Ngày cập nhật:** 04/05/2026 - 10:05
 **Website:** https://sonnhai.vercel.app
 **Trạng thái tổng:** 🟢 Production — Live & Hoạt động
 
@@ -15,6 +15,7 @@
 | 💳 Thanh toán (SePay VietQR) | ✅ Tích hợp xong |
 | 📧 Email tự động (Resend) | ✅ Hoạt động |
 | 🔒 Bảo mật (Firestore Rules) | ✅ Đã cấu hình |
+| 🔑 Xác thực khách (Gmail OTP) | ✅ Hoạt động |
 
 ---
 
@@ -263,6 +264,112 @@ User mở trang khác → cache miss → fetch fresh → data mới ✅
 - Save speed: Optimistic UI pattern
 - Cross-page sync: Clear sndata_products cache
 
+### Phiên 04/05/2026
+- **account.html encoding corruption** — File bị hỏng encoding (UTF-16LE → garbled ï¿½)
+  - Fix: Lấy navbar/footer sạch từ index.html, fix ~714 ký tự garbled
+- **OTP send-otp.js** — Composite index requirement + JS Date vs Firestore Timestamp
+- **HTML structure** — `</div>div>` bị hỏng
+
 ---
 
-**Tổng kết:** Website đã hoàn thành Phase 1-11 + tất cả bugfix. Hiện đang live tại https://sonnhai.vercel.app với đầy đủ chức năng: store, cart, checkout (SePay), email tự động, admin CMS. Cần setup custom domain và verify email domain cho production cuối cùng.
+## ✅ Công Việc Phiên 04/05/2026
+
+### Phase 12: Gmail OTP Login ✅
+**Mục tiêu:** Thay đăng nhập email+password bằng OTP qua Gmail
+
+| File | Thay đổi |
+|---|---|
+| `api/auth/send-otp.js` | **[MỚI]** API gửi OTP 6 số qua Resend, rate limit 2 phút, chỉ Gmail |
+| `api/auth/verify-otp.js` | **[MỚI]** API xác thực OTP, tạo/tìm user Firebase, trả custom token |
+| `api/email/templates.js` | Thêm `otpEmail()` template dark theme |
+| `firebase.js` | Thêm `signInWithCustomToken` + `loginWithOTP()` |
+| `auth-ui.js` | Rewrite modal: email+password → OTP 2 bước + Google login |
+| `account.html` | Auth page: OTP flow thay login/register forms + fix encoding |
+| `firestore.rules` | Thêm `otp_codes` collection rule (server-only) |
+| `vercel.json` | Thêm rewrites `/api/auth/send-otp`, `/api/auth/verify-otp` |
+
+**Flow:**
+```
+User → Nhập Gmail → API send-otp → Email OTP 6 số
+User → Nhập OTP → API verify-otp → Firebase Custom Token → Đăng nhập
+```
+
+**Bảo mật:**
+- Chỉ `@gmail.com`, rate limit 2 phút/email
+- OTP hết hạn 2 phút, Firestore `otp_codes` server-only
+- Giữ nút "Tiếp tục với Google" (Firebase Auth popup)
+
+---
+
+## 🔄 Đang Triển Khai
+
+### Phase 13: Ảnh Bìa Sản Phẩm (Planned)
+**Mục tiêu:** Thay emoji sản phẩm bằng ảnh thực từ `chuan/`
+
+**14 ảnh đã chuẩn bị:**
+- `an_chua_huyen_co.jpeg`, `ban_chat_tai_chinh.jpeg`, `goc_nhin_tao_lap.jpeg`
+- `he_thong_manh_me.jpeg`, `logic_nguoi_ngheo.jpeg`, `muu_luoc_tai_chinh.jpeg`
+- `muu_luoc_tuoir_tre.jpeg`, `nhan_tinh_den_trang.jpeg`, `thuc_tinh_nhan_thuc.jpeg`
+- `tinh_cam_bi_tich.jpeg`, `tu_duy_cuong_gia.jpeg`, `tu_duy_sau_sac.jpeg`
+- `tuyet_mat_nhan_tinh.jpeg`, `xuyen_thau_nhan_tinh.jpeg`
+
+**Kế hoạch:**
+- [ ] Deploy ảnh qua Vercel (`chuan/` → `public/chuan/`)
+- [ ] Cập nhật card rendering (index, categories, product pages) — hiện ảnh thay emoji
+- [ ] Admin modal: dropdown chọn ảnh + preview
+- [ ] Firestore: lưu `imageUrl` field cho mỗi sản phẩm
+
+---
+
+## 🏗️ Kiến Trúc Hiện Tại
+
+| Component | Tech |
+|---|---|
+| Frontend | Static HTML + Vanilla JS + CSS |
+| Backend | Vercel Serverless Functions (Node.js) |
+| Database | Firebase Firestore |
+| Auth | Firebase Auth (Google + Gmail OTP) |
+| Payment | SePay VietQR |
+| Email | Resend API |
+| Hosting | Vercel |
+
+### Biến Môi Trường (Vercel)
+
+| Key | Mô tả |
+|---|---|
+| `FIREBASE_SERVICE_ACCOUNT` | Firebase Admin SDK credentials (JSON) |
+| `SEPAY_API_KEY` | SePay webhook API key |
+| `RESEND_API_KEY` | Resend email API key |
+| `INTERNAL_API_KEY` | Internal auth key |
+
+### Thông Tin Đăng Nhập Admin
+- **URL:** https://sonnhai.vercel.app/admin
+- **Email:** admin@sonnhai.com
+- **Password:** admin@12345
+
+---
+
+## 🐛 Lỗi Đã Sửa (Tổng Hợp)
+
+### Phiên 01/05/2026
+- Thank-you page: Font, link navigation
+- Admin modal: z-index, HTML thiếu
+
+### Phiên 03/05/2026 (Sáng)
+- **10 critical bugs** (parseInt trên Firestore IDs)
+- Cart, Categories, Checkout, Admin modal categories
+
+### Phiên 03/05/2026 (Tối)
+- Admin Product Editor: parseInt bug, wrong categories, missing fields
+- Save speed: Optimistic UI pattern
+- Cross-page sync: Clear sndata_products cache
+
+### Phiên 04/05/2026
+- account.html encoding corruption (714 garbled chars fixed)
+- OTP API: composite index + Firestore Timestamp fix
+- HTML structure: broken `</div>div>` tag
+
+---
+
+**Tổng kết:** Website đã hoàn thành Phase 1-12. Đang chuẩn bị Phase 13 (ảnh bìa sản phẩm). Live tại https://sonnhai.vercel.app với đầy đủ chức năng: store, cart, checkout (SePay), email tự động, admin CMS, Gmail OTP login.
+

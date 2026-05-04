@@ -9,6 +9,7 @@ import {
   GoogleAuthProvider,
   signOut,
   updateProfile,
+  signInWithCustomToken,
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import {
   getFirestore,
@@ -89,6 +90,11 @@ export async function registerWithEmail(email, password, name) {
 export async function loginWithGoogle() {
   const cred = await signInWithPopup(auth, googleProvider);
   await syncUserToBackend(cred.user);
+  return cred.user;
+}
+
+export async function loginWithOTP(customToken) {
+  const cred = await signInWithCustomToken(auth, customToken);
   return cred.user;
 }
 

@@ -1,11 +1,10 @@
-// auth-ui.js — Modal đăng nhập/đăng ký + navbar auth state
+// auth-ui.js — Modal đăng nhập OTP Gmail + navbar auth state
 // Import vào mọi trang HTML dưới dạng <script type="module" src="/auth-ui.js">
 
 import {
   auth,
-  loginWithEmail,
-  registerWithEmail,
   loginWithGoogle,
+  loginWithOTP,
   logout,
   onAuthStateChanged,
 } from './firebase.js';
@@ -17,73 +16,75 @@ const modalHTML = `
   <div id="auth-modal" style="background:#0D1018;border:1px solid #1C2232;border-radius:16px;padding:36px 32px;width:100%;max-width:400px;margin:16px;position:relative;box-shadow:0 0 60px rgba(0,212,212,.08);">
     <button id="auth-close" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#8B93A8;font-size:20px;cursor:pointer;line-height:1;">✕</button>
 
-    <!-- Tabs -->
-    <div style="display:flex;gap:4px;background:#12161F;border-radius:8px;padding:4px;margin-bottom:28px;">
-      <button class="auth-tab active" data-tab="login" style="flex:1;padding:8px;border:none;border-radius:6px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;">Đăng nhập</button>
-      <button class="auth-tab" data-tab="register" style="flex:1;padding:8px;border:none;border-radius:6px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:#8B93A8;">Đăng ký</button>
+    <!-- Step 1: Email -->
+    <div id="auth-step-email">
+      <div style="text-align:center;margin-bottom:24px;">
+        <div style="font-size:28px;margin-bottom:8px;">🔐</div>
+        <div style="font-family:'Exo 2',sans-serif;font-size:18px;font-weight:800;color:#DDE1EC;">Đăng nhập / Đăng ký</div>
+        <div style="font-size:12px;color:#555F75;margin-top:4px;">Nhập Gmail để nhận mã xác thực</div>
+      </div>
+      <form id="auth-email-form" autocomplete="on">
+        <div style="margin-bottom:16px;">
+          <label style="display:block;font-size:12px;color:#8B93A8;margin-bottom:6px;">Email Gmail</label>
+          <input name="email" type="email" placeholder="your@gmail.com" required
+            style="width:100%;background:#12161F;border:1px solid #1C2232;border-radius:8px;padding:10px 14px;color:#DDE1EC;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s;"
+            onfocus="this.style.borderColor='#00D4D4'" onblur="this.style.borderColor='#1C2232'">
+        </div>
+        <div id="auth-email-error" style="display:none;color:#EF4444;font-size:12px;margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,.08);border-radius:6px;"></div>
+        <button type="submit" id="auth-send-otp-btn"
+          style="width:100%;background:#00D4D4;color:#08090E;border:none;border-radius:8px;padding:11px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;">
+          Gửi mã xác thực
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div style="display:flex;align-items:center;gap:10px;margin:18px 0;">
+        <div style="flex:1;height:1px;background:#1C2232;"></div>
+        <span style="font-size:12px;color:#555F75;">hoặc</span>
+        <div style="flex:1;height:1px;background:#1C2232;"></div>
+      </div>
+
+      <!-- Google Button -->
+      <button id="auth-google-btn"
+        style="width:100%;background:#12161F;border:1px solid #1C2232;border-radius:8px;padding:10px;font-family:inherit;font-size:14px;font-weight:600;color:#DDE1EC;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:border-color .2s;">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Tiếp tục với Google
+      </button>
     </div>
 
-    <!-- Login Form -->
-    <form id="auth-login-form" autocomplete="on">
-      <div style="margin-bottom:14px;">
-        <label style="display:block;font-size:12px;color:#8B93A8;margin-bottom:6px;">Email</label>
-        <input name="email" type="email" placeholder="your@email.com" required
-          style="width:100%;background:#12161F;border:1px solid #1C2232;border-radius:8px;padding:10px 14px;color:#DDE1EC;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s;"
-          onfocus="this.style.borderColor='#00D4D4'" onblur="this.style.borderColor='#1C2232'">
-      </div>
-      <div style="margin-bottom:20px;">
-        <label style="display:block;font-size:12px;color:#8B93A8;margin-bottom:6px;">Mật khẩu</label>
-        <input name="password" type="password" placeholder="••••••••" required
-          style="width:100%;background:#12161F;border:1px solid #1C2232;border-radius:8px;padding:10px 14px;color:#DDE1EC;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s;"
-          onfocus="this.style.borderColor='#00D4D4'" onblur="this.style.borderColor='#1C2232'">
-      </div>
-      <div id="auth-login-error" style="display:none;color:#EF4444;font-size:12px;margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,.08);border-radius:6px;"></div>
-      <button type="submit" id="auth-login-btn"
-        style="width:100%;background:#00D4D4;color:#08090E;border:none;border-radius:8px;padding:11px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;">
-        Đăng nhập
+    <!-- Step 2: OTP -->
+    <div id="auth-step-otp" style="display:none;">
+      <button id="auth-back-btn" style="background:none;border:none;color:#8B93A8;font-size:13px;cursor:pointer;margin-bottom:16px;display:flex;align-items:center;gap:4px;">
+        ← Quay lại
       </button>
-    </form>
-
-    <!-- Register Form -->
-    <form id="auth-register-form" style="display:none;" autocomplete="on">
-      <div style="margin-bottom:14px;">
-        <label style="display:block;font-size:12px;color:#8B93A8;margin-bottom:6px;">Họ tên</label>
-        <input name="name" type="text" placeholder="Nguyễn Văn A" required
-          style="width:100%;background:#12161F;border:1px solid #1C2232;border-radius:8px;padding:10px 14px;color:#DDE1EC;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s;"
-          onfocus="this.style.borderColor='#00D4D4'" onblur="this.style.borderColor='#1C2232'">
+      <div style="text-align:center;margin-bottom:20px;">
+        <div style="font-size:28px;margin-bottom:8px;">📧</div>
+        <div style="font-family:'Exo 2',sans-serif;font-size:18px;font-weight:800;color:#DDE1EC;">Kiểm tra email</div>
+        <div style="font-size:12px;color:#555F75;margin-top:4px;">Mã xác thực đã gửi đến</div>
+        <div id="auth-otp-email-display" style="font-size:13px;color:#00D4D4;font-weight:600;margin-top:4px;"></div>
       </div>
-      <div style="margin-bottom:14px;">
-        <label style="display:block;font-size:12px;color:#8B93A8;margin-bottom:6px;">Email</label>
-        <input name="email" type="email" placeholder="your@email.com" required
-          style="width:100%;background:#12161F;border:1px solid #1C2232;border-radius:8px;padding:10px 14px;color:#DDE1EC;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s;"
-          onfocus="this.style.borderColor='#00D4D4'" onblur="this.style.borderColor='#1C2232'">
+      <form id="auth-otp-form">
+        <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;" id="otp-inputs">
+          <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:44px;height:52px;background:#12161F;border:1.5px solid #1C2232;border-radius:10px;text-align:center;font-size:22px;font-weight:800;color:#00D4D4;font-family:'Exo 2',monospace;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#00D4D4'" onblur="this.style.borderColor='#1C2232'">
+          <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:44px;height:52px;background:#12161F;border:1.5px solid #1C2232;border-radius:10px;text-align:center;font-size:22px;font-weight:800;color:#00D4D4;font-family:'Exo 2',monospace;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#00D4D4'" onblur="this.style.borderColor='#1C2232'">
+          <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:44px;height:52px;background:#12161F;border:1.5px solid #1C2232;border-radius:10px;text-align:center;font-size:22px;font-weight:800;color:#00D4D4;font-family:'Exo 2',monospace;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#00D4D4'" onblur="this.style.borderColor='#1C2232'">
+          <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:44px;height:52px;background:#12161F;border:1.5px solid #1C2232;border-radius:10px;text-align:center;font-size:22px;font-weight:800;color:#00D4D4;font-family:'Exo 2',monospace;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#00D4D4'" onblur="this.style.borderColor='#1C2232'">
+          <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:44px;height:52px;background:#12161F;border:1.5px solid #1C2232;border-radius:10px;text-align:center;font-size:22px;font-weight:800;color:#00D4D4;font-family:'Exo 2',monospace;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#00D4D4'" onblur="this.style.borderColor='#1C2232'">
+          <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:44px;height:52px;background:#12161F;border:1.5px solid #1C2232;border-radius:10px;text-align:center;font-size:22px;font-weight:800;color:#00D4D4;font-family:'Exo 2',monospace;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#00D4D4'" onblur="this.style.borderColor='#1C2232'">
+        </div>
+        <div id="auth-otp-error" style="display:none;color:#EF4444;font-size:12px;margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,.08);border-radius:6px;"></div>
+        <button type="submit" id="auth-verify-btn"
+          style="width:100%;background:#00D4D4;color:#08090E;border:none;border-radius:8px;padding:11px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;">
+          Xác thực
+        </button>
+      </form>
+      <div style="text-align:center;margin-top:14px;">
+        <button id="auth-resend-btn" style="background:none;border:none;color:#555F75;font-size:12px;cursor:pointer;font-family:inherit;" disabled>
+          Gửi lại mã (<span id="auth-resend-timer">120</span>s)
+        </button>
       </div>
-      <div style="margin-bottom:20px;">
-        <label style="display:block;font-size:12px;color:#8B93A8;margin-bottom:6px;">Mật khẩu</label>
-        <input name="password" type="password" placeholder="Ít nhất 6 ký tự" required minlength="6"
-          style="width:100%;background:#12161F;border:1px solid #1C2232;border-radius:8px;padding:10px 14px;color:#DDE1EC;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s;"
-          onfocus="this.style.borderColor='#00D4D4'" onblur="this.style.borderColor='#1C2232'">
-      </div>
-      <div id="auth-register-error" style="display:none;color:#EF4444;font-size:12px;margin-bottom:12px;padding:8px 12px;background:rgba(239,68,68,.08);border-radius:6px;"></div>
-      <button type="submit" id="auth-register-btn"
-        style="width:100%;background:#00D4D4;color:#08090E;border:none;border-radius:8px;padding:11px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;">
-        Tạo tài khoản
-      </button>
-    </form>
-
-    <!-- Divider -->
-    <div style="display:flex;align-items:center;gap:10px;margin:18px 0;">
-      <div style="flex:1;height:1px;background:#1C2232;"></div>
-      <span style="font-size:12px;color:#555F75;">hoặc</span>
-      <div style="flex:1;height:1px;background:#1C2232;"></div>
     </div>
 
-    <!-- Google Button -->
-    <button id="auth-google-btn"
-      style="width:100%;background:#12161F;border:1px solid #1C2232;border-radius:8px;padding:10px;font-family:inherit;font-size:14px;font-weight:600;color:#DDE1EC;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:border-color .2s;">
-      <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-      Tiếp tục với Google
-    </button>
   </div>
 </div>
 `;
@@ -94,10 +95,9 @@ const styleEl = document.createElement('style');
 styleEl.textContent = `
   #auth-overlay { display: none !important; }
   #auth-overlay.open { display: flex !important; }
-  .auth-tab { background: transparent; color: #8B93A8; }
-  .auth-tab.active { background: #00D4D4 !important; color: #08090E !important; }
   #auth-google-btn:hover { border-color: #00D4D4 !important; }
-  #auth-login-btn:hover, #auth-register-btn:hover { background: #00EEEE !important; box-shadow: 0 0 22px rgba(0,212,212,.25); }
+  #auth-send-otp-btn:hover, #auth-verify-btn:hover { background: #00EEEE !important; box-shadow: 0 0 22px rgba(0,212,212,.25); }
+  .otp-digit:focus { border-color: #00D4D4 !important; box-shadow: 0 0 0 3px rgba(0,212,212,.12); }
 
   /* Navbar auth button injected styles */
   .nav-auth-btn {
@@ -148,85 +148,204 @@ document.head.appendChild(styleEl);
 document.body.insertAdjacentHTML('beforeend', modalHTML);
 
 const overlay = document.getElementById('auth-overlay');
-const loginForm = document.getElementById('auth-login-form');
-const registerForm = document.getElementById('auth-register-form');
-const loginError = document.getElementById('auth-login-error');
-const registerError = document.getElementById('auth-register-error');
-const tabs = document.querySelectorAll('.auth-tab');
+const stepEmail = document.getElementById('auth-step-email');
+const stepOtp = document.getElementById('auth-step-otp');
+const emailForm = document.getElementById('auth-email-form');
+const otpForm = document.getElementById('auth-otp-form');
+const emailError = document.getElementById('auth-email-error');
+const otpError = document.getElementById('auth-otp-error');
+const otpDigits = document.querySelectorAll('.otp-digit');
+
+let pendingEmail = '';
+let resendTimer = null;
 
 // ─── MODAL CONTROL ────────────────────────────────────────────────────────────
 
-export function openAuthModal(tab = 'login') {
+export function openAuthModal() {
   overlay.classList.add('open');
-  switchTab(tab);
+  resetToEmailStep();
 }
 
 export function closeAuthModal() {
   overlay.classList.remove('open');
-  loginError.style.display = 'none';
-  registerError.style.display = 'none';
-  loginForm.reset();
-  registerForm.reset();
+  resetToEmailStep();
 }
 
-function switchTab(tab) {
-  tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
-  loginForm.style.display = tab === 'login' ? 'block' : 'none';
-  registerForm.style.display = tab === 'register' ? 'block' : 'none';
+function resetToEmailStep() {
+  stepEmail.style.display = 'block';
+  stepOtp.style.display = 'none';
+  emailError.style.display = 'none';
+  otpError.style.display = 'none';
+  emailForm.reset();
+  otpDigits.forEach(d => { d.value = ''; });
+  clearInterval(resendTimer);
+  pendingEmail = '';
 }
 
 document.getElementById('auth-close').addEventListener('click', closeAuthModal);
 overlay.addEventListener('click', (e) => { if (e.target === overlay) closeAuthModal(); });
-tabs.forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
+document.getElementById('auth-back-btn').addEventListener('click', resetToEmailStep);
 
-// ─── FORM HANDLERS ────────────────────────────────────────────────────────────
+// ─── OTP INPUT LOGIC ──────────────────────────────────────────────────────────
 
-function setLoading(btn, loading) {
-  btn.disabled = loading;
-  btn.style.opacity = loading ? '.6' : '1';
-  btn.textContent = loading
-    ? 'Đang xử lý...'
-    : btn.id === 'auth-login-btn' ? 'Đăng nhập' : 'Tạo tài khoản';
-}
-
-loginForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  loginError.style.display = 'none';
-  const btn = document.getElementById('auth-login-btn');
-  const email = loginForm.email.value.trim();
-  const password = loginForm.password.value;
-  setLoading(btn, true);
-  try {
-    await loginWithEmail(email, password);
-    closeAuthModal();
-  } catch (err) {
-    loginError.textContent = firebaseErrorMessage(err.code || err.message);
-    loginError.style.display = 'block';
-  } finally {
-    setLoading(btn, false);
-  }
+otpDigits.forEach((input, i) => {
+  input.addEventListener('input', (e) => {
+    const val = e.target.value.replace(/\D/g, '');
+    e.target.value = val.slice(-1);
+    if (val && i < otpDigits.length - 1) otpDigits[i + 1].focus();
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && !e.target.value && i > 0) {
+      otpDigits[i - 1].focus();
+    }
+  });
+  // Paste support
+  input.addEventListener('paste', (e) => {
+    e.preventDefault();
+    const paste = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 6);
+    paste.split('').forEach((ch, idx) => {
+      if (otpDigits[idx]) otpDigits[idx].value = ch;
+    });
+    if (paste.length > 0) otpDigits[Math.min(paste.length, 5)].focus();
+  });
 });
 
-registerForm.addEventListener('submit', async (e) => {
+// ─── SEND OTP ─────────────────────────────────────────────────────────────────
+
+emailForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  registerError.style.display = 'none';
-  const btn = document.getElementById('auth-register-btn');
-  const name = registerForm.name.value.trim();
-  const email = registerForm.email.value.trim();
-  const password = registerForm.password.value;
-  setLoading(btn, true);
+  emailError.style.display = 'none';
+  const btn = document.getElementById('auth-send-otp-btn');
+  const email = emailForm.email.value.trim().toLowerCase();
+
+  if (!email.endsWith('@gmail.com')) {
+    emailError.textContent = 'Chỉ hỗ trợ đăng nhập bằng Gmail (@gmail.com)';
+    emailError.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.style.opacity = '.6';
+  btn.textContent = 'Đang gửi mã...';
+
   try {
-    await registerWithEmail(email, password, name);
-    closeAuthModal();
+    const res = await fetch('/api/auth/send-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Không thể gửi mã');
+
+    pendingEmail = email;
+    showOtpStep();
   } catch (err) {
-    registerError.textContent = firebaseErrorMessage(err.code || err.message);
-    registerError.style.display = 'block';
+    emailError.textContent = err.message;
+    emailError.style.display = 'block';
   } finally {
     btn.disabled = false;
     btn.style.opacity = '1';
-    btn.textContent = 'Tạo tài khoản';
+    btn.textContent = 'Gửi mã xác thực';
   }
 });
+
+function showOtpStep() {
+  stepEmail.style.display = 'none';
+  stepOtp.style.display = 'block';
+  document.getElementById('auth-otp-email-display').textContent = pendingEmail;
+  otpDigits.forEach(d => { d.value = ''; });
+  otpDigits[0].focus();
+  startResendTimer();
+}
+
+function startResendTimer() {
+  let seconds = 120;
+  const timerEl = document.getElementById('auth-resend-timer');
+  const resendBtn = document.getElementById('auth-resend-btn');
+  resendBtn.disabled = true;
+  resendBtn.style.color = '#555F75';
+  timerEl.textContent = seconds;
+
+  clearInterval(resendTimer);
+  resendTimer = setInterval(() => {
+    seconds--;
+    timerEl.textContent = seconds;
+    if (seconds <= 0) {
+      clearInterval(resendTimer);
+      resendBtn.disabled = false;
+      resendBtn.style.color = '#00D4D4';
+      resendBtn.innerHTML = 'Gửi lại mã';
+    }
+  }, 1000);
+}
+
+// ─── RESEND OTP ───────────────────────────────────────────────────────────────
+
+document.getElementById('auth-resend-btn').addEventListener('click', async () => {
+  if (!pendingEmail) return;
+  const resendBtn = document.getElementById('auth-resend-btn');
+  resendBtn.disabled = true;
+  resendBtn.textContent = 'Đang gửi...';
+
+  try {
+    const res = await fetch('/api/auth/send-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: pendingEmail }),
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error);
+    startResendTimer();
+  } catch (err) {
+    otpError.textContent = err.message;
+    otpError.style.display = 'block';
+    resendBtn.disabled = false;
+    resendBtn.style.color = '#00D4D4';
+    resendBtn.innerHTML = 'Gửi lại mã';
+  }
+});
+
+// ─── VERIFY OTP ───────────────────────────────────────────────────────────────
+
+otpForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  otpError.style.display = 'none';
+  const code = Array.from(otpDigits).map(d => d.value).join('');
+  const btn = document.getElementById('auth-verify-btn');
+
+  if (code.length !== 6) {
+    otpError.textContent = 'Vui lòng nhập đủ 6 chữ số';
+    otpError.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.style.opacity = '.6';
+  btn.textContent = 'Đang xác thực...';
+
+  try {
+    const res = await fetch('/api/auth/verify-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: pendingEmail, code }),
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Xác thực thất bại');
+
+    // Sign in with Firebase custom token
+    await loginWithOTP(data.data.customToken);
+    closeAuthModal();
+  } catch (err) {
+    otpError.textContent = err.message;
+    otpError.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.textContent = 'Xác thực';
+  }
+});
+
+// ─── GOOGLE LOGIN ─────────────────────────────────────────────────────────────
 
 document.getElementById('auth-google-btn').addEventListener('click', async () => {
   const btn = document.getElementById('auth-google-btn');
@@ -236,35 +355,15 @@ document.getElementById('auth-google-btn').addEventListener('click', async () =>
     await loginWithGoogle();
     closeAuthModal();
   } catch (err) {
-    // Hiện lỗi ở form đang active
-    const errEl = loginForm.style.display !== 'none' ? loginError : registerError;
-    errEl.textContent = firebaseErrorMessage(err.code || err.message);
-    errEl.style.display = 'block';
+    emailError.textContent = err.code === 'auth/popup-closed-by-user' ? 'Đã đóng cửa sổ đăng nhập.' : 'Đăng nhập Google thất bại.';
+    emailError.style.display = 'block';
   } finally {
     btn.disabled = false;
     btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Tiếp tục với Google`;
   }
 });
 
-// ─── FIREBASE ERROR MESSAGES ─────────────────────────────────────────────────
-
-function firebaseErrorMessage(code) {
-  const map = {
-    'auth/invalid-email': 'Email không hợp lệ.',
-    'auth/user-not-found': 'Không tìm thấy tài khoản với email này.',
-    'auth/wrong-password': 'Mật khẩu không đúng.',
-    'auth/invalid-credential': 'Email hoặc mật khẩu không đúng.',
-    'auth/email-already-in-use': 'Email đã được sử dụng. Vui lòng đăng nhập.',
-    'auth/weak-password': 'Mật khẩu quá yếu, cần ít nhất 6 ký tự.',
-    'auth/popup-closed-by-user': 'Đã đóng cửa sổ đăng nhập.',
-    'auth/network-request-failed': 'Lỗi kết nối mạng. Vui lòng thử lại.',
-    'auth/too-many-requests': 'Quá nhiều lần thử. Vui lòng thử lại sau.',
-  };
-  return map[code] || 'Đã xảy ra lỗi, vui lòng thử lại.';
-}
-
 // ─── NAVBAR AUTH STATE ────────────────────────────────────────────────────────
-// Tự động cập nhật khu vực right-nav trên mọi trang
 
 function getInitials(name) {
   if (!name) return '?';
@@ -272,11 +371,9 @@ function getInitials(name) {
 }
 
 function renderNavAuth(user) {
-  // Tìm container nav-right trên trang
   const navRight = document.querySelector('.nav-right');
   if (!navRight) return;
 
-  // Xóa nút auth cũ (nếu có)
   const existing = navRight.querySelector('.nav-auth-btn, .nav-user-menu');
   if (existing) existing.remove();
 
@@ -284,7 +381,7 @@ function renderNavAuth(user) {
     const btn = document.createElement('button');
     btn.className = 'nav-auth-btn';
     btn.textContent = 'Đăng nhập';
-    btn.addEventListener('click', () => openAuthModal('login'));
+    btn.addEventListener('click', () => openAuthModal());
     navRight.appendChild(btn);
   } else {
     const menu = document.createElement('div');
@@ -329,7 +426,6 @@ function renderNavAuth(user) {
 // Lắng nghe trạng thái auth và cập nhật navbar
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    // Lấy role từ backend để hiện/ẩn link admin
     try {
       const token = await user.getIdToken();
       const res = await fetch('/api/auth/me', {

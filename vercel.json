@@ -37,6 +37,8 @@
     { "source": "/api/seapay/webhook", "destination": "/api/seapay/webhook" },
     { "source": "/api/seapay/status", "destination": "/api/seapay/status" },
     { "source": "/api/checkout", "destination": "/api/checkout" },
+    { "source": "/api/auth/send-otp", "destination": "/api/auth/send-otp" },
+    { "source": "/api/auth/verify-otp", "destination": "/api/auth/verify-otp" },
     { "source": "/api/email/send", "destination": "/api/email/send" },
     { "source": "/(.*)", "destination": "/$1" }
   ]
