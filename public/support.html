@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hỗ trợ — Thư viện Sơn Nhai</title>
+  <meta name="description" content="Hỗ trợ khách hàng Thư viện Sơn Nhai. FAQ, liên hệ, giải đáp thắc mắc về sách số, thanh toán và tài khoản.">
+  <meta name="keywords" content="hỗ trợ, FAQ, liên hệ, Sơn Nhai, trợ giúp">
+  <meta name="author" content="Thư viện Sơn Nhai">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://sonnhai.vercel.app/support">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Hỗ trợ — Thư viện Sơn Nhai">
+  <meta property="og:description" content="Hỗ trợ khách hàng, FAQ và liên hệ Thư viện Sơn Nhai.">
+  <meta property="og:url" content="https://sonnhai.vercel.app/support">
+  <meta property="og:locale" content="vi_VN">
+  <meta property="og:site_name" content="Thư viện Sơn Nhai">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+  --bg: #08090E;
+  --bg-2: #0D1018;
+  --bg-3: #12161F;
+  --bg-4: #171C27;
+  --border:  #1C2232;
+  --border-2:#252D3F;
+  --teal:  #00D4D4;
+  --teal-dim: #00AEAE;
+  --teal-dark:#005A5A;
+  --teal-glow: rgba(0,212,212,0.12);
+  --teal-glow-strong: rgba(0,212,212,0.25);
+  --text:  #DDE1EC;
+  --text-2:#8B93A8;
+  --text-3:#555F75;
+  --warn:  #F5A623;
+  --red: #EF4444;
+  --green: #10B981;
+  --purple:#8B5CF6;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Be Vietnam Pro', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; min-height: 100vh; }
+
+  /*  ANNOUNCEMENT  */
+  .ann-bar {
+  background: rgba(0,212,212,.1); border-bottom: 1px solid rgba(0,212,212,.2);
+  padding: 7px 20px; text-align: center; font-size: 11px; font-weight: 700;
+  letter-spacing: 1.5px; color: var(--teal); text-transform: uppercase;
+  }
+
+  /*  NAVBAR  */
+  .nav {
+  position: sticky; top: 0; z-index: 200; height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px;
+  background: rgba(8,9,14,.95); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 15px; font-weight: 800; color: var(--teal); letter-spacing: 1.5px; text-decoration: none; }
+  .nav-logo span { color: var(--text-3); font-weight: 500; }
+  .nav-links { display: flex; gap: 2px; list-style: none; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: var(--text-2); text-decoration: none; padding: 6px 14px; border-radius: 6px; transition: all .2s; }
+  .nav-links a:hover, .nav-links a.on { color: var(--text); background: rgba(255,255,255,.05); }
+  .nav-right { display: flex; align-items: center; gap: 10px; }
+  .nav-search { display: flex; align-items: center; gap: 7px; background: var(--bg-3); border: 1px solid var(--border); border-radius: 7px; padding: 5px 12px; cursor: pointer; transition: border-color .2s; }
+  .nav-search:hover { border-color: var(--teal); }
+  .nav-search span { font-size: 12px; color: var(--text-3); }
+  .nav-cart { position: relative; padding: 5px; cursor: pointer; text-decoration: none; color: inherit; }
+  .cart-dot { position: absolute; top: 2px; right: 2px; width: 15px; height: 15px; border-radius: 50%; background: var(--teal); font-size: 9px; font-weight: 700; color: var(--bg); display: flex; align-items: center; justify-content: center; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: none; border-radius: 7px; cursor: pointer; font-family: 'Be Vietnam Pro',sans-serif; font-weight: 600; transition: all .22s; }
+  .btn-teal { background: var(--teal); color: var(--bg); font-size: 13px; padding: 7px 18px; }
+  .btn-teal:hover { background: #00EEEE; box-shadow: 0 0 22px var(--teal-glow-strong); transform: translateY(-1px); }
+
+  /*  LAYOUT  */
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+  /*  BREADCRUMB  */
+  .breadcrumb { display: flex; align-items: center; gap: 8px; padding: 22px 0 0; font-size: 12.5px; color: var(--text-3); }
+  .breadcrumb a { color: var(--text-3); text-decoration: none; transition: color .2s; }
+  .breadcrumb a:hover { color: var(--teal); }
+  .breadcrumb .sep { color: var(--border-2); }
+  .breadcrumb .cur { color: var(--text-2); font-weight: 600; }
+
+  /*  PAGE HERO  */
+  .page-hero {
+  padding: 52px 0 48px; text-align: center; position: relative; overflow: hidden;
+  }
+  .hero-glow {
+  position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse at center, rgba(0,212,212,.13) 0%, transparent 70%);
+  pointer-events: none;
+  }
+  .hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 48px 48px; opacity: .2; pointer-events: none;
+  }
+  .page-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2.5px; color: var(--teal); text-transform: uppercase; margin-bottom: 14px; }
+  .page-title { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 40px; font-weight: 800; line-height: 1.15; margin-bottom: 12px; }
+  .page-title span { color: var(--teal); }
+  .page-sub { font-size: 15px; color: var(--text-2); max-width: 520px; margin: 0 auto 30px; line-height: 1.7; }
+  .hero-search {
+  display: flex; align-items: center; gap: 0;
+  max-width: 480px; margin: 0 auto;
+  background: var(--bg-3); border: 1px solid var(--border-2); border-radius: 10px;
+  overflow: hidden; transition: border-color .2s;
+  }
+  .hero-search:focus-within { border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-glow); }
+  .hero-search svg { flex-shrink: 0; margin-left: 14px; color: var(--text-3); }
+  .hero-search input {
+  flex: 1; background: none; border: none; outline: none; padding: 12px 14px;
+  font-family: 'Be Vietnam Pro', sans-serif; font-size: 14px; color: var(--text);
+  }
+  .hero-search input::placeholder { color: var(--text-3); }
+  .hero-search-btn {
+  background: var(--teal); border: none; color: var(--bg); font-family: 'Be Vietnam Pro',sans-serif;
+  font-size: 13px; font-weight: 700; padding: 0 18px; height: 44px; cursor: pointer;
+  transition: background .2s;
+  }
+  .hero-search-btn:hover { background: #00EEEE; }
+
+  /*  TAB NAV  */
+  .tab-nav-wrap {
+  position: sticky; top: 52px; z-index: 100;
+  background: rgba(8,9,14,.96); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  }
+  .tab-nav { display: flex; gap: 0; max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+  .tab-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 22px; border: none; background: none; cursor: pointer;
+  font-family: 'Be Vietnam Pro', sans-serif; font-size: 13.5px; font-weight: 500;
+  color: var(--text-3); border-bottom: 2px solid transparent;
+  transition: all .2s; white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--text-2); border-bottom-color: var(--border-2); }
+  .tab-btn.on { color: var(--teal); border-bottom-color: var(--teal); }
+  .tab-btn .t-ico { font-size: 16px; }
+  .tab-count {
+  font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px;
+  background: var(--bg-3); color: var(--text-3); border: 1px solid var(--border);
+  }
+  .tab-btn.on .tab-count { background: var(--teal-glow); color: var(--teal); border-color: var(--teal-dark); }
+
+  /*  PANEL LAYOUT  */
+  .panel { display: none; padding: 44px 0 80px; }
+  .panel.show { display: block; }
+
+  /*  SECTION HEADING  */
+  .sec-h { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .sec-desc { font-size: 14px; color: var(--text-2); line-height: 1.65; margin-bottom: 32px; }
+
+  /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+  PANEL 1  HƯỚNG DẪN TẢI
+  PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+  .step-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 48px; }
+  .step-card {
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px;
+  padding: 24px 20px; text-align: center; position: relative;
+  transition: border-color .2s, transform .2s;
+  }
+  .step-card:hover { border-color: var(--teal-dark); transform: translateY(-3px); }
+  .step-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--teal-glow); border: 1px solid var(--teal-dark);
+  color: var(--teal); font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 14px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+  }
+  .step-ico { font-size: 28px; margin-bottom: 12px; }
+  .step-name { font-weight: 700; font-size: 14px; margin-bottom: 7px; }
+  .step-desc { font-size: 12.5px; color: var(--text-2); line-height: 1.65; }
+  .step-arrow {
+  position: absolute; top: 50%; right: -14px; transform: translateY(-50%);
+  width: 28px; height: 28px; background: var(--bg-3); border: 1px solid var(--border);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  z-index: 2; color: var(--text-3);
+  }
+  .step-card:last-child .step-arrow { display: none; }
+
+  .dl-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+  .dl-info-card {
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px;
+  display: flex; gap: 14px; align-items: flex-start;
+  }
+  .dl-info-ico {
+  width: 38px; height: 38px; border-radius: 9px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  .dl-info-ico.teal { background: var(--teal-glow); }
+  .dl-info-ico.warn { background: rgba(245,166,35,.12); }
+  .dl-info-ico.green { background: rgba(16,185,129,.12); }
+  .dl-info-ico.purple { background: rgba(139,92,246,.12); }
+  .dl-info-title { font-weight: 700; font-size: 13.5px; margin-bottom: 5px; }
+  .dl-info-text { font-size: 12.5px; color: var(--text-2); line-height: 1.65; }
+
+  .warn-box {
+  background: rgba(245,166,35,.07); border: 1px solid rgba(245,166,35,.25);
+  border-radius: 12px; padding: 18px 22px; margin-bottom: 32px;
+  display: flex; gap: 12px; align-items: flex-start;
+  }
+  .warn-box svg { flex-shrink: 0; margin-top: 2px; }
+  .warn-box p { font-size: 13.5px; color: var(--text-2); line-height: 1.7; }
+  .warn-box strong { color: var(--warn); }
+
+  .platform-grid { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
+  .platform-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-3); border: 1px solid var(--border); border-radius: 8px;
+  padding: 9px 16px; font-size: 13px; font-weight: 500;
+  }
+  .platform-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+
+  .trouble-list { display: flex; flex-direction: column; gap: 12px; }
+  .trouble-item {
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px;
+  padding: 18px 22px; cursor: pointer; transition: border-color .2s;
+  }
+  .trouble-item:hover { border-color: var(--border-2); }
+  .trouble-q { font-weight: 600; font-size: 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .trouble-q .ti { transition: transform .25s; color: var(--text-3); flex-shrink: 0; }
+  .trouble-item.open .ti { transform: rotate(180deg); color: var(--teal); }
+  .trouble-a { font-size: 13.5px; color: var(--text-2); line-height: 1.75; max-height: 0; overflow: hidden; transition: max-height .3s ease, margin-top .3s ease; }
+  .trouble-item.open .trouble-a { max-height: 300px; margin-top: 12px; }
+
+  /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+  PANEL 2  CHÍNH SÁCH HON TIN
+  PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+  .policy-layout { display: grid; grid-template-columns: 1fr 280px; gap: 32px; }
+  .policy-content { max-width: 100%; }
+  .policy-block { margin-bottom: 36px; }
+  .policy-block-title {
+  font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 16px; font-weight: 700;
+  margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  }
+  .policy-block-title .badge {
+  font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 5px;
+  }
+  .badge-green { background: rgba(16,185,129,.15); color: var(--green); border: 1px solid rgba(16,185,129,.3); }
+  .badge-red { background: rgba(239,68,68,.12); color: var(--red); border: 1px solid rgba(239,68,68,.25); }
+  .policy-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .policy-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.65; }
+  .policy-list li .ico { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; margin-top: 1px; }
+  .ico-yes { background: rgba(16,185,129,.15); color: var(--green); }
+  .ico-no  { background: rgba(239,68,68,.12); color: var(--red); }
+  .policy-steps { display: flex; flex-direction: column; gap: 0; }
+  .ps-item { display: flex; gap: 16px; }
+  .ps-left { display: flex; flex-direction: column; align-items: center; }
+  .ps-num {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: var(--teal-glow); border: 1px solid var(--teal-dark);
+  color: var(--teal); font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 13px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  }
+  .ps-line { width: 1px; flex: 1; background: var(--border); margin: 4px 0; min-height: 24px; }
+  .ps-item:last-child .ps-line { display: none; }
+  .ps-body { padding-bottom: 24px; }
+  .ps-title { font-weight: 700; font-size: 14px; margin-bottom: 5px; }
+  .ps-desc { font-size: 13px; color: var(--text-2); line-height: 1.65; }
+  .policy-note {
+  background: var(--bg-3); border: 1px solid var(--border-2); border-radius: 10px; padding: 16px 18px;
+  font-size: 13px; color: var(--text-2); line-height: 1.7;
+  }
+  .policy-sidebar { }
+  .sidebar-card {
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px;
+  padding: 22px; margin-bottom: 16px;
+  }
+  .sidebar-card-title { font-weight: 700; font-size: 14px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .sidebar-stat { margin-bottom: 12px; }
+  .stat-label { font-size: 11.5px; color: var(--text-3); margin-bottom: 3px; }
+  .stat-val { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 20px; font-weight: 800; color: var(--teal); }
+  .stat-note { font-size: 11px; color: var(--text-3); }
+  .sidebar-cta {
+  display: block; text-align: center; padding: 11px; border-radius: 8px;
+  background: var(--teal); color: var(--bg); font-size: 13px; font-weight: 700;
+  text-decoration: none; margin-top: 14px; transition: background .2s;
+  }
+  .sidebar-cta:hover { background: #00EEEE; }
+  .policy-process {
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px; padding: 18px 22px;
+  }
+  .pp-title { font-weight: 700; font-size: 13px; margin-bottom: 12px; }
+  .pp-channel { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 13px; }
+  .pp-channel .ch-ico { width: 32px; height: 32px; border-radius: 8px; background: var(--bg-3); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .pp-channel .ch-info .ch-name { font-weight: 600; font-size: 13px; }
+  .pp-channel .ch-info .ch-val { font-size: 12px; color: var(--teal); }
+
+  /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+  PANEL 3  FAQ
+  PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+  .faq-layout { display: grid; grid-template-columns: 1fr 260px; gap: 32px; }
+  .faq-cats { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+  .faq-cat {
+  padding: 6px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 500;
+  border: 1px solid var(--border); background: var(--bg-2); color: var(--text-2);
+  cursor: pointer; transition: all .18s;
+  }
+  .faq-cat:hover { border-color: var(--teal-dark); color: var(--text); }
+  .faq-cat.on { background: var(--teal-glow); border-color: var(--teal-dark); color: var(--teal); }
+  .faq-group { margin-bottom: 36px; }
+  .faq-group-title { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); margin-bottom: 12px; }
+  .faq-item {
+  border: 1px solid var(--border); border-radius: 12px; margin-bottom: 8px;
+  background: var(--bg-2); overflow: hidden; transition: border-color .2s;
+  }
+  .faq-item.open { border-color: var(--teal-dark); }
+  .faq-q {
+  padding: 16px 20px; cursor: pointer; display: flex; justify-content: space-between;
+  đưalign-items: center; gap: 14px; font-size: 14px; font-weight: 600; line-height: 1.5;
+  user-select: none;
+  }
+  .faq-q .fq-arrow { flex-shrink: 0; transition: transform .25s; color: var(--text-3); }
+  .faq-item.open .fq-arrow { transform: rotate(180deg); color: var(--teal); }
+  .faq-a {
+  padding: 0 20px; font-size: 13.5px; color: var(--text-2); line-height: 1.8;
+  max-height: 0; overflow: hidden; transition: max-height .35s ease, padding .25s ease;
+  }
+  .faq-item.open .faq-a { max-height: 500px; padding-bottom: 18px; }
+  .faq-a a { color: var(--teal); }
+  .faq-sidebar-card {
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px;
+  padding: 22px; margin-bottom: 16px;
+  }
+  .faq-popular li { list-style: none; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .faq-popular li:last-child { border-bottom: none; }
+  .faq-popular a { color: var(--text-2); text-decoration: none; transition: color .18s; display: flex; gap: 8px; align-items: flex-start; }
+  .faq-popular a:hover { color: var(--teal); }
+  .faq-popular .fp-num { color: var(--teal); font-weight: 700; font-size: 12px; flex-shrink: 0; margin-top: 1px; }
+
+  /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+  PANEL 4  LIÊN HỆ
+  PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+  .contact-grid { display: grid; grid-template-columns: 1fr 340px; gap: 32px; align-items: start; }
+  .contact-form-wrap {
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px; padding: 32px;
+  }
+  .form-title { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .form-sub { font-size: 13.5px; color: var(--text-2); margin-bottom: 28px; line-height: 1.6; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-group { margin-bottom: 18px; }
+  label { display: block; font-size: 12.5px; font-weight: 600; color: var(--text-2); margin-bottom: 7px; letter-spacing: 0.3px; }
+  label .req { color: var(--teal); margin-left: 2px; }
+  .form-control {
+  width: 100%; background: var(--bg-3); border: 1px solid var(--border); border-radius: 8px;
+  padding: 10px 14px; font-family: 'Be Vietnam Pro',sans-serif; font-size: 13.5px; color: var(--text);
+  outline: none; transition: border-color .2s, box-shadow .2s;
+  }
+  .form-control:focus { border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-glow); }
+  .form-control::placeholder { color: var(--text-3); }
+  select.form-control { cursor: pointer; }
+  select.form-control option { background: var(--bg-3); }
+  textarea.form-control { resize: vertical; min-height: 120px; line-height: 1.65; }
+  .char-count { text-align: right; font-size: 11px; color: var(--text-3); margin-top: 4px; }
+  .submit-row { display: flex; align-items: center; gap: 16px; margin-top: 6px; }
+  .btn-submit {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--teal); color: var(--bg); border: none; border-radius: 9px;
+  padding: 12px 28px; font-family: 'Be Vietnam Pro',sans-serif; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: all .22s;
+  }
+  .btn-submit:hover { background: #00EEEE; box-shadow: 0 0 24px var(--teal-glow-strong); transform: translateY(-1px); }
+  .btn-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+  .submit-note { font-size: 12px; color: var(--text-3); line-height: 1.5; }
+  .form-success {
+  display: none; text-align: center; padding: 40px 20px;
+  đưanimation: fadeIn .4s ease;
+  }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+  .form-success .success-ico { font-size: 48px; margin-bottom: 16px; }
+  .form-success h3 { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .form-success p { font-size: 14px; color: var(--text-2); line-height: 1.65; }
+
+  .contact-sidebar { }
+  .contact-card {
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px;
+  padding: 20px 22px; margin-bottom: 14px; display: flex; gap: 14px; align-items: flex-start;
+  text-decoration: none; transition: border-color .2s, transform .2s;
+  }
+  .contact-card:hover { border-color: var(--teal-dark); transform: translateY(-2px); }
+  .contact-card-ico {
+  width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+  }
+  .cc-teal { background: var(--teal-glow); border: 1px solid var(--teal-dark); }
+  .cc-blue { background: rgba(59,130,246,.12); border: 1px solid rgba(59,130,246,.25); }
+  .cc-green { background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.25); }
+  .contact-card-body .cc-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-3); margin-bottom: 3px; }
+  .contact-card-body .cc-val { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .contact-card-body .cc-note { font-size: 12px; color: var(--text-2); }
+
+  .response-time {
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px; padding: 18px 22px;
+  }
+  .rt-title { font-weight: 700; font-size: 13px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .rt-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); flex-shrink: 0; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+  .rt-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .rt-item:last-child { border-bottom: none; }
+  .rt-label { color: var(--text-2); }
+  .rt-val { font-weight: 600; }
+  .rt-val.fast { color: var(--green); }
+  .rt-val.mid  { color: var(--warn); }
+
+  /*  FOOTER  */
+  .footer { background: var(--bg-2); border-top: 1px solid var(--border); margin-top: 80px; padding: 48px 0 0; }
+  .foot-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; }
+  .foot-logo { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 15px; font-weight: 800; color: var(--teal); letter-spacing: 1.5px; text-decoration: none; display: inline-block; margin-bottom: 10px; }
+  .foot-logo span { color: var(--text-3); font-weight: 500; }
+  .foot-about { font-size: 13px; color: var(--text-3); line-height: 1.7; margin-bottom: 16px; }
+  .foot-social { display: flex; gap: 8px; }
+  .soc { width: 30px; height: 30px; border-radius: 7px; background: var(--bg-3); border: 1px solid var(--border); color: var(--text-2); text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all .18s; }
+  .soc:hover { border-color: var(--teal); color: var(--teal); }
+  .foot-h { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; }
+  .foot-ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .foot-ul a { font-size: 13px; color: var(--text-3); text-decoration: none; transition: color .18s; }
+  .foot-ul a:hover { color: var(--teal); }
+  .foot-bot { border-top: 1px solid var(--border); padding: 18px 0; display: flex; justify-content: space-between; align-items: center; }
+  .foot-copy { font-size: 12px; color: var(--text-3); }
+  .foot-copy span { color: var(--teal); }
+  .foot-policies { display: flex; gap: 18px; }
+  .foot-policies a { font-size: 12px; color: var(--text-3); text-decoration: none; transition: color .18s; }
+  .foot-policies a:hover { color: var(--teal); }
+
+  /*  TOAST  */
+  .toast { position: fixed; bottom: 24px; right: 24px; z-index: 9999; background: var(--bg-3); border: 1px solid var(--border-2); border-radius: 10px; padding: 13px 18px; display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 500; box-shadow: 0 8px 32px rgba(0,0,0,.5); transform: translateY(80px); opacity: 0; transition: all .3s cubic-bezier(.34,1.56,.64,1); pointer-events: none; max-width: 320px; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast .t-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
+  /*  RESPONSIVE  */
+  @media (max-width: 900px) {
+  .step-grid { grid-template-columns: 1fr 1fr; }
+  .dl-info-grid { grid-template-columns: 1fr; }
+  .policy-layout, .faq-layout, .contact-grid { grid-template-columns: 1fr; }
+  .foot-grid { grid-template-columns: 1fr 1fr; }
+  .nav-links { display: none; }
+  .tab-btn { padding: 12px 14px; font-size: 12.5px; }
+  }
+  </style>
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/parallax-animations.css">
+</head>
+<body>
+
+<!-- PARALLAX CANVAS BACKGROUND -->
+<canvas id="parallax-canvas"></canvas>
+
+
+<div class="ann-bar"> Hỗ trợ 7 ngày / tuần  Phản hồi trong vòng 2 giờ </div>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">Thư viện <span>Sơn Nhai</span></a>
+  <ul class="nav-links">
+  <li><a href="index.html">Trang chủ</a></li>
+  <li><a href="categories.html">Danh mục</a></li>
+  <li><a href="blog.html">Blog</a></li>
+  <li><a href="about.html">Về chúng tôi</a></li>
+  <li><a href="support.html" class="on">Hỗ trợ</a></li>
+  </ul>
+  <div class="nav-right">
+  <div class="nav-search">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555F75" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+  <span>Tìm kiếm...</span>
+  </div>
+  <a class="nav-cart" href="cart.html">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B93A8" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+  <div class="cart-dot" style="display: none;"></div>
+  </a>
+  <a href="account.html" class="btn btn-teal" style="text-decoration:none;">Đăng nhập</a>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grid"></div>
+  <div style="position:relative;z-index:1;">
+  <p class="page-eyebrow">Trung tâm hỗ trợ</p>
+  <h1 class="page-title">Chúng tôi luôn ở đây<br><span>để giúp bạn</span></h1>
+  <p class="page-sub">Tìm câu trả lời nhanh chóng hoặc liên hệ đội ngũ hỗ trợ của Thư viện Sơn Nhai bất cứ lúc nào.</p>
+  <div class="hero-search">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+  <input type="text" placeholder="Tìm kiếm câu hỏi, hướng dẫn..." oninput="searchSupport(this.value)" id="hero-search-input">
+  <button class="hero-search-btn">Tm</button>
+  </div>
+  </div>
+</div>
+
+<!-- TAB NAVIGATION -->
+<div class="tab-nav-wrap">
+  <div class="tab-nav">
+  <button class="tab-btn on" onclick="switchTab('download',this)" id="tbtn-download">
+  <span class="t-ico">=</span> Hướng dẫn tải
+  </button>
+  <button class="tab-btn" onclick="switchTab('refund',this)" id="tbtn-refund">
+  <span class="t-ico">=</span> Chính sách hoàn tiền
+  </button>
+  <button class="tab-btn" onclick="switchTab('faq',this)" id="tbtn-faq">
+  <span class="t-ico">=</span> Câu hỏi thường gặp <span class="tab-count">24</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab('contact',this)" id="tbtn-contact">
+  <span class="t-ico">=</span> Liên hệ hỗ trợ
+  </button>
+  </div>
+</div>
+
+<!-- BREADCRUMB (below sticky nav) -->
+<div class="wrap">
+  <nav class="breadcrumb">
+  <a href="index.html">Trang chủ</a>
+  <span class="sep"></span>
+  <span class="cur" id="bc-cur">Hướng dẫn tải</span>
+  </nav>
+</div>
+
+<!-- PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+  PANEL 1  HƯỚNG DẪN TẢI
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
+<div class="panel show" id="panel-download">
+  <div class="wrap">
+  <h2 class="sec-h">= Hướng dẫn tải sản phẩm</h2>
+  <p class="sec-desc">Sau khi thanh toán thành công, bạn có thể tải file ngay lập tức qua link trong email hoặc trang tài khoản. Dưới đây là các bước chi tiết.</p>
+
+  <!-- Steps -->
+  <div class="step-grid">
+  <div class="step-card">
+  <div class="step-arrow">
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+  </div>
+  <div class="step-num">1</div>
+  <div class="step-ico">=</div>
+  <div class="step-name">Đặt hàng & thanh toán</div>
+  <div class="step-desc">Thêm sản phẩm vào giỏ, tiến hành checkout và hoàn tất thanh toán qua Stripe, VNPay hoặc MoMo.</div>
+  </div>
+  <div class="step-card">
+  <div class="step-arrow">
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+  </div>
+  <div class="step-num">2</div>
+  <div class="step-ico">=</div>
+  <div class="step-name">Nhận email xác nhận</div>
+  <div class="step-desc">Email xác nhận đơn hàng kèm link tải sẽ được gửi trong vòng <strong>1-3 phút</strong>. Kiểm tra hộp thư Spam nếu không thấy.</div>
+  </div>
+  <div class="step-card">
+  <div class="step-arrow">
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+  </div>
+  <div class="step-num">3</div>
+  <div class="step-ico">⇩</div>
+  <div class="step-name">Click link tải</div>
+  <div class="step-desc">Nhấn nút "Tải file" trong email hoặc vào <a href="account.html" style="color:var(--teal);">Tài khoản > Tải xuống</a> để xem danh sách sản phẩm đã mua.</div>
+  </div>
+  <div class="step-card">
+  <div class="step-num">4</div>
+  <div class="step-ico">=</div>
+  <div class="step-name">Lưu file vào thiết bị</div>
+  <div class="step-desc">File PDF/EPUB sẽ tải về máy tự động. Lưu vào Google Drive, iCloud hoặc ứng dụng đọc sách yêu thích của bạn.</div>
+  </div>
+  </div>
+
+  <!-- Warning -->
+  <div class="warn-box">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2.2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+  <p><strong>Giới hạn tải:</strong> Mỗi file được phép tải tối đa <strong>5 lần trong vòng 30 ngày</strong> kể từ ngày mua. Link tải là độc quyền - không chia sẻ với người khác để tránh bị vô hiệu hóa. Nếu hết lượt, liên hệ hỗ trợ để được cấp lại.</p>
+  </div>
+
+  <!-- Info cards -->
+  <h3 style="font-family: 'Be Vietnam Pro','Exo 2',sans-serif;font-size:16px;font-weight:700;margin-bottom:16px;">Thông tin quan trọng</h3>
+  <div class="dl-info-grid">
+  <div class="dl-info-card">
+  <div class="dl-info-ico teal">=</div>
+  <div>
+  <div class="dl-info-title">Định dạng file</div>
+  <div class="dl-info-text">Tất cả sản phẩm được cung cấp dưới dạng <strong>PDF</strong> (đọc được trên mọi thiết bị) và <strong>EPUB</strong> (tối ưu cho e-reader). Một số combo có thể có thêm file ZIP chứa bonus materials.</div>
+  </div>
+  </div>
+  <div class="dl-info-card">
+  <div class="dl-info-ico green">=</div>
+  <div>
+  <div class="dl-info-title">Đọc trên thiết bị di động</div>
+  <div class="dl-info-text">Dùng <strong>Google Drive</strong> hoặc <strong>iBooks</strong> để đọc PDF trên điện thoại. Với EPUB, dùng <strong>KO Reader</strong> (Android) hoặc <strong>Apple Books</strong> (iOS).</div>
+  </div>
+  </div>
+  <div class="dl-info-card">
+  <div class="dl-info-ico warn">!</div>
+  <div>
+  <div class="dl-info-title">Bảo mật link tải</div>
+  <div class="dl-info-text">Link tải sử dụng token bảo mật, chỉ dùng được một lần trong mỗi phiên. Link không có thời hạn nhưng bị giới hạn số lần sử dụng (5 lần / 30 ngày).</div>
+  </div>
+  </div>
+  <div class="dl-info-card">
+  <div class="dl-info-ico purple">◆</div>
+  <div>
+  <div class="dl-info-title">Lưu trữ lâu dài</div>
+  <div class="dl-info-text">Sau khi tải về, chúng tôi khuyến khích bạn sao lưu file lên Google Drive hoặc Dropbox. Thư viện Sơn Nhai không chịu trách nhiệm nếu bạn xóa nhầm file.</div>
+  </div>
+  </div>
+  </div>
+
+  <!-- Platform compat -->
+  <h3 style="font-family: 'Be Vietnam Pro','Exo 2',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">Tương thích thiết bị</h3>
+  <div class="platform-grid" style="margin-bottom:40px;">
+  <div class="platform-pill"><div class="dot"></div> Windows 10/11</div>
+  <div class="platform-pill"><div class="dot"></div> macOS 11+</div>
+  <div class="platform-pill"><div class="dot"></div> Android 8.0+</div>
+  <div class="platform-pill"><div class="dot"></div> iOS / iPadOS 14+</div>
+  <div class="platform-pill"><div class="dot"></div> Kindle (EPUB)</div>
+  <div class="platform-pill"><div class="dot"></div> Kobo eReader</div>
+  <div class="platform-pill"><div class="dot"></div> Google Drive</div>
+  <div class="platform-pill"><div class="dot"></div> Dropbox Paper</div>
+  </div>
+
+  <!-- Troubleshooting -->
+  <h3 style="font-family: 'Be Vietnam Pro','Exo 2',sans-serif;font-size:16px;font-weight:700;margin-bottom:16px;">Xử lý sự cố phổ biến</h3>
+  <div class="trouble-list">
+  <div class="trouble-item" onclick="toggleTrouble(this)">
+  <div class="trouble-q">Tôi không nhận được email xác nhận sau khi thanh toán?
+  <svg class="ti" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="trouble-a">Vui lòng kiểm tra thư mục Spam/Junk hoặc Promotions trong Gmail. Email được gửi từ địa chỉ no-reply@thuviensonnhai.com. Nếu sau 5 phút vẫn không có, Đăng nhập vào tài khoản và vào mục Tải xuống link tải vẫn sẽ có ở đó. Vẫn không thấy? Liên hệ hỗ trợ ngay.</div>
+  </div>
+  <div class="trouble-item" onclick="toggleTrouble(this)">
+  <div class="trouble-q">Link tải báo lỗi "Đã hết lượt tải" hoặc "Token không hợp lệ"?
+  <svg class="ti" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="trouble-a">Điều này xảy ra khi bạn đã sử dụng hết 5 lượt tải trong 30 ngày, hoặc link đã được dùng trên thiết bị khác. Liên hệ đội ngũ hỗ trợ qua email kèm thông tin đơn hàng, chúng tôi sẽ cấp lại link trong vòng 2 giờ làm việc.</div>
+  </div>
+  <div class="trouble-item" onclick="toggleTrouble(this)">
+  <div class="trouble-q">File PDF tải về bị lỗi, không mở được hoặc thiếu trang?
+  <svg class="ti" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="trouble-a">File có thể bị gián đoạn trong quá trình tải. Hãy xóa file cũ và tải lại từ đầu. Nếu vẫn lỗi, hãy đổi trình duyệt (Chrome hoặc Firefox khuyến nghị). Nếu file vẫn hỏng sau khi tải lại, liên hệ hỗ trợ để nhận file thay thế.</div>
+  </div>
+  <div class="trouble-item" onclick="toggleTrouble(this)">
+  <div class="trouble-q">Tôi mua nhưng quên tạo tài khoản, làm sao xem lại link tải?
+  <svg class="ti" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="trouble-a">Link tải luôn được gửi qua email đặt hàng, ngay cả khi bạn mua với tư cách khách (guest). Kiểm tra lại email. Nếu muốn gộp đơn hàng vào tài khoản, đăng ký tài khoản với email đó và liên hệ hỗ trợ để chúng tôi liên kết.</div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<!-- PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+  PANEL 2  CHÍNH SÁCH HON TIN
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
+<div class="panel" id="panel-refund">
+  <div class="wrap">
+  <h2 class="sec-h">= Chính sách hoàn tiền</h2>
+  <p class="sec-desc">Thư viện Sơn Nhai cam kết mang đến trải nghiệm mua sắm an tâm. Chúng tôi áp dụng chính sách hoàn tiền <strong>7 ngày</strong> nếu sản phẩm không đúng mô tả.</p>
+
+  <div class="policy-layout">
+  <div class="policy-content">
+
+  <div class="policy-block">
+  <div class="policy-block-title">
+  Điều kiện được hoàn tiền
+  <span class="badge badge-green">Được áp dụng</span>
+  </div>
+  <ul class="policy-list">
+  <li><div class="ico ico-yes">✓</div><span>Sản phẩm không đúng mô tả hoặc thiếu nội dung so với trang giới thiệu.</span></li>
+  <li><div class="ico ico-yes">✓</div><span>File bị lỗi, không đọc được và đội ngũ kỹ thuật xác nhận không thể khắc phục.</span></li>
+  <li><div class="ico ico-yes">✓</div><span>Bị tính tiền hai lần cho cùng một đơn hàng do lỗi hệ thống thanh toán.</span></li>
+  <li><div class="ico ico-yes">✓</div><span>Thanh toán thành công nhưng không nhận được sản phẩm sau 15 phút và không tìm thấy trong tài khoản.</span></li>
+  <li><div class="ico ico-yes">✓</div><span>Yêu cầu trong vòng <strong>7 ngày</strong> kể từ ngày mua, chưa tải file quá 2 lần.</span></li>
+  </ul>
+  </div>
+
+  <div class="policy-block">
+  <div class="policy-block-title">
+  Trường hợp không hoàn tiền
+  <span class="badge badge-red">Không áp dụng</span>
+  </div>
+  <ul class="policy-list">
+  <li><div class="ico ico-no">×</div><span>Đã tải file từ 3 lần trở lên, được coi là đã sử dụng sản phẩm.</span></li>
+  <li><div class="ico ico-no">×</div><span>Thay đổi ý định hoặc mua nhầm sau khi đã đọc được nội dung.</span></li>
+  <li><div class="ico ico-no">×</div><span>Yêu cầu sau 7 ngày kể từ ngày mua hàng.</span></li>
+  <li><div class="ico ico-no">×</div><span>Sản phẩm đã được mua với mã giảm giá từ 50% trở lên hoặc là sản phẩm miễn phí.</span></li>
+  <li><div class="ico ico-no">×</div><span>Lý do "không hợp" khi sản phẩm đúng mô tả và file hoạt động bình thường.</span></li>
+  </ul>
+  </div>
+
+  <div class="policy-block">
+  <div class="policy-block-title">Quy trình yêu cầu hoàn tiền</div>
+  <div class="policy-steps">
+  <div class="ps-item">
+  <div class="ps-left"><div class="ps-num">1</div><div class="ps-line"></div></div>
+  <div class="ps-body">
+  <div class="ps-title">Gửi yêu cầu qua email hoặc form liên hệ</div>
+  <div class="ps-desc">Gửi email tới <strong style="color:var(--teal);">hotro@thuviensongnhai.com</strong> với tiêu đề <em>"Yêu cầu hoàn tiền - [Mã đơn hàng]"</em>. Đính kèm ảnh chụp màn hình minh chứng nếu có.</div>
+  </div>
+  </div>
+  <div class="ps-item">
+  <div class="ps-left"><div class="ps-num">2</div><div class="ps-line"></div></div>
+  <div class="ps-body">
+  <div class="ps-title">Đội ngũ xem xét trong 1-2 ngày làm việc</div>
+  <div class="ps-desc">Chúng tôi sẽ xác minh thông tin đơn hàng, lịch sử tải file và lý do yêu cầu. Bạn có thể được hỏi thêm thông tin.</div>
+  </div>
+  </div>
+  <div class="ps-item">
+  <div class="ps-left"><div class="ps-num">3</div><div class="ps-line"></div></div>
+  <div class="ps-body">
+  <div class="ps-title">Nhận phản hồi kết quả qua email</div>
+  <div class="ps-desc">Chúng tôi gửi email thông báo chấp thuận hoặc từ chối kèm lý do rõ ràng. Nếu chấp thuận, quá trình hoàn tiền bắt đầu ngay.</div>
+  </div>
+  </div>
+  <div class="ps-item">
+  <div class="ps-left"><div class="ps-num">4</div><div class="ps-line"></div></div>
+  <div class="ps-body">
+  <div class="ps-title">Hoàn tiền về tài khoản / ví thanh toán</div>
+  <div class="ps-desc">Tiền được hoàn về đúng phương thức thanh toán ban đầu: Stripe (1-5 ngày làm việc), VNPay / MoMo (1-3 ngày làm việc).</div>
+  </div>
+  </div>
+  </div>
+  </div>
+
+  <div class="policy-block">
+  <div class="policy-block-title">Thời gian xử lý hoàn tiền</div>
+  <div class="policy-note">
+  Sau khi phê duyệt: <strong>Stripe</strong> mất 5-10 ngày làm việc tùy ngân hàng. <strong>VNPay</strong> và <strong>MoMo</strong> mất 1-3 ngày làm việc. Thứ 7, Chủ nhật không được tính là ngày làm việc. Chúng tôi sẽ thông báo ngay khi xử lý hoàn tất.
+  </div>
+  </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="policy-sidebar">
+  <div class="sidebar-card">
+  <div class="sidebar-card-title">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+  Tỉ lệ hài lòng
+  </div>
+  <div class="sidebar-stat">
+  <div class="stat-label">Khách hàng hài lòng</div>
+  <div class="stat-val">98.3%</div>
+  <div class="stat-note">Dựa trên 1.200+ đánh giá</div>
+  </div>
+  <div class="sidebar-stat">
+  <div class="stat-label">Thời gian hoàn tiền TB</div>
+  <div class="stat-val">1.8</div>
+  <div class="stat-note">ngày lm vic</div>
+  </div>
+  <div class="sidebar-stat">
+  <div class="stat-label">Yu cu x l 2024</div>
+  <div class="stat-val">&lt; 2%</div>
+  <div class="stat-note">đơn hàng yêu cầu hoàn tiền</div>
+  </div>
+  <a href="#" onclick="switchTab('contact', document.getElementById('tbtn-contact')); return false;" class="sidebar-cta">Gi yu cu ngay</a>
+  </div>
+
+  <div class="policy-process">
+  <div class="pp-title">Knh gi yu cu</div>
+  <div class="pp-channel">
+  <div class="ch-ico">=</div>
+  <div class="ch-info">
+  <div class="ch-name">Email</div>
+  <div class="ch-val">hotro@thuviensongnhai.com</div>
+  </div>
+  </div>
+  <div class="pp-channel">
+  <div class="ch-ico">=</div>
+  <div class="ch-info">
+  <div class="ch-name">Form liên hệ</div>
+  <div class="ch-val">Tab "Liên hệ hỗ trợ"</div>
+  </div>
+  </div>
+  <div class="pp-channel">
+  <div class="ch-ico">=</div>
+  <div class="ch-info">
+  <div class="ch-name">Zalo</div>
+  <div class="ch-val">0987 654 321</div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<!-- PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+  PANEL 3  FAQ
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
+<div class="panel" id="panel-faq">
+  <div class="wrap">
+  <h2 class="sec-h">= Câu hỏi thường gặp</h2>
+  <p class="sec-desc">Tổng hợp những thắc mắc phổ biến nhất từ khách hàng. Không tìm thấy câu trả lời? <a href="#" onclick="switchTab('contact',document.getElementById('tbtn-contact'));return false;" style="color:var(--teal);">Liên hệ trực tiếp với chúng tôi.</a></p>
+
+  <div class="faq-layout">
+  <div>
+  <!-- Filter cats -->
+  <div class="faq-cats">
+  <button class="faq-cat on" onclick="filterFaq('all',this)">Tt c</button>
+  <button class="faq-cat" onclick="filterFaq('order',this)">Đặt hàng</button>
+  <button class="faq-cat" onclick="filterFaq('payment',this)">Thanh toán</button>
+  <button class="faq-cat" onclick="filterFaq('download',this)">Tải xung</button>
+  <button class="faq-cat" onclick="filterFaq('account',this)">Tài khoản</button>
+  <button class="faq-cat" onclick="filterFaq('product',this)">Sản phẩm</button>
+  </div>
+
+  <!-- Group: Đặt hàng -->
+  <div class="faq-group" data-cat="order">
+  <div class="faq-group-title">Đặt hàng</div>
+
+  <div class="faq-item" data-cat="order" onclick="toggleFaq(this)">
+  <div class="faq-q">Tôi có thể mua sản phẩm mà không cần tạo tài khoản không?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Có! Bạn có thể mua hàng với tư cách khách (guest checkout), chỉ cần nhập email. Link tải sẽ được gửi đến email đó. Tuy nhiên, tạo tài khoản giúp bạn quản lý đơn hàng, xem lại lịch sử mua và tải lại file bất kỳ lúc nào từ trang tài khoản.</div>
+  </div>
+
+  <div class="faq-item" data-cat="order" onclick="toggleFaq(this)">
+  <div class="faq-q">Tôi có thể mua nhiều sản phẩm trong một lần đặt hàng không?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Có! Thêm nhiều sản phẩm vào giỏ hàng và thanh toán một lần. Tất cả file tải sẽ được gửi trong cùng một email xác nhận. Ngoài ra, chúng tôi có các <a href="categories.html">combo ưu đãi</a> với giá tiết kiệm hơn so với mua lẻ.</div>
+  </div>
+
+  <div class="faq-item" data-cat="order" onclick="toggleFaq(this)">
+  <div class="faq-q">Mã giảm giá (coupon) sử dụng như thế nào?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Nhập mã giảm giá vào ô "Mã khuyến mãi" ở trang giỏ hàng hoặc trang thanh toán, sau đó nhấn "Áp dụng". Chiết khấu sẽ được trừ ngay vào tổng tiền. Mỗi đơn hàng chỉ được dùng một mã. Mã có thể được giới hạn thời gian hoặc số lần dùng.</div>
+  </div>
+
+  <div class="faq-item" data-cat="order" onclick="toggleFaq(this)">
+  <div class="faq-q">Đơn hàng của tôi bị "Đang xử lý" quá lâu, tôi phải làm gì?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Thông thường đơn hàng chuyển trạng thái "Đã hoàn thành" trong 15 phút sau khi thanh toán thành công. Nếu sau 15 phút vẫn chưa thay đổi, kiểm tra lại email xem có thông báo lỗi không. Bạn có thể liên hệ hỗ trợ kèm mã đơn hàng để được kiểm tra ngay.</div>
+  </div>
+  </div>
+
+  <!-- Group: Thanh toán -->
+  <div class="faq-group" data-cat="payment">
+  <div class="faq-group-title">Thanh toán</div>
+
+  <div class="faq-item" data-cat="payment" onclick="toggleFaq(this)">
+  <div class="faq-q">Những phương thức thanh toán nào được hỗ trợ?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Chúng tôi hỗ trợ 3 phương thức: Thẻ quốc tế qua Stripe (Visa, Mastercard, JCB), VNPay QR (quét mã bằng app ngân hàng), và MoMo. Tất cả giao dịch được mã hóa SSL và không lưu thông tin thẻ.</div>
+  </div>
+
+  <div class="faq-item" data-cat="payment" onclick="toggleFaq(this)">
+  <div class="faq-q">Tôi bị tính tiền nhưng không nhận được sản phẩm?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Điều này rất hiếm gặp nhưng có thể xảy ra do độ trễ của cổng thanh toán. Trước tiên kiểm tra email Spam và tài khoản. Nếu sau 15 phút vẫn không được, chụp màn hình lịch sử giao dịch từ ngân hàng/ví và liên hệ chúng tôi, bạn sẽ được xử lý ưu tiên trong 30 phút.</div>
+  </div>
+
+  <div class="faq-item" data-cat="payment" onclick="toggleFaq(this)">
+  <div class="faq-q">Giá sản phẩm đã bao gồm thuế VAT không?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Giá hiển thị trên trang web là giá cuối cùng, đã bao gồm tất cả các loại thuế và phí. Không có phí ẩn nào phát sinh khi thanh toán.</div>
+  </div>
+
+  <div class="faq-item" data-cat="payment" onclick="toggleFaq(this)">
+  <div class="faq-q">Tôi có thể nhận hóa đơn (VAT invoice) không?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Hiện tại chúng tôi cấp hóa đơn điện tử theo yêu cầu. Sau khi mua hàng, liên hệ qua email với thông tin MST và tên doanh nghiệp, chúng tôi sẽ xuất hóa đơn trong 1-2 ngày làm việc.</div>
+  </div>
+  </div>
+
+  <!-- Group: Tải xung -->
+  <div class="faq-group" data-cat="download">
+  <div class="faq-group-title">Tải xung</div>
+
+  <div class="faq-item" data-cat="download" onclick="toggleFaq(this)">
+  <div class="faq-q">Tôi được tải file bao nhiêu lần?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Mọi sản phẩm đều được tải tối đa <strong>5 lần trong 30 ngày</strong> đầu. Sau đó, bạn vẫn giữ quyền sở hữu file nhưng cần liên hệ hỗ trợ nếu muốn tải thêm. Đây là biện pháp bảo vệ tác quyền, không nhằm hạn chế trải nghiệm đọc của bạn.</div>
+  </div>
+
+  <div class="faq-item" data-cat="download" onclick="toggleFaq(this)">
+  <div class="faq-q">Tôi có thể đọc sản phẩm trên nhiều thiết bị không?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Có! Sau khi tải file, bạn có thể sao chép sang máy tính, điện thoại, máy tính bảng hoặc e-reader theo ý muốn. Chúng tôi không giới hạn số thiết bị đọc, chỉ giới hạn số lần tải từ server.</div>
+  </div>
+
+  <div class="faq-item" data-cat="download" onclick="toggleFaq(this)">
+  <div class="faq-q">Link tải có hết hạn không?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Link tải từ email có hiệu lực 30 ngày. Sau đó, bạn vẫn có thể tải lại từ trang Tài khoản > Tải xuống - link trong tài khoản không có thời hạn nhưng vẫn bị giới hạn số lần tải.</div>
+  </div>
+  </div>
+
+  <!-- Group: Tài khoản -->
+  <div class="faq-group" data-cat="account">
+  <div class="faq-group-title">Tài khoản</div>
+
+  <div class="faq-item" data-cat="account" onclick="toggleFaq(this)">
+  <div class="faq-q">Tôi quên mật khẩu, làm sao để lấy lại?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Vào trang <a href="account.html">Đăng nhập</a>, nhấn "Quên mật khẩu?" và nhập email. Hệ thống gửi link đặt lại mật khẩu trong vài phút. Link có hiệu lực 1 giờ. Nếu không nhận được, kiểm tra Spam hoặc liên hệ hỗ trợ.</div>
+  </div>
+
+  <div class="faq-item" data-cat="account" onclick="toggleFaq(this)">
+  <div class="faq-q">Tôi muốn xóa tài khoản và dữ liệu đã nhập?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Bạn có thể yêu cầu xóa tài khoản trong mục <strong>Tài khoản > Cài đặt > Vùng nguy hiểm</strong>. Lưu ý rằng xóa tài khoản sẽ thu hồi quyền truy cập vào tất cả sản phẩm đã mua. Chúng tôi khuyến nghị tải đầy đủ file trước khi xóa.</div>
+  </div>
+  </div>
+
+  <!-- Group: Sản phẩm -->
+  <div class="faq-group" data-cat="product">
+  <div class="faq-group-title">Sản phẩm</div>
+
+  <div class="faq-item" data-cat="product" onclick="toggleFaq(this)">
+  <div class="faq-q">Sách có được cập nhật phiên bản mới không?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Các sản phẩm do Thư viện Sơn Nhai biên soạn sẽ được cập nhật định kỳ. Khách hàng đã mua sẽ nhận email thông báo và có thể tải phiên bản mới <strong>miễn phí</strong> trong 12 tháng kể từ ngày mua.</div>
+  </div>
+
+  <div class="faq-item" data-cat="product" onclick="toggleFaq(this)">
+  <div class="faq-q">Tôi có thể xem trước nội dung trước khi mua không?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Có! Mỗi sản phẩm đều có phần <strong>Xem trước nội dung</strong> và <strong>Mục lục</strong> trên trang chi tiết. Bạn có thể đọc thử 10-15% đầu sách trước khi quyết định mua.</div>
+  </div>
+
+  <div class="faq-item" data-cat="product" onclick="toggleFaq(this)">
+  <div class="faq-q">Sản phẩm có được bán độc quyền trên trang này không?
+  <svg class="fq-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+  <div class="faq-a">Phần lớn sản phẩm tại Thư viện Sơn Nhai là nội dung độc quyền được nghiên cứu, biên soạn và thiết kế riêng bởi đội ngũ của chúng tôi. Bạn sẽ không tìm thấy những tài liệu này ở nơi khác.</div>
+  </div>
+  </div>
+
+  </div>
+
+  <!-- FAQ SIDEBAR -->
+  <div>
+  <div class="faq-sidebar-card">
+  <div class="sidebar-card-title" style="font-size:13px;font-weight:700;margin-bottom:12px;">
+  Câu hỏi được xem nhiều nhất
+  </div>
+  <ul class="faq-popular">
+  <li><a href="#" onclick="openFaqByIndex(0);return false;"><span class="fp-num">01</span> Tôi được tải file bao nhiêu lần?</a></li>
+  <li><a href="#" onclick="openFaqByIndex(1);return false;"><span class="fp-num">02</span> Không nhận được email xác nhận?</a></li>
+  <li><a href="#" onclick="openFaqByIndex(2);return false;"><span class="fp-num">03</span> Phương thức thanh toán hỗ trợ?</a></li>
+  <li><a href="#" onclick="openFaqByIndex(3);return false;"><span class="fp-num">04</span> Mã giảm giá sử dụng thế nào?</a></li>
+  <li><a href="#" onclick="openFaqByIndex(4);return false;"><span class="fp-num">05</span> Link tải có hết hạn không?</a></li>
+  </ul>
+  </div>
+
+  <div class="faq-sidebar-card">
+  <div style="font-size:13px;font-weight:700;margin-bottom:10px;">Không tìm thấy câu trả lời?</div>
+  <p style="font-size:13px;color:var(--text-2);line-height:1.65;margin-bottom:14px;">Đội ngũ hỗ trợ của chúng tôi phản hồi trong vòng 2 giờ làm việc.</p>
+  <a href="#" onclick="switchTab('contact',document.getElementById('tbtn-contact'));return false;" style="display:block;text-align:center;padding:10px;background:var(--teal);color:var(--bg);border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;">Liên hệ ngay </a>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<!-- PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+  PANEL 4  LIÊN HỆ
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
+<div class="panel" id="panel-contact">
+  <div class="wrap">
+  <h2 class="sec-h">= Liên hệ hỗ trợ</h2>
+  <p class="sec-desc">Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn. Hãy điền form bên dưới hoặc liên hệ trực tiếp qua các kênh của chúng tôi.</p>
+
+  <div class="contact-grid">
+  <!-- FORM -->
+  <div class="contact-form-wrap">
+  <div id="form-body">
+  <div class="form-title">Gửi tin nhắn</div>
+  <p class="form-sub">Mô tả chi tiết vấn đề bạn gặp phải. Chúng tôi sẽ phản hồi sớm nhất có thể.</p>
+
+  <div class="form-row">
+  <div class="form-group">
+  <label>Họ và tên <span class="req">*</span></label>
+  <input type="text" class="form-control" id="cf-name" placeholder="Nguyễn Văn A">
+  </div>
+  <div class="form-group">
+  <label>Email <span class="req">*</span></label>
+  <input type="email" class="form-control" id="cf-email" placeholder="email@example.com">
+  </div>
+  </div>
+
+  <div class="form-group">
+  <label>Mã đơn hàng <span style="color:var(--text-3);font-weight:400;">(nếu có)</span></label>
+  <input type="text" class="form-control" id="cf-order" placeholder="SNH-2025-XXXXX">
+  </div>
+
+  <div class="form-group">
+  <label>Chủ đề <span class="req">*</span></label>
+  <select class="form-control" id="cf-topic">
+  <option value="">Chọn chủ đề</option>
+  <option value="download">Vấn đề tải xuống</option>
+  <option value="payment">Thanh toán / Hon tin</option>
+  <option value="account">Tài khoản</option>
+  <option value="product">Câu hỏi về sản phẩm</option>
+  <option value="coupon">Mã giảm giá</option>
+  <option value="other">Khc</option>
+  </select>
+  </div>
+
+  <div class="form-group">
+  <label>Nội dung <span class="req">*</span></label>
+  <textarea class="form-control" id="cf-msg" placeholder="Mô tả chi tiết vấn đề bạn gặp phải..." oninput="updateCharCount(this)"></textarea>
+  <div class="char-count"><span id="char-num">0</span> / 1000 ký tự</div>
+  </div>
+
+  <div class="form-group">
+  <label>
+  <input type="checkbox" id="cf-urgent" style="accent-color:var(--teal);margin-right:6px;">
+  Đây là vấn đề khẩn cấp (liên quan đến thanh toán, link tải hỏng)
+  </label>
+  </div>
+
+  <div class="submit-row">
+  <button class="btn-submit" id="cf-submit" onclick="submitForm()">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg>
+  Gửi tin nhắn
+  </button>
+  <p class="submit-note">Phản hồi trong vòng<br><strong style="color:var(--text);">1-2 giờ làm việc</strong></p>
+  </div>
+  </div>
+
+  <!-- Success state -->
+  <div class="form-success" id="form-success">
+  <div class="success-ico">✓</div>
+  <h3>Tin nhắn đã được gửi!</h3>
+  <p>Cảm ơn bạn đã liên hệ. Đội ngũ hỗ trợ sẽ phản hồi trong vòng <strong>1-2 giờ làm việc</strong> qua email của bạn.<br><br>Trong lúc chờ, bạn có thể xem thêm <a href="#" onclick="switchTab('faq',document.getElementById('tbtn-faq'));return false;">câu hỏi thường gặp.</a></p>
+  <button onclick="resetForm()" style="margin-top:20px;background:var(--bg-3);border:1px solid var(--border);color:var(--text-2);padding:9px 20px;border-radius:8px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;">Gửi tin nhắn khác</button>
+  </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="contact-sidebar">
+  <a href="mailto:hotro@thuviensongnhai.com" class="contact-card">
+  <div class="contact-card-ico cc-teal">=</div>
+  <div class="contact-card-body">
+  <div class="cc-label">Email hỗ trợ</div>
+  <div class="cc-val">hotro@thuviensongnhai.com</div>
+  <div class="cc-note">Phản hồi trong 1-2 giờ làm việc</div>
+  </div>
+  </a>
+
+  <a href="https://m.me/thuviensongnhai" class="contact-card" target="_blank">
+  <div class="contact-card-ico cc-blue">=</div>
+  <div class="contact-card-body">
+  <div class="cc-label">Facebook Messenger</div>
+  <div class="cc-val">Thư viện Sơn Nhai</div>
+  <div class="cc-note">Nhanh hơn, thường dưới 30 phút</div>
+  </div>
+  </a>
+
+  <a href="https://zalo.me/0987654321" class="contact-card" target="_blank">
+  <div class="contact-card-ico cc-green">=</div>
+  <div class="contact-card-body">
+  <div class="cc-label">Zalo</div>
+  <div class="cc-val">0987 654 321</div>
+  <div class="cc-note">Thứ 2-6, 8:00-22:00</div>
+  </div>
+  </a>
+
+  <div class="response-time">
+  <div class="rt-title">
+  <div class="rt-dot"></div>
+  Thời gian phản hồi
+  </div>
+  <div class="rt-item">
+  <span class="rt-label">Email (giờ hành chính)</span>
+  <span class="rt-val fast">&lt; 1 giờ</span>
+  </div>
+  <div class="rt-item">
+  <span class="rt-label">Messenger / Zalo</span>
+  <span class="rt-val fast">&lt; 30 phút</span>
+  </div>
+  <div class="rt-item">
+  <span class="rt-label">Email (ngoài giờ)</span>
+  <span class="rt-val mid">&lt; 8 giờ</span>
+  </div>
+  <div class="rt-item">
+  <span class="rt-label">Cuối tuần & lễ</span>
+  <span class="rt-val mid">8-24 giờ</span>
+  </div>
+  <div style="margin-top:12px;font-size:12px;color:var(--text-3);line-height:1.6;">
+  Gi lm vic: Th 2  Th 7, 8:00  22:00 (GMT+7)
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+  <div class="foot-grid">
+  <div>
+  <a href="index.html" class="foot-logo">Thư viện <span>Sơn Nhai</span></a>
+  <p class="foot-about">Nơi lưu giữ những tinh hoa tri thức về nhân tính, tư duy và tài chính. Sản phẩm số chất lượng cao, được cập nhật thường xuyên.</p>
+  <div class="foot-social">
+  <a class="soc" href="#">f</a>
+  <a class="soc" href="#">5O</a>
+  <a class="soc" href="#">in</a>
+  <a class="soc" href="#"></a>
+  </div>
+  </div>
+  <div>
+  <div class="foot-h">Cửa hàng</div>
+  <ul class="foot-ul">
+  <li><a href="categories.html">Sản phẩm mới</a></li>
+  <li><a href="categories.html">Bestseller</a></li>
+  <li><a href="categories.html">Combo ưu đãi</a></li>
+  <li><a href="categories.html">Miễn phí</a></li>
+  <li><a href="categories.html">Tất cả danh mục</a></li>
+  </ul>
+  </div>
+  <div>
+  <div class="foot-h">Hỗ trợ</div>
+  <ul class="foot-ul">
+  <li><a href="support.html#download">Hướng dẫn tải</a></li>
+  <li><a href="support.html#refund">Chính sách hoàn tiền</a></li>
+  <li><a href="support.html#faq">FAQ</a></li>
+  <li><a href="support.html#contact">Liên hệ</a></li>
+  </ul>
+  </div>
+  <div>
+  <div class="foot-h">Tài khoản</div>
+  <ul class="foot-ul">
+  <li><a href="account.html">Đăng nhập</a></li>
+  <li><a href="account.html">Đăng ký</a></li>
+  <li><a href="account.html">Đơn hàng của tôi</a></li>
+  <li><a href="account.html">Sản phẩm đã mua</a></li>
+  </ul>
+  </div>
+  </div>
+  <div class="foot-bot">
+  <div class="foot-copy">© 2025 <span>Thư viện Sơn Nhai</span>. Bảo lưu mọi quyền.</div>
+  <div class="foot-policies">
+  <a href="support.html">Điều khoản</a>
+  <a href="support.html">Bảo mật</a>
+  <a href="support.html#refund">Hon tin</a>
+  </div>
+  </div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="t-dot"></div>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+  //  Tab System
+  const tabMap = {
+    download: { panel: 'panel-download', bc: 'Hướng dẫn tải', hash: '#download' },
+    refund: { panel: 'panel-refund', bc: 'Chính sách hoàn tiền', hash: '#refund' },
+    faq: { panel: 'panel-faq', bc: 'FAQ', hash: '#faq' },
+    contact: { panel: 'panel-contact', bc: 'Liên hệ hỗ trợ', hash: '#contact' },
+  };
+  let activeTab = 'download';
+
+  function switchTab(id, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('show'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
+    document.getElementById(tabMap[id].panel).classList.add('show');
+    if (btn) btn.classList.add('on');
+    document.getElementById('bc-cur').textContent = tabMap[id].bc;
+    history.replaceState(null, '', tabMap[id].hash);
+    activeTab = id;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Handle hash on load
+  (function() {
+    const hash = window.location.hash.replace('#','');
+    const mapping = { download:'download', refund:'refund', faq:'faq', contact:'contact', 'huong-dan-tai':'download', 'chinh-sach-hoan-tien':'refund', 'lien-he':'contact' };
+    const target = mapping[hash] || 'download';
+    switchTab(target, document.getElementById('tbtn-' + target));
+  })();
+
+  //  Troubleshooting accordion
+  function toggleTrouble(el) {
+    el.classList.toggle('open');
+  }
+
+  //  FAQ accordion
+  function toggleFaq(el) {
+    const wasOpen = el.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) el.classList.add('open');
+  }
+
+  function openFaqByIndex(idx) {
+    switchTab('faq', document.getElementById('tbtn-faq'));
+    setTimeout(() => {
+      const map = [
+        () => document.querySelector('#panel-faq .faq-item[data-cat="download"]'),
+        () => { switchTab('download', document.getElementById('tbtn-download')); return null; },
+        () => document.querySelector('#panel-faq .faq-item[data-cat="payment"]'),
+        () => document.querySelector('#panel-faq .faq-item[data-cat="order"]:nth-child(3)'),
+        () => document.querySelectorAll('#panel-faq .faq-item[data-cat="download"]')[2],
+      ];
+      const el = map[idx] ? map[idx]() : null;
+      if (el) { el.classList.add('open'); el.scrollIntoView({ behavior:'smooth', block:'center' }); }
+    }, 100);
+  }
+
+  //  FAQ category filter
+  function filterFaq(cat, btn) {
+    document.querySelectorAll('.faq-cat').forEach(c => c.classList.remove('on'));
+    btn.classList.add('on');
+    const groups = document.querySelectorAll('#panel-faq .faq-group');
+    const items  = document.querySelectorAll('#panel-faq .faq-item');
+    if (cat === 'all') {
+      groups.forEach(g => g.style.display = '');
+      items.forEach(i => i.style.display = '');
+    } else {
+      groups.forEach(g => { g.style.display = g.dataset.cat === cat ? '' : 'none'; });
+      items.forEach(i => { i.style.display = i.dataset.cat === cat ? '' : 'none'; });
+    }
+    items.forEach(i => i.classList.remove('open'));
+  }
+
+  //  Contact form
+  function updateCharCount(el) {
+    document.getElementById('char-num').textContent = el.value.length;
+  }
+
+  function submitForm() {
+    const name  = document.getElementById('cf-name').value.trim();
+    const email = document.getElementById('cf-email').value.trim();
+    const topic = document.getElementById('cf-topic').value;
+    const msg = document.getElementById('cf-msg').value.trim();
+
+    if (!name)  { shake('cf-name');  showToast('Vui lòng nhập họ và tên.'); return; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { shake('cf-email'); showToast('Email không hợp lệ.'); return; }
+    if (!topic) { shake('cf-topic'); showToast('Vui lòng chọn chủ đề.'); return; }
+    if (msg.length < 20) { shake('cf-msg'); showToast('Nội dung quá ngắn (tối thiểu 20 ký tự).'); return; }
+
+    const btn = document.getElementById('cf-submit');
+    btn.disabled = true;
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83" opacity=".6"/></svg> Đang gửi...';
+
+    setTimeout(() => {
+      document.getElementById('form-body').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    }, 1400);
+  }
+
+  function resetForm() {
+    document.getElementById('form-body').style.display = '';
+    document.getElementById('form-success').style.display = 'none';
+    ['cf-name','cf-email','cf-order','cf-msg'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('cf-topic').value = '';
+    document.getElementById('char-num').textContent = '0';
+    const btn = document.getElementById('cf-submit');
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg> Gửi tin nhắn';
+  }
+
+  function shake(id) {
+    const el = document.getElementById(id);
+    el.style.borderColor = 'var(--red)';
+    el.style.animation = 'shake .35s ease';
+    setTimeout(() => { el.style.animation = ''; el.style.borderColor = ''; }, 400);
+  }
+
+  //  Hero search
+  function searchSupport(q) {
+    if (!q || q.length < 2) return;
+    const lower = q.toLowerCase();
+    const faqItems = document.querySelectorAll('.faq-item');
+    let found = null;
+    faqItems.forEach(item => {
+      const text = item.textContent.toLowerCase();
+      if (!found && text.includes(lower)) found = item;
+    });
+    if (found) {
+      switchTab('faq', document.getElementById('tbtn-faq'));
+      setTimeout(() => {
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        found.classList.add('open');
+        found.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 150);
+    }
+  }
+
+  //  Toast
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ── Load Support content from Firestore ──
+  async function loadSupportContent() {
+    if (!window.SonHaiData) return;
+    try {
+      const data = await window.SonHaiData.getSupport();
+      if (!data) return;
+
+      const eyebrow = document.querySelector('.page-eyebrow');
+      if (eyebrow && data.heroEyebrow) eyebrow.textContent = data.heroEyebrow;
+
+      const title = document.querySelector('.page-title');
+      if (title && data.heroTitle) title.innerHTML = data.heroTitle + '<br><span>để giúp bạn</span>';
+
+      const sub = document.querySelector('.page-sub');
+      if (sub && data.heroSub) sub.textContent = data.heroSub;
+
+      if (data.announcement) {
+        const annBar = document.querySelector('.ann-bar');
+        if (annBar) annBar.textContent = data.announcement;
+      }
+
+      const contactCards = document.querySelectorAll('.contact-card-body');
+      if (data.email && contactCards[0]) {
+        const ccVal = contactCards[0].querySelector('.cc-val');
+        if (ccVal) ccVal.textContent = data.email;
+      }
+      if (data.messenger && contactCards[1]) {
+        const ccVal = contactCards[1].querySelector('.cc-val');
+        if (ccVal) ccVal.textContent = data.messenger;
+      }
+      if (data.zalo && contactCards[2]) {
+        const ccVal = contactCards[2].querySelector('.cc-val');
+        if (ccVal) ccVal.textContent = data.zalo;
+      }
+      if (data.hours) {
+        const hoursEl = document.querySelector('.response-time div[style*="margin-top"]');
+        if (hoursEl) hoursEl.textContent = 'Giờ làm việc: ' + data.hours;
+      }
+    } catch (e) {
+      console.warn('Support content load failed:', e);
+    }
+  }
+
+  // ── Load Banner from Firestore ──
+  async function loadBannerFromFirestore() {
+    if (!window.SonHaiData) return;
+    try {
+      const data = await window.SonHaiData.getBanner();
+      if (!data) return;
+      const annBar = document.querySelector('.ann-bar');
+      if (!annBar) return;
+      if (data.enabled === false) { annBar.style.display = 'none'; return; }
+      if (data.text) annBar.textContent = data.text;
+      const typeColors = {
+        info: { bg: 'rgba(0,212,212,.1)', border: 'rgba(0,212,212,.2)', color: '#00D4D4' },
+        promo: { bg: 'rgba(245,166,35,.1)', border: 'rgba(245,166,35,.2)', color: '#F5A623' },
+        warning: { bg: 'rgba(239,68,68,.1)', border: 'rgba(239,68,68,.2)', color: '#EF4444' },
+        success: { bg: 'rgba(16,185,129,.1)', border: 'rgba(16,185,129,.2)', color: '#10B981' },
+      };
+      const c = typeColors[data.type] || typeColors.info;
+      annBar.style.background = c.bg;
+      annBar.style.borderBottomColor = c.border;
+      annBar.style.color = c.color;
+    } catch (e) { console.warn('Banner load failed:', e); }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadSupportContent();
+    loadBannerFromFirestore();
+  });
+</script>
+
+<style>
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25%  { transform: translateX(-6px); }
+    75%  { transform: translateX(6px); }
+  }
+</style>
+
+<script src="js/cart-badge.js?v=5"></script>
+<script type="module" src="js/firestore-sync.js"></script>
+
+<script src="js/parallax-engine.js?v=grid-particles-2"></script>
+</body>
+</html>

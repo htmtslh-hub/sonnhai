@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giỏ hàng - Thư viện Sơn Nhai</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:   #08090E;
+      --bg-2: #0D1018;
+      --bg-3: #12161F;
+      --bg-4: #171C27;
+      --border:  #1C2232;
+      --border-2:#252D3F;
+      --teal:  #00D4D4;
+      --teal-dim: #00AEAE;
+      --teal-dark:#005A5A;
+      --teal-glow: rgba(0,212,212,0.12);
+      --teal-glow-strong: rgba(0,212,212,0.25);
+      --text:  #DDE1EC;
+      --text-2:#8B93A8;
+      --text-3:#555F75;
+      --warn:  #F5A623;
+      --red:   #EF4444;
+      --green: #10B981;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Be Vietnam Pro', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; min-height: 100vh; }
+
+    /*  ANNOUNCEMENT  */
+    .ann-bar {
+      background: rgba(0,212,212,.1); border-bottom: 1px solid rgba(0,212,212,.2);
+      padding: 7px 20px; text-align: center; font-size: 11px; font-weight: 700;
+      letter-spacing: 1.5px; color: var(--teal); text-transform: uppercase;
+    }
+
+    /*  NAVBAR  */
+    .nav {
+      position: sticky; top: 0; z-index: 200; height: 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px;
+      background: rgba(8,9,14,.95); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 15px; font-weight: 800; color: var(--teal); letter-spacing: 1.5px; text-decoration: none; }
+    .nav-logo span { color: var(--text-3); font-weight: 500; }
+    .nav-links { display: flex; gap: 2px; list-style: none; }
+    .nav-links a { font-size: 13px; font-weight: 500; color: var(--text-2); text-decoration: none; padding: 6px 14px; border-radius: 6px; transition: all .2s; }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,.05); }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .nav-search { display: flex; align-items: center; gap: 7px; background: var(--bg-3); border: 1px solid var(--border); border-radius: 7px; padding: 5px 12px; cursor: pointer; transition: border-color .2s; }
+    .nav-search:hover { border-color: var(--teal); }
+    .nav-search span { font-size: 12px; color: var(--text-3); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: none; border-radius: 7px; cursor: pointer; font-family: 'Be Vietnam Pro',sans-serif; font-weight: 600; transition: all .22s; }
+    .btn-teal { background: var(--teal); color: var(--bg); font-size: 13px; padding: 7px 18px; }
+    .btn-teal:hover { background: #00EEEE; box-shadow: 0 0 22px var(--teal-glow-strong); transform: translateY(-1px); }
+
+    /*  LAYOUT  */
+    .wrap { max-width: 1160px; margin: 0 auto; padding: 0 40px; }
+
+    /*  BREADCRUMB  */
+    .breadcrumb { display: flex; align-items: center; gap: 8px; padding: 22px 0 0; font-size: 12.5px; color: var(--text-3); }
+    .breadcrumb a { color: var(--text-3); text-decoration: none; transition: color .2s; }
+    .breadcrumb a:hover { color: var(--teal); }
+    .breadcrumb .sep { color: var(--border-2); }
+    .breadcrumb .cur { color: var(--text-2); font-weight: 600; }
+
+    /*  PAGE TITLE  */
+    .page-title-row { display: flex; align-items: baseline; gap: 14px; padding: 16px 0 28px; }
+    .page-title { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 26px; font-weight: 900; color: var(--text); }
+    .cart-count-badge { background: var(--teal); color: var(--bg); font-size: 12px; font-weight: 800; border-radius: 20px; padding: 2px 10px; }
+
+    /*  GRID  */
+    .cart-grid { display: grid; grid-template-columns: 1fr 360px; gap: 28px; align-items: start; padding-bottom: 80px; }
+
+    /*  CART ITEMS  */
+    .items-box { background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .items-head {
+      padding: 16px 24px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .items-head-title { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--text-3); }
+    .clear-all { font-size: 12px; color: var(--text-3); cursor: pointer; transition: color .2s; border: none; background: none; font-family: 'Be Vietnam Pro',sans-serif; }
+    .clear-all:hover { color: var(--red); }
+
+    /*  CART ITEM ROW  */
+    .cart-item {
+      display: flex; align-items: flex-start; gap: 18px;
+      padding: 20px 24px; border-bottom: 1px solid var(--border);
+      transition: background .2s; position: relative;
+    }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-item:hover { background: rgba(255,255,255,.015); }
+    .cart-item.removing { animation: slideOut .35s ease forwards; }
+
+    @keyframes slideOut {
+      to { opacity: 0; transform: translateX(-20px); max-height: 0; padding: 0; margin: 0; }
+    }
+
+    /* Book thumbnail */
+    .item-thumb {
+      flex-shrink: 0; width: 64px; height: 88px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px; border: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .item-thumb::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.5));
+    }
+
+    /* Item info */
+    .item-info { flex: 1; min-width: 0; }
+    .item-cat { font-size: 10.5px; font-weight: 600; color: var(--teal); margin-bottom: 4px; letter-spacing: .3px; }
+    .item-name { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 6px; }
+    .item-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+    .item-tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 10.5px; color: var(--text-3); background: var(--bg-3);
+      border: 1px solid var(--border); border-radius: 5px; padding: 3px 8px;
+    }
+    .item-actions { display: flex; gap: 14px; }
+    .item-action-btn { font-size: 12px; font-weight: 600; border: none; background: none; cursor: pointer; transition: color .2s; font-family: 'Be Vietnam Pro',sans-serif; display: flex; align-items: center; gap: 5px; }
+    .item-action-btn.remove { color: var(--text-3); }
+    .item-action-btn.remove:hover { color: var(--red); }
+    .item-action-btn.save { color: var(--text-3); }
+    .item-action-btn.save:hover { color: var(--teal); }
+
+    /* Item right */
+    .item-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+    .item-price-now { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 17px; font-weight: 800; color: var(--teal); }
+    .item-price-was { font-size: 12px; color: var(--text-3); text-decoration: line-through; }
+    .item-badge { font-size: 9px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; }
+    .badge-sale { background: var(--warn); color: var(--bg); }
+    .badge-hot  { background: var(--red);  color: #fff; }
+    .badge-new  { background: var(--teal); color: var(--bg); }
+
+    /* Qty (digital = always 1) */
+    .item-qty {
+      display: flex; align-items: center; gap: 0;
+      border: 1px solid var(--border); border-radius: 7px; overflow: hidden;
+      background: var(--bg-3);
+    }
+    .qty-btn { width: 28px; height: 28px; border: none; background: none; color: var(--text-3); cursor: pointer; font-size: 14px; transition: all .2s; font-weight: 700; }
+    .qty-btn:hover { background: var(--border); color: var(--text); }
+    .qty-btn:disabled { opacity: .3; cursor: default; }
+    .qty-num { width: 28px; text-align: center; font-size: 13px; font-weight: 700; color: var(--text); }
+    .qty-note { font-size: 9.5px; color: var(--text-3); text-align: right; }
+
+    /*  EMPTY STATE  */
+    .empty-state {
+      display: none; flex-direction: column; align-items: center; justify-content: center;
+      padding: 72px 40px; text-align: center; gap: 16px;
+    }
+    .empty-icon { font-size: 64px; opacity: .4; }
+    .empty-title { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 20px; font-weight: 800; color: var(--text-2); }
+    .empty-sub { font-size: 14px; color: var(--text-3); line-height: 1.6; max-width: 320px; }
+    .btn-shop { display: inline-flex; align-items: center; gap: 8px; background: var(--teal); color: var(--bg); font-family: 'Be Vietnam Pro',sans-serif; font-size: 13.5px; font-weight: 700; padding: 12px 26px; border-radius: 9px; text-decoration: none; margin-top: 6px; transition: all .22s; }
+    .btn-shop:hover { background: #00EEEE; box-shadow: 0 0 24px var(--teal-glow-strong); transform: translateY(-2px); }
+
+    /*  CONTINUE SHOPPING  */
+    .continue-link { display: flex; align-items: center; gap: 7px; margin-top: 16px; font-size: 13px; color: var(--text-3); text-decoration: none; transition: color .2s; width: fit-content; }
+    .continue-link:hover { color: var(--teal); }
+
+    /*  SAVED FOR LATER  */
+    .saved-section { margin-top: 20px; }
+    .saved-head { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--text-3); margin-bottom: 12px; }
+    .saved-item {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--bg-2); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 18px; margin-bottom: 10px;
+    }
+    .saved-thumb { flex-shrink: 0; width: 44px; height: 60px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 22px; border: 1px solid var(--border); }
+    .saved-info { flex: 1; }
+    .saved-name { font-size: 13.5px; font-weight: 600; color: var(--text-2); margin-bottom: 3px; }
+    .saved-price { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 13px; font-weight: 700; color: var(--text-3); }
+    .btn-move { font-size: 11.5px; font-weight: 700; color: var(--teal); background: var(--teal-glow); border: 1px solid var(--teal-dark); border-radius: 6px; padding: 5px 12px; cursor: pointer; transition: all .2s; font-family: 'Be Vietnam Pro',sans-serif; white-space: nowrap; }
+    .btn-move:hover { background: var(--teal); color: var(--bg); }
+
+    /*  ORDER SUMMARY BOX  */
+    .summary-box { background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; position: sticky; top: 70px; }
+    .summary-head { padding: 18px 22px; border-bottom: 1px solid var(--border); font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+
+    /* Coupon */
+    .coupon-wrap { padding: 16px 22px; border-bottom: 1px solid var(--border); }
+    .coupon-label { font-size: 11.5px; font-weight: 600; color: var(--text-2); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .coupon-row { display: flex; gap: 8px; }
+    .coupon-input {
+      flex: 1; background: var(--bg-3); border: 1px solid var(--border); border-radius: 8px;
+      padding: 10px 12px; font-size: 12.5px; color: var(--text);
+      font-family: 'Be Vietnam Pro',sans-serif; outline: none; transition: border-color .2s;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .coupon-input:focus { border-color: var(--teal); }
+    .coupon-input::placeholder { text-transform: none; letter-spacing: 0; color: var(--text-3); }
+    .btn-apply { background: var(--bg-3); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-size: 12px; font-weight: 700; color: var(--text-2); font-family: 'Be Vietnam Pro',sans-serif; cursor: pointer; transition: all .2s; white-space: nowrap; }
+    .btn-apply:hover { border-color: var(--teal); color: var(--teal); }
+    .btn-apply.ok { border-color: var(--green); color: var(--green); }
+    .coupon-feedback { margin-top: 7px; font-size: 12px; display: flex; align-items: center; gap: 6px; }
+    .coupon-feedback.ok { color: var(--green); }
+    .coupon-feedback.err { color: var(--red); }
+    .coupon-tag { display: inline-flex; align-items: center; gap: 5px; background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.3); border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 700; color: var(--green); }
+    .tag-remove { cursor: pointer; opacity: .6; transition: opacity .2s; font-style: normal; }
+    .tag-remove:hover { opacity: 1; }
+
+    /* Totals */
+    .totals-wrap { padding: 16px 22px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 9px; }
+    .total-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+    .total-key { color: var(--text-3); }
+    .total-val { font-weight: 600; color: var(--text); }
+    .total-val.green { color: var(--green); }
+    .total-val.red-strike { color: var(--text-3); text-decoration: line-through; font-weight: 400; font-size: 11.5px; }
+    .total-final-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 22px; border-bottom: 1px solid var(--border); }
+    .tf-label { font-size: 14px; font-weight: 700; }
+    .tf-amount { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 24px; font-weight: 900; color: var(--teal); }
+
+    /* Checkout btn */
+    .checkout-wrap { padding: 16px 22px; display: flex; flex-direction: column; gap: 12px; }
+    .btn-checkout { width: 100%; padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-family: 'Be Vietnam Pro',sans-serif; font-size: 15px; font-weight: 700; background: var(--teal); color: var(--bg); display: flex; align-items: center; justify-content: center; gap: 9px; transition: all .25s; }
+    .btn-checkout:hover { background: #00EEEE; box-shadow: 0 0 32px var(--teal-glow-strong); transform: translateY(-2px); }
+    .secure-note { display: flex; align-items: center; justify-content: center; gap: 7px; font-size: 11.5px; color: var(--text-3); }
+    .secure-note svg { color: var(--teal); }
+    .pay-methods { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+    .pm { background: var(--bg-3); border: 1px solid var(--border); border-radius: 5px; padding: 4px 10px; font-size: 10.5px; font-weight: 700; color: var(--text-3); }
+
+    /*  UPSELL SECTION  */
+    .upsell { padding: 48px 0 80px; }
+    .upsell-title { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 18px; font-weight: 800; letter-spacing: .5px; color: var(--text); margin-bottom: 20px; }
+    .upsell-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+
+    /* Product card (mini) */
+    .u-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; transition: all .28s; }
+    .u-card:hover { border-color: var(--teal-dark); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.5), 0 0 24px rgba(0,212,212,.07); }
+    .u-thumb { width: 100%; aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center; font-size: 44px; position: relative; overflow: hidden; }
+    .u-thumb::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,.6)); }
+    .u-body { padding: 10px 12px 8px; }
+    .u-cat { font-size: 10px; font-weight: 600; color: var(--teal); margin-bottom: 3px; }
+    .u-name { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 8px; }
+    .u-foot { display: flex; align-items: center; justify-content: space-between; }
+    .u-price { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 14px; font-weight: 700; color: var(--teal); }
+    .u-add { font-size: 11px; font-weight: 700; color: var(--teal); background: rgba(0,212,212,.08); border: 1px solid var(--teal-dark); border-radius: 5px; padding: 4px 9px; cursor: pointer; transition: all .2s; font-family: 'Be Vietnam Pro',sans-serif; }
+    .u-add:hover { background: var(--teal); color: var(--bg); }
+    .u-add.added { background: var(--teal); color: var(--bg); }
+
+    /*  RESPONSIVE  */
+    @media (max-width: 960px) {
+      .cart-grid { grid-template-columns: 1fr; }
+      .summary-box { position: static; }
+      .upsell-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 600px) {
+      .wrap { padding: 0 16px; }
+      .nav  { padding: 0 16px; }
+      .nav-links { display: none; }
+      .cart-item { flex-wrap: wrap; }
+      .item-right { flex-direction: row; align-items: center; gap: 10px; width: 100%; }
+      .upsell-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/parallax-animations.css">
+</head>
+<body>
+
+<!-- PARALLAX CANVAS BACKGROUND -->
+<canvas id="parallax-canvas"></canvas>
+
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann-bar"> Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật </div>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">Thư viện <span>Sơn Nhai</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Trang chủ</a></li>
+    <li><a href="categories.html">Danh mục</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="about.html">Về chúng tôi</a></li>
+    <li><a href="support.html">Hỗ trợ</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555F75" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <span>Tìm kiếm...</span>
+    </div>
+    <div id="nav-auth-slot"></div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb">
+    <a href="index.html">Trang chủ</a>
+    <span class="sep"></span>
+    <span class="cur">Giỏ hàng</span>
+  </nav>
+
+  <!-- PAGE TITLE -->
+  <div class="page-title-row">
+    <h1 class="page-title">Giỏ hàng</h1>
+    <span class="cart-count-badge" id="cart-badge">0 sản phẩm</span>
+  </div>
+
+  <!-- CART GRID -->
+  <div class="cart-grid">
+
+    <!--  LEFT: ITEMS  -->
+    <div>
+      <div class="items-box" id="items-box">
+        <div class="items-head">
+          <span class="items-head-title">Sản phẩm đã chọn</span>
+          <button class="clear-all" onclick="clearAll()">Xóa tất cả</button>
+        </div>
+
+        <!-- Empty state (shown when cart is empty) -->
+        <div class="empty-state" id="empty-state" style="display:flex;">
+          <div class="empty-icon">◇</div>
+          <div class="empty-title">Giỏ hàng trống</div>
+          <p class="empty-sub">Chưa có sản phẩm nào trong giỏ hàng. Khám phá bộ sưu tập của Thư viện Sơn Nhai ngay!</p>
+          <a href="index.html" class="btn-shop">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            Về trang chủ
+          </a>
+        </div>
+      </div>
+
+      <!-- Continue shopping -->
+      <a href="categories.html" class="continue-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
+        Tiếp tục mua sắm
+      </a>
+
+      <!-- Saved for later -->
+      <div class="saved-section" id="saved-section" style="display:none;">
+        <div class="saved-head">Lưu để sau (<span id="saved-count">0</span>)</div>
+        <div id="saved-list"></div>
+      </div>
+    </div>
+
+    <!--  RIGHT: SUMMARY  -->
+    <div>
+      <div class="summary-box">
+        <div class="summary-head">Tóm tắt đơn hàng</div>
+
+        <!-- Coupon -->
+        <div class="coupon-wrap">
+          <div class="coupon-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            Mã giảm giá
+          </div>
+          <div class="coupon-row">
+            <input class="coupon-input" id="coupon-inp" type="text" placeholder="Nhập mã...">
+            <button class="btn-apply" id="coupon-btn" onclick="applyCoupon()">Áp dụng</button>
+          </div>
+          <div id="coupon-fb" style="display:none;" class="coupon-feedback"></div>
+          <div style="margin-top:8px;font-size:10.5px;color:var(--text-3);">Thử: SONGNHAI20 · NHANTAM10 · WELCOME30</div>
+        </div>
+
+        <!-- Totals -->
+        <div class="totals-wrap">
+          <div class="total-row">
+            <span class="total-key">Tạm tính (<span id="item-count">0</span> sản phẩm)</span>
+            <span class="total-val" id="subtotal-display">0đ</span>
+          </div>
+          <div class="total-row" id="discount-row" style="display:none;">
+            <span class="total-key">Giảm giá</span>
+            <span class="total-val green" id="discount-display"></span>
+          </div>
+          <div class="total-row">
+            <span class="total-key">Phí vận chuyển</span>
+            <span class="total-val green">Miễn phí ✓</span>
+          </div>
+          <div class="total-row">
+            <span class="total-key">Giao hàng</span>
+            <span class="total-val">Tải xuống ngay</span>
+          </div>
+        </div>
+
+        <!-- Final total -->
+        <div class="total-final-row">
+          <span class="tf-label">Tổng cộng</span>
+          <span class="tf-amount" id="total-display">0đ</span>
+        </div>
+
+        <!-- Checkout -->
+        <div class="checkout-wrap">
+          <a href="checkout.html" class="btn-checkout" id="btn-checkout">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+            Tiến hành thanh toán
+          </a>
+          <div class="secure-note">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Thanh toán bảo mật, mã hóa SSL
+          </div>
+          <div class="pay-methods">
+            <div class="pm">Thẻ quốc tế</div>
+            <div class="pm">VNPay</div>
+            <div class="pm">MoMo</div>
+          </div>
+          <div style="border-top:1px solid var(--border);padding-top:12px;display:flex;flex-direction:column;gap:7px;">
+            <div style="display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--text-3);">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>
+              Hoàn tiền 100% trong 7 ngày
+            </div>
+            <div style="display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--text-3);">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Link tải gửi qua email ngay
+            </div>
+            <div style="display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--text-3);">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Hỗ trợ 7 ngày / tuần
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.cart-grid -->
+
+  <!-- UPSELL SECTION -->
+  <div class="upsell" id="upsell">
+    <h2 class="upsell-title">Có thể bạn cũng thích</h2>
+    <div class="upsell-grid">
+
+      <div class="u-card">
+        <div class="u-thumb" style="background:linear-gradient(145deg,#1A0D2E,#2D0A4E);padding:0;overflow:hidden;"><img src="chuan/thuc_tinh_nhan_thuc.jpeg" alt="Thức tỉnh nhận thức" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='◆'"></div>
+        <div class="u-body">
+          <div class="u-cat">Tư duy</div>
+          <div class="u-name">Thức tỉnh nhận thức</div>
+          <div class="u-foot">
+            <span class="u-price">129.000đ</span>
+            <button class="u-add" onclick="addUpsell(this)">+ Thêm</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="u-card">
+        <div class="u-thumb" style="background:linear-gradient(145deg,#1F1A08,#3D2E0A);padding:0;overflow:hidden;"><img src="chuan/he_thong_manh_me.jpeg" alt="Hệ thống mạnh mẽ" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='✦'"></div>
+        <div class="u-body">
+          <div class="u-cat">Hệ thống</div>
+          <div class="u-name">Hệ thống mạnh mẽ</div>
+          <div class="u-foot">
+            <span class="u-price">139.000đ</span>
+            <button class="u-add" onclick="addUpsell(this)">+ Thêm</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="u-card">
+        <div class="u-thumb" style="background:linear-gradient(145deg,#0A1A2E,#0D2845);padding:0;overflow:hidden;"><img src="chuan/tu_duy_sau_sac.jpeg" alt="Tư duy sâu sắc" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='◆'"></div>
+        <div class="u-body">
+          <div class="u-cat">Tư duy</div>
+          <div class="u-name">Tư duy sâu sắc</div>
+          <div class="u-foot">
+            <span class="u-price">119.000đ</span>
+            <button class="u-add" onclick="addUpsell(this)">+ Thêm</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="u-card">
+        <div class="u-thumb" style="background:linear-gradient(145deg,#1A0F2E,#2D1A4E);padding:0;overflow:hidden;"><img src="chuan/tinh_cam_bi_tich.jpeg" alt="Tình cảm bí tịch" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='♡'"></div>
+        <div class="u-body">
+          <div class="u-cat">Tình cảm</div>
+          <div class="u-name">Tình cảm bí tịch</div>
+          <div class="u-foot">
+            <span class="u-price">109.000đ</span>
+            <button class="u-add" onclick="addUpsell(this)">+ Thêm</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /.wrap -->
+
+<footer class="footer" style="margin-top:48px;">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="index.html" class="foot-logo" style="font-family: 'Be Vietnam Pro','Exo 2',sans-serif;font-size:15px;font-weight:800;color:var(--teal);letter-spacing:1px;text-decoration:none;">Thư viện <span style="color:var(--text-3);font-weight:500;">Sơn Nhai</span></a>
+        <p style="font-size:13px;color:var(--text-3);margin-top:10px;line-height:1.6;">Nơi lưu giữ những tinh hoa tri thức về nhân tính, tư duy và tài chính. Sản phẩm số chất lượng cao.</p>
+        <div style="display:flex;gap:8px;margin-top:14px;">
+          <a href="#" style="width:32px;height:32px;border:1px solid var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--text-3);font-size:13px;text-decoration:none;">f</a>
+          <a href="#" style="width:32px;height:32px;border:1px solid var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--text-3);font-size:13px;text-decoration:none;">5O</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--text-3);text-transform:uppercase;margin-bottom:14px;">Cửa hàng</div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="categories.html" style="font-size:13px;color:var(--text-2);text-decoration:none;">Tất cả sản phẩm</a></li>
+          <li><a href="categories.html?sort=newest" style="font-size:13px;color:var(--text-2);text-decoration:none;">Sản phẩm mới</a></li>
+          <li><a href="index.html" style="font-size:13px;color:var(--text-2);text-decoration:none;">Trang chủ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--text-3);text-transform:uppercase;margin-bottom:14px;">Hỗ trợ</div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="support.html" style="font-size:13px;color:var(--text-2);text-decoration:none;">Trung tâm hỗ trợ</a></li>
+          <li><a href="support.html#faq" style="font-size:13px;color:var(--text-2);text-decoration:none;">Câu hỏi thường gặp</a></li>
+          <li><a href="support.html#contact" style="font-size:13px;color:var(--text-2);text-decoration:none;">Liên hệ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--text-3);text-transform:uppercase;margin-bottom:14px;">Tài khoản</div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">
+          <li><a href="account.html" style="font-size:13px;color:var(--text-2);text-decoration:none;">Đăng nhập / Đăng ký</a></li>
+          <li><a href="account.html" style="font-size:13px;color:var(--text-2);text-decoration:none;">Đơn hàng của tôi</a></li>
+          <li><a href="account.html" style="font-size:13px;color:var(--text-2);text-decoration:none;">Sản phẩm đã mua</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--border);margin-top:32px;padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <div style="font-size:12px;color:var(--text-3);">© 2025 <span style="color:var(--text-2);">Thư viện Sơn Nhai</span>. Bảo lưu mọi quyền.</div>
+      <div style="display:flex;gap:20px;">
+        <a href="support.html" style="font-size:12px;color:var(--text-3);text-decoration:none;">Điều khoản</a>
+        <a href="support.html" style="font-size:12px;color:var(--text-3);text-decoration:none;">Bảo mật</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/cart-badge.js?v=5"></script>
+<script>
+  //  State 
+  const PRICES = {};
+  const activeItems = new Set();
+  let savedItems = [];
+  let appliedDiscount = 0;
+  const COUPONS = { 'SONGNHAI20': 20, 'NHANTAM10': 10, 'WELCOME30': 30 };
+
+  //  Helpers 
+  const fmt = n => n.toLocaleString('vi-VN') + 'đ';
+
+  function getSubtotal() {
+    return [...activeItems].reduce((s, id) => s + (PRICES[id] || 0), 0);
+  }
+
+  function updateSummary() {
+    const sub = getSubtotal();
+    const disc = Math.round(sub * appliedDiscount / 100);
+    const total = sub - disc;
+    const count = activeItems.size;
+
+    document.getElementById('item-count').textContent = count;
+    document.getElementById('subtotal-display').textContent = fmt(sub);
+    document.getElementById('total-display').textContent = fmt(total);
+    document.getElementById('cart-badge').textContent = count + ' sản phẩm';
+
+    const discRow = document.getElementById('discount-row');
+    if (appliedDiscount > 0 && sub > 0) {
+      discRow.style.display = 'flex';
+      document.getElementById('discount-display').textContent = '-' + fmt(disc);
+    } else {
+      discRow.style.display = 'none';
+    }
+
+    // Update checkout button text
+    const btn = document.getElementById('btn-checkout');
+    if (btn) {
+      if (total > 0) {
+        btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M5 12h14m-7-7 7 7-7 7"/></svg> Tiến hành thanh toán  ${fmt(total)}`;
+      }
+      if (count === 0) {
+        document.getElementById('empty-state').style.display = 'flex';
+        document.getElementById('items-head') && (document.querySelector('.items-head').style.display = 'none');
+        document.getElementById('upsell').style.display = 'none';
+        btn.style.opacity = '.4';
+        btn.style.pointerEvents = 'none';
+      } else {
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+      }
+    }
+  }
+
+  //  Remove item 
+  function removeItem(id) { removeItemApi(id); }
+
+  //  Save for later 
+  function saveForLater(id, name, emoji, bg, price) {
+    removeItem(id);
+    savedItems.push({ id, name, emoji, bg, price });
+    renderSaved();
+  }
+
+  function renderSaved() {
+    const sec = document.getElementById('saved-section');
+    const list = document.getElementById('saved-list');
+    const cnt = document.getElementById('saved-count');
+    if (savedItems.length === 0) { sec.style.display = 'none'; return; }
+    sec.style.display = 'block';
+    cnt.textContent = savedItems.length;
+    list.innerHTML = savedItems.map((it, i) => `
+      <div class="saved-item" id="saved-${it.id}">
+        <div class="saved-thumb" style="background:${it.bg};">${it.emoji}</div>
+        <div class="saved-info">
+          <div class="saved-name">${it.name}</div>
+          <div class="saved-price">${it.price}</div>
+        </div>
+        <button class="btn-move" onclick="moveToCart(${i})">Thêm vào giỏ</button>
+      </div>
+    `).join('');
+  }
+
+  function moveToCart(idx) {
+    const it = savedItems[idx];
+    savedItems.splice(idx, 1);
+    // Re-add item row (simplified  just show a toast in real app)
+    activeItems.add(it.id);
+    PRICES[it.id] = parseInt(it.price.replace(/\D/g,''));
+    updateSummary();
+    renderSaved();
+    // Re-insert DOM row
+    const box = document.getElementById('items-box');
+    const emptyState = document.getElementById('empty-state');
+    const row = document.createElement('div');
+    row.className = 'cart-item'; row.id = 'item-' + it.id;
+    row.style.animation = 'fadeInRow .3s ease';
+    row.innerHTML = `
+      <div class="item-thumb" style="background:${it.bg};">${it.emoji}</div>
+      <div class="item-info">
+        <div class="item-cat">Sản phẩm số</div>
+        <div class="item-name">${it.name}</div>
+        <div class="item-meta"><span class="item-tag">PDF</span></div>
+        <div class="item-actions">
+          <button class="item-action-btn remove" onclick="removeItem(${it.id})">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14a2,2,0,0,1-2,2H8a2,2,0,0,1-2-2L5,6"/><path d="M10,11v6M14,11v6"/></svg>
+            Xóa
+          </button>
+        </div>
+      </div>
+      <div class="item-right">
+        <div class="item-price-now">${it.price}</div>
+        <div><div class="item-qty"><button class="qty-btn" disabled>-</button><span class="qty-num">1</span><button class="qty-btn" disabled>+</button></div><div class="qty-note">Sản phẩm số</div></div>
+      </div>`;
+    box.insertBefore(row, emptyState);
+    emptyState.style.display = 'none';
+    document.getElementById('upsell').style.display = 'block';
+  }
+
+  //  Clear all 
+  function clearAll() {
+    if (!confirm('Xóa tất cả sản phẩm khỏi giỏ hàng?')) return;
+    [...activeItems].forEach(id => {
+      const el = document.getElementById('item-' + id);
+      if (el) { el.classList.add('removing'); setTimeout(() => el.remove(), 340); }
+    });
+    setTimeout(() => {
+      activeItems.clear();
+      updateSummary();
+    }, 360);
+  }
+
+  //  Coupon 
+  function applyCoupon() {
+    const code = document.getElementById('coupon-inp').value.trim().toUpperCase();
+    const fb = document.getElementById('coupon-fb');
+    const btn = document.getElementById('coupon-btn');
+    fb.style.display = 'flex';
+
+    if (!code) {
+      fb.className = 'coupon-feedback err'; fb.textContent = 'Vui lòng nhập mã giảm giá'; return;
+    }
+    if (COUPONS[code]) {
+      const pct = COUPONS[code];
+      appliedDiscount = pct;
+      fb.className = 'coupon-feedback ok';
+      fb.innerHTML = `✓ Đã áp dụng <span class="coupon-tag">${code} -${pct}% <em class="tag-remove" onclick="removeCoupon()">×</em></span>`;
+      btn.textContent = '✓ Đã áp dụng'; btn.className = 'btn-apply ok';
+      document.getElementById('coupon-inp').disabled = true;
+      updateSummary();
+    } else {
+      fb.className = 'coupon-feedback err'; fb.textContent = 'Mã không hợp lệ hoặc đã hết hạn';
+      appliedDiscount = 0; updateSummary();
+    }
+  }
+
+  function removeCoupon() {
+    appliedDiscount = 0;
+    document.getElementById('coupon-inp').value = '';
+    document.getElementById('coupon-inp').disabled = false;
+    document.getElementById('coupon-fb').style.display = 'none';
+    document.getElementById('coupon-btn').textContent = 'Áp dụng';
+    document.getElementById('coupon-btn').className = 'btn-apply';
+    updateSummary();
+  }
+
+  document.getElementById('coupon-inp').addEventListener('keydown', e => { if (e.key === 'Enter') applyCoupon(); });
+
+  //  Upsell add 
+  function addUpsell(btn) {
+    btn.textContent = '✓ Đã thêm'; btn.classList.add('added'); btn.disabled = true;
+    // Flash toast
+    const t = document.createElement('div');
+    t.style.cssText = 'position:fixed;bottom:28px;right:28px;background:var(--teal);color:var(--bg);font-family:"Be Vietnam Pro",sans-serif;font-size:13px;font-weight:700;padding:12px 20px;border-radius:9px;z-index:999;animation:toastIn .3s ease;box-shadow:0 8px 32px rgba(0,212,212,.3);';
+    t.textContent = '✓ Đã thêm vào giỏ hàng';
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2400);
+  }
+
+  //  Keyframe for move-to-cart 
+  const styleSheet = document.createElement('style');
+  styleSheet.textContent = `
+    @keyframes fadeInRow { from { opacity:0; transform:translateX(-16px); } to { opacity:1; transform:none; } }
+    @keyframes toastIn   { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+  `;
+  document.head.appendChild(styleSheet);
+
+  // Render một dòng sản phẩm từ dữ liệu API
+  function renderItemRow(item) {
+    const id = item.id || item.productId;
+    const name = item.name || item.product?.name || 'Sản phẩm';
+    const price = item.price || item.product?.price || 0;
+    const emoji = item.emoji || item.product?.emoji || '=';
+    const bg = item.bg || item.product?.coverGradient || 'linear-gradient(145deg,#0D1018,#161B27)';
+    const cat = item.category || item.product?.category || 'Sản phẩm số';
+    const pages = item.pages || item.product?.pages || '';
+    const size = item.fileSize || item.product?.fileSize || '';
+    const imgUrl = item.product?.imageUrl || item.imageUrl || '';
+
+    PRICES[id] = price;
+    activeItems.add(id);
+
+    const box = document.getElementById('items-box');
+    const emptyState = document.getElementById('empty-state');
+    const row = document.createElement('div');
+    row.className = 'cart-item';
+    row.id = 'item-' + id;
+    
+    let thumbHtml;
+    if (imgUrl) {
+      thumbHtml = `<div class="item-thumb" style="background:${bg};padding:0;overflow:hidden;"><img src="${imgUrl}" alt="${name}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${emoji}'"></div>`;
+    } else {
+      thumbHtml = `<div class="item-thumb" style="background:${bg};">${emoji}</div>`;
+    }
+    row.innerHTML = `
+      ${thumbHtml}
+      <div class="item-info">
+        <div class="item-cat">${cat}</div>
+        <div class="item-name">${name}</div>
+        <div class="item-meta">
+          <span class="item-tag">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+            PDF
+          </span>
+          ${pages ? `<span class="item-tag">${pages} trang</span>` : ''}
+          ${size ? `<span class="item-tag">${size}</span>` : ''}
+        </div>
+        <div class="item-actions">
+          <button class="item-action-btn remove" onclick="removeItemApi('${id}')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14a2,2,0,0,1-2,2H8a2,2,0,0,1-2-2L5,6"/><path d="M10,11v6M14,11v6"/></svg>
+            Xóa
+          </button>
+          <button class="item-action-btn save" onclick="saveForLater('${id}','${name}','${emoji}','${bg}','${price.toLocaleString('vi-VN')}đ')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            Lưu để sau
+          </button>
+        </div>
+      </div>
+      <div class="item-right">
+        <div>
+          <div class="item-price-now">${price.toLocaleString('vi-VN')}đ</div>
+        </div>
+        <div>
+          <div class="item-qty">
+            <button class="qty-btn" disabled>-</button>
+            <span class="qty-num">1</span>
+            <button class="qty-btn" disabled>+</button>
+          </div>
+          <div class="qty-note">Sản phẩm số</div>
+        </div>
+      </div>`;
+    box.insertBefore(row, emptyState);
+    emptyState.style.display = 'none';
+    document.querySelector('.items-head').style.display = 'flex';
+    document.getElementById('upsell').style.display = 'block';
+  }
+
+  // Xóa sản phẩm qua API/LocalStorage
+  async function removeItemApi(id) {
+    const el = document.getElementById('item-' + id);
+    if (!el) return;
+    el.classList.add('removing');
+    try {
+      if (window.SonHaiCartBadge) {
+        await window.SonHaiCartBadge.removeProduct(id);
+      }
+    } catch {}
+    setTimeout(() => {
+      el.remove();
+      activeItems.delete(id);
+      delete PRICES[id];
+      updateSummary();
+    }, 340);
+  }
+
+  // Load giỏ hàng từ API/LocalStorage
+  async function loadCart() {
+    try {
+      if (window.SonHaiCartBadge) {
+        const cart = window.SonHaiCartBadge.getCart();
+        const allProducts = window.SonHaiCartBadge.getProducts();
+        if (cart && cart.length > 0) {
+          cart.forEach(item => {
+            const product = allProducts.find(p => String(p.id) === String(item.id) || String(p.id) === String(item.productId));
+            if (product || item.name) {
+              renderItemRow({ ...item, product: product || item });
+            }
+          });
+        }
+      }
+      updateSummary();
+    } catch {
+      updateSummary();
+    }
+  }
+
+  //  Init 
+  updateSummary();
+  loadCart();
+</script>
+
+<script src="js/parallax-engine.js?v=grid-particles-2"></script>
+<script type="module" src="/auth-ui.js"></script>
+</body>
+</html>

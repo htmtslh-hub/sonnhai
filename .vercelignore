@@ -1,0 +1,17 @@
+# Ignore
+node_modules
+.git
+.env
+.env.local
+*.log
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+*.backup
+*-firebase-adminsdk-*
+sonnhai-2600f-firebase-adminsdk-fbsvc-6b431889d3.json
+
+# DO NOT ignore these - they are needed for deployment:
+# !chuan/
+# !public/

@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tài khoản — Thư viện Sơn Nhai</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:   #08090E;
+      --bg-2: #0D1018;
+      --bg-3: #12161F;
+      --bg-4: #171C27;
+      --border:  #1C2232;
+      --border-2:#252D3F;
+      --teal:  #00D4D4;
+      --teal-dim: #00AEAE;
+      --teal-dark:#005A5A;
+      --teal-glow: rgba(0,212,212,0.12);
+      --teal-glow-strong: rgba(0,212,212,0.25);
+      --text:  #DDE1EC;
+      --text-2:#8B93A8;
+      --text-3:#555F75;
+      --warn:  #F5A623;
+      --red:   #EF4444;
+      --green: #10B981;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Be Vietnam Pro', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; min-height: 100vh; }
+
+    /*  ANNOUNCEMENT  */
+    .ann-bar { background: rgba(0,212,212,.1); border-bottom: 1px solid rgba(0,212,212,.2); padding: 7px 20px; text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--teal); text-transform: uppercase; }
+
+    /*  NAVBAR  */
+    .nav { position: sticky; top: 0; z-index: 200; height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(8,9,14,.95); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 15px; font-weight: 800; color: var(--teal); letter-spacing: 1.5px; text-decoration: none; }
+    .nav-logo span { color: var(--text-3); font-weight: 500; }
+    .nav-links { display: flex; gap: 2px; list-style: none; }
+    .nav-links a { font-size: 13px; font-weight: 500; color: var(--text-2); text-decoration: none; padding: 6px 14px; border-radius: 6px; transition: all .2s; }
+    .nav-links a:hover, .nav-links a.on { color: var(--text); background: rgba(255,255,255,.05); }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .nav-cart { position: relative; padding: 5px; cursor: pointer; text-decoration: none; color: inherit; }
+    .cart-dot { position: absolute; top: 2px; right: 2px; width: 15px; height: 15px; border-radius: 50%; background: var(--teal); font-size: 9px; font-weight: 700; color: var(--bg); display: flex; align-items: center; justify-content: center; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: none; border-radius: 7px; cursor: pointer; font-family: 'Be Vietnam Pro',sans-serif; font-weight: 600; transition: all .22s; }
+    .btn-teal { background: var(--teal); color: var(--bg); font-size: 13px; padding: 7px 18px; }
+    .btn-teal:hover { background: #00EEEE; box-shadow: 0 0 22px var(--teal-glow-strong); transform: translateY(-1px); }
+    .btn-ghost { background: transparent; border: 1px solid var(--border-2); color: var(--text-2); font-size: 12.5px; padding: 6px 14px; }
+    .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+
+    /*  WRAP  */
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+    /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+       AUTH PAGE (login / register)
+    PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+    #auth-page { display: flex; min-height: calc(100vh - 90px); align-items: center; justify-content: center; padding: 60px 40px; position: relative; overflow: hidden; }
+    .auth-glow-t { position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 700px; height: 500px; background: radial-gradient(ellipse at 50% 30%, rgba(0,212,212,.08) 0%, transparent 65%); pointer-events: none; }
+    .auth-grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,212,212,.018) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,212,.018) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 0%, transparent 100%); pointer-events: none; }
+
+    .auth-card { position: relative; width: 100%; max-width: 440px; background: var(--bg-2); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: 0 32px 80px rgba(0,0,0,.6); }
+    .auth-top { padding: 32px 36px 0; text-align: center; }
+    .auth-logo { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 18px; font-weight: 900; color: var(--teal); letter-spacing: 2px; margin-bottom: 24px; display: block; text-decoration: none; }
+    .auth-logo span { color: var(--text-3); font-weight: 500; }
+
+    /* Auth tabs */
+    .auth-tabs { display: flex; background: var(--bg-3); border-radius: 10px; padding: 4px; margin-bottom: 28px; }
+    .auth-tab { flex: 1; padding: 9px; border-radius: 7px; font-size: 13.5px; font-weight: 700; cursor: pointer; transition: all .22s; border: none; background: transparent; color: var(--text-3); font-family: 'Be Vietnam Pro',sans-serif; }
+    .auth-tab.on { background: var(--bg-2); color: var(--teal); box-shadow: 0 2px 8px rgba(0,0,0,.4); }
+
+    /* Form */
+    .auth-body { padding: 0 36px 32px; }
+    .auth-form { display: none; flex-direction: column; gap: 14px; }
+    .auth-form.show { display: flex; }
+
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+    .field-label { font-size: 12px; font-weight: 700; color: var(--text-2); letter-spacing: .3px; }
+    .field-in {
+      background: var(--bg-3); border: 1.5px solid var(--border); border-radius: 9px;
+      padding: 11px 14px; font-size: 13.5px; color: var(--text);
+      font-family: 'Be Vietnam Pro',sans-serif; outline: none; transition: border-color .2s, box-shadow .2s; width: 100%;
+    }
+    .field-in:focus { border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-glow); }
+    .field-in.err { border-color: var(--red); }
+    .field-in::placeholder { color: var(--text-3); }
+    .field-err { font-size: 11.5px; color: var(--red); display: none; }
+    .field-err.show { display: block; }
+
+    /* Password toggle */
+    .pw-wrap { position: relative; }
+    .pw-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-3); padding: 4px; transition: color .2s; }
+    .pw-toggle:hover { color: var(--teal); }
+
+    /* Remember / forgot */
+    .auth-row { display: flex; align-items: center; justify-content: space-between; }
+    .check-wrap { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .check-wrap input { display: none; }
+    .check-box { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--border-2); transition: all .2s; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; color: transparent; }
+    .check-wrap input:checked + .check-box { background: var(--teal); border-color: var(--teal); color: var(--bg); }
+    .check-label { font-size: 12.5px; color: var(--text-2); }
+    .forgot-link { font-size: 12.5px; color: var(--teal); text-decoration: none; opacity: .8; transition: opacity .2s; }
+    .forgot-link:hover { opacity: 1; }
+
+    /* Submit button */
+    .btn-auth { width: 100%; padding: 13px; background: var(--teal); color: var(--bg); border: none; border-radius: 9px; font-size: 14.5px; font-weight: 700; font-family: 'Be Vietnam Pro',sans-serif; cursor: pointer; transition: all .25s; position: relative; overflow: hidden; }
+    .btn-auth:hover { background: #00EEEE; box-shadow: 0 0 28px var(--teal-glow-strong); }
+    .btn-auth:active { transform: scale(.98); }
+    .btn-auth-spinner { display: none; }
+
+    /* Divider */
+    .auth-div { display: flex; align-items: center; gap: 12px; }
+    .auth-div-line { flex: 1; height: 1px; background: var(--border); }
+    .auth-div-txt { font-size: 11.5px; color: var(--text-3); white-space: nowrap; }
+
+    /* Social login */
+    .btn-social { width: 100%; padding: 11px; background: var(--bg-3); border: 1.5px solid var(--border); border-radius: 9px; font-size: 13px; font-weight: 600; color: var(--text-2); font-family: 'Be Vietnam Pro',sans-serif; cursor: pointer; transition: all .22s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .btn-social:hover { border-color: var(--border-2); color: var(--text); background: var(--bg-4); }
+    .g-icon { width: 18px; height: 18px; }
+
+    /* Auth footer note */
+    .auth-note { font-size: 12px; color: var(--text-3); text-align: center; line-height: 1.6; margin-top: 4px; }
+    .auth-note a { color: var(--teal); text-decoration: none; }
+
+    /* Terms */
+    .terms-note { font-size: 11.5px; color: var(--text-3); text-align: center; line-height: 1.6; margin-top: 4px; }
+    .terms-note a { color: var(--text-2); }
+
+    /* Password strength */
+    .pw-strength { display: flex; gap: 4px; margin-top: 6px; }
+    .ps-bar { flex: 1; height: 3px; border-radius: 2px; background: var(--border-2); transition: background .3s; }
+    .ps-bar.weak { background: var(--red); }
+    .ps-bar.medium { background: var(--warn); }
+    .ps-bar.strong { background: var(--green); }
+    .ps-label { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+
+    /* PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+       DASHBOARD PAGE
+    PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP */
+    #dashboard-page { display: none; }
+    #dashboard-page.show { display: block; }
+    #auth-page.hide { display: none; }
+
+    .dash-wrap { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+    /* Breadcrumb */
+    .breadcrumb { display: flex; align-items: center; gap: 8px; padding: 22px 0 0; font-size: 12.5px; color: var(--text-3); }
+    .breadcrumb a { color: var(--text-3); text-decoration: none; transition: color .2s; }
+    .breadcrumb a:hover { color: var(--teal); }
+    .breadcrumb .sep { color: var(--border-2); }
+    .breadcrumb .cur { color: var(--text-2); font-weight: 600; }
+
+    /* Profile bar */
+    .profile-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 0 24px; border-bottom: 1px solid var(--border); margin-bottom: 28px;
+    }
+    .profile-left { display: flex; align-items: center; gap: 18px; }
+    .p-avatar { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--teal-dark), #003F3F); border: 2px solid var(--teal-dark); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+    .p-name { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 20px; font-weight: 900; color: var(--text); }
+    .p-email { font-size: 13px; color: var(--text-3); margin-top: 2px; }
+    .p-badge { display: inline-flex; align-items: center; gap: 5px; background: var(--teal-glow); border: 1px solid var(--teal-dark); border-radius: 4px; padding: 2px 9px; font-size: 10.5px; font-weight: 800; color: var(--teal); letter-spacing: .5px; text-transform: uppercase; margin-top: 6px; }
+
+    /* Dashboard layout */
+    .dash-grid { display: grid; grid-template-columns: 220px 1fr; gap: 28px; align-items: start; padding-bottom: 80px; }
+
+    /* Sidebar nav */
+    .dash-nav { position: sticky; top: 70px; }
+    .dash-nav-list { display: flex; flex-direction: column; gap: 2px; }
+    .dash-nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 9px; cursor: pointer; transition: all .2s; font-size: 13.5px; color: var(--text-2); font-weight: 500; border: 1px solid transparent; text-decoration: none; }
+    .dash-nav-item:hover { background: var(--bg-3); color: var(--text); }
+    .dash-nav-item.on { background: var(--teal-glow); border-color: var(--teal-dark); color: var(--teal); font-weight: 700; }
+    .dash-nav-icon { font-size: 16px; flex-shrink: 0; }
+    .dash-nav-badge { margin-left: auto; background: var(--teal); color: var(--bg); font-size: 10px; font-weight: 800; border-radius: 20px; padding: 1px 7px; }
+    .dash-nav-sep { height: 1px; background: var(--border); margin: 8px 0; }
+
+    /* Panel */
+    .dash-panel { display: none; }
+    .dash-panel.show { display: block; }
+    .panel-title { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 20px; font-weight: 900; color: var(--text); margin-bottom: 4px; }
+    .panel-sub { font-size: 13px; color: var(--text-3); margin-bottom: 24px; }
+
+    /*  OVERVIEW PANEL  */
+    .overview-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+    .ov-stat { background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; padding: 22px 20px; transition: all .25s; }
+    .ov-stat:hover { border-color: var(--teal-dark); }
+    .ov-stat-icon { font-size: 26px; margin-bottom: 12px; }
+    .ov-stat-num { font-family: 'Exo 2',sans-serif; font-size: 28px; font-weight: 900; color: var(--teal); }
+    .ov-stat-lbl { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+
+    /* Recent orders mini */
+    .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .section-ttl { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 13px; font-weight: 800; letter-spacing: .5px; color: var(--text-2); }
+    .section-link { font-size: 12.5px; color: var(--teal); text-decoration: none; opacity: .8; transition: opacity .2s; cursor: pointer; }
+    .section-link:hover { opacity: 1; }
+
+    .order-mini { background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 24px; }
+    .order-mini-row { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-bottom: 1px solid var(--border); transition: background .2s; cursor: default; }
+    .order-mini-row:last-child { border-bottom: none; }
+    .order-mini-row:hover { background: var(--bg-3); }
+    .omr-thumb { width: 40px; height: 52px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid var(--border); flex-shrink: 0; }
+    .omr-info { flex: 1; }
+    .omr-name { font-size: 13.5px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+    .omr-date { font-size: 11.5px; color: var(--text-3); }
+    .omr-price { font-family: 'Exo 2',sans-serif; font-size: 14px; font-weight: 800; color: var(--teal); }
+    .status-pill { font-size: 10.5px; font-weight: 800; padding: 3px 9px; border-radius: 20px; letter-spacing: .3px; text-transform: uppercase; }
+    .sp-paid { background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.3); color: var(--green); }
+    .sp-pending { background: rgba(245,166,35,.12); border: 1px solid rgba(245,166,35,.3); color: var(--warn); }
+    .sp-failed { background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.3); color: var(--red); }
+
+    /* Quick downloads */
+    .dl-mini { background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .dl-mini-row { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-bottom: 1px solid var(--border); transition: background .2s; }
+    .dl-mini-row:last-child { border-bottom: none; }
+    .dl-mini-row:hover { background: var(--bg-3); }
+    .dlr-thumb { width: 40px; height: 52px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid var(--border); flex-shrink: 0; }
+    .dlr-info { flex: 1; }
+    .dlr-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+    .dlr-meta { font-size: 11.5px; color: var(--text-3); }
+    .btn-dl { display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 7px; border: 1px solid var(--teal-dark); background: var(--teal-glow); color: var(--teal); font-size: 12px; font-weight: 700; font-family: 'Be Vietnam Pro',sans-serif; cursor: pointer; transition: all .22s; white-space: nowrap; }
+    .btn-dl:hover { background: var(--teal); color: var(--bg); border-color: var(--teal); }
+
+    /*  ORDERS PANEL  */
+    .orders-filter { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+    .of-btn { padding: 7px 16px; border-radius: 8px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--border); background: var(--bg-2); color: var(--text-3); cursor: pointer; transition: all .2s; font-family: 'Be Vietnam Pro',sans-serif; }
+    .of-btn:hover { border-color: var(--border-2); color: var(--text-2); }
+    .of-btn.on { border-color: var(--teal-dark); background: var(--teal-glow); color: var(--teal); }
+
+    .orders-table { background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .tbl-head { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 100px; gap: 12px; padding: 12px 20px; background: var(--bg-3); border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; color: var(--text-3); }
+    .tbl-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 100px; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--border); align-items: center; transition: background .2s; }
+    .tbl-row:last-child { border-bottom: none; }
+    .tbl-row:hover { background: var(--bg-3); }
+    .tbl-name { font-size: 13.5px; font-weight: 700; color: var(--text); }
+    .tbl-id { font-size: 11px; color: var(--text-3); margin-top: 2px; font-family: 'Exo 2',sans-serif; }
+    .tbl-val { font-size: 13px; color: var(--text-2); }
+    .tbl-price { font-family: 'Exo 2',sans-serif; font-size: 14px; font-weight: 800; color: var(--teal); }
+
+    /*  DOWNLOADS PANEL  */
+    .dl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .dl-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; padding: 20px; transition: all .25s; }
+    .dl-card:hover { border-color: var(--teal-dark); }
+    .dl-card-top { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; }
+    .dl-card-thumb { width: 56px; height: 72px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 26px; border: 1px solid var(--border); flex-shrink: 0; }
+    .dl-card-info { flex: 1; }
+    .dl-card-name { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 14.5px; font-weight: 800; color: var(--text); margin-bottom: 5px; line-height: 1.3; }
+    .dl-card-cat { font-size: 10.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--teal); opacity: .8; margin-bottom: 6px; }
+    .dl-card-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+    .dl-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: var(--bg-3); border: 1px solid var(--border); color: var(--text-3); }
+    .dl-progress { background: var(--bg-3); border-radius: 4px; height: 4px; margin-bottom: 10px; }
+    .dl-progress-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--teal), #00FFFF); transition: width .3s; }
+    .dl-limit { font-size: 11.5px; color: var(--text-3); margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
+    .dl-limit-count { font-weight: 700; color: var(--text-2); }
+    .dl-actions { display: flex; gap: 8px; }
+    .btn-dl-main { flex: 1; padding: 10px; border-radius: 8px; border: none; background: var(--teal); color: var(--bg); font-size: 13px; font-weight: 700; font-family: 'Be Vietnam Pro',sans-serif; cursor: pointer; transition: all .22s; display: flex; align-items: center; justify-content: center; gap: 7px; }
+    .btn-dl-main:hover { background: #00EEEE; box-shadow: 0 0 20px var(--teal-glow-strong); }
+    .btn-dl-main:disabled { background: var(--bg-3); color: var(--text-3); border: 1px solid var(--border); cursor: not-allowed; box-shadow: none; }
+    .btn-dl-preview { padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-3); color: var(--text-2); font-size: 12.5px; font-weight: 600; font-family: 'Be Vietnam Pro',sans-serif; cursor: pointer; transition: all .2s; }
+    .btn-dl-preview:hover { border-color: var(--teal); color: var(--teal); }
+
+    /*  SETTINGS PANEL  */
+    .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .settings-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .sc-head { padding: 16px 22px; border-bottom: 1px solid var(--border); font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--text-3); display: flex; align-items: center; gap: 8px; }
+    .sc-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; }
+    .sc-field { display: flex; flex-direction: column; gap: 6px; }
+    .sc-label { font-size: 12px; font-weight: 700; color: var(--text-2); }
+    .sc-in { background: var(--bg-3); border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 13px; font-size: 13px; color: var(--text); font-family: 'Be Vietnam Pro',sans-serif; outline: none; transition: border-color .2s; width: 100%; }
+    .sc-in:focus { border-color: var(--teal); }
+    .sc-in::placeholder { color: var(--text-3); }
+    .sc-in:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-save { padding: 11px 24px; background: var(--teal); color: var(--bg); border: none; border-radius: 8px; font-size: 13.5px; font-weight: 700; font-family: 'Be Vietnam Pro',sans-serif; cursor: pointer; transition: all .22s; }
+    .btn-save:hover { background: #00EEEE; box-shadow: 0 0 20px var(--teal-glow-strong); }
+
+    /* Toggle switch */
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .toggle-row:last-child { border-bottom: none; }
+    .toggle-info { }
+    .toggle-name { font-size: 13.5px; font-weight: 600; color: var(--text); }
+    .toggle-note { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+    .toggle { width: 42px; height: 24px; border-radius: 12px; background: var(--border-2); position: relative; cursor: pointer; transition: background .25s; flex-shrink: 0; border: none; }
+    .toggle.on { background: var(--teal); }
+    .toggle-thumb { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform .25s; box-shadow: 0 1px 4px rgba(0,0,0,.3); }
+    .toggle.on .toggle-thumb { transform: translateX(18px); }
+
+    /* Danger zone */
+    .danger-card { background: rgba(239,68,68,.04); border-color: rgba(239,68,68,.2); }
+    .danger-card .sc-head { color: var(--red); }
+    .btn-danger { padding: 11px 20px; background: transparent; border: 1px solid rgba(239,68,68,.4); color: var(--red); border-radius: 8px; font-size: 13px; font-weight: 700; font-family: 'Be Vietnam Pro',sans-serif; cursor: pointer; transition: all .22s; }
+    .btn-danger:hover { background: rgba(239,68,68,.1); border-color: var(--red); }
+
+    /*  FOOTER  */
+    .footer { border-top: 1px solid var(--border); padding: 60px 0 0; background: var(--bg-2); }
+    .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+    .foot-logo { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 16px; font-weight: 800; color: var(--teal); letter-spacing: 1.5px; text-decoration: none; display: block; margin-bottom: 14px; }
+    .foot-logo span { color: var(--text-3); font-weight: 500; }
+    .foot-about { font-size: 13px; color: var(--text-3); line-height: 1.7; margin-bottom: 20px; }
+    .foot-social { display: flex; gap: 8px; }
+    .soc { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-3); display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--text-3); text-decoration: none; transition: all .2s; }
+    .soc:hover { border-color: var(--teal); color: var(--teal); }
+    .foot-h { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--text-3); margin-bottom: 16px; }
+    .foot-ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .foot-ul a { font-size: 13px; color: var(--text-3); text-decoration: none; transition: color .2s; }
+    .foot-ul a:hover { color: var(--teal); }
+    .foot-bot { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; border-top: 1px solid var(--border); }
+    .foot-copy { font-size: 12.5px; color: var(--text-3); }
+    .foot-copy span { color: var(--teal); font-weight: 600; }
+    .foot-policies { display: flex; gap: 20px; }
+    .foot-policies a { font-size: 12.5px; color: var(--text-3); text-decoration: none; transition: color .2s; }
+    .foot-policies a:hover { color: var(--teal); }
+
+    /*  TOAST  */
+    .toast { position: fixed; bottom: 28px; right: 28px; z-index: 999; background: var(--bg-3); border: 1px solid var(--teal-dark); border-radius: 10px; padding: 12px 18px; font-size: 13px; font-weight: 600; color: var(--teal); box-shadow: 0 8px 32px rgba(0,0,0,.6), 0 0 24px rgba(0,212,212,.15); transform: translateY(80px); opacity: 0; transition: all .35s cubic-bezier(.3,1.4,.5,1); pointer-events: none; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+  </style>
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/parallax-animations.css">
+</head>
+<body>
+
+<!-- PARALLAX CANVAS BACKGROUND -->
+<canvas id="parallax-canvas"></canvas>
+
+
+<!-- ANNOUNCEMENT -->
+<div class="ann-bar">🎉 THƯ VIỆN SƠN NHAI — SẢN PHẨM THƯỜNG XUYÊN CẬP NHẬT 🎉</div>
+
+<!-- NAVBAR -->
+<nav class="nav" style="top:35px;">
+  <a href="index.html" class="nav-logo">Thư viện <span>Sơn Nhai</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="on">Trang chủ</a></li>
+    <li><a href="categories.html">Danh mục</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="about.html">Về chúng tôi</a></li>
+    <li><a href="support.html">Hỗ trợ</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" color="#555F75"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <span>Tìm kiếm...</span>
+    </div>
+    <a class="nav-cart" href="cart.html" style="text-decoration:none;color:inherit;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B93A8" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <div class="cart-dot" style="display: none;"></div>
+    </a>
+    <div id="nav-auth-slot"></div>
+  </div>
+</nav>
+
+<!-- PPPPPPPPPPPPPP AUTH PAGE PPPPPPPPPPPPPP -->
+<div id="auth-page">
+  <div class="auth-glow-t"></div>
+  <div class="auth-grid-bg"></div>
+
+  <div class="auth-card">
+    <div class="auth-top">
+      <a href="index.html" class="auth-logo">Thư viện <span>Sơn Nhai</span></a>
+    </div>
+
+    <div class="auth-body">
+
+      <!-- STEP 1: EMAIL INPUT -->
+      <div id="auth-step1" class="auth-form show" style="display:flex;flex-direction:column;gap:14px;">
+        <div style="text-align:center;margin-bottom:8px;">
+          <div style="font-size:32px;margin-bottom:8px;">🔐</div>
+          <div style="font-family:'Exo 2',sans-serif;font-size:17px;font-weight:800;color:var(--text);">Đăng nhập / Đăng ký</div>
+          <div style="font-size:12px;color:var(--text-3);margin-top:4px;">Nhập Gmail để nhận mã xác thực</div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Email Gmail</label>
+          <input class="field-in" id="login-email" type="email" placeholder="your@gmail.com" autocomplete="email">
+          <span class="field-err" id="login-email-err">Chỉ hỗ trợ Gmail (@gmail.com)</span>
+        </div>
+        <div id="auth-step1-error" style="display:none;color:var(--red);font-size:12px;padding:8px 12px;background:rgba(239,68,68,.08);border-radius:6px;"></div>
+        <button type="button" class="btn-auth" id="login-btn" onclick="handleSendOTP()">
+          <span id="login-btn-txt">Gửi mã xác thực</span>
+          <span id="login-spinner" class="btn-auth-spinner"> ⏳</span>
+        </button>
+        <div class="auth-div"><div class="auth-div-line"></div><span class="auth-div-txt">hoặc tiếp tục với</span><div class="auth-div-line"></div></div>
+        <button type="button" class="btn-social" onclick="handleGoogleLogin()">
+          <svg class="g-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Tiếp tục với Google
+        </button>
+        <p class="terms-note">Bằng cách đăng nhập, bạn đồng ý với <a href="support.html">Điều khoản dịch vụ</a> và <a href="support.html">Chính sách bảo mật</a> của chúng tôi.</p>
+      </div>
+
+      <!-- STEP 2: OTP INPUT -->
+      <div id="auth-step2" style="display:none;">
+        <button type="button" style="background:none;border:none;color:var(--teal);font-size:13px;cursor:pointer;margin-bottom:16px;font-family:inherit;font-weight:600;" onclick="showStep1()">← Quay lại</button>
+        <div style="text-align:center;margin-bottom:20px;">
+          <div style="font-size:32px;margin-bottom:8px;">📧</div>
+          <div style="font-family:'Exo 2',sans-serif;font-size:17px;font-weight:800;color:var(--text);">Kiểm tra email</div>
+          <div style="font-size:12px;color:var(--text-3);margin-top:4px;">Mã xác thực đã gửi đến</div>
+          <div id="otp-email-display" style="font-size:13px;color:var(--teal);font-weight:700;margin-top:4px;"></div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;" id="otp-boxes">
+          <input class="field-in otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:48px;height:56px;text-align:center;font-size:24px;font-weight:900;font-family:'Exo 2',monospace;color:var(--teal);padding:0;">
+          <input class="field-in otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:48px;height:56px;text-align:center;font-size:24px;font-weight:900;font-family:'Exo 2',monospace;color:var(--teal);padding:0;">
+          <input class="field-in otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:48px;height:56px;text-align:center;font-size:24px;font-weight:900;font-family:'Exo 2',monospace;color:var(--teal);padding:0;">
+          <input class="field-in otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:48px;height:56px;text-align:center;font-size:24px;font-weight:900;font-family:'Exo 2',monospace;color:var(--teal);padding:0;">
+          <input class="field-in otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:48px;height:56px;text-align:center;font-size:24px;font-weight:900;font-family:'Exo 2',monospace;color:var(--teal);padding:0;">
+          <input class="field-in otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:48px;height:56px;text-align:center;font-size:24px;font-weight:900;font-family:'Exo 2',monospace;color:var(--teal);padding:0;">
+        </div>
+        <div id="auth-step2-error" style="display:none;color:var(--red);font-size:12px;padding:8px 12px;background:rgba(239,68,68,.08);border-radius:6px;margin-bottom:12px;"></div>
+        <button type="button" class="btn-auth" id="verify-btn" onclick="handleVerifyOTP()">Xác thực</button>
+        <div style="text-align:center;margin-top:14px;">
+          <button type="button" id="resend-btn" style="background:none;border:none;color:var(--text-3);font-size:12px;cursor:pointer;font-family:inherit;" disabled onclick="handleResendOTP()">
+            Gửi lại mã (<span id="resend-timer">120</span>s)
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- PPPPPPPPPPPPPP DASHBOARD PAGE PPPPPPPPPPPPPP -->
+<div id="dashboard-page">
+  <div class="dash-wrap">
+    <nav class="breadcrumb">
+      <a href="index.html">Trang chủ</a>
+      <span class="sep">/</span>
+      <span class="cur">Tài khoản</span>
+    </nav>
+
+    <!-- Profile bar -->
+    <div class="profile-bar">
+      <div class="profile-left">
+        <div class="p-avatar">👤</div>
+        <div>
+          <div class="p-name" id="dash-name">Nguyận Văn A</div>
+          <div class="p-email" id="dash-email">user@email.com</div>
+          <div class="p-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+            Thậnh viện
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-ghost" onclick="logout()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Đăng xuất
+      </button>
+    </div>
+
+    <!-- Dashboard grid -->
+    <div class="dash-grid">
+
+      <!-- Sidebar nav -->
+      <nav class="dash-nav">
+        <div class="dash-nav-list">
+          <a class="dash-nav-item on" onclick="showPanel('overview',this)" href="#">
+            <span class="dash-nav-icon">📊</span> Tổng quan
+          </a>
+          <a class="dash-nav-item" onclick="showPanel('orders',this)" href="#">
+            <span class="dash-nav-icon">📊</span> Đơn hàngg
+            <span class="dash-nav-badge">3</span>
+          </a>
+          <a class="dash-nav-item" onclick="showPanel('downloads',this)" href="#">
+            <span class="dash-nav-icon">📥</span> Tải xuống
+          </a>
+          <div class="dash-nav-sep"></div>
+          <a class="dash-nav-item" onclick="showPanel('settings',this)" href="#">
+            <span class="dash-nav-icon"></span> Cài đặt
+          </a>
+          <a class="dash-nav-item" href="index.html">
+            <span class="dash-nav-icon">📄</span> Trang chủ
+          </a>
+          <a class="dash-nav-item" href="categories.html">
+            <span class="dash-nav-icon">📊</span> Yêu thích¿½m sứch
+          </a>
+        </div>
+      </nav>
+
+      <!-- Panels -->
+      <div>
+
+        <!--  OVERVIEW  -->
+        <div class="dash-panel show" id="panel-overview">
+          <div class="panel-title">Tổng quan</div>
+          <div class="panel-sub">Xin chào trở lại! Đây là tóm tắt hoạt động tải khoận của bạn.</div>
+
+          <div class="overview-stats">
+            <div class="ov-stat">
+              <div class="ov-stat-icon">📊</div>
+              <div class="ov-stat-num">3</div>
+              <div class="ov-stat-lbl">Đơn hàngg đã đặt</div>
+            </div>
+            <div class="ov-stat">
+              <div class="ov-stat-icon">📊</div>
+              <div class="ov-stat-num">3</div>
+              <div class="ov-stat-lbl">Sách đã mua</div>
+            </div>
+            <div class="ov-stat">
+              <div class="ov-stat-icon">📊</div>
+              <div class="ov-stat-num">407K</div>
+              <div class="ov-stat-lbl">Tậng chi tiấu</div>
+            </div>
+          </div>
+
+          <div class="section-head">
+            <span class="section-ttl">Đơn hàngg gần đây</span>
+            <span class="section-link" onclick="showPanel('orders', document.querySelector('.dash-nav-item:nth-child(2)'))">Xem tất cả →</span>
+          </div>
+          <div class="order-mini">
+            <div class="order-mini-row">
+              <div class="omr-thumb" style="background:linear-gradient(145deg,#0F1D38,#091525)">📚</div>
+              <div class="omr-info">
+                <div class="omr-name">Tuyất mất nhận tậnh</div>
+                <div class="omr-date">20/04/2025 • #SNH-001</div>
+              </div>
+              <div class="omr-price">149.000đ</div>
+              <span class="status-pill sp-paid">Đã thanh toán</span>
+            </div>
+            <div class="order-mini-row">
+              <div class="omr-thumb" style="background:linear-gradient(145deg,#1F1209,#3A2010)">📊</div>
+              <div class="omr-info">
+                <div class="omr-name">Logic ngđãi nghảo</div>
+                <div class="omr-date">15/04/2025 • #SNH-002</div>
+              </div>
+              <div class="omr-price">99.000đ</div>
+              <span class="status-pill sp-paid">Đã thanh toán</span>
+            </div>
+            <div class="order-mini-row">
+              <div class="omr-thumb" style="background:linear-gradient(145deg,#1A1009,#2F1C0E)">📊</div>
+              <div class="omr-info">
+                <div class="omr-name">Mấu lđãc tải chậnh</div>
+                <div class="omr-date">10/04/2025 • #SNH-003</div>
+              </div>
+              <div class="omr-price">159.000đ</div>
+              <span class="status-pill sp-paid">Đã thanh toán</span>
+            </div>
+          </div>
+
+          <div class="section-head">
+            <span class="section-ttl">Tải xuống nhanh</span>
+            <span class="section-link" onclick="showPanel('downloads', document.querySelector('.dash-nav-item:nth-child(3)'))">Xem tất cả →</span>
+          </div>
+          <div class="dl-mini">
+            <div class="dl-mini-row">
+              <div class="dlr-thumb" style="background:linear-gradient(145deg,#0F1D38,#091525)">📚</div>
+              <div class="dlr-info">
+                <div class="dlr-name">Tuyất mất nhận tậnh</div>
+                <div class="dlr-meta">PDF • 2.4 MB • Còn 4/5 lđãt tải</div>
+              </div>
+              <button class="btn-dl" onclick="simulateDownload(this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Tải xuống
+              </button>
+            </div>
+            <div class="dl-mini-row">
+              <div class="dlr-thumb" style="background:linear-gradient(145deg,#1F1209,#3A2010)">📊</div>
+              <div class="dlr-info">
+                <div class="dlr-name">Logic ngđãi nghảo</div>
+                <div class="dlr-meta">PDF • 1.6 MB • Còn 5/5 lđãt tải</div>
+              </div>
+              <button class="btn-dl" onclick="simulateDownload(this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Tải xuống
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!--  ORDERS  -->
+        <div class="dash-panel" id="panel-orders">
+          <div class="panel-title">Lịch sử đơn hàng</div>
+          <div class="panel-sub">Tất cả cức đơn hàng bạn đã đặt tại Thư viện Sơn Nhai.</div>
+          <div class="orders-filter">
+            <button class="of-btn on" onclick="filterOrders(this,'all')">Tất cả (3)</button>
+            <button class="of-btn" onclick="filterOrders(this,'paid')">Đã thanh toán (3)</button>
+            <button class="of-btn" onclick="filterOrders(this,'pending')">Chờ xử lý (0)</button>
+            <button class="of-btn" onclick="filterOrders(this,'failed')">Thất bại (0)</button>
+          </div>
+          <div class="orders-table">
+            <div class="tbl-head">
+              <span>Sản phẩm</span>
+              <span>Ngày mua</span>
+              <span>Phđãng thức</span>
+              <span>Trạng thái</span>
+              <span>Tậng tiận</span>
+            </div>
+            <div class="tbl-row">
+              <div>
+                <div class="tbl-name">Tuyất mất nhận tậnh</div>
+                <div class="tbl-id">#SNH-001</div>
+              </div>
+              <div class="tbl-val">20/04/2025</div>
+              <div class="tbl-val">VNPay</div>
+              <div><span class="status-pill sp-paid">Đã thanh toán</span></div>
+              <div class="tbl-price">149.000đ</div>
+            </div>
+            <div class="tbl-row">
+              <div>
+                <div class="tbl-name">Logic ngđãi nghảo</div>
+                <div class="tbl-id">#SNH-002</div>
+              </div>
+              <div class="tbl-val">15/04/2025</div>
+              <div class="tbl-val">MoMo</div>
+              <div><span class="status-pill sp-paid">Đã thanh toán</span></div>
+              <div class="tbl-price">99.000đ</div>
+            </div>
+            <div class="tbl-row">
+              <div>
+                <div class="tbl-name">Mấu lđãc tải chậnh</div>
+                <div class="tbl-id">#SNH-003</div>
+              </div>
+              <div class="tbl-val">10/04/2025</div>
+              <div class="tbl-val">Stripe</div>
+              <div><span class="status-pill sp-paid">Đã thanh toán</span></div>
+              <div class="tbl-price">159.000đ</div>
+            </div>
+          </div>
+        </div>
+
+        <!--  DOWNLOADS  -->
+        <div class="dash-panel" id="panel-downloads">
+          <div class="panel-title">Sách của tải</div>
+          <div class="panel-sub">Danh sứch sứch bạn đã mua. Mỗi file có thể tải tối đa 5 lần trong 30 ngày.</div>
+          <div class="dl-grid">
+            <div class="dl-card">
+              <div class="dl-card-top">
+                <div class="dl-card-thumb" style="background:linear-gradient(145deg,#0F1D38,#091525)">📚</div>
+                <div class="dl-card-info">
+                  <div class="dl-card-cat">Nhận tậnh</div>
+                  <div class="dl-card-name">Tuyất mất nhận tậnh</div>
+                  <div class="dl-card-tags">
+                    <span class="dl-tag">PDF</span>
+                    <span class="dl-tag">320 trang</span>
+                    <span class="dl-tag">2.4 MB</span>
+                  </div>
+                </div>
+              </div>
+              <div class="dl-limit">
+                <span>Lượt tải đã dùng: <span class="dl-limit-count">1/5</span></span>
+                <span>Còn 25 ngày</span>
+              </div>
+              <div class="dl-progress"><div class="dl-progress-bar" style="width:20%"></div></div>
+              <div class="dl-actions">
+                <button class="btn-dl-main" onclick="simulateDownload(this)">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Tải xuống
+                </button>
+                <button class="btn-dl-preview">Xem trđãc</button>
+              </div>
+            </div>
+
+            <div class="dl-card">
+              <div class="dl-card-top">
+                <div class="dl-card-thumb" style="background:linear-gradient(145deg,#1F1209,#3A2010)">📊</div>
+                <div class="dl-card-info">
+                  <div class="dl-card-cat">Tư duy</div>
+                  <div class="dl-card-name">Logic ngđãi nghảo</div>
+                  <div class="dl-card-tags">
+                    <span class="dl-tag">PDF</span>
+                    <span class="dl-tag">240 trang</span>
+                    <span class="dl-tag">1.6 MB</span>
+                  </div>
+                </div>
+              </div>
+              <div class="dl-limit">
+                <span>Lượt tải đã dùng: <span class="dl-limit-count">0/5</span></span>
+                <span>Còn 20 ngày</span>
+              </div>
+              <div class="dl-progress"><div class="dl-progress-bar" style="width:0%"></div></div>
+              <div class="dl-actions">
+                <button class="btn-dl-main" onclick="simulateDownload(this)">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Tải xuống
+                </button>
+                <button class="btn-dl-preview">Xem trđãc</button>
+              </div>
+            </div>
+
+            <div class="dl-card">
+              <div class="dl-card-top">
+                <div class="dl-card-thumb" style="background:linear-gradient(145deg,#1A1009,#2F1C0E)">📊</div>
+                <div class="dl-card-info">
+                  <div class="dl-card-cat">Tối chậnh</div>
+                  <div class="dl-card-name">Mấu lđãc tải chậnh</div>
+                  <div class="dl-card-tags">
+                    <span class="dl-tag">PDF</span>
+                    <span class="dl-tag">290 trang</span>
+                    <span class="dl-tag">2.2 MB</span>
+                  </div>
+                </div>
+              </div>
+              <div class="dl-limit">
+                <span>Lượt tải đã dùng: <span class="dl-limit-count">5/5</span></span>
+                <span>Hất hận</span>
+              </div>
+              <div class="dl-progress"><div class="dl-progress-bar" style="width:100%; background:linear-gradient(90deg,var(--red),#FF6B6B)"></div></div>
+              <div class="dl-actions">
+                <button class="btn-dl-main" disabled>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                  Đ hất lđãt tải
+                </button>
+                <button class="btn-dl-preview" onclick="showToast('Liên hệ h tr đ gia hận')">Gia hận</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--  SETTINGS  -->
+        <div class="dash-panel" id="panel-settings">
+          <div class="panel-title">Cài đặt tải khoận</div>
+          <div class="panel-sub">Quận l thậng tin có nhận v ty chận bảo mật.</div>
+          <div class="settings-grid">
+
+            <!-- Personal info -->
+            <div class="settings-card">
+              <div class="sc-head">=d Thông tin cá nhân</div>
+              <div class="sc-body">
+                <div class="sc-field">
+                  <label class="sc-label">Họ và tên</label>
+                  <input class="sc-in" id="set-name" type="text" placeholder="Nguyận Văn A">
+                </div>
+                <div class="sc-field">
+                  <label class="sc-label">Email</label>
+                  <input class="sc-in" id="set-email" type="email" disabled>
+                  <span style="font-size:11px;color:var(--text-3);">Email không thể thay đối.</span>
+                </div>
+                <div class="sc-field">
+                  <label class="sc-label">S điận thoối</label>
+                  <input class="sc-in" type="tel" placeholder="+84 900 000 000">
+                </div>
+                <button class="btn-save" onclick="saveSetting('Đ lấu thậng tin có nhận')">Lấu thay đối</button>
+              </div>
+            </div>
+
+            <!-- Change password -->
+            <div class="settings-card">
+              <div class="sc-head">= Đối mất khấu</div>
+              <div class="sc-body">
+                <div class="sc-field">
+                  <label class="sc-label">Mật khẩu hiện tại</label>
+                  <input class="sc-in" type="password" placeholder="đãđãđãđã">
+                </div>
+                <div class="sc-field">
+                  <label class="sc-label">Mật khẩu mới</label>
+                  <input class="sc-in" type="password" placeholder="Tối thiấu 8 ký tự">
+                </div>
+                <div class="sc-field">
+                  <label class="sc-label">Xác nhận mật khẩu mối</label>
+                  <input class="sc-in" type="password" placeholder="Nhợp lệi mất khấu mối">
+                </div>
+                <button class="btn-save" onclick="saveSetting('Đ đối mất khấu thành công')">Đối mất khấu</button>
+              </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="settings-card">
+              <div class="sc-head">= Thông báo</div>
+              <div class="sc-body" style="padding-top:8px;padding-bottom:8px;">
+                <div class="toggle-row">
+                  <div class="toggle-info">
+                    <div class="toggle-name">Email đơn hàngg</div>
+                    <div class="toggle-note">Xức nhận khi đất hậng thành công</div>
+                  </div>
+                  <button class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></button>
+                </div>
+                <div class="toggle-row">
+                  <div class="toggle-info">
+                    <div class="toggle-name">Sản phẩm mối</div>
+                    <div class="toggle-note">Thông báo khi có sứch mối</div>
+                  </div>
+                  <button class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></button>
+                </div>
+                <div class="toggle-row">
+                  <div class="toggle-info">
+                    <div class="toggle-name">ấu đối & Khuyận mối</div>
+                    <div class="toggle-note">Deal đức biất v m gim gi</div>
+                  </div>
+                  <button class="toggle" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></button>
+                </div>
+                <div class="toggle-row">
+                  <div class="toggle-info">
+                    <div class="toggle-name">Bối viất blog mối</div>
+                    <div class="toggle-note">Cp nhất t Blog Sơn Nhai</div>
+                  </div>
+                  <button class="toggle" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Danger zone -->
+            <div class="settings-card danger-card">
+              <div class="sc-head"> Vậng nguy him</div>
+              <div class="sc-body">
+                <div>
+                  <div style="font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:5px;">Xóa tài khoản</div>
+                  <div style="font-size:12.5px;color:var(--text-3);line-height:1.6;margin-bottom:16px;">Hậnh đậng ny không thể hoận tức. Tất cả d liấu, đơn hàngg v quyận tải xuậng sử b xa v)nh viện.</div>
+                  <button class="btn-danger" onclick="confirmDelete()">Xóa tài khoản v)nh viện</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="index.html" class="foot-logo">Thư viện <span>Sơn Nhai</span></a>
+        <p class="foot-about">Nơi lưu giữ những tinh hoa tri thức về nhân tính, tư duy và tài chính. Sản phẩm số chất lượng cao, được cập nhật thường xuyên.</p>
+        <div class="foot-social">
+          <a class="soc" href="#">f</a>
+          <a class="soc" href="#">𝕏</a>
+          <a class="soc" href="#">in</a>
+          <a class="soc" href="#">▶</a>
+        </div>
+      </div>
+      <div>
+        <div class="foot-h">Cửa hàng</div>
+        <ul class="foot-ul">
+          <li><a href="categories.html">Sản phẩm mới</a></li>
+          <li><a href="categories.html">Bestseller</a></li>
+          <li><a href="categories.html">Combo ưu đãi</a></li>
+          <li><a href="categories.html">Miễn phí</a></li>
+          <li><a href="categories.html">Tất cả danh mục</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-h">Hỗ trợ</div>
+        <ul class="foot-ul">
+          <li><a href="support.html#download">Hướng dẫn tải</a></li>
+          <li><a href="support.html#refund">Chính sách hoàn tiền</a></li>
+          <li><a href="support.html#faq">FAQ</a></li>
+          <li><a href="support.html#contact">Liên hệ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-h">Tài khoản</div>
+        <ul class="foot-ul">
+          <li><a href="account.html">Đăng nhập</a></li>
+          <li><a href="account.html">Đăng ký</a></li>
+          <li><a href="account.html">Đơn hàng của tôi</a></li>
+          <li><a href="account.html">Sản phẩm đã mua</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div class="foot-copy">© 2025 <span>Thư viện Sơn Nhai</span>. Bảo lưu mọi quyền.</div>
+      <div class="foot-policies">
+        <a href="support.html">Điều khoản</a>
+        <a href="support.html">Bảo mật</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script type="module">
+  import { auth, loginWithGoogle, loginWithOTP, logout as fbLogout, onAuthStateChanged } from './firebase.js';
+  let loggedIn = false, currentUser = { name: '', email: '' }, pendingEmail = '', resendInterval = null;
+  const otpBoxes = document.querySelectorAll('.otp-box');
+  otpBoxes.forEach((input, i) => {
+    input.addEventListener('input', e => { const v = e.target.value.replace(/\D/g,''); e.target.value = v.slice(-1); if (v && i < 5) otpBoxes[i+1].focus(); });
+    input.addEventListener('keydown', e => { if (e.key==='Backspace' && !e.target.value && i>0) otpBoxes[i-1].focus(); });
+    input.addEventListener('paste', e => { e.preventDefault(); const p = (e.clipboardData.getData('text')||'').replace(/\D/g,'').slice(0,6); p.split('').forEach((c,j) => { if(otpBoxes[j]) otpBoxes[j].value=c; }); });
+  });
+  window.showStep1 = () => { document.getElementById('auth-step1').style.display='flex'; document.getElementById('auth-step2').style.display='none'; document.getElementById('auth-step1-error').style.display='none'; clearInterval(resendInterval); };
+  function showStep2() { document.getElementById('auth-step1').style.display='none'; document.getElementById('auth-step2').style.display='block'; document.getElementById('otp-email-display').textContent=pendingEmail; otpBoxes.forEach(d=>{d.value='';}); otpBoxes[0].focus(); startResendTimer(); }
+  window.showAuth = () => showStep1();
+  window.handleSendOTP = async () => {
+    const errEl=document.getElementById('auth-step1-error'); errEl.style.display='none';
+    const emailEl=document.getElementById('login-email'), email=emailEl.value.trim().toLowerCase();
+    if (!email||!email.endsWith('@gmail.com')) { emailEl.classList.add('err'); document.getElementById('login-email-err').classList.add('show'); return; }
+    emailEl.classList.remove('err'); document.getElementById('login-email-err').classList.remove('show');
+    const btn=document.getElementById('login-btn'), txt=document.getElementById('login-btn-txt'), spin=document.getElementById('login-spinner');
+    btn.disabled=true; txt.textContent='Đang gửi mã...'; spin.style.display='inline';
+    try { const r=await fetch('/api/auth/send-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})}); const d=await r.json(); if(!d.success) throw new Error(d.error); pendingEmail=email; showStep2(); showToast('Mã xác thực đã gửi đến '+email); }
+    catch(e) { errEl.textContent=e.message; errEl.style.display='block'; }
+    finally { btn.disabled=false; txt.textContent='Gửi mã xác thực'; spin.style.display='none'; }
+  };
+  window.handleVerifyOTP = async () => {
+    const errEl=document.getElementById('auth-step2-error'); errEl.style.display='none';
+    const code=Array.from(otpBoxes).map(d=>d.value).join(''), btn=document.getElementById('verify-btn');
+    if (code.length!==6) { errEl.textContent='Vui lòng nhập đủ 6 chữ số'; errEl.style.display='block'; return; }
+    btn.disabled=true; btn.textContent='Đang xác thực...';
+    try { const r=await fetch('/api/auth/verify-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:pendingEmail,code})}); const d=await r.json(); if(!d.success) throw new Error(d.error); const u=await loginWithOTP(d.data.customToken); currentUser={name:d.data.user.name||u.displayName||pendingEmail.split('@')[0],email:pendingEmail}; localStorage.setItem('sonhai_user',JSON.stringify(currentUser)); loginSuccess(); }
+    catch(e) { errEl.textContent=e.message; errEl.style.display='block'; }
+    finally { btn.disabled=false; btn.textContent='Xác thực'; }
+  };
+  function startResendTimer() { let s=120; const t=document.getElementById('resend-timer'),b=document.getElementById('resend-btn'); b.disabled=true; b.style.color='var(--text-3)'; t.textContent=s; clearInterval(resendInterval); resendInterval=setInterval(()=>{s--;t.textContent=s;if(s<=0){clearInterval(resendInterval);b.disabled=false;b.style.color='var(--teal)';b.innerHTML='Gửi lại mã';}},1000); }
+  window.handleResendOTP = async () => { if(!pendingEmail) return; const b=document.getElementById('resend-btn'); b.disabled=true; b.textContent='Đang gửi...'; try{const r=await fetch('/api/auth/send-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:pendingEmail})}); const d=await r.json(); if(!d.success) throw new Error(d.error); showToast('Đã gửi lại mã'); startResendTimer();}catch(e){document.getElementById('auth-step2-error').textContent=e.message;document.getElementById('auth-step2-error').style.display='block';b.disabled=false;b.style.color='var(--teal)';b.innerHTML='Gửi lại mã';} };
+  window.handleGoogleLogin = async () => { showToast('Đang kết nối Google...'); try{const u=await loginWithGoogle();currentUser={name:u.displayName||u.email.split('@')[0],email:u.email};localStorage.setItem('sonhai_user',JSON.stringify(currentUser));loginSuccess();}catch(e){if(e.code!=='auth/popup-closed-by-user')showToast('Đăng nhập Google thất bại');} };
+  onAuthStateChanged(auth, u => { if(u&&!loggedIn){try{currentUser=JSON.parse(localStorage.getItem('sonhai_user')||'{}')}catch{}; if(!currentUser.email) currentUser={name:u.displayName||u.email,email:u.email}; loginSuccess(true);} });
+  async function loginSuccess(silent) { loggedIn=true; document.getElementById('auth-page').classList.add('hide'); document.getElementById('dashboard-page').classList.add('show'); document.getElementById('dash-name').textContent=currentUser.name; document.getElementById('dash-email').textContent=currentUser.email; document.getElementById('set-name').value=currentUser.name; document.getElementById('set-email').value=currentUser.email; document.getElementById('nav-login-btn').style.display='none'; document.getElementById('nav-user').style.display='flex'; document.getElementById('nav-greeting').textContent='Xin chào, '+currentUser.name.split(' ').pop()+'!'; if(!silent) showToast('Đăng nhập thành công!'); }
+  window.logout = async () => { loggedIn=false; localStorage.removeItem('sonhai_token'); localStorage.removeItem('sonhai_user'); try{await fbLogout();}catch{} document.getElementById('auth-page').classList.remove('hide'); document.getElementById('dashboard-page').classList.remove('show'); document.getElementById('nav-login-btn').style.display=''; document.getElementById('nav-user').style.display='none'; document.getElementById('login-email').value=''; showStep1(); showToast('Đã đăng xuất'); };
+  window.showPanel = (id,navEl) => { document.querySelectorAll('.dash-panel').forEach(p=>p.classList.remove('show')); document.getElementById('panel-'+id).classList.add('show'); document.querySelectorAll('.dash-nav-item').forEach(n=>n.classList.remove('on')); if(navEl) navEl.classList.add('on'); window.scrollTo({top:0,behavior:'smooth'}); };
+  window.filterOrders = (el) => { document.querySelectorAll('.of-btn').forEach(b=>b.classList.remove('on')); el.classList.add('on'); showToast('Lọc: '+el.textContent); };
+  window.simulateDownload = (btn) => { const o=btn.innerHTML; btn.disabled=true; btn.innerHTML='Đang tải...'; showToast('Đang chuẩn bị file...'); setTimeout(()=>{btn.disabled=false;btn.innerHTML=o;showToast('Tải thành công!');},2000); };
+  window.saveSetting = (msg) => showToast(msg);
+  window.confirmDelete = () => { if(confirm('Xóa tài khoản vĩnh viễn?')){showToast('Yêu cầu xóa đã gửi');setTimeout(logout,1500);} };
+  let toastTimer; window.showToast = (msg) => { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2600); };
+  window.addEventListener('scroll', () => { document.querySelector('.nav').style.boxShadow = window.scrollY>8?'0 4px 32px rgba(0,0,0,.5)':'none'; });
+</script>
+<script src="js/cart-badge.js?v=5"></script>
+
+<script src="js/parallax-engine.js?v=grid-particles-2"></script>
+</body>
+</html>
+
