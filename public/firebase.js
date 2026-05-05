@@ -6,6 +6,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider,
   signOut,
   updateProfile,
@@ -99,11 +101,48 @@ export async function registerWithEmail(email, password, name) {
   return cred.user;
 }
 
-export async function loginWithGoogle() {
-  const cred = await signInWithPopup(auth, googleProvider);
-  await syncUserToFirestore(cred.user);
-  return cred.user;
+// Phát hiện mobile browser
+function isMobileBrowser() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    || (window.innerWidth <= 768);
 }
+
+export async function loginWithGoogle() {
+  if (isMobileBrowser()) {
+    // Mobile → dùng redirect (không bị chặn popup)
+    await signInWithRedirect(auth, googleProvider);
+    // Trang sẽ refresh, kết quả xử lý bởi handleRedirectResult() bên dưới
+    return null;
+  } else {
+    // Desktop → dùng popup
+    try {
+      const cred = await signInWithPopup(auth, googleProvider);
+      await syncUserToFirestore(cred.user);
+      return cred.user;
+    } catch (err) {
+      // Nếu popup bị chặn trên desktop, fallback sang redirect
+      if (err.code === 'auth/popup-blocked') {
+        await signInWithRedirect(auth, googleProvider);
+        return null;
+      }
+      throw err;
+    }
+  }
+}
+
+// Xử lý kết quả redirect khi trang load lại (sau Google Sign-in trên mobile)
+async function handleRedirectResult() {
+  try {
+    const result = await getRedirectResult(auth);
+    if (result && result.user) {
+      await syncUserToFirestore(result.user);
+    }
+  } catch (e) {
+    console.warn('[Auth] Redirect result error:', e.message);
+  }
+}
+// Gọi ngay khi module load
+handleRedirectResult();
 
 export async function resetPassword(email) {
   await sendPasswordResetEmail(auth, email);
