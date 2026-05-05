@@ -9,7 +9,7 @@ import {
   GoogleAuthProvider,
   signOut,
   updateProfile,
-  signInWithCustomToken,
+  sendPasswordResetEmail,
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import {
   getFirestore,
@@ -49,72 +49,83 @@ export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const googleProvider = new GoogleAuthProvider();
 
-// ─── API HELPER ───────────────────────────────────────────────────────────────
-// Tự động đính kèm Firebase ID token vào mọi request tới backend Express
+// ─── FIRESTORE USER SYNC ──────────────────────────────────────────────────────
+// Đồng bộ user profile trực tiếp vào Firestore (client-side, không cần backend)
 
-const API_BASE = 'http://localhost:3000/api';
+async function syncUserToFirestore(firebaseUser) {
+  if (!firebaseUser) return;
+  try {
+    const userRef = doc(db, 'users', firebaseUser.uid);
+    const userDoc = await getDoc(userRef);
 
-export async function apiFetch(path, options = {}) {
-  const user = auth.currentUser;
-  const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
-
-  if (user) {
-    const token = await user.getIdToken();
-    headers['Authorization'] = `Bearer ${token}`;
+    if (!userDoc.exists()) {
+      // User mới — tạo document
+      await setDoc(userRef, {
+        email: firebaseUser.email,
+        name: firebaseUser.displayName || firebaseUser.email.split('@')[0],
+        photoURL: firebaseUser.photoURL || null,
+        role: 'customer',
+        authMethod: firebaseUser.providerData[0]?.providerId || 'unknown',
+        createdAt: serverTimestamp(),
+        lastLoginAt: serverTimestamp(),
+      });
+    } else {
+      // User cũ — cập nhật lastLoginAt
+      await updateDoc(userRef, {
+        lastLoginAt: serverTimestamp(),
+        // Cập nhật ảnh nếu có (Google có thể đổi ảnh)
+        ...(firebaseUser.photoURL ? { photoURL: firebaseUser.photoURL } : {}),
+      });
+    }
+  } catch (e) {
+    console.warn('[Auth] Firestore sync failed (không ảnh hưởng đăng nhập):', e.message);
   }
-
-  const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw Object.assign(new Error(data.error || 'Lỗi server'), { status: res.status, data });
-  }
-  return data;
 }
 
 // ─── AUTH HELPERS ─────────────────────────────────────────────────────────────
 
 export async function loginWithEmail(email, password) {
   const cred = await signInWithEmailAndPassword(auth, email, password);
-  await syncUserToBackend(cred.user);
+  await syncUserToFirestore(cred.user);
   return cred.user;
 }
 
 export async function registerWithEmail(email, password, name) {
   const cred = await createUserWithEmailAndPassword(auth, email, password);
-  await updateProfile(cred.user, { displayName: name });
-  await syncUserToBackend(cred.user, name);
+  if (name) {
+    await updateProfile(cred.user, { displayName: name });
+  }
+  await syncUserToFirestore(cred.user);
   return cred.user;
 }
 
 export async function loginWithGoogle() {
   const cred = await signInWithPopup(auth, googleProvider);
-  await syncUserToBackend(cred.user);
+  await syncUserToFirestore(cred.user);
   return cred.user;
 }
 
-export async function loginWithOTP(customToken) {
-  const cred = await signInWithCustomToken(auth, customToken);
-  return cred.user;
+export async function resetPassword(email) {
+  await sendPasswordResetEmail(auth, email);
 }
 
 export async function logout() {
   await signOut(auth);
 }
 
-// Sau khi đăng nhập Firebase, đồng bộ user với backend SQLite
-async function syncUserToBackend(firebaseUser, displayName) {
+// ─── USER ROLE HELPER ─────────────────────────────────────────────────────────
+// Lấy role từ Firestore (admin / customer)
+
+export async function getUserRole(uid) {
   try {
-    const token = await firebaseUser.getIdToken();
-    await fetch(`${API_BASE}/auth/firebase`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ name: displayName || firebaseUser.displayName }),
-    });
+    const userDoc = await getDoc(doc(db, 'users', uid));
+    if (userDoc.exists()) {
+      return userDoc.data().role || 'customer';
+    }
   } catch (e) {
-    // Không block nếu backend sync thất bại
-    console.warn('Backend sync failed:', e.message);
+    console.warn('[Auth] Cannot fetch user role:', e.message);
   }
+  return 'customer';
 }
 
 // ─── AUTH STATE ───────────────────────────────────────────────────────────────
@@ -129,4 +140,4 @@ export function getCurrentUser() {
   });
 }
 
-export { onAuthStateChanged, updateProfile };
+export { onAuthStateChanged, updateProfile, doc, getDoc, updateDoc, setDoc, serverTimestamp };

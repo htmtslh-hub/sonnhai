@@ -364,55 +364,69 @@
 
     <div class="auth-body">
 
-      <!-- STEP 1: EMAIL INPUT -->
-      <div id="auth-step1" class="auth-form show" style="display:flex;flex-direction:column;gap:14px;">
+      <!-- MAIN AUTH VIEW: Google + Email/Password -->
+      <div id="acc-auth-main" style="display:flex;flex-direction:column;gap:14px;">
         <div style="text-align:center;margin-bottom:8px;">
           <div style="font-size:32px;margin-bottom:8px;">🔐</div>
-          <div style="font-family:'Exo 2',sans-serif;font-size:17px;font-weight:800;color:var(--text);">Đăng nhập / Đăng ký</div>
-          <div style="font-size:12px;color:var(--text-3);margin-top:4px;">Nhập Gmail để nhận mã xác thực</div>
+          <div style="font-family:'Exo 2',sans-serif;font-size:17px;font-weight:800;color:var(--text);" id="acc-auth-title">Đăng nhập</div>
+          <div style="font-size:12px;color:var(--text-3);margin-top:4px;">Chọn phương thức đăng nhập</div>
         </div>
-        <div class="field-group">
-          <label class="field-label">Email Gmail</label>
-          <input class="field-in" id="login-email" type="email" placeholder="your@gmail.com" autocomplete="email">
-          <span class="field-err" id="login-email-err">Chỉ hỗ trợ Gmail (@gmail.com)</span>
-        </div>
-        <div id="auth-step1-error" style="display:none;color:var(--red);font-size:12px;padding:8px 12px;background:rgba(239,68,68,.08);border-radius:6px;"></div>
-        <button type="button" class="btn-auth" id="login-btn" onclick="handleSendOTP()">
-          <span id="login-btn-txt">Gửi mã xác thực</span>
-          <span id="login-spinner" class="btn-auth-spinner"> ⏳</span>
-        </button>
-        <div class="auth-div"><div class="auth-div-line"></div><span class="auth-div-txt">hoặc tiếp tục với</span><div class="auth-div-line"></div></div>
-        <button type="button" class="btn-social" onclick="handleGoogleLogin()">
+
+        <!-- Google Sign-in -->
+        <button type="button" class="btn-social" id="acc-google-btn" style="padding:13px;font-size:14px;">
           <svg class="g-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
           Tiếp tục với Google
         </button>
+
+        <div class="auth-div"><div class="auth-div-line"></div><span class="auth-div-txt">hoặc dùng email</span><div class="auth-div-line"></div></div>
+
+        <!-- Email/Password Form -->
+        <form id="acc-email-form" autocomplete="on" style="display:flex;flex-direction:column;gap:12px;">
+          <div class="field-group" id="acc-name-group" style="display:none;">
+            <label class="field-label">Họ và tên</label>
+            <input class="field-in" id="acc-name" type="text" placeholder="Nguyễn Văn A" autocomplete="name">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Email</label>
+            <input class="field-in" id="acc-email" type="email" placeholder="email@example.com" autocomplete="email" required>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Mật khẩu</label>
+            <input class="field-in" id="acc-password" type="password" placeholder="Nhập mật khẩu" autocomplete="current-password" required>
+          </div>
+          <div id="acc-auth-error" style="display:none;color:var(--red);font-size:12px;padding:8px 12px;background:rgba(239,68,68,.08);border-radius:6px;"></div>
+          <button type="submit" class="btn-auth" id="acc-submit-btn">Đăng nhập</button>
+        </form>
+
+        <!-- Toggle register/login -->
+        <div style="text-align:center;">
+          <button type="button" id="acc-toggle-mode" style="background:none;border:none;color:var(--teal);font-size:12.5px;cursor:pointer;font-family:inherit;">
+            Chưa có tài khoản? <strong>Đăng ký</strong>
+          </button>
+        </div>
+        <div style="text-align:center;">
+          <button type="button" id="acc-forgot-btn" style="background:none;border:none;color:var(--text-3);font-size:11.5px;cursor:pointer;font-family:inherit;">
+            Quên mật khẩu?
+          </button>
+        </div>
         <p class="terms-note">Bằng cách đăng nhập, bạn đồng ý với <a href="support.html">Điều khoản dịch vụ</a> và <a href="support.html">Chính sách bảo mật</a> của chúng tôi.</p>
       </div>
 
-      <!-- STEP 2: OTP INPUT -->
-      <div id="auth-step2" style="display:none;">
-        <button type="button" style="background:none;border:none;color:var(--teal);font-size:13px;cursor:pointer;margin-bottom:16px;font-family:inherit;font-weight:600;" onclick="showStep1()">← Quay lại</button>
-        <div style="text-align:center;margin-bottom:20px;">
+      <!-- FORGOT PASSWORD VIEW -->
+      <div id="acc-forgot-view" style="display:none;flex-direction:column;gap:14px;">
+        <button type="button" style="background:none;border:none;color:var(--teal);font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;align-self:flex-start;" id="acc-forgot-back">← Quay lại</button>
+        <div style="text-align:center;margin-bottom:8px;">
           <div style="font-size:32px;margin-bottom:8px;">📧</div>
-          <div style="font-family:'Exo 2',sans-serif;font-size:17px;font-weight:800;color:var(--text);">Kiểm tra email</div>
-          <div style="font-size:12px;color:var(--text-3);margin-top:4px;">Mã xác thực đã gửi đến</div>
-          <div id="otp-email-display" style="font-size:13px;color:var(--teal);font-weight:700;margin-top:4px;"></div>
+          <div style="font-family:'Exo 2',sans-serif;font-size:17px;font-weight:800;color:var(--text);">Quên mật khẩu</div>
+          <div style="font-size:12px;color:var(--text-3);margin-top:4px;">Nhập email để nhận link đặt lại mật khẩu</div>
         </div>
-        <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;" id="otp-boxes">
-          <input class="field-in otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:48px;height:56px;text-align:center;font-size:24px;font-weight:900;font-family:'Exo 2',monospace;color:var(--teal);padding:0;">
-          <input class="field-in otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:48px;height:56px;text-align:center;font-size:24px;font-weight:900;font-family:'Exo 2',monospace;color:var(--teal);padding:0;">
-          <input class="field-in otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:48px;height:56px;text-align:center;font-size:24px;font-weight:900;font-family:'Exo 2',monospace;color:var(--teal);padding:0;">
-          <input class="field-in otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:48px;height:56px;text-align:center;font-size:24px;font-weight:900;font-family:'Exo 2',monospace;color:var(--teal);padding:0;">
-          <input class="field-in otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:48px;height:56px;text-align:center;font-size:24px;font-weight:900;font-family:'Exo 2',monospace;color:var(--teal);padding:0;">
-          <input class="field-in otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" style="width:48px;height:56px;text-align:center;font-size:24px;font-weight:900;font-family:'Exo 2',monospace;color:var(--teal);padding:0;">
-        </div>
-        <div id="auth-step2-error" style="display:none;color:var(--red);font-size:12px;padding:8px 12px;background:rgba(239,68,68,.08);border-radius:6px;margin-bottom:12px;"></div>
-        <button type="button" class="btn-auth" id="verify-btn" onclick="handleVerifyOTP()">Xác thực</button>
-        <div style="text-align:center;margin-top:14px;">
-          <button type="button" id="resend-btn" style="background:none;border:none;color:var(--text-3);font-size:12px;cursor:pointer;font-family:inherit;" disabled onclick="handleResendOTP()">
-            Gửi lại mã (<span id="resend-timer">120</span>s)
-          </button>
-        </div>
+        <form id="acc-forgot-form" style="display:flex;flex-direction:column;gap:12px;">
+          <div class="field-group">
+            <input class="field-in" id="acc-forgot-email" type="email" placeholder="email@example.com" required>
+          </div>
+          <div id="acc-forgot-msg" style="display:none;font-size:12px;padding:8px 12px;border-radius:6px;"></div>
+          <button type="submit" class="btn-auth" id="acc-forgot-submit">Gửi link đặt lại</button>
+        </form>
       </div>
 
     </div>
@@ -864,50 +878,234 @@
 <div class="toast" id="toast"></div>
 
 <script type="module">
-  import { auth, loginWithGoogle, loginWithOTP, logout as fbLogout, onAuthStateChanged } from './firebase.js';
-  let loggedIn = false, currentUser = { name: '', email: '' }, pendingEmail = '', resendInterval = null;
-  const otpBoxes = document.querySelectorAll('.otp-box');
-  otpBoxes.forEach((input, i) => {
-    input.addEventListener('input', e => { const v = e.target.value.replace(/\D/g,''); e.target.value = v.slice(-1); if (v && i < 5) otpBoxes[i+1].focus(); });
-    input.addEventListener('keydown', e => { if (e.key==='Backspace' && !e.target.value && i>0) otpBoxes[i-1].focus(); });
-    input.addEventListener('paste', e => { e.preventDefault(); const p = (e.clipboardData.getData('text')||'').replace(/\D/g,'').slice(0,6); p.split('').forEach((c,j) => { if(otpBoxes[j]) otpBoxes[j].value=c; }); });
+  import {
+    auth,
+    loginWithGoogle,
+    loginWithEmail,
+    registerWithEmail,
+    resetPassword,
+    logout as fbLogout,
+    getUserRole,
+    onAuthStateChanged,
+  } from './firebase.js';
+
+  let loggedIn = false;
+  let isRegisterMode = false;
+
+  // ─── AUTH MODE TOGGLE ─────────────────────────────────────────────────────
+  const accAuthMain = document.getElementById('acc-auth-main');
+  const accForgotView = document.getElementById('acc-forgot-view');
+  const accNameGroup = document.getElementById('acc-name-group');
+  const accSubmitBtn = document.getElementById('acc-submit-btn');
+  const accToggleBtn = document.getElementById('acc-toggle-mode');
+  const accAuthTitle = document.getElementById('acc-auth-title');
+  const accErrorEl = document.getElementById('acc-auth-error');
+
+  function setRegisterMode(register) {
+    isRegisterMode = register;
+    accNameGroup.style.display = register ? 'block' : 'none';
+    accSubmitBtn.textContent = register ? 'Đăng ký' : 'Đăng nhập';
+    accAuthTitle.textContent = register ? 'Đăng ký tài khoản' : 'Đăng nhập';
+    accToggleBtn.innerHTML = register
+      ? 'Đã có tài khoản? <strong>Đăng nhập</strong>'
+      : 'Chưa có tài khoản? <strong>Đăng ký</strong>';
+    document.getElementById('acc-password').placeholder = register ? 'Tối thiểu 6 ký tự' : 'Nhập mật khẩu';
+    document.getElementById('acc-password').autocomplete = register ? 'new-password' : 'current-password';
+    accErrorEl.style.display = 'none';
+  }
+
+  function showAccError(msg) {
+    accErrorEl.textContent = msg;
+    accErrorEl.style.display = 'block';
+  }
+
+  accToggleBtn.addEventListener('click', () => setRegisterMode(!isRegisterMode));
+
+  // ─── GOOGLE SIGN-IN ───────────────────────────────────────────────────────
+  document.getElementById('acc-google-btn').addEventListener('click', async () => {
+    const btn = document.getElementById('acc-google-btn');
+    const origHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.textContent = 'Đang kết nối Google...';
+    try {
+      await loginWithGoogle();
+      // onAuthStateChanged sẽ xử lý loginSuccess
+    } catch (e) {
+      if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
+        showAccError('Đăng nhập Google thất bại: ' + (e.message || e.code));
+      }
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = origHTML;
+    }
   });
-  window.showStep1 = () => { document.getElementById('auth-step1').style.display='flex'; document.getElementById('auth-step2').style.display='none'; document.getElementById('auth-step1-error').style.display='none'; clearInterval(resendInterval); };
-  function showStep2() { document.getElementById('auth-step1').style.display='none'; document.getElementById('auth-step2').style.display='block'; document.getElementById('otp-email-display').textContent=pendingEmail; otpBoxes.forEach(d=>{d.value='';}); otpBoxes[0].focus(); startResendTimer(); }
-  window.showAuth = () => showStep1();
-  window.handleSendOTP = async () => {
-    const errEl=document.getElementById('auth-step1-error'); errEl.style.display='none';
-    const emailEl=document.getElementById('login-email'), email=emailEl.value.trim().toLowerCase();
-    if (!email||!email.endsWith('@gmail.com')) { emailEl.classList.add('err'); document.getElementById('login-email-err').classList.add('show'); return; }
-    emailEl.classList.remove('err'); document.getElementById('login-email-err').classList.remove('show');
-    const btn=document.getElementById('login-btn'), txt=document.getElementById('login-btn-txt'), spin=document.getElementById('login-spinner');
-    btn.disabled=true; txt.textContent='Đang gửi mã...'; spin.style.display='inline';
-    try { const r=await fetch('/api/auth/send-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})}); const d=await r.json(); if(!d.success) throw new Error(d.error); pendingEmail=email; showStep2(); showToast('Mã xác thực đã gửi đến '+email); }
-    catch(e) { errEl.textContent=e.message; errEl.style.display='block'; }
-    finally { btn.disabled=false; txt.textContent='Gửi mã xác thực'; spin.style.display='none'; }
+
+  // ─── EMAIL/PASSWORD FORM ──────────────────────────────────────────────────
+  const ERROR_MESSAGES = {
+    'auth/email-already-in-use': 'Email này đã được đăng ký. Hãy đăng nhập.',
+    'auth/invalid-email': 'Email không hợp lệ.',
+    'auth/weak-password': 'Mật khẩu quá yếu, cần ít nhất 6 ký tự.',
+    'auth/user-not-found': 'Không tìm thấy tài khoản với email này.',
+    'auth/wrong-password': 'Mật khẩu không đúng.',
+    'auth/invalid-credential': 'Email hoặc mật khẩu không đúng.',
+    'auth/too-many-requests': 'Quá nhiều lần thử. Vui lòng thử lại sau.',
   };
-  window.handleVerifyOTP = async () => {
-    const errEl=document.getElementById('auth-step2-error'); errEl.style.display='none';
-    const code=Array.from(otpBoxes).map(d=>d.value).join(''), btn=document.getElementById('verify-btn');
-    if (code.length!==6) { errEl.textContent='Vui lòng nhập đủ 6 chữ số'; errEl.style.display='block'; return; }
-    btn.disabled=true; btn.textContent='Đang xác thực...';
-    try { const r=await fetch('/api/auth/verify-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:pendingEmail,code})}); const d=await r.json(); if(!d.success) throw new Error(d.error); const u=await loginWithOTP(d.data.customToken); currentUser={name:d.data.user.name||u.displayName||pendingEmail.split('@')[0],email:pendingEmail}; localStorage.setItem('sonhai_user',JSON.stringify(currentUser)); loginSuccess(); }
-    catch(e) { errEl.textContent=e.message; errEl.style.display='block'; }
-    finally { btn.disabled=false; btn.textContent='Xác thực'; }
+
+  document.getElementById('acc-email-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    accErrorEl.style.display = 'none';
+    const email = document.getElementById('acc-email').value.trim();
+    const password = document.getElementById('acc-password').value;
+    const name = document.getElementById('acc-name').value.trim();
+
+    if (!email) { showAccError('Vui lòng nhập email.'); return; }
+    if (!password || password.length < 6) { showAccError('Mật khẩu phải có ít nhất 6 ký tự.'); return; }
+    if (isRegisterMode && !name) { showAccError('Vui lòng nhập họ và tên.'); return; }
+
+    accSubmitBtn.disabled = true;
+    accSubmitBtn.style.opacity = '.6';
+    accSubmitBtn.textContent = isRegisterMode ? 'Đang đăng ký...' : 'Đang đăng nhập...';
+
+    try {
+      if (isRegisterMode) {
+        await registerWithEmail(email, password, name);
+      } else {
+        await loginWithEmail(email, password);
+      }
+      // onAuthStateChanged sẽ xử lý loginSuccess
+    } catch (err) {
+      showAccError(ERROR_MESSAGES[err.code] || 'Đã xảy ra lỗi: ' + (err.message || err.code));
+    } finally {
+      accSubmitBtn.disabled = false;
+      accSubmitBtn.style.opacity = '1';
+      accSubmitBtn.textContent = isRegisterMode ? 'Đăng ký' : 'Đăng nhập';
+    }
+  });
+
+  // ─── FORGOT PASSWORD ─────────────────────────────────────────────────────
+  document.getElementById('acc-forgot-btn').addEventListener('click', () => {
+    accAuthMain.style.display = 'none';
+    accForgotView.style.display = 'flex';
+  });
+  document.getElementById('acc-forgot-back').addEventListener('click', () => {
+    accAuthMain.style.display = 'flex';
+    accForgotView.style.display = 'none';
+  });
+  document.getElementById('acc-forgot-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msgEl = document.getElementById('acc-forgot-msg');
+    const btn = document.getElementById('acc-forgot-submit');
+    const email = document.getElementById('acc-forgot-email').value.trim();
+    if (!email) { msgEl.textContent='Vui lòng nhập email.'; msgEl.style.display='block'; msgEl.style.color='var(--red)'; msgEl.style.background='rgba(239,68,68,.08)'; return; }
+    btn.disabled = true; btn.textContent = 'Đang gửi...';
+    try {
+      await resetPassword(email);
+      msgEl.textContent = '✓ Link đặt lại mật khẩu đã gửi đến ' + email;
+      msgEl.style.display = 'block'; msgEl.style.color = 'var(--green)'; msgEl.style.background = 'rgba(16,185,129,.08)';
+    } catch (err) {
+      const m = { 'auth/user-not-found': 'Không tìm thấy tài khoản.', 'auth/invalid-email': 'Email không hợp lệ.' };
+      msgEl.textContent = m[err.code] || 'Lỗi: ' + (err.message || err.code);
+      msgEl.style.display = 'block'; msgEl.style.color = 'var(--red)'; msgEl.style.background = 'rgba(239,68,68,.08)';
+    } finally { btn.disabled = false; btn.textContent = 'Gửi link đặt lại'; }
+  });
+
+  // ─── AUTH STATE — Core logic ──────────────────────────────────────────────
+  onAuthStateChanged(auth, async (user) => {
+    if (user && !loggedIn) {
+      // Đăng nhập thành công
+      const name = user.displayName || user.email.split('@')[0];
+      const email = user.email;
+
+      // Lấy role (admin/customer)
+      let role = 'customer';
+      try { role = await getUserRole(user.uid); } catch (_) {}
+      window.__fbUserRole = role;
+
+      loginSuccess({ name, email, photoURL: user.photoURL });
+    } else if (!user && loggedIn) {
+      // Bị logout
+      loggedIn = false;
+      document.getElementById('auth-page').classList.remove('hide');
+      document.getElementById('dashboard-page').classList.remove('show');
+    }
+  });
+
+  function loginSuccess(userData, silent) {
+    loggedIn = true;
+    document.getElementById('auth-page').classList.add('hide');
+    document.getElementById('dashboard-page').classList.add('show');
+
+    // Cập nhật dashboard UI
+    document.getElementById('dash-name').textContent = userData.name;
+    document.getElementById('dash-email').textContent = userData.email;
+    document.getElementById('set-name').value = userData.name;
+    document.getElementById('set-email').value = userData.email;
+
+    // Cập nhật avatar
+    const avatarEl = document.querySelector('.p-avatar');
+    if (avatarEl && userData.photoURL) {
+      avatarEl.innerHTML = `<img src="${userData.photoURL}" alt="${userData.name}" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+    }
+
+    if (!silent) showToast('Đăng nhập thành công!');
+
+    // Handle hash routing
+    const hash = window.location.hash.replace('#', '');
+    if (hash === 'orders') showPanel('orders', document.querySelector('.dash-nav-item:nth-child(2)'));
+    else if (hash === 'downloads') showPanel('downloads', document.querySelector('.dash-nav-item:nth-child(3)'));
+    else if (hash === 'settings') showPanel('settings', document.querySelector('.dash-nav-item:nth-child(5)'));
+  }
+
+  // ─── LOGOUT ───────────────────────────────────────────────────────────────
+  window.logout = async () => {
+    loggedIn = false;
+    try { await fbLogout(); } catch {}
+    document.getElementById('auth-page').classList.remove('hide');
+    document.getElementById('dashboard-page').classList.remove('show');
+    // Reset form
+    document.getElementById('acc-email').value = '';
+    document.getElementById('acc-password').value = '';
+    document.getElementById('acc-name').value = '';
+    setRegisterMode(false);
+    showToast('Đã đăng xuất');
   };
-  function startResendTimer() { let s=120; const t=document.getElementById('resend-timer'),b=document.getElementById('resend-btn'); b.disabled=true; b.style.color='var(--text-3)'; t.textContent=s; clearInterval(resendInterval); resendInterval=setInterval(()=>{s--;t.textContent=s;if(s<=0){clearInterval(resendInterval);b.disabled=false;b.style.color='var(--teal)';b.innerHTML='Gửi lại mã';}},1000); }
-  window.handleResendOTP = async () => { if(!pendingEmail) return; const b=document.getElementById('resend-btn'); b.disabled=true; b.textContent='Đang gửi...'; try{const r=await fetch('/api/auth/send-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:pendingEmail})}); const d=await r.json(); if(!d.success) throw new Error(d.error); showToast('Đã gửi lại mã'); startResendTimer();}catch(e){document.getElementById('auth-step2-error').textContent=e.message;document.getElementById('auth-step2-error').style.display='block';b.disabled=false;b.style.color='var(--teal)';b.innerHTML='Gửi lại mã';} };
-  window.handleGoogleLogin = async () => { showToast('Đang kết nối Google...'); try{const u=await loginWithGoogle();currentUser={name:u.displayName||u.email.split('@')[0],email:u.email};localStorage.setItem('sonhai_user',JSON.stringify(currentUser));loginSuccess();}catch(e){if(e.code!=='auth/popup-closed-by-user')showToast('Đăng nhập Google thất bại');} };
-  onAuthStateChanged(auth, u => { if(u&&!loggedIn){try{currentUser=JSON.parse(localStorage.getItem('sonhai_user')||'{}')}catch{}; if(!currentUser.email) currentUser={name:u.displayName||u.email,email:u.email}; loginSuccess(true);} });
-  async function loginSuccess(silent) { loggedIn=true; document.getElementById('auth-page').classList.add('hide'); document.getElementById('dashboard-page').classList.add('show'); document.getElementById('dash-name').textContent=currentUser.name; document.getElementById('dash-email').textContent=currentUser.email; document.getElementById('set-name').value=currentUser.name; document.getElementById('set-email').value=currentUser.email; document.getElementById('nav-login-btn').style.display='none'; document.getElementById('nav-user').style.display='flex'; document.getElementById('nav-greeting').textContent='Xin chào, '+currentUser.name.split(' ').pop()+'!'; if(!silent) showToast('Đăng nhập thành công!'); }
-  window.logout = async () => { loggedIn=false; localStorage.removeItem('sonhai_token'); localStorage.removeItem('sonhai_user'); try{await fbLogout();}catch{} document.getElementById('auth-page').classList.remove('hide'); document.getElementById('dashboard-page').classList.remove('show'); document.getElementById('nav-login-btn').style.display=''; document.getElementById('nav-user').style.display='none'; document.getElementById('login-email').value=''; showStep1(); showToast('Đã đăng xuất'); };
-  window.showPanel = (id,navEl) => { document.querySelectorAll('.dash-panel').forEach(p=>p.classList.remove('show')); document.getElementById('panel-'+id).classList.add('show'); document.querySelectorAll('.dash-nav-item').forEach(n=>n.classList.remove('on')); if(navEl) navEl.classList.add('on'); window.scrollTo({top:0,behavior:'smooth'}); };
-  window.filterOrders = (el) => { document.querySelectorAll('.of-btn').forEach(b=>b.classList.remove('on')); el.classList.add('on'); showToast('Lọc: '+el.textContent); };
-  window.simulateDownload = (btn) => { const o=btn.innerHTML; btn.disabled=true; btn.innerHTML='Đang tải...'; showToast('Đang chuẩn bị file...'); setTimeout(()=>{btn.disabled=false;btn.innerHTML=o;showToast('Tải thành công!');},2000); };
+
+  // ─── DASHBOARD HELPERS ────────────────────────────────────────────────────
+  window.showPanel = (id, navEl) => {
+    document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('show'));
+    document.getElementById('panel-' + id).classList.add('show');
+    document.querySelectorAll('.dash-nav-item').forEach(n => n.classList.remove('on'));
+    if (navEl) navEl.classList.add('on');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  window.filterOrders = (el) => {
+    document.querySelectorAll('.of-btn').forEach(b => b.classList.remove('on'));
+    el.classList.add('on');
+    showToast('Lọc: ' + el.textContent);
+  };
+
+  window.simulateDownload = (btn) => {
+    const o = btn.innerHTML;
+    btn.disabled = true; btn.innerHTML = 'Đang tải...';
+    showToast('Đang chuẩn bị file...');
+    setTimeout(() => { btn.disabled = false; btn.innerHTML = o; showToast('Tải thành công!'); }, 2000);
+  };
+
   window.saveSetting = (msg) => showToast(msg);
-  window.confirmDelete = () => { if(confirm('Xóa tài khoản vĩnh viễn?')){showToast('Yêu cầu xóa đã gửi');setTimeout(logout,1500);} };
-  let toastTimer; window.showToast = (msg) => { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2600); };
-  window.addEventListener('scroll', () => { document.querySelector('.nav').style.boxShadow = window.scrollY>8?'0 4px 32px rgba(0,0,0,.5)':'none'; });
+  window.confirmDelete = () => { if (confirm('Xóa tài khoản vĩnh viễn?')) { showToast('Yêu cầu xóa đã gửi'); setTimeout(logout, 1500); } };
+
+  let toastTimer;
+  window.showToast = (msg) => {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+  };
+
+  window.addEventListener('scroll', () => {
+    document.querySelector('.nav').style.boxShadow = window.scrollY > 8 ? '0 4px 32px rgba(0,0,0,.5)' : 'none';
+  });
 </script>
 <script src="js/cart-badge.js?v=5"></script>
 
