@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog — Thư viện Sơn Nhai</title>
   <meta name="description" content="Bài viết chia sẻ kiến thức từ Thư viện Sơn Nhai.">
@@ -35,7 +36,7 @@
 
     /* NAVBAR */
     .nav { position: sticky; top: 0; z-index: 200; height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(8,9,14,.95); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
-    .nav-logo { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 15px; font-weight: 800; color: var(--teal); letter-spacing: 1.5px; text-decoration: none; }
+    .nav-logo { display:inline-flex;align-items:center;gap:8px;font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 15px; font-weight: 800; color: var(--teal); letter-spacing: 1.5px; text-decoration: none; }
     .nav-logo span { color: var(--text-3); font-weight: 500; }
     .nav-links { display: flex; gap: 2px; list-style: none; }
     .nav-links a { font-size: 13px; font-weight: 500; color: var(--text-2); text-decoration: none; padding: 6px 14px; border-radius: 6px; transition: all .2s; }
@@ -160,7 +161,7 @@
 <div class="ann-bar">📚 Kiến thức mỗi ngày — Sơn Nhai Library</div>
 
 <nav class="nav">
-  <a href="index.html" class="nav-logo">SƠN NHAI <span>LIBRARY</span></a>
+  <a href="index.html" class="nav-logo"><img src="/logo.png" alt="Logo" style="width:30px;height:30px;border-radius:50%;">SƠN NHAI <span>LIBRARY</span></a>
   <ul class="nav-links">
     <li><a href="index.html">Trang chủ</a></li>
     <li><a href="categories.html">Danh mục</a></li>
