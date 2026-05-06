@@ -1849,6 +1849,12 @@
                 </div>
 
                 <div class="editor-group">
+                  <label class="editor-label">📥 Link tải sản phẩm (Google Drive)</label>
+                  <input type="url" class="editor-input" id="edit-product-download-url" placeholder="https://drive.google.com/file/d/...">
+                  <div style="font-size:11px;color:var(--text-3);margin-top:4px;">Dán link Google Drive để gửi cho khách sau thanh toán.</div>
+                </div>
+
+                <div class="editor-group">
                   <label class="editor-label">Trạng thái</label>
                   <select class="editor-input" id="edit-product-status">
                     <option value="published">✅ Đã xuất bản</option>
@@ -2736,6 +2742,7 @@
         document.getElementById('product-cover-gradient').value = product.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)';
         document.getElementById('product-rating').value = product.rating || 4.5;
         document.getElementById('product-sold-count').value = product.soldCount || product.sold_count || 0;
+        document.getElementById('product-download-url').value = product.downloadUrl || '';
         // Show image preview
         updateImagePreview(product.imageUrl || autoImageUrl(product.slug));
       } else {
@@ -2745,6 +2752,7 @@
         document.getElementById('product-cover-gradient').value = 'linear-gradient(145deg, #0A1A2E, #0D2845)';
         document.getElementById('product-rating').value = 4.5;
         document.getElementById('product-sold-count').value = 0;
+        document.getElementById('product-download-url').value = '';
         updateImagePreview('');
       }
     }
@@ -2797,6 +2805,7 @@
       const coverGradient = document.getElementById('product-cover-gradient')?.value || 'linear-gradient(145deg, #0A1A2E, #0D2845)';
       const rating = parseFloat(document.getElementById('product-rating')?.value) || 4.5;
       const soldCount = parseInt(document.getElementById('product-sold-count')?.value) || 0;
+      const downloadUrl = document.getElementById('product-download-url')?.value.trim() || '';
 
       if (!name || !category || !price) {
         showToast('error', 'Vui lòng điền đầy đủ thông tin!');
@@ -2821,6 +2830,7 @@
         rating,
         soldCount,
         sold_count: soldCount,
+        downloadUrl,
       };
 
       if (currentIdStr) {
@@ -4084,6 +4094,7 @@ function loadPageContent(page) {
       document.getElementById('edit-product-sold-count').value = product.soldCount || product.sold_count || 0;
       document.getElementById('edit-product-pages').value = product.pages || 0;
       document.getElementById('edit-product-format').value = product.format || 'PDF';
+      document.getElementById('edit-product-download-url').value = product.downloadUrl || '';
       document.getElementById('edit-product-status').value = product.status || 'published';
 
       // Cover gradient
@@ -4162,6 +4173,7 @@ function loadPageContent(page) {
         sold_count: parseInt(document.getElementById('edit-product-sold-count').value) || 0,
         pages: parseInt(document.getElementById('edit-product-pages').value) || 250,
         format: document.getElementById('edit-product-format').value || 'PDF',
+        downloadUrl: document.getElementById('edit-product-download-url').value.trim() || '',
         status: document.getElementById('edit-product-status').value,
       };
 
@@ -4422,6 +4434,12 @@ function importContent() {
             <label class="editor-label">📊 Đã bán</label>
             <input type="number" class="editor-input" id="product-sold-count" min="0" value="0">
           </div>
+        </div>
+
+        <div class="editor-group">
+          <label class="editor-label">📥 Link tải sản phẩm (Google Drive)</label>
+          <input type="url" class="editor-input" id="product-download-url" placeholder="https://drive.google.com/file/d/...">
+          <div style="font-size:11px;color:var(--text-3);margin-top:4px;">Dán link Google Drive để gửi cho khách sau thanh toán. Có thể thêm sau.</div>
         </div>
 
         <div id="product-file-preview"></div>
