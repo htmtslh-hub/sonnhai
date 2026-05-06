@@ -18,5 +18,8 @@
   "dependencies": {
     "firebase-admin": "^13.8.0",
     "resend": "^6.12.2"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
   }
 }

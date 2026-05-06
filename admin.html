@@ -2118,7 +2118,7 @@
     // Auto-generate imageUrl from slug (shared helper)
     function autoImageUrl(slug) {
       if (!slug) return '';
-      return 'chuan/' + slug.replace(/-/g, '_') + '.jpeg';
+      return 'chuan/' + slug.replace(/-/g, '_') + '.webp';
     }
 
     // Normalize a product object for consistent fields across admin + public
@@ -2698,11 +2698,11 @@
 
     // Available images in chuan/ folder
     const CHUAN_IMAGES = [
-      'an_chua_huyen_co.jpeg', 'ban_chat_tai_chinh.jpeg', 'goc_nhin_tao_lap.jpeg',
-      'he_thong_manh_me.jpeg', 'logic_nguoi_ngheo.jpeg', 'muu_luoc_tai_chinh.jpeg',
-      'muu_luoc_tuoir_tre.jpeg', 'nhan_tinh_den_trang.jpeg', 'thuc_tinh_nhan_thuc.jpeg',
-      'tinh_cam_bi_tich.jpeg', 'tu_duy_cuong_gia.jpeg', 'tu_duy_sau_sac.jpeg',
-      'tuyet_mat_nhan_tinh.jpeg', 'xuyen_thau_nhan_tinh.jpeg'
+      'an_chua_huyen_co.webp', 'ban_chat_tai_chinh.webp', 'goc_nhin_tao_lap.webp',
+      'he_thong_manh_me.webp', 'logic_nguoi_ngheo.webp', 'muu_luoc_tai_chinh.webp',
+      'muu_luoc_tuoir_tre.webp', 'nhan_tinh_den_trang.webp', 'thuc_tinh_nhan_thuc.webp',
+      'tinh_cam_bi_tich.webp', 'tu_duy_cuong_gia.webp', 'tu_duy_sau_sac.webp',
+      'tuyet_mat_nhan_tinh.webp', 'xuyen_thau_nhan_tinh.webp'
     ];
 
     function openProductModal(id = null) {
@@ -2715,7 +2715,7 @@
       const imgSelect = document.getElementById('product-image-select');
       if (imgSelect) {
         imgSelect.innerHTML = '<option value="">Tự động từ slug</option>' +
-          CHUAN_IMAGES.map(img => `<option value="chuan/${img}">${img.replace('.jpeg','').replace(/_/g,' ')}</option>`).join('');
+          CHUAN_IMAGES.map(img => `<option value="chuan/${img}">${img.replace('.webp','').replace(/_/g,' ')}</option>`).join('');
       }
 
       if (id) {

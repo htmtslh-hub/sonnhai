@@ -61,7 +61,14 @@ const images = fs.readdirSync('.').filter(f =>
   /\.(jpg|jpeg|png|gif|svg|webp|ico)$/i.test(f)
 );
 images.forEach(img => {
-  fs.copyFileSync(img, path.join('public', img));
+  // Convert jpeg to webp if webp version exists
+  const webpVersion = img.replace(/\.(jpeg|jpg)$/i, '.webp');
+  const webpPath = path.join('.', webpVersion);
+  if (fs.existsSync(webpPath)) {
+    fs.copyFileSync(webpPath, path.join('public', webpVersion));
+  } else {
+    fs.copyFileSync(img, path.join('public', img));
+  }
 });
 console.log(`\n✓ Copied ${images.length} images`);
 

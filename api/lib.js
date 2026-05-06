@@ -4,9 +4,10 @@
 
 /**
  * Set CORS headers cho response
+ * Allow only sonnhai.vercel.app domain (production)
  */
 function setCors(res, methods = 'GET, POST, OPTIONS') {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'https://sonnhai.vercel.app');
   res.setHeader('Access-Control-Allow-Methods', methods);
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 }

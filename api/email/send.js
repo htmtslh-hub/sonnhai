@@ -22,7 +22,7 @@ const INTERNAL_KEY = process.env.INTERNAL_API_KEY || 'sonnhai-internal-2026';
 
 module.exports = async (req, res) => {
   // CORS
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'https://sonnhai.vercel.app');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Internal-Key');
 
