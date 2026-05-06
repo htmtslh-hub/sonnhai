@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thu vi?n Son Nhai � S�ch & T�i Li?u S?</title>
-  <meta name="description" content="Thu vi?n Son Nhai � N?n t?ng s�ch & t�i li?u s? h�ng d?u. S�ch di?n t?, PDF, t�i li?u h?c t?p ch?t lu?ng cao v?i gi� t?t nh?t.">
-  <meta name="keywords" content="s�ch s?, ebook, PDF, t�i li?u h?c t?p, Son Nhai, s�ch di?n t?, thu vi?n s?">
-  <meta name="author" content="Thu vi?n Son Nhai">
+  <title>Thư viện Sơn Nhai — Sách & Tài Liệu Số</title>
+  <meta name="description" content="Thư viện Sơn Nhai — Nền tảng sách & tài liệu số hàng đầu. Sách điện tử, PDF, tài liệu học tập chất lượng cao với giá tốt nhất.">
+  <meta name="keywords" content="sách số, ebook, PDF, tài liệu học tập, Sơn Nhai, sách điện tử, thư viện số">
+  <meta name="author" content="Thư viện Sơn Nhai">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://sonnhai.vercel.app/">
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Thu vi?n Son Nhai � S�ch & T�i Li?u S?">
-  <meta property="og:description" content="N?n t?ng s�ch & t�i li?u s? h�ng d?u. Ebook, PDF ch?t lu?ng cao v?i gi� t?t nh?t.">
+  <meta property="og:title" content="Thư viện Sơn Nhai — Sách & Tài Liệu Số">
+  <meta property="og:description" content="Nền tảng sách & tài liệu số hàng đầu. Ebook, PDF chất lượng cao với giá tốt nhất.">
   <meta property="og:url" content="https://sonnhai.vercel.app/">
   <meta property="og:locale" content="vi_VN">
-  <meta property="og:site_name" content="Thu vi?n Son Nhai">
+  <meta property="og:site_name" content="Thư viện Sơn Nhai">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -55,7 +55,7 @@
       min-height: 100vh;
     }
 
-    /* ----- NAVBAR ----- */
+    /* ───── NAVBAR ───── */
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       height: 52px; display: flex; align-items: center; justify-content: space-between;
@@ -98,7 +98,7 @@
     .btn-outline { background: transparent; border: 1px solid var(--teal); color: var(--teal); font-size: 14px; padding: 12px 28px; }
     .btn-outline:hover { background: var(--teal-glow); transform: translateY(-1px); }
 
-    /* ----- HERO ----- */
+    /* ───── HERO ───── */
     .hero {
       min-height: 100vh; display: flex; flex-direction: column;
       align-items: center; justify-content: center;
@@ -158,7 +158,7 @@
     .hero-scroll-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 8px var(--teal); }
     @keyframes scrollbob { 0%,100%{opacity:.4;transform:translateX(-50%) translateY(0)} 50%{opacity:1;transform:translateX(-50%) translateY(8px)} }
 
-    /* ----- TABS ----- */
+    /* ───── TABS ───── */
     .tabs-bar {
       background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
       overflow-x: auto; scrollbar-width: none; padding: 0 40px;
@@ -173,7 +173,7 @@
     .tab:hover { color: var(--text-2); }
     .tab.on { color: var(--teal); border-bottom-color: var(--teal); }
 
-    /* ----- LAYOUT ----- */
+    /* ───── LAYOUT ───── */
     .wrap { max-width: 1260px; margin: 0 auto; padding: 0 40px; }
     .sec { padding: 56px 0; }
 
@@ -185,7 +185,7 @@
     }
     .sec-more:hover { gap: 9px; }
 
-    /* ----- PRODUCT CARDS ----- */
+    /* ───── PRODUCT CARDS ───── */
     .cards-row {
       display: flex; gap: 14px; overflow-x: auto; padding-bottom: 10px;
       scrollbar-width: thin; scrollbar-color: var(--border) transparent;
@@ -283,7 +283,7 @@
     }
     .btn-cart:hover { background: var(--teal); color: var(--bg); }
 
-    /* ----- FEATURE SPLIT ----- */
+    /* ───── FEATURE SPLIT ───── */
     .feat {
       background: var(--bg-2);
       border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
@@ -362,7 +362,7 @@
     .ptrack { width: 110px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
     .pfill { height: 100%; background: var(--teal); border-radius: 2px; }
 
-    /* ----- CATEGORIES ----- */
+    /* ───── CATEGORIES ───── */
     .cats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px,1fr)); gap: 14px; }
     .cat-card {
       background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px;
@@ -374,7 +374,7 @@
     .cat-name { font-size: 13px; font-weight: 600; color: var(--text); }
     .cat-cnt { font-size: 10.5px; color: var(--text-3); }
 
-    /* ----- BLOG ----- */
+    /* ───── BLOG ───── */
     .blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
     .blog-card {
       background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px;
@@ -395,7 +395,7 @@
     }
     .blog-meta { display: flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 11px; color: var(--text-3); }
 
-    /* ----- NEWSLETTER ----- */
+    /* ───── NEWSLETTER ───── */
     .nl {
       background: linear-gradient(135deg, rgba(0,212,212,.07) 0%, var(--bg-2) 100%);
       border: 1px solid rgba(0,212,212,.18); border-radius: 16px;
@@ -438,7 +438,7 @@
     .nl-ok-h { font-family: 'Exo 2', sans-serif; font-size: 20px; font-weight: 800; color: var(--text); }
     .nl-ok-p { font-size: 13.5px; color: var(--text-2); line-height: 1.6; max-width: 380px; }
 
-    /* ----- FOOTER ----- */
+    /* ───── FOOTER ───── */
     .footer { background: var(--bg-2); border-top: 1px solid var(--border); padding: 56px 0 28px; margin-top: 56px; }
     .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
     .foot-logo { font-family: 'Exo 2', 'Be Vietnam Pro', sans-serif; font-size: 17px; font-weight: 800; color: var(--teal); letter-spacing: 1px; text-decoration: none; display: block; margin-bottom: 14px; }
@@ -462,7 +462,7 @@
     .foot-policies a { font-size: 11.5px; color: var(--text-3); text-decoration: none; transition: color .2s; }
     .foot-policies a:hover { color: var(--teal); }
 
-    /* ----- BESTSELLER ----- */
+    /* ───── BESTSELLER ───── */
     .bs-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
     .bs-item {
       display: flex; align-items: center; gap: 14px;
@@ -497,7 +497,7 @@
     .bs-was { font-size: 9.5px; color: var(--text-3); text-decoration: line-through; }
     .bs-hot { font-size: 8px; font-weight: 800; letter-spacing: .5px; color: var(--bg); background: var(--red); padding: 2px 6px; border-radius: 3px; text-transform: uppercase; }
 
-    /* ----- COMBO ----- */
+    /* ───── COMBO ───── */
     .combo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
     .combo-card {
       background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px;
@@ -535,7 +535,7 @@
     .combo-name { font-family: 'Exo 2', 'Be Vietnam Pro', sans-serif; font-size: 16px; font-weight: 900; color: var(--text); margin-bottom: 14px; line-height: 1.2; }
     .combo-list { list-style: none; margin-bottom: 0; display: flex; flex-direction: column; gap: 6px; }
     .combo-list li { font-size: 11.5px; color: var(--text-2); display: flex; align-items: flex-start; gap: 7px; line-height: 1.4; }
-    .combo-list li::before { content: '?'; color: var(--teal); font-weight: 800; font-size: 10px; margin-top: 1px; flex-shrink: 0; }
+    .combo-list li::before { content: '✓'; color: var(--teal); font-weight: 800; font-size: 10px; margin-top: 1px; flex-shrink: 0; }
     .combo-pricing { padding: 16px 20px 20px; border-top: 1px solid var(--border); margin-top: 18px; position: relative; z-index: 1; }
     .combo-orig { font-size: 11.5px; color: var(--text-3); text-decoration: line-through; margin-bottom: 7px; }
     .combo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
@@ -564,23 +564,23 @@
 
 <!-- TOP ANNOUNCEMENT BAR -->
 <div id="site-banner" style="background:rgba(0,212,212,.1);border-bottom:1px solid rgba(0,212,212,.2);padding:7px 20px;text-align:center;font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--teal);text-transform:uppercase;font-family:'Be Vietnam Pro',sans-serif;">
-  ? Thu vi?n Son Nhai � S?n ph?m thu?ng xuy�n c?p nh?t ?
+  ◆ Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật ◆
 </div>
 
 <!-- NAVBAR -->
 <nav class="nav" style="top:35px;">
-  <a href="index.html" class="nav-logo">Thu vi?n <span>Son Nhai</span></a>
+  <a href="index.html" class="nav-logo">Thư viện <span>Sơn Nhai</span></a>
   <ul class="nav-links">
-    <li><a href="index.html" class="on">Trang ch?</a></li>
-    <li><a href="categories.html">Danh m?c</a></li>
+    <li><a href="index.html" class="on">Trang chủ</a></li>
+    <li><a href="categories.html">Danh mục</a></li>
     <li><a href="blog.html">Blog</a></li>
-    <li><a href="about.html">V? ch�ng t�i</a></li>
-    <li><a href="support.html">H? tr?</a></li>
+    <li><a href="about.html">Về chúng tôi</a></li>
+    <li><a href="support.html">Hỗ trợ</a></li>
   </ul>
   <div class="nav-right">
     <div class="nav-search">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" color="#555F75"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <span>T�m ki?m...</span>
+      <span>Tìm kiếm...</span>
     </div>
     <a class="nav-cart" href="cart.html" style="text-decoration:none;color:inherit;">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B93A8" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
@@ -602,35 +602,35 @@
     <div class="hero-grid"></div>
   </div>
 
-  <p class="hero-eyebrow">? B? suu t?p tinh hoa tri th?c ?</p>
+  <p class="hero-eyebrow">◆ Bộ sưu tập tinh hoa tri thức ◆</p>
 
   <h1 class="hero-h1">
-    <span class="l1">Th?u hi?u</span>
-    <span class="l2">Nh�n t�nh</span>
+    <span class="l1">Thấu hiểu</span>
+    <span class="l2">Nhân tính</span>
   </h1>
 
   <p class="hero-sub">
-    Kho t�ng s�ch di?n t? v? nh�n t�nh, tu duy v� t�i ch�nh � du?c tuy?n ch?n k? lu?ng b?i Thu vi?n Son Nhai.
-    T?i xu?ng ngay, h?c m?i l�c m?i noi.
+    Kho tàng sách điện tử về nhân tính, tư duy và tài chính — được tuyển chọn kỹ lưỡng bởi Thư viện Sơn Nhai.
+    Tải xuống ngay, học mọi lúc mọi nơi.
   </p>
 
   <div class="hero-cta">
-    <a href="categories.html" class="btn btn-teal btn-lg" style="text-decoration:none;">Kh�m ph� ngay</a>
-    <a href="categories.html" class="btn btn-outline btn-lg" style="text-decoration:none;">Xem b? suu t?p</a>
+    <a href="categories.html" class="btn btn-teal btn-lg" style="text-decoration:none;">Khám phá ngay</a>
+    <a href="categories.html" class="btn btn-outline btn-lg" style="text-decoration:none;">Xem bộ sưu tập</a>
   </div>
 
   <div class="hero-stats">
     <div>
       <span class="hs-num">10+</span>
-      <div class="hs-label">S?n ph?m s?</div>
+      <div class="hs-label">Sản phẩm số</div>
     </div>
     <div>
       <span class="hs-num">500+</span>
-      <div class="hs-label">Kh�ch h�ng</div>
+      <div class="hs-label">Khách hàng</div>
     </div>
     <div>
-      <span class="hs-num">4.9?</span>
-      <div class="hs-label">��nh gi� TB</div>
+      <span class="hs-num">4.9★</span>
+      <div class="hs-label">Đánh giá TB</div>
     </div>
   </div>
 
@@ -643,14 +643,14 @@
 <!-- TABS 1 -->
 <div class="tabs-bar">
   <div class="tabs-inner">
-    <a class="tab on" href="categories.html">T?t c?</a>
-    <a class="tab" href="categories.html?sort=newest">M?i nh?t</a>
-    <a class="tab" href="categories.html?cat=Nh%C3%A2n+t%C3%ADnh">Nh�n t�nh</a>
-    <a class="tab" href="categories.html?cat=T%C6%B0+duy">Tu duy</a>
-    <a class="tab" href="categories.html?cat=T%C3%A0i+ch%C3%ADnh">T�i ch�nh</a>
-    <a class="tab" href="categories.html?cat=K%E1%BB%B9+n%C4%83ng+s%E1%BB%91ng">K? nang s?ng</a>
-    <a class="tab" href="categories.html?cat=T%C3%ACnh+c%E1%BA%A3m">T�nh c?m</a>
-    <a class="tab" href="categories.html?cat=H%E1%BB%87+th%E1%BB%91ng">H? th?ng</a>
+    <a class="tab on" href="categories.html">Tất cả</a>
+    <a class="tab" href="categories.html?sort=newest">Mới nhất</a>
+    <a class="tab" href="categories.html?cat=Nh%C3%A2n+t%C3%ADnh">Nhân tính</a>
+    <a class="tab" href="categories.html?cat=T%C6%B0+duy">Tư duy</a>
+    <a class="tab" href="categories.html?cat=T%C3%A0i+ch%C3%ADnh">Tài chính</a>
+    <a class="tab" href="categories.html?cat=K%E1%BB%B9+n%C4%83ng+s%E1%BB%91ng">Kỹ năng sống</a>
+    <a class="tab" href="categories.html?cat=T%C3%ACnh+c%E1%BA%A3m">Tình cảm</a>
+    <a class="tab" href="categories.html?cat=H%E1%BB%87+th%E1%BB%91ng">Hệ thống</a>
   </div>
 </div>
 
@@ -658,8 +658,8 @@
 <section class="sec">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title">? S?n ph?m n?i b?t</h2>
-      <a href="categories.html" class="sec-more">Xem t?t c? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
+      <h2 class="sec-title">◆ Sản phẩm nổi bật</h2>
+      <a href="categories.html" class="sec-more">Xem tất cả <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="cards-row" id="home-featured-grid">
       <!-- Products injected dynamically -->
@@ -671,51 +671,51 @@
 <section class="feat">
   <div class="feat-inner">
     <div class="feat-left">
-      <div class="feat-label">? S?n ph?m n?i b?t</div>
-      <h2 class="feat-h2">Tuy?t<br>m?t<br>nh�n t�nh</h2>
+      <div class="feat-label">◆ Sản phẩm nổi bật</div>
+      <h2 class="feat-h2">Tuyệt<br>mật<br>nhân tính</h2>
       <p class="feat-desc">
-        Cu?n s�ch ph�n t�ch s�u s?c v? b?n ch?t con ngu?i. Kh�m ph� nh?ng b� m?t ?n gi?u trong t�m l�, h�nh vi v� m?i quan h? � ch�a kh�a d? th?u hi?u v� ?nh hu?ng ngu?i xung quanh.
+        Cuốn sách phân tích sâu sắc về bản chất con người. Khám phá những bí mật ẩn giấu trong tâm lý, hành vi và mối quan hệ — chìa khóa để thấu hiểu và ảnh hưởng người xung quanh.
       </p>
       <div class="feat-nums">
         <div>
-          <div class="fn-label">S? trang</div>
+          <div class="fn-label">Số trang</div>
           <div class="fn-val">320</div>
         </div>
         <div>
-          <div class="fn-label">�?nh d?ng</div>
+          <div class="fn-label">Định dạng</div>
           <div class="fn-val" style="font-size:15px;margin-top:6px;">PDF</div>
         </div>
         <div>
-          <div class="fn-label">��nh gi�</div>
-          <div class="fn-val">4.9?</div>
+          <div class="fn-label">Đánh giá</div>
+          <div class="fn-val">4.9★</div>
         </div>
       </div>
       <div class="feat-btns">
-        <a href="checkout.html" class="btn btn-teal btn-lg" style="text-decoration:none;" onclick="localStorage.setItem('sonhai_quick_buy','1')">Mua ngay � 149.000d</a>
-        <a href="product.html" class="btn btn-outline" style="font-size:13px;padding:10px 20px;text-decoration:none;">Xem tru?c</a>
+        <a href="checkout.html" class="btn btn-teal btn-lg" style="text-decoration:none;" onclick="localStorage.setItem('sonhai_quick_buy','1')">Mua ngay — 149.000đ</a>
+        <a href="product.html" class="btn btn-outline" style="font-size:13px;padding:10px 20px;text-decoration:none;">Xem trước</a>
       </div>
     </div>
 
     <div class="feat-right">
       <div class="feat-cover has-image" style="padding:0;display:block;">
-        <img src="chuan/tuyet_mat_nhan_tinh.jpeg" alt="Tuy?t m?t nh�n t�nh" id="feat-cover-img" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:10px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="feat-cover-emoji" style="display:none;">??</div>
-        <div class="feat-cover-ttl" style="display:none;">Tuy?t m?t nh�n t�nh<br>Thu vi?n Son Nhai</div>
+        <img src="chuan/tuyet_mat_nhan_tinh.jpeg" alt="Tuyệt mật nhân tính" id="feat-cover-img" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:10px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="feat-cover-emoji" style="display:none;">🧠</div>
+        <div class="feat-cover-ttl" style="display:none;">Tuyệt mật nhân tính<br>Thư viện Sơn Nhai</div>
       </div>
       <div class="feat-panel">
-        <div class="panel-ttl">? Th�ng tin chi ti?t</div>
-        <div class="prow"><span class="pk">T�c gi?</span><span class="pv t">Thu vi?n Son Nhai</span></div>
-        <div class="prow"><span class="pk">Ng�n ng?</span><span class="pv">Ti?ng Vi?t</span></div>
-        <div class="prow"><span class="pk">�?nh d?ng</span><span class="pv">PDF</span></div>
-        <div class="prow"><span class="pk">Dung lu?ng</span><span class="pv">8.2 MB</span></div>
+        <div class="panel-ttl">◆ Thông tin chi tiết</div>
+        <div class="prow"><span class="pk">Tác giả</span><span class="pv t">Thư viện Sơn Nhai</span></div>
+        <div class="prow"><span class="pk">Ngôn ngữ</span><span class="pv">Tiếng Việt</span></div>
+        <div class="prow"><span class="pk">Định dạng</span><span class="pv">PDF</span></div>
+        <div class="prow"><span class="pk">Dung lượng</span><span class="pv">8.2 MB</span></div>
         <div class="prow">
-          <span class="pk">��nh gi�</span>
+          <span class="pk">Đánh giá</span>
           <div class="pbar">
             <div class="ptrack"><div class="pfill" style="width:98%"></div></div>
             <span class="pv t">4.9</span>
           </div>
         </div>
-        <div class="prow"><span class="pk">�� b�n</span><span class="pv t">240+</span></div>
+        <div class="prow"><span class="pk">Đã bán</span><span class="pv t">240+</span></div>
       </div>
     </div>
   </div>
@@ -725,8 +725,8 @@
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title">? B�n ch?y nh?t</h2>
-      <a href="categories.html" class="sec-more">Xem t?t c? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
+      <h2 class="sec-title">◆ Bán chạy nhất</h2>
+      <a href="categories.html" class="sec-more">Xem tất cả <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="bs-grid" id="home-bestseller-grid">
       <!-- Bestsellers injected dynamically -->
@@ -738,8 +738,8 @@
 <section class="sec" id="combo" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title">? G�i combo uu d�i</h2>
-      <a href="categories.html" class="sec-more">T?t c? combo <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
+      <h2 class="sec-title">◆ Gói combo ưu đãi</h2>
+      <a href="categories.html" class="sec-more">Tất cả combo <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="combo-grid" id="home-combo-grid">
       <!-- Combos rendered dynamically from Firestore -->
@@ -751,18 +751,18 @@
 <section class="sec">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title">? Danh m?c</h2>
-      <a href="categories.html" class="sec-more">T?t c? danh m?c <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
+      <h2 class="sec-title">◆ Danh mục</h2>
+      <a href="categories.html" class="sec-more">Tất cả danh mục <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="cats-grid">
-      <a href="categories.html" class="cat-card"><div class="cat-ico">??</div><div class="cat-name">Nh�n t�nh</div><div class="cat-cnt">�ang c?p nh?t</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico">??</div><div class="cat-name">Nh?n th?c</div><div class="cat-cnt">�ang c?p nh?t</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico">??</div><div class="cat-name">Tu duy</div><div class="cat-cnt">�ang c?p nh?t</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico">??</div><div class="cat-name">T�i ch�nh</div><div class="cat-cnt">�ang c?p nh?t</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico">??</div><div class="cat-name">T�nh c?m</div><div class="cat-cnt">�ang c?p nh?t</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico">??</div><div class="cat-name">H? th?ng</div><div class="cat-cnt">�ang c?p nh?t</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico">??</div><div class="cat-name">K? nang s?ng</div><div class="cat-cnt">�ang c?p nh?t</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico">?</div><div class="cat-name">Ph�t tri?n b?n th�n</div><div class="cat-cnt">�ang c?p nh?t</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico">🧠</div><div class="cat-name">Nhân tính</div><div class="cat-cnt">Đang cập nhật</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico">💡</div><div class="cat-name">Nhận thức</div><div class="cat-cnt">Đang cập nhật</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico">🔮</div><div class="cat-name">Tư duy</div><div class="cat-cnt">Đang cập nhật</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico">💰</div><div class="cat-name">Tài chính</div><div class="cat-cnt">Đang cập nhật</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico">🌙</div><div class="cat-name">Tình cảm</div><div class="cat-cnt">Đang cập nhật</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico">⚙️</div><div class="cat-name">Hệ thống</div><div class="cat-cnt">Đang cập nhật</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico">📊</div><div class="cat-name">Kỹ năng sống</div><div class="cat-cnt">Đang cập nhật</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico">⚡</div><div class="cat-name">Phát triển bản thân</div><div class="cat-cnt">Đang cập nhật</div></a>
     </div>
   </div>
 </section>
@@ -771,8 +771,8 @@
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title">? B�i vi?t m?i nh?t</h2>
-      <a href="blog.html" class="sec-more">Xem t?t c? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
+      <h2 class="sec-title">◆ Bài viết mới nhất</h2>
+      <a href="blog.html" class="sec-more">Xem tất cả <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="blog-grid" id="home-blog-grid">
       <!-- Blog posts rendered dynamically from Firestore -->
@@ -784,12 +784,12 @@
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="nl">
-      <h2 class="nl-h2">Nh?n s�ch m?i t? Son Nhai</h2>
-      <p class="nl-sub">�ang k� d? nh?n th�ng b�o s�ch m?i, deal uu d�i v� t�i li?u mi?n ph� m?i tu?n</p>
+      <h2 class="nl-h2">Nhận sách mới từ Sơn Nhai</h2>
+      <p class="nl-sub">Đăng ký để nhận thông báo sách mới, deal ưu đãi và tài liệu miễn phí mỗi tuần</p>
       <div id="nl-wrap">
         <div class="nl-form">
-          <input id="nl-email" class="nl-input" type="email" placeholder="Nh?p email c?a b?n..." autocomplete="email">
-          <button id="nl-btn" class="btn btn-teal btn-lg" onclick="nlSubmit()">�ang k�</button>
+          <input id="nl-email" class="nl-input" type="email" placeholder="Nhập email của bạn..." autocomplete="email">
+          <button id="nl-btn" class="btn btn-teal btn-lg" onclick="nlSubmit()">Đăng ký</button>
         </div>
         <div id="nl-errmsg" class="nl-errmsg" style="display:none"></div>
       </div>
@@ -802,49 +802,49 @@
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <a href="index.html" class="foot-logo">Thu vi?n <span>Son Nhai</span></a>
-        <p class="foot-about">Noi luu gi? nh?ng tinh hoa tri th?c v? nh�n t�nh, tu duy v� t�i ch�nh. S?n ph?m s? ch?t lu?ng cao, du?c c?p nh?t thu?ng xuy�n.</p>
+        <a href="index.html" class="foot-logo">Thư viện <span>Sơn Nhai</span></a>
+        <p class="foot-about">Nơi lưu giữ những tinh hoa tri thức về nhân tính, tư duy và tài chính. Sản phẩm số chất lượng cao, được cập nhật thường xuyên.</p>
         <div class="foot-social">
           <a class="soc" href="#">f</a>
-          <a class="soc" href="#">??</a>
+          <a class="soc" href="#">𝕏</a>
           <a class="soc" href="#">in</a>
-          <a class="soc" href="#">?</a>
+          <a class="soc" href="#">▶</a>
         </div>
       </div>
       <div>
-        <div class="foot-h">C?a h�ng</div>
+        <div class="foot-h">Cửa hàng</div>
         <ul class="foot-ul">
-          <li><a href="categories.html">S?n ph?m m?i</a></li>
+          <li><a href="categories.html">Sản phẩm mới</a></li>
           <li><a href="categories.html">Bestseller</a></li>
-          <li><a href="categories.html">Combo uu d�i</a></li>
-          <li><a href="categories.html">Mi?n ph�</a></li>
-          <li><a href="categories.html">T?t c? danh m?c</a></li>
+          <li><a href="categories.html">Combo ưu đãi</a></li>
+          <li><a href="categories.html">Miễn phí</a></li>
+          <li><a href="categories.html">Tất cả danh mục</a></li>
         </ul>
       </div>
       <div>
-        <div class="foot-h">H? tr?</div>
+        <div class="foot-h">Hỗ trợ</div>
         <ul class="foot-ul">
-          <li><a href="support.html#download">Hu?ng d?n t?i</a></li>
-          <li><a href="support.html#refund">Ch�nh s�ch ho�n ti?n</a></li>
+          <li><a href="support.html#download">Hướng dẫn tải</a></li>
+          <li><a href="support.html#refund">Chính sách hoàn tiền</a></li>
           <li><a href="support.html#faq">FAQ</a></li>
-          <li><a href="support.html#contact">Li�n h?</a></li>
+          <li><a href="support.html#contact">Liên hệ</a></li>
         </ul>
       </div>
       <div>
-        <div class="foot-h">T�i kho?n</div>
+        <div class="foot-h">Tài khoản</div>
         <ul class="foot-ul">
-          <li><a href="account.html">�ang nh?p</a></li>
-          <li><a href="account.html">�ang k�</a></li>
-          <li><a href="account.html">�on h�ng c?a t�i</a></li>
-          <li><a href="account.html">S?n ph?m d� mua</a></li>
+          <li><a href="account.html">Đăng nhập</a></li>
+          <li><a href="account.html">Đăng ký</a></li>
+          <li><a href="account.html">Đơn hàng của tôi</a></li>
+          <li><a href="account.html">Sản phẩm đã mua</a></li>
         </ul>
       </div>
     </div>
     <div class="foot-bot">
-      <div class="foot-copy">� 2025 <span>Thu vi?n Son Nhai</span>. B?o luu m?i quy?n.</div>
+      <div class="foot-copy">© 2025 <span>Thư viện Sơn Nhai</span>. Bảo lưu mọi quyền.</div>
       <div class="foot-policies">
-        <a href="support.html">�i?u kho?n</a>
-        <a href="support.html">B?o m?t</a>
+        <a href="support.html">Điều khoản</a>
+        <a href="support.html">Bảo mật</a>
       </div>
     </div>
   </div>
@@ -853,8 +853,8 @@
 <script src="js/cart-badge.js?v=5"></script>
 <script type="module" src="js/firestore-sync.js"></script>
 <script>
-  // C�c tab Danh m?c ? trang ch? s? chuy?n hu?ng th?ng sang categories.html
-  // (�� x�a e.preventDefault() d? link href c� t�c d?ng)
+  // Các tab Danh mục ở trang chủ sẽ chuyển hướng thẳng sang categories.html
+  // (Đã xóa e.preventDefault() để link href có tác dụng)
 
   // Navbar scroll shadow
   const nav = document.querySelector('.nav');
@@ -870,7 +870,7 @@
 
   function nlShowErr(msg) {
     nlEmail.classList.remove('shake');
-    void nlEmail.offsetWidth; // reflow d? restart animation
+    void nlEmail.offsetWidth; // reflow để restart animation
     nlEmail.classList.add('err', 'shake');
     nlErrMsg.textContent = msg;
     nlErrMsg.style.display = 'block';
@@ -883,11 +883,11 @@
   async function nlSubmit() {
     const val = nlEmail.value.trim();
     const ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val);
-    if (!val) { nlShowErr('Vui l�ng nh?p d?a ch? email c?a b?n.'); return; }
-    if (!ok)  { nlShowErr('Email kh�ng h?p l? � h�y ki?m tra l?i.'); return; }
+    if (!val) { nlShowErr('Vui lòng nhập địa chỉ email của bạn.'); return; }
+    if (!ok)  { nlShowErr('Email không hợp lệ — hãy kiểm tra lại.'); return; }
 
     nlBtn.disabled = true;
-    nlBtn.textContent = '�ang dang k�...';
+    nlBtn.textContent = 'Đang đăng ký...';
     nlBtn.style.opacity = '.7';
 
     try {
@@ -898,7 +898,7 @@
         credentials: 'include'
       });
       const data = await res.json();
-      if (!data.success) throw new Error(data.error || 'L?i kh�ng x�c d?nh');
+      if (!data.success) throw new Error(data.error || 'Lỗi không xác định');
 
       // Show success state
       const nl = document.querySelector('.nl');
@@ -906,21 +906,21 @@
       nl.querySelector('.nl-sub').style.display = 'none';
       nlWrap.innerHTML = `
         <div class="nl-success">
-          <div class="nl-check">?</div>
-          <div class="nl-ok-h">�ang k� th�nh c�ng!</div>
-          <p class="nl-ok-p">C?m on b?n d� dang k�. Ch�ng t�i s? g?i th�ng b�o s�ch m?i, deal uu d�i v� t�i li?u mi?n ph� d?n <strong style="color:var(--teal)">${val}</strong> m?i tu?n.</p>
+          <div class="nl-check">✓</div>
+          <div class="nl-ok-h">Đăng ký thành công!</div>
+          <p class="nl-ok-p">Cảm ơn bạn đã đăng ký. Chúng tôi sẽ gửi thông báo sách mới, deal ưu đãi và tài liệu miễn phí đến <strong style="color:var(--teal)">${val}</strong> mỗi tuần.</p>
         </div>`;
     } catch (err) {
       nlBtn.disabled = false;
-      nlBtn.textContent = '�ang k�';
+      nlBtn.textContent = 'Đăng ký';
       nlBtn.style.opacity = '';
-      nlShowErr(err.message || 'C� l?i x?y ra. Vui l�ng th? l?i.');
+      nlShowErr(err.message || 'Có lỗi xảy ra. Vui lòng thử lại.');
     }
   }
 
   nlEmail.addEventListener('keydown', e => { if (e.key === 'Enter') nlSubmit(); });
 
-  // Helper d?c cookie
+  // Helper đọc cookie
   function getCookie(name) {
     const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
     return v ? v.pop() : '';
@@ -934,11 +934,11 @@
   }
   updateCartBadge();
 
-  // -- Render Products Dynamically --
+  // ── Render Products Dynamically ──
   function renderHomeProducts() {
     if (!window.SonHaiCartBadge) return;
     const allProducts = window.SonHaiCartBadge.getProducts().filter(p => p.status === 'published');
-    const fmt = n => Number(n).toLocaleString('vi-VN') + 'd';
+    const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
     // Helper: support both snake_case and camelCase field names
     const getOrigPrice = p => p.original_price || p.originalPrice || 0;
     const getSoldCount = p => p.sold_count || p.soldCount || 0;
@@ -950,17 +950,17 @@
       allProducts.forEach((p, idx) => {
         let badgeHtml = '';
         if (idx === 0) badgeHtml = `<span class="badge badge-hot">HOT</span>`;
-        else if (idx === 1) badgeHtml = `<span class="badge badge-new">M?I</span>`;
+        else if (idx === 1) badgeHtml = `<span class="badge badge-new">MỚI</span>`;
         else if (idx === 2) badgeHtml = `<span class="badge badge-sale">-34%</span>`;
 
         let rating = p.rating || 4.8;
-        let stars = rating >= 4.9 ? '?????' : '?????';
+        let stars = rating >= 4.9 ? '★★★★★' : '★★★★☆';
         
         let thumbInner;
         if (p.imageUrl) {
-          thumbInner = `<div class="card-thumb-inner" style="overflow:hidden;"><img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;flex-direction:column;width:100%;height:100%;"><div class='book-top' style='background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}'><div class='card-emoji'>${p.emoji || '??'}</div></div><div class='book-bottom'><div class='book-bottom-title'>${p.name}</div><div class='book-bottom-author'>Thu vi?n Son Nhai</div></div></div></div>`;
+          thumbInner = `<div class="card-thumb-inner" style="overflow:hidden;"><img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;flex-direction:column;width:100%;height:100%;"><div class='book-top' style='background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}'><div class='card-emoji'>${p.emoji || '📚'}</div></div><div class='book-bottom'><div class='book-bottom-title'>${p.name}</div><div class='book-bottom-author'>Thư viện Sơn Nhai</div></div></div></div>`;
         } else {
-          thumbInner = `<div class="card-thumb-inner"><div class="book-top" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}"><div class="card-emoji">${p.emoji || '??'}</div></div><div class="book-bottom"><div class="book-bottom-title">${p.name}</div><div class="book-bottom-author">Thu vi?n Son Nhai</div></div></div>`;
+          thumbInner = `<div class="card-thumb-inner"><div class="book-top" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}"><div class="card-emoji">${p.emoji || '📚'}</div></div><div class="book-bottom"><div class="book-bottom-title">${p.name}</div><div class="book-bottom-author">Thư viện Sơn Nhai</div></div></div>`;
         }
 
         let html = `
@@ -976,7 +976,7 @@
             </div>
             <div class="card-foot">
               <div class="rating"><span class="stars">${stars}</span> ${rating}</div>
-              <button class="btn-cart">+ Gi?</button>
+              <button class="btn-cart">+ Giỏ</button>
             </div>
           </div>
         `;
@@ -993,13 +993,13 @@
       const bestsellers = [...allProducts].sort((a,b) => getSoldCount(b) - getSoldCount(a)).slice(0, 6);
       bestsellers.forEach((p, idx) => {
         let rating = p.rating || 4.8;
-        let stars = rating >= 4.9 ? '?????' : '?????';
+        let stars = rating >= 4.9 ? '★★★★★' : '★★★★☆';
         let badgeHtml = idx === 0 ? '<div class="bs-hot">HOT</div>' : '';
         let bsCoverHtml;
         if (p.imageUrl) {
-          bsCoverHtml = `<div class="bs-cover" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'};padding:0;overflow:hidden;"><img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${p.emoji || '??'}'"></div>`;
+          bsCoverHtml = `<div class="bs-cover" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'};padding:0;overflow:hidden;"><img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${p.emoji || '📚'}'"></div>`;
         } else {
-          bsCoverHtml = `<div class="bs-cover" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}">${p.emoji || '??'}</div>`;
+          bsCoverHtml = `<div class="bs-cover" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}">${p.emoji || '📚'}</div>`;
         }
         let html = `
           <div class="bs-item" data-slug="${p.slug}" onclick="goToProduct(this)">
@@ -1009,7 +1009,7 @@
               <div class="bs-title">${p.name}</div>
               <div class="bs-meta">
                 <span class="bs-stars">${stars}</span>
-                <span class="bs-sold">${getSoldCount(p) || (240 - idx * 20)}+ d� b�n</span>
+                <span class="bs-sold">${getSoldCount(p) || (240 - idx * 20)}+ đã bán</span>
               </div>
             </div>
             <div class="bs-right">
@@ -1031,8 +1031,8 @@
       if (p.description) featSplit.querySelector('.feat-desc').textContent = p.description;
       featSplit.querySelector('.fn-val:nth-child(2)').textContent = p.pages || 320;
       featSplit.querySelector('.fn-val:nth-child(4)').textContent = 'PDF';
-      featSplit.querySelector('.fn-val:nth-child(6)').textContent = (p.rating || 4.9) + '?';
-      featSplit.querySelector('.btn-teal').textContent = `Mua ngay � ${fmt(p.price)}`;
+      featSplit.querySelector('.fn-val:nth-child(6)').textContent = (p.rating || 4.9) + '★';
+      featSplit.querySelector('.btn-teal').textContent = `Mua ngay — ${fmt(p.price)}`;
       // Update cover image src
       const featCoverImg = document.getElementById('feat-cover-img');
       if (p.imageUrl && featCoverImg) {
@@ -1052,7 +1052,7 @@
     document.querySelectorAll('.cat-card').forEach(card => {
       const catName = card.querySelector('.cat-name').textContent.trim();
       const count = catCounts[catName] || 0;
-      card.querySelector('.cat-cnt').textContent = count + ' s?n ph?m';
+      card.querySelector('.cat-cnt').textContent = count + ' sản phẩm';
     });
   }
 
@@ -1064,20 +1064,20 @@
 
         const originalText = b.textContent;
         b.disabled = true;
-        b.textContent = '�ang th�m...';
+        b.textContent = 'Đang thêm...';
         b.style.background = 'var(--teal)';
         b.style.color = 'var(--bg)';
 
         try {
           const card = b.closest('[data-product-id]');
           const productId = card ? card.dataset.productId : null;
-          if (!productId) throw new Error('Kh�ng t�m th?y s?n ph?m.');
+          if (!productId) throw new Error('Không tìm thấy sản phẩm.');
           if (window.SonHaiCartBadge) {
             await window.SonHaiCartBadge.addProduct(productId, 1);
           }
-          b.textContent = '? �� th�m';
+          b.textContent = '✓ Đã thêm';
         } catch (e) {
-          b.textContent = 'Chua th�m du?c';
+          b.textContent = 'Chưa thêm được';
         } finally {
           setTimeout(() => {
             b.disabled = false;
@@ -1132,7 +1132,7 @@
     else window.location = 'product.html';
   }
 
-  // -- Render Blog Posts on Home --
+  // ── Render Blog Posts on Home ──
   async function renderHomeBlog() {
     const grid = document.getElementById('home-blog-grid');
     if (!grid) return;
@@ -1146,7 +1146,7 @@
     }
 
     if (posts.length === 0) {
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-3);font-size:14px;">�ang c?p nh?t blog...</div>';
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-3);font-size:14px;">Đang cập nhật blog...</div>';
       return;
     }
 
@@ -1157,21 +1157,21 @@
         : (p.date || '');
       return `
         <a href="blog-post.html?slug=${p.slug || ''}" class="blog-card">
-          <div class="blog-img" style="background:${gradient};font-size:44px;">${p.emoji || '??'}</div>
+          <div class="blog-img" style="background:${gradient};font-size:44px;">${p.emoji || '📝'}</div>
           <div class="blog-body">
             <span class="blog-tag">${p.category || ''}</span>
             <div class="blog-ttl">${p.title || ''}</div>
             <div class="blog-ex">${p.excerpt || ''}</div>
             <div class="blog-meta">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-              ${p.readTime || '5 ph�t'} � ${dateStr}
+              ${p.readTime || '5 phút'} · ${dateStr}
             </div>
           </div>
         </a>`;
     }).join('');
   }
 
-  // -- Load Banner from Firestore --
+  // ── Load Banner from Firestore ──
   async function loadHomeBanner() {
     if (!window.SonHaiData) return;
     try {
@@ -1180,7 +1180,7 @@
       const banner = document.getElementById('site-banner');
       if (!banner) return;
       if (data.enabled === false) { banner.style.display = 'none'; return; }
-      if (data.text) banner.textContent = '? ' + data.text + ' ?';
+      if (data.text) banner.textContent = '◆ ' + data.text + ' ◆';
       const typeColors = {
         info: { bg: 'rgba(0,212,212,.1)', border: 'rgba(0,212,212,.2)', color: '#00D4D4' },
         promo: { bg: 'rgba(245,166,35,.1)', border: 'rgba(245,166,35,.2)', color: '#F5A623' },
@@ -1194,7 +1194,7 @@
     } catch (e) { console.warn('Banner load failed:', e); }
   }
 
-  // -- Render Combos from Firestore --
+  // ── Render Combos from Firestore ──
   const bookColors = [
     'book-color-1','book-color-2','book-color-3','book-color-4',
     'book-color-5','book-color-6','book-color-7','book-color-8'
@@ -1214,11 +1214,11 @@
 
     if (!combos || combos.length === 0) {
       // Fallback: show a message or hide
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-3);font-size:14px;">�ang c?p nh?t combo...</div>';
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-3);font-size:14px;">Đang cập nhật combo...</div>';
       return;
     }
 
-    const fmt = n => Number(n).toLocaleString('vi-VN') + 'd';
+    const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
     
     // Get all products for emoji lookup
     let allProducts = [];
@@ -1236,7 +1236,7 @@
       // Get emojis from products for book covers
       const emojis = productIds.map((pid, i) => {
         const prod = allProducts.find(p => String(p.id) === String(pid));
-        return prod ? (prod.emoji || prod.icon || '??') : '??';
+        return prod ? (prod.emoji || prod.icon || '📚') : '📚';
       });
       
       // Product items list
@@ -1267,22 +1267,22 @@
       }
 
       const isHot = combo.isHot || false;
-      const badgeText = combo.badgeText || `-${Math.round((savings / origPrice) * 100)}%`;
+      const badgeText = combo.badgeText || `−${Math.round((savings / origPrice) * 100)}%`;
 
       return `
         <div class="combo-card${isHot ? ' hot' : ''}" data-combo-id="${combo.id}" data-products="${productIds.join(',')}">
           <div class="combo-save">${badgeText}</div>
           <div class="combo-covers">${booksHtml}</div>
           <div class="combo-body">
-            <div class="combo-tag">${combo.tag || '? B? suu t?p � ' + productIds.length + ' cu?n'}</div>
+            <div class="combo-tag">${combo.tag || '◆ Bộ sưu tập · ' + productIds.length + ' cuốn'}</div>
             <div class="combo-name">${combo.name || 'Combo'}</div>
             <ul class="combo-list">${itemsList}</ul>
           </div>
           <div class="combo-pricing">
-            <div class="combo-orig">Mua l?: ${fmt(origPrice)}</div>
+            <div class="combo-orig">Mua lẻ: ${fmt(origPrice)}</div>
             <div class="combo-row">
               <div class="combo-cost">${fmt(comboPrice)}</div>
-              <div class="combo-off">Ti?t ki?m ${fmt(savings)}</div>
+              <div class="combo-off">Tiết kiệm ${fmt(savings)}</div>
             </div>
             <button class="btn ${isHot ? 'btn-teal' : 'btn-outline'} combo-cta" onclick="buyCombo(event)">Mua combo ngay</button>
           </div>
@@ -1298,7 +1298,7 @@
     const ids = idsRaw.split(',');
     const btn = card.querySelector('.combo-cta');
     const origText = btn.textContent;
-    btn.textContent = '�ang th�m...';
+    btn.textContent = 'Đang thêm...';
     btn.disabled = true;
 
     try {
@@ -1309,10 +1309,10 @@
           await window.SonHaiCartBadge.addProduct(pid, 1);
         }
       }
-      btn.textContent = '? �� th�m v�o gi?';
+      btn.textContent = '✓ Đã thêm vào giỏ';
       btn.style.background = 'var(--teal-dark)';
     } catch (err) {
-      btn.textContent = 'L?i!';
+      btn.textContent = 'Lỗi!';
     }
     setTimeout(() => {
       btn.textContent = origText;
