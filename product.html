@@ -984,6 +984,12 @@
             onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'">
           <div id="modal-email-hint" style="font-size:11px;color:var(--text-3);margin-top:5px;"></div>
         </div>
+        <div>
+          <label style="font-size:11.5px;font-weight:600;color:var(--text-2);letter-spacing:.3px;display:block;margin-bottom:7px;">Số điện thoại <span style='color:var(--text-3);font-weight:400;'>(tùy chọn)</span></label>
+          <input id="modal-phone" type="tel" placeholder="+84 900 000 000" autocomplete="tel"
+            style="width:100%;background:var(--bg-3);border:1px solid var(--border);border-radius:9px;padding:12px 14px;font-size:13.5px;color:var(--text);font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border-color .2s;"
+            onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'">
+        </div>
       </div>
       <div id="modal-error" style="display:none;color:var(--red);font-size:13px;text-align:center;margin-top:12px;padding:10px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;"></div>
       <button id="modal-btn-order" onclick="placeModalOrder()" style="width:100%;margin-top:18px;padding:15px;border:none;border-radius:11px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;font-size:15px;font-weight:700;background:var(--teal);color:var(--bg);transition:all .25s;display:flex;align-items:center;justify-content:center;gap:9px;">
@@ -1018,7 +1024,19 @@
           <span style="color:var(--text-3);">Số tiền</span>
           <span id="modal-order-amount" style="font-weight:700;color:var(--teal);font-size:15px;"></span>
         </div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;">
+          <span style="color:var(--text-3);">Khách hàng</span>
+          <span id="modal-order-customer" style="font-weight:600;color:var(--text);"></span>
+        </div>
+        <div id="modal-order-phone-row" style="display:none;justify-content:space-between;font-size:13px;">
+          <span style="color:var(--text-3);">Số điện thoại</span>
+          <span id="modal-order-phone" style="font-weight:600;color:var(--text);"></span>
+        </div>
       </div>
+      <button onclick="saveModalQR()" style="display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:10px;border:1px solid var(--border);border-radius:9px;background:var(--bg-3);color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;transition:all .2s;" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-2)'">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Lưu ảnh QR
+      </button>
       <a id="modal-open-link" href="#" target="_blank" style="font-size:12.5px;color:var(--teal);text-decoration:none;display:flex;align-items:center;gap:5px;">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         Không quét được? Nhấn đây để mở trang thanh toán
@@ -1106,6 +1124,7 @@
     document.getElementById('modal-error').style.display = 'none';
     document.getElementById('modal-name').value = '';
     document.getElementById('modal-email').value = '';
+    document.getElementById('modal-phone').value = '';
     document.getElementById('buy-modal-overlay').style.display = 'flex';
     document.body.style.overflow = 'hidden';
     setTimeout(() => document.getElementById('modal-name').focus(), 50);
@@ -1134,6 +1153,7 @@
   async function placeModalOrder() {
     const customerName = document.getElementById('modal-name').value.trim();
     const customerEmail = document.getElementById('modal-email').value.trim();
+    const customerPhone = document.getElementById('modal-phone').value.trim();
     const errEl = document.getElementById('modal-error');
 
     if (!customerName) {
@@ -1149,31 +1169,43 @@
       return;
     }
     errEl.style.display = 'none';
-
     showModalState('loading');
 
     try {
       const prod = window._currentProduct || {};
-      
+
       // Auto add to cart if not present
       if (window.SonHaiCartBadge) {
         await window.SonHaiCartBadge.addProduct(prod.id, 1);
       }
 
-      // Create local order
-      const orderNumber = 'ORD-' + Math.floor(Math.random() * 1000000);
       const total = prod.price || 0;
-      const order = {
-        orderNumber,
-        customerName,
-        customerEmail,
-        total,
-        date: new Date().toISOString(),
-        paymentStatus: 'pending'
-      };
+      const items = [{ productId: prod.id, name: prod.name, price: total, emoji: prod.emoji || '📦', downloadUrl: '' }];
 
+      // Call real checkout API to create Firestore order
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customerName, customerEmail, customerPhone,
+          items, couponCode: '', discount: 0,
+          subtotal: total, total,
+        }),
+      });
+      const result = await response.json();
+      if (!result.success) throw new Error(result.error || 'Không thể tạo đơn hàng');
+
+      const { orderNumber } = result.data;
+
+      // Save to session
+      const order = {
+        orderNumber, customerName, customerEmail, customerPhone, total,
+        date: new Date().toISOString(), paymentStatus: 'pending', items,
+      };
       sessionStorage.setItem('sonhai_last_order', JSON.stringify(order));
-      renderModalQR('https://seapay.vn/pay/' + orderNumber, order);
+
+      // Render real VietQR from SePay
+      renderModalQR(orderNumber, order);
       startModalPolling(orderNumber);
 
     } catch (err) {
@@ -1183,32 +1215,72 @@
     }
   }
 
-  function renderModalQR(paymentUrl, order) {
-    const canvas = document.getElementById('modal-qr-canvas');
-    canvas.innerHTML = '';
-    new QRCode(canvas, { text: paymentUrl, width: 200, height: 200, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
-    document.getElementById('modal-open-link').href = paymentUrl;
-    document.getElementById('modal-order-num').textContent = order.orderNumber;
+  // SePay config — will be overridden by Firestore if available
+  const MODAL_SEPAY = { bankAccount: '2154356816', bankCode: 'BIDV' };
+  (async function() {
+    try {
+      const r = await fetch('/api/seapay/config'); const d = await r.json();
+      if (d.success) { MODAL_SEPAY.bankAccount = d.data.bankAccount; MODAL_SEPAY.bankCode = d.data.bankCode; }
+    } catch(e) {}
+  })();
+
+  function renderModalQR(orderNumber, order) {
+    // Use SePay VietQR image API (same as checkout page)
+    const qrCanvas = document.getElementById('modal-qr-canvas');
+    const params = new URLSearchParams({
+      bank: MODAL_SEPAY.bankCode, acc: MODAL_SEPAY.bankAccount,
+      template: 'compact', amount: order.total, des: orderNumber,
+    });
+    const qrUrl = 'https://qr.sepay.vn/img?' + params.toString();
+    qrCanvas.innerHTML = `<img src="${qrUrl}" alt="QR Thanh toán" style="width:200px;height:200px;border-radius:10px;" onerror="this.alt='Lỗi tải QR'">`;
+
+    document.getElementById('modal-order-num').textContent = orderNumber;
     document.getElementById('modal-order-amount').textContent = order.total.toLocaleString('vi-VN') + 'đ';
+    document.getElementById('modal-order-customer').textContent = order.customerName;
+    if (order.customerPhone) {
+      document.getElementById('modal-order-phone').textContent = order.customerPhone;
+      document.getElementById('modal-order-phone-row').style.display = 'flex';
+    }
+    // Remove the external link since we use QR image, not a URL
+    const openLink = document.getElementById('modal-open-link');
+    if (openLink) openLink.style.display = 'none';
     showModalState('qr');
   }
 
+  function saveModalQR() {
+    const img = document.querySelector('#modal-qr-canvas img');
+    if (!img) return;
+    const a = document.createElement('a');
+    a.href = img.src; a.download = 'QR_ThanhToan_SonNhai.png';
+    a.target = '_blank'; a.click();
+  }
+
   function startModalPolling(orderNumber) {
-    if (_modalPollTimer) clearTimeout(_modalPollTimer);
-    _modalPollTimer = setTimeout(() => {
-      const saved = JSON.parse(sessionStorage.getItem('sonhai_last_order') || '{}');
-      sessionStorage.setItem('sonhai_last_order', JSON.stringify({ ...saved, paymentStatus: 'paid' }));
-      
-      // Save order to LocalStorage
-      let orders = JSON.parse(localStorage.getItem('sonhai_orders') || '[]');
-      orders.push({ ...saved, paymentStatus: 'paid' });
-      localStorage.setItem('sonhai_orders', JSON.stringify(orders));
+    if (_modalPollTimer) clearInterval(_modalPollTimer);
+    const POLL_INTERVAL = 3000;
+    const MAX_DURATION = 15 * 60000;
+    const startTime = Date.now();
 
-      // Clear cart
-      if (window.SonHaiCartBadge) window.SonHaiCartBadge.clearCart();
-
-      window.location.href = 'thank-you.html';
-    }, 5000);
+    _modalPollTimer = setInterval(async () => {
+      if (Date.now() - startTime > MAX_DURATION) {
+        clearInterval(_modalPollTimer);
+        return;
+      }
+      try {
+        const res = await fetch(`/api/seapay/status?orderNumber=${orderNumber}`);
+        const data = await res.json();
+        if (data.success && data.data.paymentStatus === 'paid') {
+          clearInterval(_modalPollTimer);
+          const saved = JSON.parse(sessionStorage.getItem('sonhai_last_order') || '{}');
+          sessionStorage.setItem('sonhai_last_order', JSON.stringify({ ...saved, paymentStatus: 'paid' }));
+          let orders = JSON.parse(localStorage.getItem('sonhai_orders') || '[]');
+          orders.push({ ...saved, paymentStatus: 'paid' });
+          localStorage.setItem('sonhai_orders', JSON.stringify(orders));
+          if (window.SonHaiCartBadge) window.SonHaiCartBadge.clearCart();
+          window.location.href = `seapay-return.html?orderNumber=${orderNumber}&status=success`;
+        }
+      } catch (e) { console.warn('Poll error:', e.message); }
+    }, POLL_INTERVAL);
   }
 
   // ── Review filter ──
