@@ -1251,10 +1251,49 @@
   async function saveModalQR() {
     const img = document.querySelector('#modal-qr-canvas img');
     if (!img) return;
+
+    // Helper: convert image to PNG blob via canvas (ensures correct format for gallery)
+    async function getQRBlob() {
+      // First try fetching directly
+      try {
+        const response = await fetch(img.src, { mode: 'cors' });
+        const fetchBlob = await response.blob();
+        // Convert to PNG via canvas to ensure correct MIME type for photo gallery
+        const bmp = await createImageBitmap(fetchBlob);
+        const canvas = document.createElement('canvas');
+        canvas.width = bmp.width;
+        canvas.height = bmp.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(bmp, 0, 0);
+        return await new Promise(r => canvas.toBlob(r, 'image/png'));
+      } catch (_) {}
+      // Fallback: draw loaded img onto canvas
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth || 200;
+      canvas.height = img.naturalHeight || 200;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      return await new Promise(r => canvas.toBlob(r, 'image/png'));
+    }
+
     try {
-      const response = await fetch(img.src, { mode: 'cors' });
-      const blob = await response.blob();
-      const blobUrl = URL.createObjectURL(blob);
+      const pngBlob = await getQRBlob();
+      if (!pngBlob) throw new Error('no blob');
+      const file = new File([pngBlob], 'QR_ThanhToan_SonNhai.png', { type: 'image/png' });
+
+      // ① Mobile: use Web Share API → opens native share sheet → "Save to Photos"
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: 'QR Thanh toán Sơn Nhai',
+          text:  'Mã QR thanh toán đơn hàng',
+        });
+        showToast('Đã lưu ảnh QR vào thư viện!');
+        return;
+      }
+
+      // ② Desktop / fallback: trigger file download
+      const blobUrl = URL.createObjectURL(pngBlob);
       const a = document.createElement('a');
       a.href = blobUrl;
       a.download = 'QR_ThanhToan_SonNhai.png';
@@ -1264,27 +1303,10 @@
       setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
       showToast('Đã tải ảnh QR thành công!');
     } catch (e) {
-      try {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.naturalWidth || 200;
-        canvas.height = img.naturalHeight || 200;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        canvas.toBlob(function(blob) {
-          if (!blob) { window.open(img.src, '_blank'); return; }
-          const blobUrl = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = blobUrl;
-          a.download = 'QR_ThanhToan_SonNhai.png';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
-          showToast('Đã tải ảnh QR thành công!');
-        }, 'image/png');
-      } catch (e2) {
-        window.open(img.src, '_blank');
-      }
+      // User cancelled share sheet → not an error
+      if (e.name === 'AbortError') return;
+      // Last resort: open in new tab
+      window.open(img.src, '_blank');
     }
   }
 
