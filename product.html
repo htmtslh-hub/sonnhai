@@ -1248,12 +1248,44 @@
     showModalState('qr');
   }
 
-  function saveModalQR() {
+  async function saveModalQR() {
     const img = document.querySelector('#modal-qr-canvas img');
     if (!img) return;
-    const a = document.createElement('a');
-    a.href = img.src; a.download = 'QR_ThanhToan_SonNhai.png';
-    a.target = '_blank'; a.click();
+    try {
+      const response = await fetch(img.src, { mode: 'cors' });
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = 'QR_ThanhToan_SonNhai.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+      showToast('Đã tải ảnh QR thành công!');
+    } catch (e) {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth || 200;
+        canvas.height = img.naturalHeight || 200;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(function(blob) {
+          if (!blob) { window.open(img.src, '_blank'); return; }
+          const blobUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = 'QR_ThanhToan_SonNhai.png';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+          showToast('Đã tải ảnh QR thành công!');
+        }, 'image/png');
+      } catch (e2) {
+        window.open(img.src, '_blank');
+      }
+    }
   }
 
   function startModalPolling(orderNumber) {
