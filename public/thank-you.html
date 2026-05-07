@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Đặt hàng thành công — Thư viện Sơn Nhai</title>
+  <title>�?t h�ng th�nh c�ng � Thu vi?n Son Nhai</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -327,11 +327,11 @@
 
   <!-- Navbar -->
   <nav class="nav">
-    <a href="index.html" class="nav-logo"><img src="/logo.png" alt="Logo" style="width:48px;height:48px;border-radius:50%;filter:brightness(1.7);box-shadow:0 0 16px rgba(0,212,212,.4);">SƠN NHAI</a>
+    <a href="index.html" class="nav-logo"><div style="width:36px;height:36px;border-radius:9px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-family:'Exo 2',sans-serif;font-weight:900;font-size:14px;color:var(--bg);flex-shrink:0;">SN</div>SON NHAI</a>
     <ul class="nav-links">
-      <li><a href="index.html">Trang chủ</a></li>
-      <li><a href="categories.html">Danh mục</a></li>
-      <li><a href="account.html">Tài khoản</a></li>
+      <li><a href="index.html">Trang ch?</a></li>
+      <li><a href="categories.html">Danh m?c</a></li>
+      <li><a href="account.html">T�i kho?n</a></li>
     </ul>
   </nav>
 
@@ -346,16 +346,16 @@
       </div>
 
       <!-- Title -->
-      <h1>Đặt hàng <span class="highlight">thành công!</span></h1>
+      <h1>�?t h�ng <span class="highlight">th�nh c�ng!</span></h1>
 
       <!-- Order ID -->
       <div class="order-id" id="order-id">
-        Mã đơn hàng: <strong>#ORD-2024-001</strong>
+        M� don h�ng: <strong>#ORD-2024-001</strong>
       </div>
 
       <!-- Description -->
       <p class="description" id="order-desc">
-        Cảm ơn bạn đã mua hàng! Email xác nhận và link tải file đã được gửi đến <strong>email@example.com</strong>
+        C?m on b?n d� mua h�ng! Email x�c nh?n v� link t?i file d� du?c g?i d?n <strong>email@example.com</strong>
       </p>
 
       <!-- Download Section -->
@@ -366,7 +366,7 @@
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
-          Tải xuống ngay
+          T?i xu?ng ngay
         </div>
 
         <div class="download-list">
@@ -380,14 +380,14 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
           </svg>
-          Về trang chủ
+          V? trang ch?
         </a>
         <a href="account.html" class="btn btn-outline">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
           </svg>
-          Xem đơn hàng
+          Xem don h�ng
         </a>
       </div>
     </div>
@@ -395,7 +395,7 @@
 
   <!-- Footer -->
   <footer class="footer">
-    © 2024 Thư viện Sơn Nhai. All rights reserved.
+    � 2024 Thu vi?n Son Nhai. All rights reserved.
   </footer>
 
   <script>
@@ -406,11 +406,11 @@
       try {
         const order = JSON.parse(orderJson);
 
-        // ── Header info ──
-        document.getElementById('order-id').innerHTML = `Mã đơn hàng: <strong>#${order.orderNumber}</strong>`;
-        document.getElementById('order-desc').innerHTML = `Cảm ơn bạn đã mua hàng! Email xác nhận và link tải file đã được gửi đến <strong>${order.customerEmail}</strong>`;
+        // -- Header info --
+        document.getElementById('order-id').innerHTML = `M� don h�ng: <strong>#${order.orderNumber}</strong>`;
+        document.getElementById('order-desc').innerHTML = `C?m on b?n d� mua h�ng! Email x�c nh?n v� link t?i file d� du?c g?i d?n <strong>${order.customerEmail}</strong>`;
 
-        // ── Render download items from order ──
+        // -- Render download items from order --
         const items = order.items || [];
         const downloadList = document.querySelector('.download-list');
         const downloadSection = document.querySelector('.download-section');
@@ -421,8 +421,8 @@
         }
 
         downloadList.innerHTML = items.map((item, i) => {
-          const name = item.name || 'Sản phẩm';
-          const emoji = item.emoji || '📦';
+          const name = item.name || 'S?n ph?m';
+          const emoji = item.emoji || '??';
           const downloadUrl = item.downloadUrl || '';
 
           // Build thumbnail: prefer cover image, fallback to emoji
@@ -436,11 +436,11 @@
                   <polyline points="7 10 12 15 17 10"></polyline>
                   <line x1="12" y1="15" x2="12" y2="3"></line>
                 </svg>
-                Tải xuống
+                T?i xu?ng
               </a>`
             : `<span style="font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:6px;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1.5s linear infinite;"><circle cx="12" cy="12" r="10" opacity="0.25"></circle><path d="M4 12a8 8 0 018-8" opacity="0.75"></path></svg>
-                Đang chuẩn bị...
+                �ang chu?n b?...
               </span>`;
 
           return `
@@ -449,7 +449,7 @@
                 ${thumbHtml}
                 <div class="download-details">
                   <h3>${name}</h3>
-                  <p>PDF · Tải về ngay</p>
+                  <p>PDF � T?i v? ngay</p>
                 </div>
               </div>
               ${actionHtml}
@@ -459,16 +459,16 @@
         // Update download title with count
         const hasLinks = items.some(i => i.downloadUrl);
         document.querySelector('.download-title').innerHTML = hasLinks
-          ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Tải xuống ngay (${items.length} sản phẩm)`
-          : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Link tải sẽ được gửi qua email`;
+          ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> T?i xu?ng ngay (${items.length} s?n ph?m)`
+          : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Link t?i s? du?c g?i qua email`;
 
       } catch (e) {
-        console.error('Lỗi khi đọc đơn hàng:', e);
+        console.error('L?i khi d?c don h�ng:', e);
       }
     });
 
     function trackDownload(productName) {
-      console.log('[Download] Khách tải:', productName, 'lúc', new Date().toISOString());
+      console.log('[Download] Kh�ch t?i:', productName, 'l�c', new Date().toISOString());
     }
   </script>
 
