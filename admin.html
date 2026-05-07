@@ -886,6 +886,7 @@
               <option value="">Tất cả trạng thái</option>
               <option value="paid">Đã thanh toán</option>
               <option value="pending">Chờ thanh toán</option>
+              <option value="cancelled">Đã hủy</option>
               <option value="failed">Thất bại</option>
               <option value="refunded">Đã hoàn tiền</option>
             </select>
@@ -2469,7 +2470,9 @@
           const orderSnap = await getDocs(collection(dbFB, 'orders'));
           orderCount = orderSnap.size;
           mockData.orders = orderSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-          totalRevenue = mockData.orders.reduce((sum, o) => sum + (o.amount || o.total || 0), 0);
+          // Chỉ tính doanh thu từ đơn đã thanh toán
+          const paidOrders = mockData.orders.filter(o => (o.paymentStatus || o.status) === 'paid');
+          totalRevenue = paidOrders.reduce((sum, o) => sum + (o.amount || o.total || 0), 0);
         } catch(e) {}
 
         // Count customers
@@ -2480,11 +2483,18 @@
           mockData.customers = userSnap.docs.map(d => ({ id: d.id, ...d.data() }));
         } catch(e) {}
 
+        // Đếm đơn theo trạng thái
+        const pendingCount = mockData.orders.filter(o => (o.paymentStatus || o.status) === 'pending').length;
+        const cancelledCount = mockData.orders.filter(o => (o.paymentStatus || o.status) === 'cancelled').length;
+        const paidCount = mockData.orders.filter(o => (o.paymentStatus || o.status) === 'paid').length;
+
         // Update stats
         document.getElementById('stat-revenue').textContent = formatCurrency(totalRevenue);
         document.getElementById('stat-revenue-change').textContent = totalRevenue > 0 ? 'Doanh thu thực' : 'Chưa có';
         document.getElementById('stat-orders').textContent = orderCount;
-        document.getElementById('stat-orders-change').textContent = orderCount > 0 ? orderCount + ' đơn' : 'Chưa có';
+        document.getElementById('stat-orders-change').textContent = paidCount > 0
+          ? `${paidCount} đã TT${pendingCount > 0 ? ', ' + pendingCount + ' chờ' : ''}${cancelledCount > 0 ? ', ' + cancelledCount + ' hủy' : ''}`
+          : (orderCount > 0 ? orderCount + ' đơn' : 'Chưa có');
         document.getElementById('stat-customers').textContent = customerCount;
         document.getElementById('stat-customers-change').textContent = customerCount > 0 ? customerCount + ' KH' : 'Chưa có';
         document.getElementById('stat-products').textContent = productCount;
@@ -2901,13 +2911,51 @@
     }
 
     // ==================== ORDERS ====================
+    const ORDER_TIMEOUT_MS = 15 * 60 * 1000; // 15 phút
+
     async function loadOrders() {
       document.getElementById('orders-count-sub').textContent = 'Đang tải...';
       try {
-        const { dbFB, collection, getDocs, query, orderBy } = window._fb;
+        const { dbFB, collection, getDocs, query, orderBy, doc, updateDoc, serverTimestamp } = window._fb;
         const q = query(collection(dbFB, 'orders'), orderBy('createdAt', 'desc'));
         const snap = await getDocs(q);
         mockData.orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        // ── Auto-cancel đơn hàng pending quá 15 phút ──
+        const now = Date.now();
+        const expiredOrders = mockData.orders.filter(o => {
+          const status = o.paymentStatus || o.status || '';
+          if (status !== 'pending') return false;
+          let createdMs = 0;
+          if (o.createdAt && o.createdAt.toDate) createdMs = o.createdAt.toDate().getTime();
+          else if (o.createdAt && o.createdAt.seconds) createdMs = o.createdAt.seconds * 1000;
+          else if (o.createdAt) createdMs = new Date(o.createdAt).getTime();
+          return createdMs > 0 && (now - createdMs) > ORDER_TIMEOUT_MS;
+        });
+
+        if (expiredOrders.length > 0) {
+          console.log(`[Auto-cancel] Tìm thấy ${expiredOrders.length} đơn hàng hết hạn`);
+          // Cập nhật Firestore (fire-and-forget)
+          const cancelPromises = expiredOrders.map(o =>
+            updateDoc(doc(dbFB, 'orders', o.id), {
+              paymentStatus: 'cancelled',
+              status: 'cancelled',
+              cancelledAt: serverTimestamp(),
+              cancelReason: 'Tự động hủy: quá 15 phút chưa thanh toán',
+            }).catch(err => console.warn(`Cancel order ${o.id} failed:`, err.message))
+          );
+          // Cập nhật local ngay
+          expiredOrders.forEach(o => {
+            o.paymentStatus = 'cancelled';
+            o.status = 'cancelled';
+            o.cancelReason = 'Tự động hủy: quá 15 phút chưa thanh toán';
+          });
+          // Không cần await — chạy nền
+          Promise.all(cancelPromises).then(() => {
+            console.log(`[Auto-cancel] Đã hủy ${expiredOrders.length} đơn hàng`);
+          });
+          showToast('info', `⏰ Đã tự động hủy ${expiredOrders.length} đơn hàng quá hạn`);
+        }
       } catch(e) {
         console.warn('Load orders from Firestore:', e.message);
       }
@@ -4070,7 +4118,9 @@
         'archived': 'Lưu trữ',
         'active': 'Hoạt động',
         'inactive': 'Không hoạt động',
-        'sent': 'Đã gửi'
+        'sent': 'Đã gửi',
+        'cancelled': 'Đã hủy',
+        'expired': 'Hết hạn'
       };
       return map[status] || status;
     }
