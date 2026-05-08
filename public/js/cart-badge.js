@@ -4,7 +4,7 @@
   var CART_KEY = 'sonhai_cart_items';
   var PRODUCTS_KEY = 'sonhai_products';
   var PRODUCTS_VERSION_KEY = 'sonhai_products_version';
-  var CURRENT_VERSION = 3; // Bump when defaultProducts structure changes (v3: added 4 missing products)
+  var CURRENT_VERSION = 4; // Bump when defaultProducts structure changes (v4: added Thuong Chien product)
 
   var defaultProducts = [
     { id: 1, slug: 'tuyet-mat-nhan-tinh', name: 'Tuyệt mật nhân tính', category: 'Nhân tính', price: 149000, original_price: 199000, emoji: '🧠', coverGradient: 'linear-gradient(145deg, #0D2137, #0A3B5C)', imageUrl: 'chuan/tuyet_mat_nhan_tinh.webp', description: 'Bạn có bao giờ tự hỏi tại sao mình biết điều đúng nhưng vẫn làm điều sai? Tại sao những nỗ lực của bạn không tạo ra kết quả tương xứng? Câu trả lời thường nằm ở những niềm tin giới hạn đã ăn sâu vào tiềm thức — những rào cản vô hình mà phần lớn chúng ta không hề hay biết.', rating: 4.9, sold_count: 512, status: 'published', pages: 320, format: 'PDF' },
@@ -20,7 +20,8 @@
     { id: 11, slug: 'an-chua-huyen-co', name: 'Ẩn chứa huyền cơ', category: 'Tư duy', price: 129000, original_price: 179000, emoji: '🏛️', coverGradient: 'linear-gradient(145deg, #1A1A0D, #2E2E0A)', imageUrl: 'chuan/an_chua_huyen_co.webp', description: 'Những nguyên lý ẩn giấu đằng sau thành công và vận mệnh — giải mã các quy luật bất biến của đời sống.', rating: 4.7, sold_count: 195, status: 'published', pages: 275, format: 'PDF' },
     { id: 12, slug: 'ban-chat-tai-chinh', name: 'Bản chất tài chính', category: 'Tài chính', price: 149000, original_price: 199000, emoji: '💎', coverGradient: 'linear-gradient(145deg, #0D1A2E, #0A2D4E)', imageUrl: 'chuan/ban_chat_tai_chinh.webp', description: 'Hiểu bản chất thực sự của tiền bạc và cách dòng tiền vận hành — nền tảng cho mọi quyết định tài chính thông minh.', rating: 4.8, sold_count: 310, status: 'published', pages: 290, format: 'PDF' },
     { id: 13, slug: 'goc-nhin-tao-lap', name: 'Góc nhìn tạo lập', category: 'Tư duy', price: 119000, original_price: 0, emoji: '🔭', coverGradient: 'linear-gradient(145deg, #0D2E1A, #0A4E2D)', imageUrl: 'chuan/goc_nhin_tao_lap.webp', description: 'Thay đổi góc nhìn để tạo lập thực tại mới — kỹ thuật reframe tư duy giúp bạn nhìn nhận mọi tình huống từ vị thế của người chiến thắng.', rating: 4.6, sold_count: 165, status: 'published', pages: 230, format: 'PDF' },
-    { id: 14, slug: 'muu-luoc-tuoi-tre', name: 'Mưu lược tuổi trẻ', category: 'Kỹ năng sống', price: 109000, original_price: 149000, emoji: '🚀', coverGradient: 'linear-gradient(145deg, #2E0D0D, #4E1A0A)', imageUrl: 'chuan/muu_luoc_tuoir_tre.webp', description: 'Chiến lược và mưu lược dành cho người trẻ — xây dựng nền tảng vững chắc cho sự nghiệp và cuộc sống từ sớm.', rating: 4.9, sold_count: 420, status: 'published', pages: 260, format: 'PDF' }
+    { id: 14, slug: 'muu-luoc-tuoi-tre', name: 'Mưu lược tuổi trẻ', category: 'Kỹ năng sống', price: 109000, original_price: 149000, emoji: '🚀', coverGradient: 'linear-gradient(145deg, #2E0D0D, #4E1A0A)', imageUrl: 'chuan/muu_luoc_tuoir_tre.webp', description: 'Chiến lược và mưu lược dành cho người trẻ — xây dựng nền tảng vững chắc cho sự nghiệp và cuộc sống từ sớm.', rating: 4.9, sold_count: 420, status: 'published', pages: 260, format: 'PDF' },
+    { id: 15, slug: 'thuong-chien', name: 'Thương chiến - Bí thuật làm chủ trận địa tiền bạc', category: 'Tài chính', price: 179000, original_price: 299000, emoji: '⚔️', coverGradient: 'linear-gradient(145deg, #2E1A0A, #4E2D1B)', imageUrl: 'chuan/thuong_chien.jpeg', description: 'Bí kíp chiến thắng trên thương trường, nắm vững nghệ thuật đàm phán và làm chủ cuộc chơi tài chính.', rating: 4.8, sold_count: 280, status: 'published', pages: 330, format: 'PDF' }
   ];
 
   /**
