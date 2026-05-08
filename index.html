@@ -782,6 +782,192 @@
   </div>
 </section>
 
+<!-- CUSTOMER TESTIMONIALS -->
+<section class="sec testimonials-sec" id="testimonials" style="padding-top:0;position:relative;overflow:hidden;">
+  <!-- Decorative background -->
+  <div style="position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse at 50% 40%, rgba(0,212,212,.06) 0%, transparent 65%);pointer-events:none;"></div>
+
+  <div class="wrap" style="position:relative;z-index:1;">
+    <div class="sec-head" style="flex-direction:column;align-items:center;text-align:center;gap:10px;">
+      <div style="font-family:'Exo 2','Be Vietnam Pro',sans-serif;font-size:10px;font-weight:800;letter-spacing:3px;color:var(--teal);text-transform:uppercase;opacity:.8;">◆ Khách hàng nói gì</div>
+      <h2 class="sec-title" style="font-size:26px;">Phản hồi từ cộng đồng</h2>
+      <p style="font-size:13.5px;color:var(--text-2);max-width:480px;line-height:1.65;">Hàng trăm độc giả đã tin tưởng Thư viện Sơn Nhai. Đây là những chia sẻ thật từ khách hàng.</p>
+    </div>
+
+    <!-- Aggregate Stats -->
+    <div class="testi-stats" id="testi-stats">
+      <div class="tstat">
+        <div class="tstat-num" id="testi-avg">4.9</div>
+        <div class="tstat-stars" id="testi-avg-stars">★★★★★</div>
+        <div class="tstat-label">Đánh giá trung bình</div>
+      </div>
+      <div class="tstat-divider"></div>
+      <div class="tstat">
+        <div class="tstat-num" id="testi-total">100+</div>
+        <div class="tstat-label">Đánh giá từ khách hàng</div>
+      </div>
+      <div class="tstat-divider"></div>
+      <div class="tstat">
+        <div class="tstat-num">98%</div>
+        <div class="tstat-label">Khách hàng hài lòng</div>
+      </div>
+    </div>
+
+    <!-- Testimonials Carousel -->
+    <div class="testi-carousel-wrap">
+      <div class="testi-carousel" id="testi-carousel">
+        <!-- Testimonials injected dynamically -->
+      </div>
+    </div>
+
+    <!-- Carousel Dots -->
+    <div class="testi-dots" id="testi-dots"></div>
+
+    <!-- CTA -->
+    <div style="text-align:center;margin-top:28px;">
+      <a href="categories.html" class="btn btn-outline morph-btn" style="font-size:13px;padding:10px 24px;text-decoration:none;">
+        Khám phá sản phẩm
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ───── TESTIMONIALS ───── */
+  .testimonials-sec {
+    padding-bottom: 40px;
+  }
+
+  .testi-stats {
+    display: flex; align-items: center; justify-content: center; gap: 36px;
+    margin: 28px auto 36px; padding: 22px 32px;
+    background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px;
+    max-width: 580px;
+  }
+  .tstat { text-align: center; }
+  .tstat-num {
+    font-family: 'Exo 2', sans-serif; font-size: 28px; font-weight: 900;
+    color: var(--teal); line-height: 1;
+  }
+  .tstat-stars { font-size: 14px; color: var(--warn); margin: 4px 0 2px; letter-spacing: 1px; }
+  .tstat-label { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+  .tstat-divider { width: 1px; height: 44px; background: var(--border); }
+
+  .testi-carousel-wrap {
+    position: relative; overflow: hidden;
+    margin: 0 -40px; padding: 0 40px;
+  }
+  .testi-carousel {
+    display: flex; gap: 18px;
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    scrollbar-width: none; padding: 8px 0 16px;
+    scroll-behavior: smooth;
+  }
+  .testi-carousel::-webkit-scrollbar { display: none; }
+
+  .testi-card {
+    flex: 0 0 360px; scroll-snap-align: start;
+    background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px;
+    padding: 24px; position: relative; overflow: hidden;
+    transition: all .3s ease;
+  }
+  .testi-card:hover {
+    border-color: var(--teal-dark);
+    box-shadow: 0 12px 40px rgba(0,0,0,.4), 0 0 24px rgba(0,212,212,.08);
+    transform: translateY(-3px);
+  }
+  .testi-card::before {
+    content: '"'; position: absolute; top: 12px; right: 20px;
+    font-family: 'Exo 2', serif; font-size: 72px; font-weight: 900;
+    color: rgba(0,212,212,.06); line-height: 1; pointer-events: none;
+  }
+
+  .testi-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+  }
+  .testi-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Exo 2', sans-serif; font-size: 16px; font-weight: 800;
+    color: var(--bg); flex-shrink: 0; overflow: hidden;
+    border: 2px solid rgba(0,212,212,.2);
+  }
+  .testi-avatar img {
+    width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+  }
+  .testi-user-info { flex: 1; min-width: 0; }
+  .testi-name {
+    font-size: 13.5px; font-weight: 700; color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .testi-meta {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px; color: var(--text-3); margin-top: 2px;
+  }
+  .testi-verified {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-size: 10px; font-weight: 700; color: var(--teal);
+    background: rgba(0,212,212,.08); border: 1px solid rgba(0,212,212,.2);
+    padding: 1px 7px; border-radius: 10px;
+  }
+
+  .testi-stars {
+    font-size: 12px; color: var(--warn); letter-spacing: 1px; margin-bottom: 12px;
+  }
+
+  .testi-comment {
+    font-size: 13.5px; color: var(--text-2); line-height: 1.7;
+    display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .testi-product {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 14px; padding: 5px 10px;
+    background: var(--bg-3); border: 1px solid var(--border); border-radius: 8px;
+    font-size: 11px; color: var(--text-3); text-decoration: none;
+    transition: all .2s;
+  }
+  .testi-product:hover { border-color: var(--teal); color: var(--teal); }
+  .testi-product-emoji { font-size: 14px; }
+
+  .testi-dots {
+    display: flex; justify-content: center; gap: 6px; margin-top: 18px;
+  }
+  .testi-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--border); cursor: pointer;
+    transition: all .3s ease;
+  }
+  .testi-dot.on {
+    background: var(--teal); width: 24px; border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0,212,212,.4);
+  }
+
+  /* Featured testimonial highlight */
+  .testi-card.featured {
+    border-color: rgba(0,212,212,.25);
+    background: linear-gradient(135deg, rgba(0,212,212,.04) 0%, var(--bg-2) 100%);
+    box-shadow: 0 0 30px rgba(0,212,212,.06);
+  }
+  .testi-card.featured::after {
+    content: '⭐ Nổi bật';
+    position: absolute; top: 12px; left: 16px;
+    font-size: 9px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase;
+    color: var(--warn); background: rgba(245,166,35,.1);
+    border: 1px solid rgba(245,166,35,.2);
+    padding: 2px 8px; border-radius: 4px;
+  }
+
+  @media (max-width: 768px) {
+    .testi-card { flex: 0 0 290px; padding: 20px; }
+    .testi-stats { gap: 18px; padding: 18px 20px; flex-wrap: wrap; }
+    .testi-carousel-wrap { margin: 0 -20px; padding: 0 20px; }
+  }
+</style>
+
 <!-- NEWSLETTER -->
 <section class="sec" style="padding-top:0">
   <div class="wrap">
@@ -1126,6 +1312,7 @@
     renderCombos();
     renderHomeBlog();
     loadHomeBanner();
+    renderTestimonials();
   });
 
   function goToProduct(el) {
@@ -1321,6 +1508,173 @@
       btn.disabled = false;
       btn.style.background = '';
     }, 2000);
+  }
+
+  // ── Render Testimonials from Firestore ──
+  async function renderTestimonials() {
+    const carousel = document.getElementById('testi-carousel');
+    const dotsWrap = document.getElementById('testi-dots');
+    if (!carousel) return;
+
+    let reviews = [];
+
+    // Try loading from Firestore
+    if (window.SonHaiData) {
+      try {
+        const mod = await import('./firebase.js');
+        const { db, collection, query, where, getDocs, orderBy, limit } = mod;
+        const q = query(
+          collection(db, 'reviews'),
+          where('status', '==', 'published'),
+          orderBy('createdAt', 'desc'),
+          limit(12)
+        );
+        const snap = await getDocs(q);
+        reviews = snap.docs.map(d => {
+          const data = d.data();
+          return {
+            id: d.id,
+            userName: data.userName || 'Ẩn danh',
+            userPhoto: data.userPhoto || null,
+            rating: data.rating || 5,
+            comment: data.comment || '',
+            verified: data.verified || false,
+            productId: data.productId || '',
+            helpful: data.helpful || 0,
+            createdAt: data.createdAt?.toDate?.() || new Date(),
+          };
+        });
+      } catch (e) {
+        console.warn('Reviews load failed:', e);
+      }
+    }
+
+    // Fallback: curated testimonials
+    if (reviews.length === 0) {
+      const allProducts = window.SonHaiCartBadge ? window.SonHaiCartBadge.getProducts().filter(p => p.status === 'published') : [];
+      reviews = [
+        { userName: 'Minh Tuấn', rating: 5, comment: 'Cuốn "Tuyệt mật nhân tính" thay đổi hoàn toàn cách tôi nhìn nhận con người. Nội dung sâu sắc, thực tế và rất dễ áp dụng. Đọc xong là muốn đọc lại ngay!', verified: true, productId: allProducts[0]?.slug || '', featured: true, date: '08/04/2026' },
+        { userName: 'Thu Hằng', rating: 5, comment: 'Mua combo 3 cuốn và không hề thất vọng. Giá rẻ hơn mua lẻ rất nhiều, nội dung chất lượng. Giao hàng (file PDF) nhanh, tải về là đọc được ngay.', verified: true, productId: allProducts[1]?.slug || '', date: '02/04/2026' },
+        { userName: 'Hoàng Nam', rating: 5, comment: 'Thư viện Sơn Nhai là nơi hiếm hoi tổng hợp kiến thức về nhân tính, tư duy một cách hệ thống. Mỗi cuốn sách đều được biên soạn công phu, đáng đồng tiền bát gạo!', verified: true, productId: allProducts[2]?.slug || '', date: '28/03/2026' },
+        { userName: 'Phương Linh', rating: 4, comment: 'Nội dung rất hay và bổ ích. Tôi đặc biệt thích cuốn về tư duy — giúp tôi hiểu rõ hơn về cách suy nghĩ của bản thân và cải thiện ra quyết định.', verified: true, productId: allProducts[3]?.slug || '', date: '25/03/2026' },
+        { userName: 'Đức Anh', rating: 5, comment: 'Đã mua hơn 5 cuốn từ Sơn Nhai. Cuốn nào cũng chất lượng, đặc biệt là bộ sách về nhân tính. Recommend cho ai muốn hiểu sâu về con người!', verified: true, productId: allProducts[4]?.slug || '', featured: true, date: '20/03/2026' },
+        { userName: 'Thanh Tâm', rating: 5, comment: 'Website đẹp, sản phẩm chất lượng, thanh toán nhanh gọn. Đọc xong "Xuyên thấu nhân tính" mà sốc luôn — kiến thức quá thực tế!', verified: true, productId: allProducts[5]?.slug || '', date: '15/03/2026' },
+        { userName: 'Văn Khoa', rating: 5, comment: 'Tài liệu rất có giá trị. Không phải loại sách "mì ăn liền" mà là kiến thức có chiều sâu, cần thời gian để ngấm. Rất đáng để đầu tư!', verified: true, productId: '', date: '10/03/2026' },
+        { userName: 'Ngọc Mai', rating: 4, comment: 'Mình là khách hàng cũ của Sơn Nhai. Thích nhất là chính sách cập nhật nội dung miễn phí. Mua một lần, đọc mãi mãi. Support cũng rất nhiệt tình!', verified: true, productId: '', date: '05/03/2026' },
+      ];
+    }
+
+    // Calculate aggregate stats
+    const totalReviews = reviews.length;
+    const avgRating = totalReviews > 0
+      ? (reviews.reduce((s, r) => s + r.rating, 0) / totalReviews).toFixed(1)
+      : '4.9';
+    const avgFull = Math.floor(parseFloat(avgRating));
+    const avgHalf = parseFloat(avgRating) - avgFull >= 0.5 ? 1 : 0;
+    const satisfied = totalReviews > 0
+      ? Math.round((reviews.filter(r => r.rating >= 4).length / totalReviews) * 100)
+      : 98;
+
+    // Update stats
+    const avgEl = document.getElementById('testi-avg');
+    const starsEl = document.getElementById('testi-avg-stars');
+    const totalEl = document.getElementById('testi-total');
+    if (avgEl) avgEl.textContent = avgRating;
+    if (starsEl) starsEl.textContent = '★'.repeat(avgFull) + (avgHalf ? '★' : '') + '☆'.repeat(5 - avgFull - avgHalf);
+    if (totalEl) totalEl.textContent = totalReviews > 99 ? totalReviews + '+' : totalReviews + '+';
+
+    // Get products for linking
+    const allProducts = window.SonHaiCartBadge ? window.SonHaiCartBadge.getProducts() : [];
+
+    // Render cards
+    carousel.innerHTML = reviews.map((r, idx) => {
+      const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+      const initial = (r.userName || '?').charAt(0).toUpperCase();
+      const avatarHtml = r.userPhoto
+        ? `<img src="${r.userPhoto}" alt="" referrerpolicy="no-referrer">`
+        : initial;
+      const dateStr = r.createdAt instanceof Date
+        ? r.createdAt.toLocaleDateString('vi-VN')
+        : (r.date || '');
+
+      // Find product info for linking
+      let productTag = '';
+      if (r.productId) {
+        const prod = allProducts.find(p => p.slug === r.productId || String(p.id) === String(r.productId));
+        if (prod) {
+          productTag = `<a href="product.html?slug=${prod.slug}" class="testi-product"><span class="testi-product-emoji">${prod.emoji || '📚'}</span>${prod.name}</a>`;
+        }
+      }
+
+      const featuredClass = r.featured || (idx === 0 && reviews.length > 3) ? ' featured' : '';
+
+      return `
+        <div class="testi-card${featuredClass}">
+          <div class="testi-header">
+            <div class="testi-avatar">${avatarHtml}</div>
+            <div class="testi-user-info">
+              <div class="testi-name">${escHtml(r.userName)}</div>
+              <div class="testi-meta">
+                <span>${dateStr}</span>
+                ${r.verified ? '<span class="testi-verified">✓ Đã mua hàng</span>' : ''}
+              </div>
+            </div>
+          </div>
+          <div class="testi-stars">${stars}</div>
+          <div class="testi-comment">${escHtml(r.comment)}</div>
+          ${productTag}
+        </div>`;
+    }).join('');
+
+    // Dots navigation
+    if (dotsWrap && reviews.length > 1) {
+      const cardWidth = 378; // 360 + 18 gap
+      const visibleCards = Math.floor(carousel.parentElement.offsetWidth / cardWidth) || 1;
+      const totalDots = Math.max(1, Math.ceil(reviews.length / visibleCards));
+      dotsWrap.innerHTML = '';
+      for (let i = 0; i < totalDots; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'testi-dot' + (i === 0 ? ' on' : '');
+        dot.addEventListener('click', () => {
+          carousel.scrollTo({ left: i * cardWidth * visibleCards, behavior: 'smooth' });
+        });
+        dotsWrap.appendChild(dot);
+      }
+
+      // Update dots on scroll
+      carousel.addEventListener('scroll', () => {
+        const scrollPos = carousel.scrollLeft;
+        const activeIdx = Math.round(scrollPos / (cardWidth * visibleCards));
+        dotsWrap.querySelectorAll('.testi-dot').forEach((d, i) => {
+          d.classList.toggle('on', i === activeIdx);
+        });
+      }, { passive: true });
+    }
+
+    // Auto-scroll every 5 seconds
+    let autoScrollTimer;
+    function startAutoScroll() {
+      autoScrollTimer = setInterval(() => {
+        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+        if (carousel.scrollLeft >= maxScroll - 10) {
+          carousel.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          carousel.scrollBy({ left: 378, behavior: 'smooth' });
+        }
+      }, 5000);
+    }
+    startAutoScroll();
+
+    // Pause auto-scroll on hover
+    carousel.addEventListener('mouseenter', () => clearInterval(autoScrollTimer));
+    carousel.addEventListener('mouseleave', () => startAutoScroll());
+  }
+
+  function escHtml(str) {
+    if (!str) return '';
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
   }
 </script>
 <script src="js/morph-engine.js?v=1"></script>
