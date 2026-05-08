@@ -317,6 +317,47 @@
     }
     .write-review-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-glow); }
 
+    /* ── WRITE REVIEW FORM ── */
+    .write-review-form { display: none; background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-top: 24px; animation: rvFormIn .3s ease; }
+    .write-review-form.show { display: block; }
+    @keyframes rvFormIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+    .wr-title { font-family:'Exo 2',sans-serif; font-size:16px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px; }
+    .star-selector { display:flex; gap:4px; margin-bottom:16px; }
+    .star-selector .star-btn { width:38px; height:38px; border-radius:8px; border:1px solid var(--border); background:var(--bg-3); color:var(--text-3); font-size:20px; cursor:pointer; transition:all .18s; display:flex; align-items:center; justify-content:center; }
+    .star-selector .star-btn:hover, .star-selector .star-btn.active { border-color:var(--warn); color:var(--warn); background:rgba(245,166,35,.1); transform:scale(1.1); }
+    .star-selector .star-btn.active { box-shadow:0 0 12px rgba(245,166,35,.2); }
+    .wr-rating-label { font-size:13px; color:var(--text-2); margin-bottom:16px; }
+    .wr-textarea { width:100%; min-height:100px; background:var(--bg-3); border:1px solid var(--border); border-radius:10px; padding:14px; font-size:13.5px; color:var(--text); font-family:'Be Vietnam Pro',sans-serif; outline:none; resize:vertical; transition:border-color .2s; }
+    .wr-textarea:focus { border-color:var(--teal); }
+    .wr-textarea::placeholder { color:var(--text-3); }
+    .wr-actions { display:flex; gap:10px; margin-top:14px; align-items:center; }
+    .wr-submit { padding:11px 24px; border:none; border-radius:9px; background:var(--teal); color:var(--bg); font-size:13.5px; font-weight:700; font-family:'Be Vietnam Pro',sans-serif; cursor:pointer; transition:all .22s; }
+    .wr-submit:hover { background:#00EEEE; box-shadow:0 0 20px var(--teal-glow-strong); }
+    .wr-submit:disabled { opacity:.5; cursor:not-allowed; }
+    .wr-cancel { padding:11px 18px; border:1px solid var(--border); border-radius:9px; background:none; color:var(--text-2); font-size:13px; font-weight:600; font-family:'Be Vietnam Pro',sans-serif; cursor:pointer; transition:all .18s; }
+    .wr-cancel:hover { border-color:var(--text-3); color:var(--text); }
+    .wr-error { font-size:12px; color:var(--red); margin-top:10px; display:none; }
+    .wr-error.show { display:block; }
+    .wr-login-prompt { text-align:center; padding:32px 20px; background:var(--bg-2); border:1px solid var(--border); border-radius:16px; margin-top:24px; }
+    .wr-login-prompt .prompt-icon { font-size:36px; margin-bottom:12px; }
+    .wr-login-prompt .prompt-text { font-size:14px; color:var(--text-2); margin-bottom:16px; line-height:1.6; }
+    .wr-login-btn { display:inline-flex; align-items:center; gap:8px; padding:11px 24px; background:var(--teal); color:var(--bg); border:none; border-radius:9px; font-size:13.5px; font-weight:700; font-family:'Be Vietnam Pro',sans-serif; cursor:pointer; transition:all .22s; }
+    .wr-login-btn:hover { background:#00EEEE; box-shadow:0 0 20px var(--teal-glow-strong); }
+
+    /* ── REVIEW EMPTY STATE ── */
+    .review-empty { text-align:center; padding:48px 20px; }
+    .review-empty-icon { font-size:48px; margin-bottom:14px; opacity:.6; }
+    .review-empty-title { font-size:16px; font-weight:700; color:var(--text-2); margin-bottom:8px; }
+    .review-empty-text { font-size:13px; color:var(--text-3); }
+
+    /* ── REVIEW PENDING BADGE ── */
+    .rv-pending-badge { font-size:10px; color:var(--warn); background:rgba(245,166,35,.1); border:1px solid rgba(245,166,35,.2); padding:2px 8px; border-radius:20px; display:inline-block; margin-top:4px; }
+
+    /* ── REVIEW LOAD MORE ── */
+    .rv-load-more { display:flex; justify-content:center; margin-top:20px; }
+    .rv-load-more button { padding:10px 28px; border:1px solid var(--border); border-radius:9px; background:var(--bg-2); color:var(--text-2); font-size:13px; font-weight:600; font-family:'Be Vietnam Pro',sans-serif; cursor:pointer; transition:all .2s; }
+    .rv-load-more button:hover { border-color:var(--teal); color:var(--teal); }
+
     /* ══════════════════════════════
        RELATED PRODUCTS
     ══════════════════════════════ */
@@ -580,7 +621,7 @@
   <div class="detail-tabs">
     <button class="dtab on" onclick="switchDtab('desc',this)">Mô tả</button>
     <button class="dtab" onclick="switchDtab('toc',this)">Mục lục <span class="dtab-count">7 chương</span></button>
-    <button class="dtab" onclick="switchDtab('reviews',this)">Đánh giá <span class="dtab-count">94</span></button>
+    <button class="dtab" onclick="switchDtab('reviews',this)">Đánh giá <span class="dtab-count">0</span></button>
   </div>
 
   <!-- DESC PANEL -->
@@ -754,102 +795,65 @@
   <!-- REVIEWS PANEL -->
   <div class="dtab-panel" id="panel-reviews">
 
-    <!-- Summary -->
-    <div class="review-summary">
+    <!-- Summary (dynamic) -->
+    <div class="review-summary" id="review-summary">
       <div class="rs-big">
-        <div class="rs-score">4.8</div>
-        <div class="rs-stars">★★★★★</div>
-        <div class="rs-total">94 đánh giá</div>
+        <div class="rs-score" id="rv-avg-score">—</div>
+        <div class="rs-stars" id="rv-avg-stars">☆☆☆☆☆</div>
+        <div class="rs-total" id="rv-total-count">0 đánh giá</div>
       </div>
-      <div class="rs-bars">
-        <div class="rs-bar-row"><span class="rs-bar-label">5★</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:88%"></div></div><span class="rs-bar-pct">88%</span></div>
-        <div class="rs-bar-row"><span class="rs-bar-label">4★</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:9%;background:#10B981;"></div></div><span class="rs-bar-pct">9%</span></div>
-        <div class="rs-bar-row"><span class="rs-bar-label">3★</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:2%;background:#6B7280;"></div></div><span class="rs-bar-pct">2%</span></div>
-        <div class="rs-bar-row"><span class="rs-bar-label">2★</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:1%;background:#EF4444;"></div></div><span class="rs-bar-pct">1%</span></div>
-        <div class="rs-bar-row"><span class="rs-bar-label">1★</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:0%;background:#EF4444;"></div></div><span class="rs-bar-pct">0%</span></div>
-      </div>
-    </div>
-
-    <!-- Filter -->
-    <div class="review-filters">
-      <button class="rv-filter on">Tất cả (94)</button>
-      <button class="rv-filter">5 sao (81)</button>
-      <button class="rv-filter">4 sao (10)</button>
-      <button class="rv-filter">Có ảnh</button>
-      <button class="rv-filter">Đã xác minh mua hàng</button>
-    </div>
-
-    <!-- Review cards -->
-    <div class="review-list">
-      <div class="review-card">
-        <div class="rv-head">
-          <div class="rv-user">
-            <div class="rv-avatar">👩</div>
-            <div>
-              <div class="rv-name">Nguyễn Thị Mai Linh</div>
-              <div class="rv-date">21/04/2025</div>
-              <span class="rv-verified">✓ Đã xác minh mua hàng</span>
-            </div>
-          </div>
-          <div class="rv-stars">★★★★★</div>
-        </div>
-        <div class="rv-body">Tôi đã đọc rất nhiều sách self-help nhưng hầu hết chỉ dừng ở lý thuyết. Thức tỉnh nhận thức khác hẳn — có hệ thống bài tập thực hành rõ ràng và lộ trình 90 ngày cụ thể. Sau 3 tuần áp dụng chương 4, tôi bắt đầu nhận ra rõ hơn những lúc mình đang phản ứng theo "autopilot" và biết cách dừng lại. File PDF trình bày rất đẹp, dễ đọc.</div>
-        <div class="rv-helpful">Đánh giá này có hữu ích không? <button onclick="likeReview(this)">👍 Có (31)</button></div>
-      </div>
-
-      <div class="review-card">
-        <div class="rv-head">
-          <div class="rv-user">
-            <div class="rv-avatar">👨</div>
-            <div>
-              <div class="rv-name">Vũ Hoàng Nam</div>
-              <div class="rv-date">14/04/2025</div>
-              <span class="rv-verified">✓ Đã xác minh mua hàng</span>
-            </div>
-          </div>
-          <div class="rv-stars">★★★★★</div>
-        </div>
-        <div class="rv-body">Phần về Fixed Mindset và Growth Mindset không phải lần đầu tôi đọc nhưng cách cuốn này trình bày — đặc biệt là đưa vào bối cảnh Việt Nam — khiến tôi "ngộ" ra điều gì đó mà trước đây chỉ hiểu trên lý thuyết. Chương về cognitive bias trong ra quyết định thực sự làm thay đổi cách tôi nhìn nhận sai lầm của bản thân. Rất đáng tiền!</div>
-        <div class="rv-helpful">Đánh giá này có hữu ích không? <button onclick="likeReview(this)">👍 Có (22)</button></div>
-      </div>
-
-      <div class="review-card">
-        <div class="rv-head">
-          <div class="rv-user">
-            <div class="rv-avatar">👩</div>
-            <div>
-              <div class="rv-name">Trần Thị Bích Ngọc</div>
-              <div class="rv-date">07/04/2025</div>
-              <span class="rv-verified">✓ Đã xác minh mua hàng</span>
-            </div>
-          </div>
-          <div class="rv-stars">★★★★★</div>
-        </div>
-        <div class="rv-body">Mình đặt mua cho chồng nhân dịp sinh nhật nhưng cuối cùng lại tự đọc hết trước. Phần niềm tin giới hạn chương 2 như viết đúng vào tâm trạng của mình — nhận ra mình đã mang theo những niềm tin đó từ hồi còn nhỏ mà không hề hay biết. Đây là lần đầu tiên tôi đọc sách và thực sự khóc. Xứng đáng 5 sao.</div>
-        <div class="rv-helpful">Đánh giá này có hữu ích không? <button onclick="likeReview(this)">👍 Có (17)</button></div>
-      </div>
-
-      <div class="review-card">
-        <div class="rv-head">
-          <div class="rv-user">
-            <div class="rv-avatar">👨</div>
-            <div>
-              <div class="rv-name">Phạm Công Minh</div>
-              <div class="rv-date">29/03/2025</div>
-              <span class="rv-verified">✓ Đã xác minh mua hàng</span>
-            </div>
-          </div>
-          <div class="rv-stars">★★★★☆</div>
-        </div>
-        <div class="rv-body">Nội dung chắc chắn là 5 sao. Trừ 1 sao vì cá nhân tôi thấy một số đoạn chương 6 hơi trùng lặp với chương 3. Nhưng tổng thể đây vẫn là một trong những cuốn sách phát triển bản thân hay nhất tôi từng đọc bằng tiếng Việt. Phần về tái lập trình tiềm thức rất thực tế và không "huyền bí" như nhiều sách khác.</div>
-        <div class="rv-helpful">Đánh giá này có hữu ích không? <button onclick="likeReview(this)">👍 Có (9)</button></div>
+      <div class="rs-bars" id="rv-bars">
+        <div class="rs-bar-row"><span class="rs-bar-label">5★</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-5" style="width:0%"></div></div><span class="rs-bar-pct" id="rv-pct-5">0%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">4★</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-4" style="width:0%;background:#10B981;"></div></div><span class="rs-bar-pct" id="rv-pct-4">0%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">3★</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-3" style="width:0%;background:#6B7280;"></div></div><span class="rs-bar-pct" id="rv-pct-3">0%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">2★</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-2" style="width:0%;background:#EF4444;"></div></div><span class="rs-bar-pct" id="rv-pct-2">0%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">1★</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-1" style="width:0%;background:#EF4444;"></div></div><span class="rs-bar-pct" id="rv-pct-1">0%</span></div>
       </div>
     </div>
 
-    <button class="write-review-btn" onclick="showToast('Vui lòng đăng nhập để viết đánh giá.')">
+    <!-- Filter (dynamic) -->
+    <div class="review-filters" id="rv-filters">
+      <button class="rv-filter on" data-filter="all">Tất cả (0)</button>
+      <button class="rv-filter" data-filter="5">5 sao (0)</button>
+      <button class="rv-filter" data-filter="4">4 sao (0)</button>
+      <button class="rv-filter" data-filter="verified">Đã xác minh mua hàng</button>
+    </div>
+
+    <!-- Review cards (dynamic) -->
+    <div class="review-list" id="review-list-dynamic"></div>
+
+    <!-- Write review button (hidden until auth resolves) -->
+    <button class="write-review-btn" id="write-review-toggle" onclick="toggleWriteReview()" style="display:none;">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
       Viết đánh giá của bạn
     </button>
+
+    <!-- Write review form (hidden by default) -->
+    <div class="write-review-form" id="write-review-form">
+      <div class="wr-title">✍️ Viết đánh giá</div>
+      <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px;">Chọn số sao:</div>
+      <div class="star-selector" id="star-selector">
+        <button class="star-btn" data-star="1">★</button>
+        <button class="star-btn" data-star="2">★</button>
+        <button class="star-btn" data-star="3">★</button>
+        <button class="star-btn" data-star="4">★</button>
+        <button class="star-btn" data-star="5">★</button>
+      </div>
+      <div class="wr-rating-label" id="wr-rating-label">Chưa chọn đánh giá</div>
+      <textarea class="wr-textarea" id="wr-comment" placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm này..." maxlength="1000"></textarea>
+      <div class="wr-error" id="wr-error"></div>
+      <div class="wr-actions">
+        <button class="wr-submit" id="wr-submit-btn" onclick="submitReview()">Gửi đánh giá</button>
+        <button class="wr-cancel" onclick="toggleWriteReview()">Hủy</button>
+      </div>
+    </div>
+
+    <!-- Login prompt (shown if not logged in) -->
+    <div class="wr-login-prompt" id="wr-login-prompt" style="display:none;">
+      <div class="prompt-icon">🔐</div>
+      <div class="prompt-text">Bạn cần đăng nhập để viết đánh giá.<br>Mỗi sản phẩm đã mua được đánh giá 1 lần.</div>
+      <button class="wr-login-btn" onclick="window.openAuthModal && window.openAuthModal()">Đăng nhập ngay</button>
+    </div>
 
   </div>
 </div>
@@ -1373,6 +1377,7 @@
 <script type="module" src="js/firestore-sync.js"></script>
 
 <script type="module" src="/auth-ui.js"></script>
+<script type="module" src="/js/reviews.js"></script>
 <script>
 (async function loadProductFromSlug() {
   const slug = new URLSearchParams(location.search).get('slug');

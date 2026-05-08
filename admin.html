@@ -677,6 +677,7 @@
         <a class="sb-item" onclick="switchPage('about')"><span class="sb-icon">ℹ️</span><span class="sb-text">About</span></a>
         <a class="sb-item" onclick="switchPage('support')"><span class="sb-icon">🆘</span><span class="sb-text">Support</span></a>
         <a class="sb-item" onclick="switchPage('banner')"><span class="sb-icon">📢</span><span class="sb-text">Banner</span></a>
+        <a class="sb-item" onclick="switchPage('reviews')"><span class="sb-icon">⭐</span><span class="sb-text">Đánh giá</span></a>
 
         <div class="sb-section-label">CÀI ĐẶT</div>
         <a class="sb-item" onclick="switchPage('layout-menu')"><span class="sb-icon">🔗</span><span class="sb-text">Menu</span></a>
@@ -1912,6 +1913,59 @@
           </div>
         </div>
 
+<!-- ══════════ REVIEWS MANAGEMENT ══════════ -->
+<div id="page-reviews" class="page-section">
+  <div class="page-header">
+    <div>
+      <div class="page-title">⭐ Quản lý Đánh giá</div>
+      <div class="page-sub">Duyệt và quản lý đánh giá của khách hàng</div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="toolbar-search">
+      <span class="toolbar-search-icon">🔍</span>
+      <input type="text" placeholder="Tìm theo tên, nội dung..." id="rv-admin-search" oninput="filterAdminReviews()">
+    </div>
+    <select class="filter-select" id="rv-admin-status-filter" onchange="filterAdminReviews()">
+      <option value="all">Tất cả trạng thái</option>
+      <option value="pending" selected>Chờ duyệt</option>
+      <option value="published">Đã duyệt</option>
+      <option value="hidden">Đã ẩn</option>
+    </select>
+  </div>
+
+  <div class="card-block">
+    <div class="card-block-header">
+      <div class="card-block-title">Danh sách đánh giá</div>
+      <span style="font-size:12px;color:var(--text-3);" id="rv-admin-count">0 đánh giá</span>
+    </div>
+    <div class="card-block-body no-pad">
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Khách hàng</th>
+              <th>Sản phẩm</th>
+              <th>Sao</th>
+              <th>Nội dung</th>
+              <th>Ngày</th>
+              <th>Trạng thái</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="rv-admin-tbody"></tbody>
+        </table>
+      </div>
+      <div id="rv-admin-empty" class="empty-state" style="display:none;">
+        <div class="empty-icon">⭐</div>
+        <div class="empty-title">Chưa có đánh giá nào</div>
+        <div class="empty-text">Đánh giá của khách hàng sẽ xuất hiện ở đây</div>
+      </div>
+    </div>
+  </div>
+</div>
+
       </div>
     </div>
   </div>
@@ -2084,7 +2138,8 @@
         'layout-footer': 'Footer',
         'layout-banner': 'Banner',
         'testimonials': 'Testimonials',
-        'seo': 'SEO'
+        'seo': 'SEO',
+        'reviews': 'Đánh giá khách hàng'
       };
       document.getElementById('breadcrumb-current').textContent = breadcrumbMap[page] || page;
       
@@ -2111,6 +2166,7 @@
         case 'about': loadAboutEditor(); break;
         case 'support': loadSupportEditor(); break;
         case 'banner': loadBannerEditor(); break;
+        case 'reviews': loadAdminReviews(); break;
         case 'layout-footer': break;
         case 'seo': break;
         case 'settings': break;
@@ -3750,6 +3806,126 @@
         console.error('Save banner error:', err);
         showToast('error', 'Lỗi lưu: ' + err.message);
       }
+    }
+
+    // ==================== REVIEWS MANAGEMENT ====================
+    let _adminReviews = [];
+
+    async function loadAdminReviews() {
+      try {
+        const { dbFB, collection, getDocs, query, orderBy } = window._fb;
+        const q = query(collection(dbFB, 'reviews'), orderBy('createdAt', 'desc'));
+        const snap = await getDocs(q);
+        _adminReviews = snap.docs.map(d => {
+          const data = d.data();
+          return {
+            id: d.id,
+            ...data,
+            createdAt: data.createdAt?.toDate?.() || (data.createdAt?.seconds ? new Date(data.createdAt.seconds * 1000) : new Date()),
+          };
+        });
+      } catch(e) { console.warn('Load reviews:', e.message); _adminReviews = []; }
+      filterAdminReviews();
+    }
+
+    function filterAdminReviews() {
+      const search = (document.getElementById('rv-admin-search')?.value || '').toLowerCase();
+      const status = document.getElementById('rv-admin-status-filter')?.value || 'all';
+      let filtered = _adminReviews;
+      if (status !== 'all') filtered = filtered.filter(r => r.status === status);
+      if (search) filtered = filtered.filter(r =>
+        (r.userName || '').toLowerCase().includes(search) ||
+        (r.comment || '').toLowerCase().includes(search) ||
+        (r.productId || '').toLowerCase().includes(search)
+      );
+      renderAdminReviews(filtered);
+    }
+
+    function renderAdminReviews(reviews) {
+      const tbody = document.getElementById('rv-admin-tbody');
+      const empty = document.getElementById('rv-admin-empty');
+      const countEl = document.getElementById('rv-admin-count');
+      if (countEl) countEl.textContent = reviews.length + ' đánh giá';
+
+      if (reviews.length === 0) {
+        if (tbody) tbody.innerHTML = '';
+        if (empty) empty.style.display = '';
+        return;
+      }
+      if (empty) empty.style.display = 'none';
+
+      const statusBadge = (s) => {
+        if (s === 'published') return '<span class="badge badge-published">Đã duyệt</span>';
+        if (s === 'pending') return '<span class="badge badge-pending">Chờ duyệt</span>';
+        return '<span class="badge badge-archived">Đã ẩn</span>';
+      };
+
+      tbody.innerHTML = reviews.map(r => {
+        const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+        const dateStr = r.createdAt instanceof Date ? r.createdAt.toLocaleDateString('vi-VN') : '';
+        const comment = (r.comment || '').substring(0, 80) + ((r.comment || '').length > 80 ? '...' : '');
+        const verifiedTag = r.verified ? ' <span style="color:var(--green);font-size:10px;">✓MH</span>' : '';
+
+        let actions = '';
+        if (r.status === 'pending') {
+          actions = `<button class="btn btn-sm btn-teal" onclick="approveReview('${r.id}')" style="font-size:11px;padding:4px 10px;">✓ Duyệt</button>
+                     <button class="btn-danger-sm" onclick="rejectReview('${r.id}')" style="font-size:11px;padding:4px 10px;">✗ Ẩn</button>`;
+        } else if (r.status === 'published') {
+          actions = `<button class="btn-outline-sm" onclick="rejectReview('${r.id}')" style="font-size:11px;padding:4px 10px;">Ẩn</button>`;
+        } else {
+          actions = `<button class="btn btn-sm btn-teal" onclick="approveReview('${r.id}')" style="font-size:11px;padding:4px 10px;">Duyệt lại</button>`;
+        }
+        actions += ` <button class="btn-danger-sm" onclick="deleteAdminReview('${r.id}')" style="font-size:11px;padding:4px 8px;" title="Xóa vĩnh viễn">🗑</button>`;
+
+        return `<tr>
+          <td><strong>${escHTML(r.userName || 'Ẩn danh')}</strong>${verifiedTag}</td>
+          <td style="font-size:12px;color:var(--text-2);">${escHTML(r.productId || '—')}</td>
+          <td style="color:var(--warn);letter-spacing:1px;">${stars}</td>
+          <td style="max-width:220px;font-size:12.5px;color:var(--text-2);" title="${escHTML(r.comment || '')}">${escHTML(comment)}</td>
+          <td style="font-size:12px;color:var(--text-3);white-space:nowrap;">${dateStr}</td>
+          <td>${statusBadge(r.status)}</td>
+          <td style="white-space:nowrap;">${actions}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    function escHTML(str) {
+      const d = document.createElement('div');
+      d.textContent = str || '';
+      return d.innerHTML;
+    }
+
+    async function approveReview(id) {
+      try {
+        const { dbFB, doc, updateDoc } = window._fb;
+        await updateDoc(doc(dbFB, 'reviews', id), { status: 'published' });
+        const r = _adminReviews.find(rv => rv.id === id);
+        if (r) r.status = 'published';
+        filterAdminReviews();
+        showToast('success', 'Đã duyệt đánh giá!');
+      } catch(e) { showToast('error', 'Lỗi: ' + e.message); }
+    }
+
+    async function rejectReview(id) {
+      try {
+        const { dbFB, doc, updateDoc } = window._fb;
+        await updateDoc(doc(dbFB, 'reviews', id), { status: 'hidden' });
+        const r = _adminReviews.find(rv => rv.id === id);
+        if (r) r.status = 'hidden';
+        filterAdminReviews();
+        showToast('success', 'Đã ẩn đánh giá.');
+      } catch(e) { showToast('error', 'Lỗi: ' + e.message); }
+    }
+
+    async function deleteAdminReview(id) {
+      if (!confirm('Bạn có chắc muốn XÓA VĨNH VIỄN đánh giá này?')) return;
+      try {
+        const { dbFB, doc, deleteDoc } = window._fb;
+        await deleteDoc(doc(dbFB, 'reviews', id));
+        _adminReviews = _adminReviews.filter(rv => rv.id !== id);
+        filterAdminReviews();
+        showToast('success', 'Đã xóa đánh giá.');
+      } catch(e) { showToast('error', 'Lỗi: ' + e.message); }
     }
 
     // ==================== EMAILS ====================

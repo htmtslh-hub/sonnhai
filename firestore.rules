@@ -86,6 +86,18 @@ service cloud.firestore {
     }
 
     // ═══════════════════════════════════════
+    // REVIEWS — Đánh giá sản phẩm
+    // ═══════════════════════════════════════
+
+    // Reviews: public đọc published, authenticated tạo, owner sửa, admin quản lý
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update: if isOwner(resource.data.userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ═══════════════════════════════════════
     // ADMIN-ONLY COLLECTIONS
     // ═══════════════════════════════════════
 
