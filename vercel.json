@@ -25,6 +25,8 @@
   ],
   "rewrites": [
     { "source": "/api/seapay/webhook", "destination": "/api/seapay/webhook" },
+    { "source": "/api/seapay/config", "destination": "/api/seapay/config" },
+    { "source": "/api/seapay/create-order", "destination": "/api/seapay/create-order" },
     { "source": "/api/seapay/status", "destination": "/api/seapay/status" },
     { "source": "/api/checkout", "destination": "/api/checkout" },
     { "source": "/api/auth/send-otp", "destination": "/api/auth/send-otp" },
