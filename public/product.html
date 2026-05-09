@@ -1151,7 +1151,7 @@
         body: JSON.stringify({
           orderNumber: orderNumber,
           amount: order.total,
-          description: orderNumber,
+          description: 'SEVQR ' + orderNumber,
         }),
       });
       const data = await res.json();
@@ -1167,7 +1167,7 @@
     if (!qrUrl) {
       const params = new URLSearchParams({
         bank: MODAL_SEPAY.bankCode, acc: MODAL_SEPAY.bankAccount,
-        template: 'compact', amount: order.total, des: orderNumber,
+        template: 'compact', amount: order.total, des: 'SEVQR ' + orderNumber,
       });
       qrUrl = 'https://qr.sepay.vn/img?' + params.toString();
     }

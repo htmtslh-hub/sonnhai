@@ -69,7 +69,7 @@ module.exports = async (req, res) => {
         data: {
           orderNumber,
           amount,
-          qrUrl: `https://qr.sepay.vn/img?bank=VietinBank&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=${orderNumber}`,
+          qrUrl: `https://qr.sepay.vn/img?bank=VietinBank&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=SEVQR ${orderNumber}`,
           method: 'static_qr',
         },
       });
@@ -81,7 +81,7 @@ module.exports = async (req, res) => {
     const orderPayload = {
       order_code: orderNumber,
       amount: parseInt(amount),
-      content: description || orderNumber,
+      content: description || ('SEVQR ' + orderNumber),
       duration: 900, // 15 phút hết hạn
       with_qrcode: '1',
       qrcode_template: 'compact',
@@ -107,7 +107,7 @@ module.exports = async (req, res) => {
         data: {
           orderNumber,
           amount,
-          qrUrl: `https://qr.sepay.vn/img?bank=VietinBank&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=${orderNumber}`,
+          qrUrl: `https://qr.sepay.vn/img?bank=VietinBank&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=SEVQR ${orderNumber}`,
           method: 'static_qr',
           fallbackReason: orderResult.message || 'SePay API error',
         },
@@ -144,7 +144,7 @@ module.exports = async (req, res) => {
         amount,
         sepayOrderId: orderResult.id || orderResult.order_id,
         vaNumber: orderResult.va_number || null,
-        qrUrl: orderResult.qr_code_url || `https://qr.sepay.vn/img?bank=VietinBank&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=${orderNumber}`,
+        qrUrl: orderResult.qr_code_url || `https://qr.sepay.vn/img?bank=VietinBank&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=SEVQR ${orderNumber}`,
         qrBase64: orderResult.qr_code || null,
         expiredAt: orderResult.expired_at || null,
         method: 'payment_gateway',
@@ -160,7 +160,7 @@ module.exports = async (req, res) => {
       data: {
         orderNumber,
         amount,
-        qrUrl: `https://qr.sepay.vn/img?bank=VietinBank&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=${orderNumber}`,
+        qrUrl: `https://qr.sepay.vn/img?bank=VietinBank&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=SEVQR ${orderNumber}`,
         method: 'static_qr',
         fallbackReason: error.message,
       },
