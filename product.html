@@ -1137,14 +1137,41 @@
     } catch(e) {}
   })();
 
-  function renderModalQR(orderNumber, order) {
-    // Use SePay VietQR image API (same as checkout page)
+  async function renderModalQR(orderNumber, order) {
     const qrCanvas = document.getElementById('modal-qr-canvas');
-    const params = new URLSearchParams({
-      bank: MODAL_SEPAY.bankCode, acc: MODAL_SEPAY.bankAccount,
-      template: 'compact', amount: order.total, des: orderNumber,
-    });
-    const qrUrl = 'https://qr.sepay.vn/img?' + params.toString();
+    // Hiển thị loading
+    qrCanvas.innerHTML = `<div style="width:200px;height:200px;display:flex;align-items:center;justify-content:center;background:var(--bg-3);border-radius:10px;"><div style="width:30px;height:30px;border:3px solid var(--border-2);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;"></div></div>`;
+
+    // Thử tạo đơn hàng trên SePay Payment Gateway (tự động khớp giao dịch)
+    let qrUrl = '';
+    try {
+      const res = await fetch('/api/seapay/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderNumber: orderNumber,
+          amount: order.total,
+          description: orderNumber,
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.data) {
+        qrUrl = data.data.qrUrl || '';
+        console.log('[Payment] SePay order created:', data.data.method, data.data.sepayOrderId || '');
+      }
+    } catch (e) {
+      console.warn('[Payment] SePay Gateway failed, using static QR:', e.message);
+    }
+
+    // Fallback: QR code tĩnh
+    if (!qrUrl) {
+      const params = new URLSearchParams({
+        bank: MODAL_SEPAY.bankCode, acc: MODAL_SEPAY.bankAccount,
+        template: 'compact', amount: order.total, des: orderNumber,
+      });
+      qrUrl = 'https://qr.sepay.vn/img?' + params.toString();
+    }
+
     qrCanvas.innerHTML = `<img src="${qrUrl}" alt="QR Thanh toán" style="width:200px;height:200px;border-radius:10px;" onerror="this.alt='Lỗi tải QR'">`;
 
     document.getElementById('modal-order-num').textContent = orderNumber;

@@ -71,22 +71,50 @@ module.exports = async (req, res) => {
   }
   console.log('[SePay Webhook] Raw data:', JSON.stringify(data));
 
-  const {
-    id: sepayId,
-    gateway,
-    transactionDate,
-    accountNumber,
-    subAccount,
-    transferType,
-    transferAmount,
-    accumulated,
-    code,
-    content,
-    referenceCode,
-    description,
-  } = data;
+  // ── Detect IPN format: Payment Gateway vs Bank Transaction Webhook ──
+  // Payment Gateway IPN: has order_code, status fields
+  // Bank Transaction Webhook: has transferType, content, referenceCode fields
 
-  console.log(`[SePay Webhook] Received: id=${sepayId}, type=${transferType}, amount=${transferAmount}, content="${content}"`);
+  const isPaymentGatewayIPN = !!(data.order_code || data.orderCode);
+
+  let sepayId, gateway, transactionDate, accountNumber, subAccount,
+      transferType, transferAmount, accumulated, code, content, referenceCode, description;
+
+  if (isPaymentGatewayIPN) {
+    // SePay Cổng thanh toán IPN format
+    sepayId = data.id || data.transaction_id || `gateway_${Date.now()}`;
+    gateway = data.gateway || 'sepay_gateway';
+    transactionDate = data.transaction_date || data.transactionDate || new Date().toISOString();
+    accountNumber = data.account_number || data.accountNumber || '';
+    transferType = 'in'; // Payment Gateway chỉ gửi IPN khi có tiền vào
+    transferAmount = data.amount || data.transferAmount || 0;
+    code = data.order_code || data.orderCode || '';
+    content = data.content || data.transaction_content || data.order_code || data.orderCode || '';
+    referenceCode = data.reference_number || data.referenceCode || '';
+    description = data.description || '';
+    subAccount = data.sub_account || '';
+    accumulated = data.accumulated || 0;
+
+    console.log(`[SePay Webhook] Payment Gateway IPN: order_code=${code}, amount=${transferAmount}, status=${data.status || 'unknown'}`);
+  } else {
+    // SePay Bank Transaction Webhook format
+    ({
+      id: sepayId,
+      gateway,
+      transactionDate,
+      accountNumber,
+      subAccount,
+      transferType,
+      transferAmount,
+      accumulated,
+      code,
+      content,
+      referenceCode,
+      description,
+    } = data);
+
+    console.log(`[SePay Webhook] Bank Webhook: id=${sepayId}, type=${transferType}, amount=${transferAmount}, content="${content}"`);
+  }
 
   // Chỉ xử lý giao dịch tiền vào
   if (transferType !== 'in') {
