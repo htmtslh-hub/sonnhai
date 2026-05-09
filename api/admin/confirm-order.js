@@ -3,7 +3,7 @@
 // POST /api/admin/confirm-order
 // Body: { orderNumber: "SN669040009" }
 //
-// Khi SePay không thể tự động xác nhận (do BIDV API Banking lỗi),
+// Khi SePay không thể tự động xác nhận (do VietinBank API Banking lỗi),
 // admin có thể xác nhận thủ công qua API này.
 // Hệ thống sẽ tự động: cập nhật Firestore → gửi email → gửi link tải
 // ═══════════════════════════════════════════════════════════════════════════════

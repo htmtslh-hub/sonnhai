@@ -248,7 +248,7 @@ Cache: localStorage với prefix `sndata_`, TTL 5 phút.
 - `api/seapay/webhook.js` → nhận webhook SePay, cập nhật paid
 - `api/seapay/status.js` → frontend poll trạng thái
 - QR code từ `qr.sepay.vn`, polling mỗi 3s, timeout 15 phút
-- Ngân hàng: BIDV 2154356816 (DINH VAN TRIEN)
+- Ngân hàng: VietinBank 109887120806 (DINH VAN TRIEN)
 
 ### ✅ Phase 10: Email Service (Resend) — HOÀN THÀNH
 - `api/email/send.js` → Vercel serverless, gửi email qua Resend SDK

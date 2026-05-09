@@ -59,7 +59,7 @@
 - Checkout flow: cart → checkout → SePay VietQR
 - API endpoints: `/api/checkout`, `/api/seapay/webhook`, `/api/seapay/status`
 - QR code từ `qr.sepay.vn`, polling mỗi 3s, timeout 15 phút
-- Ngân hàng: BIDV 2154356816 (DINH VAN TRIEN)
+- Ngân hàng: VietinBank 109887120806 (DINH VAN TRIEN)
 
 ### Phase 10: Email Service (Resend) ✅
 - API: `/api/email/send` — Vercel serverless
@@ -231,7 +231,7 @@ User mở trang khác → cache miss → fetch fresh → data mới ✅
 - **Frontend:** Vanilla HTML/CSS/JS (không framework)
 - **Backend/Database:** Firebase (Firestore, Auth, Storage)
 - **Hosting:** Vercel (static + serverless functions)
-- **Payment:** SePay VietQR (BIDV)
+- **Payment:** SePay VietQR (VietinBank)
 - **Email:** Resend SDK
 
 ### Environment Variables (Vercel)

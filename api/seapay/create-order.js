@@ -47,10 +47,11 @@ module.exports = async (req, res) => {
       if (bankRes.ok) {
         const bankData = await bankRes.json();
         const accounts = bankData.bankaccounts || bankData.data || [];
-        // Tìm tài khoản BIDV khớp
+        // Tìm tài khoản VietinBank khớp
         const matchedAccount = accounts.find(a =>
           (a.account_number === SEPAY_ACCOUNT) ||
-          (a.bank_short_name === 'BIDV')
+          (a.bank_short_name === 'VietinBank') ||
+          (a.bank_short_name === 'CTG')
         ) || accounts[0];
 
         if (matchedAccount) {
@@ -68,7 +69,7 @@ module.exports = async (req, res) => {
         data: {
           orderNumber,
           amount,
-          qrUrl: `https://qr.sepay.vn/img?bank=BIDV&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=${orderNumber}`,
+          qrUrl: `https://qr.sepay.vn/img?bank=VietinBank&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=${orderNumber}`,
           method: 'static_qr',
         },
       });
@@ -106,7 +107,7 @@ module.exports = async (req, res) => {
         data: {
           orderNumber,
           amount,
-          qrUrl: `https://qr.sepay.vn/img?bank=BIDV&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=${orderNumber}`,
+          qrUrl: `https://qr.sepay.vn/img?bank=VietinBank&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=${orderNumber}`,
           method: 'static_qr',
           fallbackReason: orderResult.message || 'SePay API error',
         },
@@ -143,7 +144,7 @@ module.exports = async (req, res) => {
         amount,
         sepayOrderId: orderResult.id || orderResult.order_id,
         vaNumber: orderResult.va_number || null,
-        qrUrl: orderResult.qr_code_url || `https://qr.sepay.vn/img?bank=BIDV&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=${orderNumber}`,
+        qrUrl: orderResult.qr_code_url || `https://qr.sepay.vn/img?bank=VietinBank&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=${orderNumber}`,
         qrBase64: orderResult.qr_code || null,
         expiredAt: orderResult.expired_at || null,
         method: 'payment_gateway',
@@ -159,7 +160,7 @@ module.exports = async (req, res) => {
       data: {
         orderNumber,
         amount,
-        qrUrl: `https://qr.sepay.vn/img?bank=BIDV&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=${orderNumber}`,
+        qrUrl: `https://qr.sepay.vn/img?bank=VietinBank&acc=${SEPAY_ACCOUNT}&template=compact&amount=${amount}&des=${orderNumber}`,
         method: 'static_qr',
         fallbackReason: error.message,
       },
