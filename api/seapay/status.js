@@ -277,18 +277,63 @@ module.exports = async (req, res) => {
     if (orderData.paymentStatus === 'paid') {
       // Build download URLs from items
       const items = orderData.items || [];
-      const itemsWithDownload = items.map(item => {
+      const itemsWithDownload = [];
+      for (const item of items) {
         let downloadUrl = '';
-        if (item.slug) {
-          downloadUrl = PRODUCT_DOWNLOAD_URLS[item.slug] || '';
+        let slug = item.slug || '';
+
+        // Nếu item không có slug, tìm trong Firestore product
+        if (!slug && item.productId) {
+          try {
+            const pSnap = await db.collection('products').doc(item.productId).get();
+            if (pSnap.exists) {
+              const pData = pSnap.data();
+              slug = pData.slug || '';
+              downloadUrl = pData.downloadUrl || pData.fileUrl || '';
+            }
+          } catch (e) {}
         }
-        return {
+
+        // Fallback: tìm downloadUrl từ hardcoded map bằng slug
+        if (!downloadUrl && slug) {
+          downloadUrl = PRODUCT_DOWNLOAD_URLS[slug] || '';
+        }
+
+        // Last resort: tìm slug từ tên sản phẩm
+        if (!downloadUrl && item.name) {
+          const nameSlugMap = {
+            'Logic Người Nghèo': 'logic-nguoi-ngheo',
+            'Tư Duy Cường Giả': 'tu-duy-cuong-gia',
+            'Thức Tỉnh Nhận Thức': 'thuc-tinh-nhan-thuc',
+            'Ẩn Chứa Huyền Cơ': 'an-chua-huyen-co',
+            'Hệ Thống Mạnh Mẽ': 'he-thong-manh-me',
+            'Thương Chiến': 'thuong-chien',
+            'Bản Chất Tài Chính': 'ban-chat-tai-chinh',
+            'Tuyệt Mật Nhân Tính': 'tuyet-mat-nhan-tinh',
+            'Góc Nhìn Tạo Lập': 'goc-nhin-tao-lap',
+            'Tình Cảm Bí Tịch': 'tinh-cam-bi-tich',
+            'Mưu Lược Tuổi Trẻ': 'muu-luoc-tuoi-tre',
+            'Xuyên Thấu Nhân Tính': 'xuyen-thau-nhan-tinh',
+            'Mưu Lược Tài Chính': 'muu-luoc-tai-chinh',
+            'Nhân Tính Đen Trắng': 'nhan-tinh-den-trang',
+            'Tư Duy Sâu Sắc': 'tu-duy-sau-sac',
+          };
+          for (const [nameKey, slugVal] of Object.entries(nameSlugMap)) {
+            if (item.name.includes(nameKey) || item.name.toLowerCase().includes(nameKey.toLowerCase())) {
+              slug = slugVal;
+              downloadUrl = PRODUCT_DOWNLOAD_URLS[slugVal] || '';
+              break;
+            }
+          }
+        }
+
+        itemsWithDownload.push({
           name: item.name,
           price: item.price,
-          slug: item.slug || '',
+          slug: slug,
           downloadUrl,
-        };
-      });
+        });
+      }
 
       return res.status(200).json({
         success: true,
