@@ -467,6 +467,58 @@
       .preview-header { padding:10px 16px; }
       .preview-footer { padding:10px 16px; flex-direction:column; gap:8px; }
     }
+
+    /* ───── COMBO SUGGESTION ───── */
+    .combo-suggest { padding: 0 0 48px; }
+    .combo-suggest-title {
+      font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 18px; font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .combo-suggest-sub { font-size: 13px; color: var(--text-3); margin-bottom: 20px; }
+    .combo-suggest-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+    .cs-card {
+      background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px;
+      padding: 22px; display: flex; flex-direction: column; gap: 14px;
+      transition: all .28s; position: relative; overflow: hidden;
+    }
+    .cs-card:hover { border-color: var(--teal-dark); box-shadow: 0 12px 40px rgba(0,0,0,.4), 0 0 24px rgba(0,212,212,.08); transform: translateY(-3px); }
+    .cs-card.hot { border-color: rgba(0,212,212,.25); }
+    .cs-card.hot::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,212,212,.03) 0%, transparent 50%); pointer-events: none; }
+    .cs-badge {
+      position: absolute; top: 14px; right: 14px;
+      font-size: 9px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 5px; background: var(--teal); color: var(--bg);
+    }
+    .cs-card.hot .cs-badge { background: var(--warn); }
+    .cs-header { display: flex; align-items: center; gap: 12px; position: relative; z-index: 1; }
+    .cs-emojis { display: flex; gap: -4px; }
+    .cs-emoji {
+      width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center;
+      justify-content: center; font-size: 18px; border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 4px 12px rgba(0,0,0,.4); margin-left: -6px;
+    }
+    .cs-emoji:first-child { margin-left: 0; }
+    .cs-info { flex: 1; min-width: 0; }
+    .cs-tag { font-size: 9px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--teal); }
+    .cs-name { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 15px; font-weight: 800; color: var(--text); line-height: 1.2; }
+    .cs-items { display: flex; flex-direction: column; gap: 4px; position: relative; z-index: 1; }
+    .cs-item { font-size: 12px; color: var(--text-2); display: flex; align-items: center; gap: 6px; }
+    .cs-item::before { content: '✓'; color: var(--teal); font-weight: 800; font-size: 10px; }
+    .cs-item.current { color: var(--teal); font-weight: 600; }
+    .cs-item.current::before { content: '★'; }
+    .cs-pricing { display: flex; align-items: center; gap: 12px; padding-top: 10px; border-top: 1px solid var(--border); position: relative; z-index: 1; }
+    .cs-orig { font-size: 12px; color: var(--text-3); text-decoration: line-through; }
+    .cs-price { font-family: 'Exo 2',sans-serif; font-size: 20px; font-weight: 900; color: var(--teal); }
+    .cs-save { font-size: 10px; font-weight: 700; color: var(--warn); background: rgba(245,166,35,.1); border: 1px solid rgba(245,166,35,.2); padding: 2px 7px; border-radius: 4px; }
+    .cs-cta {
+      width: 100%; padding: 11px; border-radius: 9px; border: none; cursor: pointer;
+      font-family: 'Be Vietnam Pro',sans-serif; font-size: 13px; font-weight: 700;
+      transition: all .22s; position: relative; z-index: 1;
+    }
+    .cs-cta-hot { background: var(--teal); color: var(--bg); }
+    .cs-cta-hot:hover { background: #00EEEE; box-shadow: 0 0 20px var(--teal-glow-strong); }
+    .cs-cta-normal { background: transparent; border: 1px solid var(--teal-dark); color: var(--teal); }
+    .cs-cta-normal:hover { background: var(--teal-glow); border-color: var(--teal); }
   </style>
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/morph.css?v=1">
@@ -740,6 +792,15 @@
       <button class="wr-login-btn" onclick="window.openAuthModal && window.openAuthModal()">Đăng nhập ngay</button>
     </div>
 
+  </div>
+</div>
+
+<!-- COMBO SUGGESTION -->
+<div class="combo-suggest" id="combo-suggest" style="display:none">
+  <div class="wrap">
+    <div class="combo-suggest-title">📦 Mua combo — tiết kiệm hơn</div>
+    <div class="combo-suggest-sub">Sản phẩm này có trong các combo ưu đãi sau:</div>
+    <div class="combo-suggest-grid" id="combo-suggest-grid"></div>
   </div>
 </div>
 
@@ -1490,7 +1551,119 @@
 
   // Dynamic related products
   renderRelatedProducts(product);
+  renderComboSuggestion(product);
 })();
+
+async function renderComboSuggestion(product) {
+  const section = document.getElementById('combo-suggest');
+  const grid = document.getElementById('combo-suggest-grid');
+  if (!section || !grid) return;
+
+  // Wait for firestore-sync module to load
+  let retries = 0;
+  while (!window.SonHaiData && retries < 30) {
+    await new Promise(r => setTimeout(r, 200));
+    retries++;
+  }
+
+  let combos = [];
+  try {
+    if (window.SonHaiData) combos = await window.SonHaiData.getCombos();
+  } catch(e) { return; }
+
+  // Find combos that contain this product
+  const currentId = String(product.id);
+  const matchingCombos = combos.filter(c => {
+    const ids = (c.productIds || []).map(String);
+    return ids.includes(currentId);
+  });
+
+  if (matchingCombos.length === 0) { section.style.display = 'none'; return; }
+  section.style.display = '';
+
+  const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
+  let allProducts = [];
+  try {
+    if (window.SonHaiData) allProducts = await window.SonHaiData.getProducts();
+    else if (window.SonHaiCartBadge) allProducts = window.SonHaiCartBadge.getProducts();
+  } catch(e) {}
+
+  const bookBgs = [
+    'linear-gradient(145deg, #0D2137, #0A3B5C)',
+    'linear-gradient(145deg, #1A0D2E, #2D0A4E)',
+    'linear-gradient(145deg, #0D2820, #0A3D2E)',
+    'linear-gradient(145deg, #1F1A08, #3D2E0A)',
+    'linear-gradient(145deg, #1A0A0A, #3D0D0D)',
+  ];
+
+  grid.innerHTML = matchingCombos.map((combo, idx) => {
+    const origPrice = combo.originalPrice || 0;
+    const comboPrice = combo.comboPrice || 0;
+    const savings = origPrice - comboPrice;
+    const savePct = origPrice > 0 ? Math.round((savings / origPrice) * 100) : 0;
+    const productIds = combo.productIds || [];
+    const productNames = combo.productNames || [];
+    const isHot = combo.isHot || false;
+    const badgeText = combo.badgeText || `−${savePct}%`;
+
+    const emojisHtml = productIds.slice(0, 4).map((pid, i) => {
+      const prod = allProducts.find(p => String(p.id) === String(pid));
+      const emoji = prod ? (prod.emoji || prod.icon || '📚') : '📚';
+      const bg = bookBgs[i % bookBgs.length];
+      return `<div class="cs-emoji" style="background:${bg}">${emoji}</div>`;
+    }).join('');
+
+    const itemsHtml = productNames.map((name, i) => {
+      const isCurrent = String(productIds[i]) === currentId;
+      return `<div class="cs-item${isCurrent ? ' current' : ''}">${name}${isCurrent ? ' (đang xem)' : ''}</div>`;
+    }).join('');
+
+    return `
+      <div class="cs-card${isHot ? ' hot' : ''}" data-products="${productIds.join(',')}">
+        <div class="cs-badge">${badgeText}</div>
+        <div class="cs-header">
+          <div class="cs-emojis">${emojisHtml}</div>
+          <div class="cs-info">
+            <div class="cs-tag">${combo.tag || '◆ Bộ sưu tập · ' + productIds.length + ' cuốn'}</div>
+            <div class="cs-name">${combo.name || 'Combo'}</div>
+          </div>
+        </div>
+        <div class="cs-items">${itemsHtml}</div>
+        <div class="cs-pricing">
+          <span class="cs-orig">Mua lẻ: ${fmt(origPrice)}</span>
+          <span class="cs-price">${fmt(comboPrice)}</span>
+          <span class="cs-save">Tiết kiệm ${fmt(savings)}</span>
+        </div>
+        <button class="cs-cta ${isHot ? 'cs-cta-hot' : 'cs-cta-normal'}" onclick="buyComboProduct(this)">Mua combo ngay — ${fmt(comboPrice)}</button>
+      </div>`;
+  }).join('');
+}
+
+async function buyComboProduct(btn) {
+  const card = btn.closest('.cs-card');
+  const idsRaw = card.dataset.products;
+  if (!idsRaw) return;
+  const ids = idsRaw.split(',');
+  const origText = btn.textContent;
+  btn.textContent = 'Đang thêm...';
+  btn.disabled = true;
+  try {
+    if (window.SonHaiCartBadge) {
+      for (const productId of ids) {
+        const pid = isNaN(productId) ? productId : parseInt(productId);
+        await window.SonHaiCartBadge.addProduct(pid, 1);
+      }
+    }
+    btn.textContent = '✓ Đã thêm combo vào giỏ';
+    showToast('✓ Đã thêm combo vào giỏ hàng');
+  } catch (err) {
+    btn.textContent = 'Lỗi!';
+  }
+  setTimeout(() => {
+    btn.textContent = origText;
+    btn.disabled = false;
+  }, 2000);
+}
 
 function renderAIDAContent(product) {
   const el = document.getElementById('desc-content-dynamic');

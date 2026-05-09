@@ -416,6 +416,77 @@
     .foot-policies a { font-size: 12.5px; color: var(--text-3); text-decoration: none; transition: color .2s; }
     .foot-policies a:hover { color: var(--teal); }
 
+    /* ───── COMBO ───── */
+    .combo-section { padding-bottom: 32px; }
+    .combo-section-title {
+      font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 12px; font-weight: 800;
+      letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .combo-section-title::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+    .combo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .combo-card {
+      background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px;
+      overflow: hidden; cursor: pointer; transition: all .3s; position: relative;
+      display: flex; flex-direction: column;
+    }
+    .combo-card:hover { border-color: var(--teal-dark); transform: translateY(-6px); box-shadow: 0 20px 56px rgba(0,0,0,.5), 0 0 32px rgba(0,212,212,.1); }
+    .combo-card.hot { border-color: rgba(0,212,212,.3); box-shadow: 0 0 40px rgba(0,212,212,.1); }
+    .combo-card.hot::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,212,212,.04) 0%, transparent 40%); pointer-events: none; z-index: 0; }
+    .combo-save {
+      position: absolute; top: 14px; right: 14px; z-index: 10;
+      font-size: 9px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 5px; background: var(--teal); color: var(--bg);
+    }
+    .combo-card.hot .combo-save { background: var(--warn); }
+    .combo-covers {
+      padding: 36px 24px 28px; background: linear-gradient(180deg, var(--bg-3), var(--bg-2));
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: center; align-items: flex-end;
+      position: relative; min-height: 130px; z-index: 1;
+    }
+    .combo-book {
+      width: 64px; height: 86px; border-radius: 7px; position: absolute;
+      display: flex; align-items: center; justify-content: center; font-size: 30px;
+      border: 1px solid rgba(255,255,255,.08); box-shadow: 0 10px 28px rgba(0,0,0,.65);
+      transition: transform .3s ease;
+    }
+    .combo-book.b1 { transform: rotate(-9deg) translateX(-38px); z-index: 1; }
+    .combo-book.b2 { transform: rotate(0deg); z-index: 3; }
+    .combo-book.b3 { transform: rotate(9deg) translateX(38px); z-index: 1; }
+    .combo-card:hover .combo-book.b1 { transform: rotate(-13deg) translateX(-48px); }
+    .combo-card:hover .combo-book.b3 { transform: rotate(13deg) translateX(48px); }
+    .combo-body { padding: 20px 20px 0; flex: 1; display: flex; flex-direction: column; position: relative; z-index: 1; }
+    .combo-tag { font-size: 9px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 6px; }
+    .combo-name { font-family: 'Exo 2', 'Be Vietnam Pro', sans-serif; font-size: 16px; font-weight: 900; color: var(--text); margin-bottom: 14px; line-height: 1.2; }
+    .combo-list { list-style: none; margin-bottom: 0; display: flex; flex-direction: column; gap: 6px; }
+    .combo-list li { font-size: 11.5px; color: var(--text-2); display: flex; align-items: flex-start; gap: 7px; line-height: 1.4; }
+    .combo-list li::before { content: '✓'; color: var(--teal); font-weight: 800; font-size: 10px; margin-top: 1px; flex-shrink: 0; }
+    .combo-pricing { padding: 16px 20px 20px; border-top: 1px solid var(--border); margin-top: 18px; position: relative; z-index: 1; }
+    .combo-orig { font-size: 11.5px; color: var(--text-3); text-decoration: line-through; margin-bottom: 7px; }
+    .combo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .combo-cost { font-family: 'Exo 2', sans-serif; font-size: 24px; font-weight: 900; color: var(--teal); }
+    .combo-off { font-size: 11px; font-weight: 700; color: var(--warn); background: rgba(245,166,35,.1); border: 1px solid rgba(245,166,35,.2); padding: 3px 8px; border-radius: 4px; }
+    .combo-cta { width: 100%; font-size: 13px; padding: 11px 20px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: none; border-radius: 7px; cursor: pointer; font-family: 'Be Vietnam Pro',sans-serif; font-weight: 600; transition: all .22s; }
+    .combo-cta.btn-teal { background: var(--teal); color: var(--bg); }
+    .combo-cta.btn-teal:hover { background: #00EEEE; box-shadow: 0 0 22px var(--teal-glow-strong); }
+    .combo-cta.btn-outline { background: transparent; border: 1px solid var(--teal-dark); color: var(--teal); }
+    .combo-cta.btn-outline:hover { background: var(--teal-glow); border-color: var(--teal); }
+    .book-color-1 { background: linear-gradient(145deg, #0D2137, #0A3B5C); }
+    .book-color-2 { background: linear-gradient(145deg, #1A0D2E, #2D0A4E); }
+    .book-color-3 { background: linear-gradient(145deg, #0D2820, #0A3D2E); }
+    .book-color-4 { background: linear-gradient(145deg, #1F1A08, #3D2E0A); }
+    .book-color-5 { background: linear-gradient(145deg, #1A0A0A, #3D0D0D); }
+    .book-color-6 { background: linear-gradient(145deg, #0A1A2E, #0D2845); }
+    .book-color-7 { background: linear-gradient(145deg, #0A1F0A, #0D3D1A); }
+    .book-color-8 { background: linear-gradient(145deg, #1A0F2E, #2D1A4E); }
+
+    @media (max-width: 768px) {
+      .combo-grid { grid-template-columns: 1fr; }
+    }
+
     /* ── TOAST ── */
     .toast {
       position: fixed; bottom: 28px; right: 28px; z-index: 999;
@@ -560,6 +631,14 @@
           <div class="cb-count">Sắp ra mắt</div>
           <span class="cb-arrow">→</span>
         </a>
+      </div>
+    </div>
+
+    <!-- COMBO SECTION -->
+    <div class="combo-section" id="combo-section" style="display:none">
+      <div class="combo-section-title">📦 Gói combo ưu đãi</div>
+      <div class="combo-grid" id="cat-combo-grid">
+        <!-- Combos rendered dynamically from Firestore -->
       </div>
     </div>
 
@@ -1084,6 +1163,114 @@
     }
   })();
 
+  // ── Render Combos ──
+  const bookColors = [
+    'book-color-1','book-color-2','book-color-3','book-color-4',
+    'book-color-5','book-color-6','book-color-7','book-color-8'
+  ];
+
+  async function renderCategoryCombos() {
+    const grid = document.getElementById('cat-combo-grid');
+    const section = document.getElementById('combo-section');
+    if (!grid || !section) return;
+
+    let combos = [];
+    if (window.SonHaiData) {
+      try { combos = await window.SonHaiData.getCombos(); } catch(e) { console.warn('Combo load failed:', e); }
+    }
+
+    if (!combos || combos.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = '';
+    const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
+    let allProducts = window.SonHaiCartBadge ? window.SonHaiCartBadge.getProducts() || [] : [];
+
+    grid.innerHTML = combos.map((combo, idx) => {
+      const origPrice = combo.originalPrice || 0;
+      const comboPrice = combo.comboPrice || 0;
+      const savings = origPrice - comboPrice;
+      const productIds = combo.productIds || [];
+      const productNames = combo.productNames || [];
+
+      const emojis = productIds.map(pid => {
+        const prod = allProducts.find(p => String(p.id) === String(pid));
+        return prod ? (prod.emoji || prod.icon || '📚') : '📚';
+      });
+
+      const itemsList = productNames.map((name, i) => {
+        const prod = allProducts.find(p => String(p.id) === String(productIds[i]));
+        const price = prod ? fmt(prod.price) : '';
+        return `<li>${name}${price ? ' (' + price + ')' : ''}</li>`;
+      }).join('');
+
+      const bc1 = bookColors[(idx * 3) % bookColors.length];
+      const bc2 = bookColors[(idx * 3 + 1) % bookColors.length];
+      const bc3 = bookColors[(idx * 3 + 2) % bookColors.length];
+
+      let booksHtml = '';
+      if (emojis.length >= 3) {
+        booksHtml = `<div class="combo-book b1 ${bc1}">${emojis[0]}</div><div class="combo-book b2 ${bc2}">${emojis[1]}</div><div class="combo-book b3 ${bc3}">${emojis[2]}</div>`;
+      } else if (emojis.length === 2) {
+        booksHtml = `<div class="combo-book b1 ${bc1}">${emojis[0]}</div><div class="combo-book b2 ${bc2}">${emojis[1]}</div>`;
+      } else if (emojis.length === 1) {
+        booksHtml = `<div class="combo-book b2 ${bc1}">${emojis[0]}</div>`;
+      }
+
+      const isHot = combo.isHot || false;
+      const badgeText = combo.badgeText || `−${Math.round((savings / origPrice) * 100)}%`;
+
+      return `
+        <div class="combo-card${isHot ? ' hot' : ''}" data-combo-id="${combo.id}" data-products="${productIds.join(',')}">
+          <div class="combo-save">${badgeText}</div>
+          <div class="combo-covers">${booksHtml}</div>
+          <div class="combo-body">
+            <div class="combo-tag">${combo.tag || '◆ Bộ sưu tập · ' + productIds.length + ' cuốn'}</div>
+            <div class="combo-name">${combo.name || 'Combo'}</div>
+            <ul class="combo-list">${itemsList}</ul>
+          </div>
+          <div class="combo-pricing">
+            <div class="combo-orig">Mua lẻ: ${fmt(origPrice)}</div>
+            <div class="combo-row">
+              <div class="combo-cost">${fmt(comboPrice)}</div>
+              <div class="combo-off">Tiết kiệm ${fmt(savings)}</div>
+            </div>
+            <button class="combo-cta ${isHot ? 'btn-teal' : 'btn-outline'}" onclick="buyCombo(event)">Mua combo ngay</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  async function buyCombo(e) {
+    e.stopPropagation();
+    const card = e.target.closest('.combo-card');
+    const idsRaw = card.dataset.products;
+    if (!idsRaw) return;
+    const ids = idsRaw.split(',');
+    const btn = card.querySelector('.combo-cta');
+    const origText = btn.textContent;
+    btn.textContent = 'Đang thêm...';
+    btn.disabled = true;
+    try {
+      if (window.SonHaiCartBadge) {
+        for (const productId of ids) {
+          const pid = isNaN(productId) ? productId : parseInt(productId);
+          await window.SonHaiCartBadge.addProduct(pid, 1);
+        }
+      }
+      btn.textContent = '✓ Đã thêm vào giỏ';
+      showToast('✓ Đã thêm combo vào giỏ hàng');
+    } catch (err) {
+      btn.textContent = 'Lỗi!';
+    }
+    setTimeout(() => {
+      btn.textContent = origText;
+      btn.disabled = false;
+    }, 2000);
+  }
+
   // ── Init: Load products on page load ──
   // Wait for both cart-badge and firestore-sync to load
   async function initProducts() {
@@ -1097,6 +1284,7 @@
       } catch(e) { console.warn('Firestore load failed:', e); }
     }
     renderProducts();
+    renderCategoryCombos();
   }
 
   // Retry until SonHaiData is available (module scripts load async)

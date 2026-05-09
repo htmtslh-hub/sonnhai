@@ -264,6 +264,43 @@
       .item-right { flex-direction: row; align-items: center; gap: 10px; width: 100%; }
       .upsell-grid { grid-template-columns: 1fr 1fr; }
     }
+
+    /*  COMBO UPSELL  */
+    .combo-upsell { padding: 28px 0 0; display: none; }
+    .combo-upsell-title {
+      font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 13px; font-weight: 800;
+      letter-spacing: 1px; text-transform: uppercase; color: var(--teal); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .combo-upsell-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .cu-grid { display: flex; flex-direction: column; gap: 12px; }
+    .cu-card {
+      background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px;
+      padding: 18px 20px; display: flex; align-items: center; gap: 16px;
+      transition: all .25s; position: relative; overflow: hidden;
+    }
+    .cu-card:hover { border-color: var(--teal-dark); box-shadow: 0 8px 28px rgba(0,0,0,.35), 0 0 16px rgba(0,212,212,.06); }
+    .cu-card.hot { border-color: rgba(0,212,212,.2); }
+    .cu-card.hot::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,212,212,.03) 0%, transparent 60%); pointer-events: none; }
+    .cu-emojis { display: flex; gap: 2px; flex-shrink: 0; position: relative; z-index: 1; }
+    .cu-emoji {
+      width: 36px; height: 36px; border-radius: 7px; display: flex; align-items: center;
+      justify-content: center; font-size: 16px; border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 3px 10px rgba(0,0,0,.4);
+    }
+    .cu-body { flex: 1; min-width: 0; position: relative; z-index: 1; }
+    .cu-name { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 3px; }
+    .cu-desc { font-size: 11.5px; color: var(--text-3); }
+    .cu-desc strong { color: var(--warn); }
+    .cu-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; position: relative; z-index: 1; }
+    .cu-price { font-family: 'Exo 2',sans-serif; font-size: 17px; font-weight: 900; color: var(--teal); }
+    .cu-orig { font-size: 11px; color: var(--text-3); text-decoration: line-through; }
+    .cu-cta {
+      font-size: 11px; font-weight: 700; color: var(--bg); background: var(--teal);
+      border: none; border-radius: 6px; padding: 6px 14px; cursor: pointer;
+      font-family: 'Be Vietnam Pro',sans-serif; transition: all .22s; white-space: nowrap;
+    }
+    .cu-cta:hover { background: #00EEEE; box-shadow: 0 0 16px var(--teal-glow-strong); }
   </style>
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/morph.css?v=1">
@@ -341,6 +378,12 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
         Tiếp tục mua sắm
       </a>
+
+      <!-- COMBO UPSELL SUGGESTION -->
+      <div class="combo-upsell" id="combo-upsell">
+        <div class="combo-upsell-title">📦 Nâng cấp lên combo — tiết kiệm hơn</div>
+        <div class="cu-grid" id="combo-upsell-grid"></div>
+      </div>
 
       <!-- Saved for later -->
       <div class="saved-section" id="saved-section" style="display:none;">
@@ -831,10 +874,121 @@
 
   //  Init 
   updateSummary();
-  loadCart();
+  loadCart().then(() => renderComboUpsell());
+
+  // Combo upsell
+  async function renderComboUpsell() {
+    const section = document.getElementById('combo-upsell');
+    const grid = document.getElementById('combo-upsell-grid');
+    if (!section || !grid) return;
+
+    // Wait for firestore-sync to load
+    let retries = 0;
+    while (!window.SonHaiData && retries < 30) {
+      await new Promise(r => setTimeout(r, 200));
+      retries++;
+    }
+    if (!window.SonHaiData) return;
+
+    let combos = [];
+    try { combos = await window.SonHaiData.getCombos(); } catch(e) { return; }
+    if (!combos || combos.length === 0) return;
+
+    const cartIds = new Set([...activeItems].map(String));
+    if (cartIds.size === 0) { section.style.display = 'none'; return; }
+
+    const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
+    let allProducts = window.SonHaiCartBadge ? window.SonHaiCartBadge.getProducts() || [] : [];
+
+    const bookBgs = [
+      'linear-gradient(145deg, #0D2137, #0A3B5C)',
+      'linear-gradient(145deg, #1A0D2E, #2D0A4E)',
+      'linear-gradient(145deg, #0D2820, #0A3D2E)',
+    ];
+
+    // Find combos where at least 1 cart item is included (but not ALL items already in cart)
+    const matchingCombos = combos.filter(c => {
+      const comboIds = (c.productIds || []).map(String);
+      const overlap = comboIds.filter(id => cartIds.has(id));
+      return overlap.length > 0 && overlap.length < comboIds.length;
+    });
+
+    if (matchingCombos.length === 0) { section.style.display = 'none'; return; }
+    section.style.display = 'block';
+
+    grid.innerHTML = matchingCombos.map(combo => {
+      const origPrice = combo.originalPrice || 0;
+      const comboPrice = combo.comboPrice || 0;
+      const savings = origPrice - comboPrice;
+      const productIds = combo.productIds || [];
+      const isHot = combo.isHot || false;
+      const inCart = productIds.filter(id => cartIds.has(String(id))).length;
+      const missing = productIds.length - inCart;
+
+      const emojisHtml = productIds.slice(0, 4).map((pid, i) => {
+        const prod = allProducts.find(p => String(p.id) === String(pid));
+        const emoji = prod ? (prod.emoji || prod.icon || '📚') : '📚';
+        const bg = bookBgs[i % bookBgs.length];
+        return `<div class="cu-emoji" style="background:${bg}">${emoji}</div>`;
+      }).join('');
+
+      return `
+        <div class="cu-card${isHot ? ' hot' : ''}" data-products="${productIds.join(',')}">
+          <div class="cu-emojis">${emojisHtml}</div>
+          <div class="cu-body">
+            <div class="cu-name">${combo.name || 'Combo'}</div>
+            <div class="cu-desc">${inCart}/${productIds.length} SP đã trong giỏ · thêm <strong>${missing} SP</strong> để tiết kiệm <strong>${fmt(savings)}</strong></div>
+          </div>
+          <div class="cu-right">
+            <div class="cu-orig">${fmt(origPrice)}</div>
+            <div class="cu-price">${fmt(comboPrice)}</div>
+            <button class="cu-cta" onclick="upgradeToCombo(this)">Nâng cấp combo</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  async function upgradeToCombo(btn) {
+    const card = btn.closest('.cu-card');
+    const idsRaw = card.dataset.products;
+    if (!idsRaw) return;
+    const ids = idsRaw.split(',');
+    const origText = btn.textContent;
+    btn.textContent = 'Đang thêm...';
+    btn.disabled = true;
+    try {
+      if (window.SonHaiCartBadge) {
+        // Add only missing items
+        for (const productId of ids) {
+          if (!activeItems.has(productId) && !activeItems.has(parseInt(productId))) {
+            const pid = isNaN(productId) ? productId : parseInt(productId);
+            await window.SonHaiCartBadge.addProduct(pid, 1);
+          }
+        }
+        // Reload cart to reflect new items
+        const box = document.getElementById('items-box');
+        const items = box.querySelectorAll('.cart-item');
+        items.forEach(el => el.remove());
+        activeItems.clear();
+        Object.keys(PRICES).forEach(k => delete PRICES[k]);
+        await loadCart();
+        updateSummary();
+      }
+      btn.textContent = '✓ Đã nâng cấp';
+      // Refresh combo suggestions
+      setTimeout(() => renderComboUpsell(), 500);
+    } catch (err) {
+      btn.textContent = 'Lỗi!';
+    }
+    setTimeout(() => {
+      btn.textContent = origText;
+      btn.disabled = false;
+    }, 2500);
+  }
 </script>
 
 <script src="js/morph-engine.js?v=1"></script>
+<script type="module" src="js/firestore-sync.js"></script>
 <script src="js/parallax-engine.js?v=grid-particles-2"></script>
 <script type="module" src="/auth-ui.js"></script>
 <script src="js/mobile-menu.js?v=1"></script>
