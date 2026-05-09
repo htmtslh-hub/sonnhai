@@ -42,6 +42,7 @@ module.exports = async (req, res) => {
         name: item.name || '',
         price: item.price || 0,
         emoji: item.emoji || '📦',
+        slug: item.slug || '',
       })),
       subtotal: subtotal || total,
       discount: discount || 0,

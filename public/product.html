@@ -954,7 +954,7 @@
     </button>
   </div>
   <div class="preview-body">
-    <iframe id="preview-iframe" src="about:blank"></iframe>
+    <iframe id="preview-iframe" src="about:blank" allow="autoplay" allowfullscreen></iframe>
   </div>
   <div class="preview-footer">
     <span class="preview-footer-text">Đây là bản xem trước. Mua sản phẩm để đọc toàn bộ nội dung.</span>
@@ -1093,7 +1093,7 @@
       }
 
       const total = prod.price || 0;
-      const items = [{ productId: prod.id, name: prod.name, price: total, emoji: prod.emoji || '📦', downloadUrl: '' }];
+      const items = [{ productId: prod.id, name: prod.name, price: total, emoji: prod.emoji || '📦', slug: prod.slug || '', downloadUrl: '' }];
 
       // Call real checkout API to create Firestore order
       const response = await fetch('/api/checkout', {
@@ -1239,9 +1239,23 @@
         if (data.success && data.data.paymentStatus === 'paid') {
           clearInterval(_modalPollTimer);
           const saved = JSON.parse(sessionStorage.getItem('sonhai_last_order') || '{}');
-          sessionStorage.setItem('sonhai_last_order', JSON.stringify({ ...saved, paymentStatus: 'paid' }));
+          // Merge download URLs from API response into saved order
+          const apiItems = data.data.items || [];
+          const mergedItems = (saved.items || []).map((item, i) => ({
+            ...item,
+            downloadUrl: item.downloadUrl || (apiItems[i] && apiItems[i].downloadUrl) || '',
+            slug: item.slug || (apiItems[i] && apiItems[i].slug) || '',
+          }));
+          const mergedOrder = {
+            ...saved,
+            paymentStatus: 'paid',
+            paidAmount: data.data.paidAmount || saved.total,
+            paidAt: data.data.paidAt || new Date().toISOString(),
+            items: mergedItems,
+          };
+          sessionStorage.setItem('sonhai_last_order', JSON.stringify(mergedOrder));
           let orders = JSON.parse(localStorage.getItem('sonhai_orders') || '[]');
-          orders.push({ ...saved, paymentStatus: 'paid' });
+          orders.push(mergedOrder);
           localStorage.setItem('sonhai_orders', JSON.stringify(orders));
           if (window.SonHaiCartBadge) window.SonHaiCartBadge.clearCart();
           window.location.href = `seapay-return.html?orderNumber=${orderNumber}&status=success`;
@@ -1282,11 +1296,30 @@
   }
 
   // ── PDF Preview Modal ──
+  const PREVIEW_DRIVE_IDS = {
+    'logic-nguoi-ngheo': '1p2h-Nprkna-PPwBWUopYgdeF1YVFn3PH',
+    'tu-duy-cuong-gia': '101kje-o1mwD6_KsQ0MhJSPO87dSHhOHw',
+    'muu-luoc-tai-chinh': '1Bc37cnKpBvC6Nq0X0xvb7jBfJ94oWcjM',
+    'ban-chat-tai-chinh': '1LAEUBkcPFeC7pO_ACWxn6c9GE4a4xvXa',
+    'thuc-tinh-nhan-thuc': '1V8SLUmmmVKXWeWubbxLzW39GdUACtN22',
+    'an-chua-huyen-co': '1rjh4IbGaJjXspuUF9IpGwEiPYn326mSR',
+    'he-thong-manh-me': '1AFm1DzY5EYQEVCm3hBE9hBtxRb_sJ261',
+    'tinh-cam-bi-tich': '1jxQkGvvccFidyV70WjHc3FhI_qoBAyKE',
+    'goc-nhin-tao-lap': '1NkGGrTgr-HZxoxfa9A8GhOWGqEcxm69W',
+    'thuong-chien': '1FjB9U7Sq9HvQpuc-RLQNdEShJ-W_nmOR',
+    'tuyet-mat-nhan-tinh': '1GPbfJPSodZnyI6TTDGf9YlOlS5L_3s0c',
+    'xuyen-thau-nhan-tinh': '1mev4dHhgc88CTWLK_KPAD1RnlgDcS2Li',
+    'nhan-tinh-den-trang': '1oaFn87EAtlJyl9_GMyPEkd_HXSgCNOUR',
+    'muu-luoc-tuoi-tre': '1lQr2lYnhpsuNlFQuhjcJMk_TQxlxfDs1',
+    'tu-duy-sau-sac': '135XQxD7YTCZhf7A8kLLA8zyFqj43YGuJ',
+  };
   function openPreviewModal() {
     const prod = window._currentProduct;
     const slug = prod ? prod.slug : new URLSearchParams(location.search).get('slug');
     if (!slug) { showToast('Không tìm thấy bản xem trước.'); return; }
-    const demoUrl = '/demo/' + slug + '.pdf';
+    const driveId = PREVIEW_DRIVE_IDS[slug];
+    if (!driveId) { showToast('Không tìm thấy bản xem trước cho sản phẩm này.'); return; }
+    const demoUrl = 'https://drive.google.com/file/d/' + driveId + '/preview';
     document.getElementById('preview-book-name').textContent = prod ? prod.name : 'Xem trước';
     document.getElementById('preview-iframe').src = demoUrl;
     document.getElementById('preview-overlay').classList.add('show');

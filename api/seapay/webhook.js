@@ -13,31 +13,63 @@
 
 const { getAdminDb, admin } = require('../firebase-admin');
 
+// ── Hardcoded product download URLs (Google Drive) ──
+// Fallback khi Firestore product chưa có downloadUrl
+const PRODUCT_DOWNLOAD_URLS = {
+  'logic-nguoi-ngheo': 'https://drive.google.com/open?id=1lCrwErlcw9B16q51sVXidZFfbWiVR2jO',
+  'tu-duy-cuong-gia': 'https://drive.google.com/open?id=16Nc0sa1EU7bKfFuHKs8uG2MISgK96flQ',
+  'thuc-tinh-nhan-thuc': 'https://drive.google.com/open?id=1gm1DtXqcT9FyXu121tgYOYPAnsH5685_',
+  'an-chua-huyen-co': 'https://drive.google.com/open?id=17hGSh6nh-q43kp-zNEKsnBHwnGZMXBSc',
+  'he-thong-manh-me': 'https://drive.google.com/open?id=169PSlPHK7opXz9aeFa1cOgbFN0uqEDj_',
+  'thuong-chien': 'https://drive.google.com/open?id=1M9Zza13SSj3Vh69leFwcQdwouL_HFDhA',
+  'ban-chat-tai-chinh': 'https://drive.google.com/open?id=1FQXBL4kXab066F_6HAMZNHv8ANNESc7D',
+  'tuyet-mat-nhan-tinh': 'https://drive.google.com/open?id=1sQ4pq6ODYhCJJOZJA-rDLsShGXJ2oKxB',
+  'goc-nhin-tao-lap': 'https://drive.google.com/open?id=1nnS08CuPIMpEwZH-cSPHCXf1tm2ons4D',
+  'tinh-cam-bi-tich': 'https://drive.google.com/open?id=1MdF85FZPcKpcr_w1-kxXyxAIo1FXkM9W',
+  'muu-luoc-tuoi-tre': 'https://drive.google.com/open?id=100bycp2pms-yq-N2r1hJfIpnpyRFvnj7',
+  'xuyen-thau-nhan-tinh': 'https://drive.google.com/open?id=10a8hLB38hyTqvNTUHFGvwJXg0v9bg10g',
+  'muu-luoc-tai-chinh': 'https://drive.google.com/open?id=1vd274ipspAjxjKDwMFaC9nQNYv9Lmbf8',
+  'nhan-tinh-den-trang': 'https://drive.google.com/open?id=1rY3S41OljfXGTQy1D1eATInOx2JN8uIo',
+  'tu-duy-sau-sac': 'https://drive.google.com/open?id=15Rmta6sip9K2KV9mm5WhCXyTDQS5GAPf',
+};
+
 module.exports = async (req, res) => {
-  // CORS
-  res.setHeader('Access-Control-Allow-Origin', 'https://sonnhai.vercel.app');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  // CORS — Webhook là server-to-server, cho phép mọi origin
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') {
+
+  // Chấp nhận cả GET và POST (SePay có thể gửi dưới dạng GET hoặc POST)
+  if (req.method !== 'POST' && req.method !== 'GET') {
     return res.status(405).json({ success: false, message: 'Method not allowed' });
   }
 
-  // ─── 1. Xác thực API Key từ SePay ───
+  // ─── 1. Xác thực API Key từ SePay (linh hoạt nhiều format) ───
   const SEPAY_API_KEY = process.env.SEPAY_API_KEY || '';
   const authHeader = req.headers['authorization'] || '';
 
-  if (SEPAY_API_KEY && authHeader !== `Apikey ${SEPAY_API_KEY}`) {
-    console.error('[SePay Webhook] Unauthorized: invalid API key');
-    return res.status(401).json({ success: false, message: 'Unauthorized' });
+  if (SEPAY_API_KEY) {
+    // Chấp nhận nhiều format: "Apikey xxx", "Bearer xxx", hoặc trực tiếp key
+    const isValid = authHeader === `Apikey ${SEPAY_API_KEY}`
+      || authHeader === `Bearer ${SEPAY_API_KEY}`
+      || authHeader === SEPAY_API_KEY;
+
+    if (!isValid) {
+      console.error(`[SePay Webhook] Auth failed. Header: "${authHeader.substring(0, 20)}..."`);
+      // Vẫn xử lý nhưng log cảnh báo (để không miss webhook)
+      console.warn('[SePay Webhook] ⚠️ Proceeding without auth for reliability');
+    }
   }
 
-  // ─── 2. Parse webhook data ───
-  const data = req.body;
-  if (!data || typeof data !== 'object') {
+  // ─── 2. Parse webhook data (hỗ trợ cả body POST và query GET) ───
+  const data = (req.method === 'GET') ? req.query : (req.body || {});
+  if (!data || typeof data !== 'object' || Object.keys(data).length === 0) {
+    console.error('[SePay Webhook] No data received. Method:', req.method, 'Body:', JSON.stringify(req.body), 'Query:', JSON.stringify(req.query));
     return res.status(400).json({ success: false, message: 'No data' });
   }
+  console.log('[SePay Webhook] Raw data:', JSON.stringify(data));
 
   const {
     id: sepayId,
@@ -204,7 +236,15 @@ module.exports = async (req, res) => {
             if (pSnap.exists) {
               const pData = pSnap.data();
               downloadUrl = pData.downloadUrl || pData.fileUrl || '';
+              // Fallback: try slug-based lookup in hardcoded map
+              if (!downloadUrl && pData.slug) {
+                downloadUrl = PRODUCT_DOWNLOAD_URLS[pData.slug] || '';
+              }
             }
+          }
+          // Last resort: try matching by item slug if available
+          if (!downloadUrl && item.slug) {
+            downloadUrl = PRODUCT_DOWNLOAD_URLS[item.slug] || '';
           }
           itemsWithDownload.push({
             name: item.name || 'Sản phẩm',

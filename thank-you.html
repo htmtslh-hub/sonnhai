@@ -423,7 +423,26 @@
         downloadList.innerHTML = items.map((item, i) => {
           const name = item.name || 'Sản phẩm';
           const emoji = item.emoji || '📦';
-          const downloadUrl = item.downloadUrl || '';
+
+          // Resolve download URL: item field → slug-based map fallback
+          const PRODUCT_DOWNLOAD_URLS = {
+            'logic-nguoi-ngheo': 'https://drive.google.com/open?id=1lCrwErlcw9B16q51sVXidZFfbWiVR2jO',
+            'tu-duy-cuong-gia': 'https://drive.google.com/open?id=16Nc0sa1EU7bKfFuHKs8uG2MISgK96flQ',
+            'thuc-tinh-nhan-thuc': 'https://drive.google.com/open?id=1gm1DtXqcT9FyXu121tgYOYPAnsH5685_',
+            'an-chua-huyen-co': 'https://drive.google.com/open?id=17hGSh6nh-q43kp-zNEKsnBHwnGZMXBSc',
+            'he-thong-manh-me': 'https://drive.google.com/open?id=169PSlPHK7opXz9aeFa1cOgbFN0uqEDj_',
+            'thuong-chien': 'https://drive.google.com/open?id=1M9Zza13SSj3Vh69leFwcQdwouL_HFDhA',
+            'ban-chat-tai-chinh': 'https://drive.google.com/open?id=1FQXBL4kXab066F_6HAMZNHv8ANNESc7D',
+            'tuyet-mat-nhan-tinh': 'https://drive.google.com/open?id=1sQ4pq6ODYhCJJOZJA-rDLsShGXJ2oKxB',
+            'goc-nhin-tao-lap': 'https://drive.google.com/open?id=1nnS08CuPIMpEwZH-cSPHCXf1tm2ons4D',
+            'tinh-cam-bi-tich': 'https://drive.google.com/open?id=1MdF85FZPcKpcr_w1-kxXyxAIo1FXkM9W',
+            'muu-luoc-tuoi-tre': 'https://drive.google.com/open?id=100bycp2pms-yq-N2r1hJfIpnpyRFvnj7',
+            'xuyen-thau-nhan-tinh': 'https://drive.google.com/open?id=10a8hLB38hyTqvNTUHFGvwJXg0v9bg10g',
+            'muu-luoc-tai-chinh': 'https://drive.google.com/open?id=1vd274ipspAjxjKDwMFaC9nQNYv9Lmbf8',
+            'nhan-tinh-den-trang': 'https://drive.google.com/open?id=1rY3S41OljfXGTQy1D1eATInOx2JN8uIo',
+            'tu-duy-sau-sac': 'https://drive.google.com/open?id=15Rmta6sip9K2KV9mm5WhCXyTDQS5GAPf',
+          };
+          const downloadUrl = item.downloadUrl || (item.slug ? PRODUCT_DOWNLOAD_URLS[item.slug] : '') || '';
 
           // Build thumbnail: prefer cover image, fallback to emoji
           const thumbHtml = `<div style="width:40px;height:40px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(0,212,212,0.08);border:1px solid var(--border);flex-shrink:0;">${emoji}</div>`;
