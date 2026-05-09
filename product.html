@@ -420,6 +420,40 @@
     .foot-policies a { font-size: 12px; color: var(--text-3); text-decoration: none; }
     .foot-policies a:hover { color: var(--teal); }
 
+    /* ── PDF PREVIEW MODAL ── */
+    .preview-overlay {
+      display:none; position:fixed; inset:0; z-index:9000;
+      background:rgba(8,9,14,.96); backdrop-filter:blur(12px);
+      flex-direction:column; align-items:center; justify-content:center;
+      padding:0; animation: previewFadeIn .25s ease;
+    }
+    .preview-overlay.show { display:flex; }
+    @keyframes previewFadeIn { from{opacity:0} to{opacity:1} }
+    .preview-header {
+      width:100%; display:flex; align-items:center; justify-content:space-between;
+      padding:12px 24px; background:var(--bg-2); border-bottom:1px solid var(--border);
+      flex-shrink:0;
+    }
+    .preview-title { font-family:'Exo 2',sans-serif; font-size:14px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:8px; }
+    .preview-title .badge { font-size:10px; font-weight:700; padding:3px 8px; border-radius:5px; background:rgba(0,212,212,.12); color:var(--teal); border:1px solid var(--teal-dark); letter-spacing:.5px; }
+    .preview-close { background:none; border:1px solid var(--border); border-radius:8px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text-2); transition:all .18s; }
+    .preview-close:hover { border-color:var(--teal); color:var(--teal); }
+    .preview-body { flex:1; width:100%; overflow:hidden; display:flex; align-items:stretch; justify-content:center; background:#1a1a1a; }
+    .preview-body iframe { width:100%; height:100%; border:none; }
+    .preview-footer { width:100%; padding:12px 24px; background:var(--bg-2); border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+    .preview-footer-text { font-size:12.5px; color:var(--text-3); }
+    .preview-cta { display:inline-flex; align-items:center; gap:7px; padding:10px 22px; background:var(--teal); color:var(--bg); border:none; border-radius:9px; font-family:'Be Vietnam Pro',sans-serif; font-size:13px; font-weight:700; cursor:pointer; transition:all .22s; text-decoration:none; }
+    .preview-cta:hover { background:#00EEEE; box-shadow:0 0 22px var(--teal-glow-strong); transform:translateY(-1px); }
+
+    /* ── PREVIEW BUTTON (CTA area) ── */
+    .btn-preview {
+      width:100%; padding:12px; border:1.5px dashed var(--teal-dark); background:rgba(0,212,212,.04);
+      border-radius:10px; color:var(--teal); font-family:'Be Vietnam Pro',sans-serif;
+      font-size:13.5px; font-weight:600; cursor:pointer; transition:all .22s;
+      display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:20px;
+    }
+    .btn-preview:hover { background:rgba(0,212,212,.1); border-color:var(--teal); box-shadow:0 4px 16px var(--teal-glow); }
+
     @media (max-width: 960px) {
       .product-main { grid-template-columns: 1fr; }
       .gallery { position: static; }
@@ -430,6 +464,8 @@
       .nav-links { display: none; }
       .foot-grid { grid-template-columns: 1fr 1fr; }
       .sticky-bar { padding: 12px 20px; }
+      .preview-header { padding:10px 16px; }
+      .preview-footer { padding:10px 16px; flex-direction:column; gap:8px; }
     }
   </style>
   <link rel="stylesheet" href="css/animations.css">
@@ -493,7 +529,7 @@
           </div>
         </div>
         <div class="gallery-badge">🔥 Bestseller</div>
-        <div class="gallery-zoom-hint">
+        <div class="gallery-zoom-hint" onclick="openPreviewModal()" style="cursor:pointer;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6m-3-3h6"/></svg>
           Xem trước
         </div>
@@ -574,6 +610,12 @@
         <span style="font-size:12.5px;color:var(--text-3);">Sản phẩm số — không giới hạn tồn kho</span>
       </div>
 
+      <!-- Preview button -->
+      <button class="btn-preview" onclick="openPreviewModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Đọc thử miễn phí — Xem trước nội dung
+      </button>
+
       <!-- CTA buttons -->
       <div class="btn-row">
         <button class="btn-add-cart" onclick="addToCart()">
@@ -618,181 +660,23 @@
     </div>
   </div>
 
-  <!-- ── DETAIL TABS ── -->
   <div class="detail-tabs">
     <button class="dtab on" onclick="switchDtab('desc',this)">Mô tả</button>
-    <button class="dtab" onclick="switchDtab('toc',this)">Mục lục <span class="dtab-count">7 chương</span></button>
+    <button class="dtab" onclick="switchDtab('toc',this)">Mục lục <span class="dtab-count" id="toc-count"></span></button>
     <button class="dtab" onclick="switchDtab('reviews',this)">Đánh giá <span class="dtab-count">0</span></button>
   </div>
 
-  <!-- DESC PANEL -->
   <div class="dtab-panel show" id="panel-desc">
-    <div class="desc-content">
-      <h3>Tổng quan về cuốn sách</h3>
-      <p>Bạn có bao giờ tự hỏi tại sao mình biết điều đúng nhưng vẫn làm điều sai? Tại sao những nỗ lực của bạn không tạo ra kết quả tương xứng? Câu trả lời thường nằm ở những <strong>niềm tin giới hạn</strong> đã ăn sâu vào tiềm thức — những rào cản vô hình mà phần lớn chúng ta không hề hay biết.</p>
-      <p><strong>Thức tỉnh nhận thức</strong> là hành trình đi vào lớp sâu nhất của tư duy con người — nơi hình thành cách bạn nhìn nhận bản thân, lý giải thế giới và đưa ra mọi quyết định trong cuộc sống. Cuốn sách không chỉ chỉ ra vấn đề, mà còn trang bị cho bạn hệ thống công cụ thực tiễn để tái lập trình nhận thức từ bên trong.</p>
-
-      <div class="desc-highlight">
-        <p>"Sự thức tỉnh không phải là một khoảnh khắc — đó là một quá trình không ngừng. Mỗi ngày bạn chọn nhìn rõ hơn, bạn đang tiến gần hơn đến phiên bản thật sự của chính mình."</p>
-      </div>
-
-      <h3>Bạn sẽ học được gì?</h3>
-      <ul>
-        <li>Cách nhận diện và phá vỡ 9 niềm tin giới hạn phổ biến nhất đang kìm hãm tiến bộ của bạn</li>
-        <li>Khoa học đằng sau tư duy cố định (fixed mindset) và tư duy phát triển (growth mindset)</li>
-        <li>Kỹ thuật tái lập trình tiềm thức dựa trên nguyên lý thần kinh học hiện đại</li>
-        <li>Phương pháp "quan sát không phán xét" — nền tảng của mọi sự thay đổi bền vững</li>
-        <li>Cách xây dựng hệ thống tư duy giúp ra quyết định rõ ràng hơn trong mọi hoàn cảnh</li>
-        <li>Bài tập thực hành hàng ngày để duy trì trạng thái nhận thức cao</li>
-      </ul>
-
-      <h3>Cuốn sách này dành cho ai?</h3>
-      <div class="desc-who">
-        <div class="desc-who-card">
-          <div class="desc-who-title">✅ Phù hợp với</div>
-          <ul>
-            <li>Người cảm thấy "mắc kẹt" dù đã cố gắng</li>
-            <li>Ai muốn hiểu sâu hơn về bản thân mình</li>
-            <li>Người đang trên hành trình phát triển bản thân</li>
-            <li>Nhà lãnh đạo muốn nâng cấp tư duy chiến lược</li>
-          </ul>
-        </div>
-        <div class="desc-who-card">
-          <div class="desc-who-title">⚡ Bạn sẽ thay đổi</div>
-          <ul>
-            <li>Cách nhìn nhận thất bại và nghịch cảnh</li>
-            <li>Phản ứng với áp lực và bất định</li>
-            <li>Chất lượng các quyết định hàng ngày</li>
-            <li>Mức độ tự tin và rõ ràng trong hành động</li>
-          </ul>
-        </div>
-      </div>
-
-      <h3>Nền tảng nghiên cứu</h3>
-      <p>Cuốn sách được xây dựng từ tổng hợp nghiên cứu của Carol Dweck (Stanford), Daniel Kahneman (Nobel Kinh tế), cùng hơn 150 công trình khoa học về nhận thức học, tâm lý học tích cực và thần kinh học — được chắt lọc và Việt hóa để dễ áp dụng nhất trong bối cảnh cuộc sống thực.</p>
+    <div class="desc-content" id="desc-content-dynamic">
+      <div style="text-align:center;padding:40px 0;color:var(--text-3);font-size:14px;">Đang tải mô tả...</div>
     </div>
   </div>
 
-  <!-- TOC PANEL -->
   <div class="dtab-panel" id="panel-toc">
-    <div class="toc-wrap">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <div style="font-size:13.5px;color:var(--text-2);">248 trang · 7 chương · ~4.5 giờ đọc</div>
-        <div style="font-size:12px;color:var(--teal);">Xem trước: Chương 1 & 2</div>
-      </div>
-
-      <div class="toc-chapter open" onclick="toggleToc(this)">
-        <div class="toc-chapter-head">
-          <div class="toc-chapter-name"><span class="toc-chapter-num">CH.01</span> Nhận thức là gì — Và tại sao hầu hết chúng ta đang ngủ quên?</div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span class="toc-chapter-pages">Trang 1–32</span>
-            <svg class="toc-chapter-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
-          </div>
-        </div>
-        <div class="toc-items">
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Định nghĩa nhận thức — rộng hơn bạn nghĩ</div><span class="toc-page">tr.3</span></div>
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Hệ thống 1 và Hệ thống 2 (Kahneman)</div><span class="toc-page">tr.11</span></div>
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Vì sao não bộ ưa thích "tự động lái"</div><span class="toc-page">tr.22</span></div>
-        </div>
-      </div>
-
-      <div class="toc-chapter" onclick="toggleToc(this)">
-        <div class="toc-chapter-head">
-          <div class="toc-chapter-name"><span class="toc-chapter-num">CH.02</span> Niềm tin giới hạn — Kẻ thù vô hình trong đầu bạn</div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span class="toc-chapter-pages">Trang 33–68</span>
-            <svg class="toc-chapter-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
-          </div>
-        </div>
-        <div class="toc-items">
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>9 niềm tin giới hạn phổ biến nhất</div><span class="toc-page">tr.35</span></div>
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Niềm tin hình thành như thế nào từ thuở nhỏ</div><span class="toc-page">tr.50</span></div>
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Bài kiểm tra nhận diện niềm tin của bạn</div><span class="toc-page">tr.62</span></div>
-        </div>
-      </div>
-
-      <div class="toc-chapter" onclick="toggleToc(this)">
-        <div class="toc-chapter-head">
-          <div class="toc-chapter-name"><span class="toc-chapter-num">CH.03</span> Fixed Mindset vs Growth Mindset — Khoa học đằng sau sự khác biệt</div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span class="toc-chapter-pages">Trang 69–108</span>
-            <svg class="toc-chapter-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
-          </div>
-        </div>
-        <div class="toc-items">
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Nghiên cứu của Carol Dweck tại Stanford</div><span class="toc-page">tr.71</span></div>
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Neuroplasticity — Não bộ có thể thay đổi</div><span class="toc-page">tr.84</span></div>
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Dấu hiệu nhận biết tư duy cố định trong cuộc sống thực</div><span class="toc-page">tr.97</span></div>
-        </div>
-      </div>
-
-      <div class="toc-chapter" onclick="toggleToc(this)">
-        <div class="toc-chapter-head">
-          <div class="toc-chapter-name"><span class="toc-chapter-num">CH.04</span> Quan sát không phán xét — Cánh cửa của mọi thay đổi</div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span class="toc-chapter-pages">Trang 109–148</span>
-            <svg class="toc-chapter-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
-          </div>
-        </div>
-        <div class="toc-items">
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Kỹ thuật "nhân chứng bên trong" (Inner Witness)</div><span class="toc-page">tr.111</span></div>
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Mindfulness và khoa học thần kinh</div><span class="toc-page">tr.124</span></div>
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Bài tập 10 phút quan sát suy nghĩ mỗi ngày</div><span class="toc-page">tr.140</span></div>
-        </div>
-      </div>
-
-      <div class="toc-chapter" onclick="toggleToc(this)">
-        <div class="toc-chapter-head">
-          <div class="toc-chapter-name"><span class="toc-chapter-num">CH.05</span> Tái lập trình tiềm thức — Kỹ thuật và thực hành</div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span class="toc-chapter-pages">Trang 149–192</span>
-            <svg class="toc-chapter-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
-          </div>
-        </div>
-        <div class="toc-items">
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Cognitive Reframing — Đổi khung nhìn thay đổi cảm xúc</div><span class="toc-page">tr.151</span></div>
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Affirmation đúng cách (không phải "tích cực độc hại")</div><span class="toc-page">tr.167</span></div>
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Xây dựng loop thói quen nhận thức mới</div><span class="toc-page">tr.182</span></div>
-        </div>
-      </div>
-
-      <div class="toc-chapter" onclick="toggleToc(this)">
-        <div class="toc-chapter-head">
-          <div class="toc-chapter-name"><span class="toc-chapter-num">CH.06</span> Ra quyết định bằng nhận thức sáng suốt</div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span class="toc-chapter-pages">Trang 193–228</span>
-            <svg class="toc-chapter-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
-          </div>
-        </div>
-        <div class="toc-items">
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Nhận diện 12 cognitive bias phổ biến nhất</div><span class="toc-page">tr.195</span></div>
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Khung ra quyết định 5-bước</div><span class="toc-page">tr.210</span></div>
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>Phân biệt trực giác và thiên kiến</div><span class="toc-page">tr.220</span></div>
-        </div>
-      </div>
-
-      <div class="toc-chapter" onclick="toggleToc(this)">
-        <div class="toc-chapter-head">
-          <div class="toc-chapter-name"><span class="toc-chapter-num">CH.07</span> Lộ trình 90 ngày Thức tỉnh — Hệ thống thực hành hoàn chỉnh</div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span class="toc-chapter-pages">Trang 229–248</span>
-            <svg class="toc-chapter-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
-          </div>
-        </div>
-        <div class="toc-items">
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>30 ngày đầu: Quan sát và nhận diện</div><span class="toc-page">tr.231</span></div>
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>30 ngày giữa: Thử thách và tái lập trình</div><span class="toc-page">tr.238</span></div>
-          <div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>30 ngày cuối: Củng cố và mở rộng</div><span class="toc-page">tr.244</span></div>
-        </div>
-      </div>
-
-      <div class="toc-preview-note">
-        📖 Bạn có thể đọc thử <strong>Chương 1 & 2 miễn phí</strong> trước khi quyết định mua.
-        <a href="#" onclick="showToast('Đang mở xem trước...'); return false;" style="color:var(--teal);margin-left:8px;">Xem trước →</a>
-      </div>
+    <div class="toc-wrap" id="toc-dynamic">
+      <div style="text-align:center;padding:40px 0;color:var(--text-3);font-size:14px;">Đang tải mục lục...</div>
     </div>
   </div>
-
   <!-- REVIEWS PANEL -->
   <div class="dtab-panel" id="panel-reviews">
 
@@ -1055,6 +939,29 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- PDF PREVIEW MODAL -->
+<div class="preview-overlay" id="preview-overlay">
+  <div class="preview-header">
+    <div class="preview-title">
+      <span id="preview-book-name">Xem trước</span>
+      <span class="badge">MIỄN PHÍ</span>
+    </div>
+    <button class="preview-close" onclick="closePreviewModal()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="preview-body">
+    <iframe id="preview-iframe" src="about:blank"></iframe>
+  </div>
+  <div class="preview-footer">
+    <span class="preview-footer-text">Đây là bản xem trước. Mua sản phẩm để đọc toàn bộ nội dung.</span>
+    <button class="preview-cta" onclick="closePreviewModal(); openBuyModal();">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+      Mua bản đầy đủ
+    </button>
   </div>
 </div>
 
@@ -1373,12 +1280,35 @@
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 3000);
   }
+
+  // ── PDF Preview Modal ──
+  function openPreviewModal() {
+    const prod = window._currentProduct;
+    const slug = prod ? prod.slug : new URLSearchParams(location.search).get('slug');
+    if (!slug) { showToast('Không tìm thấy bản xem trước.'); return; }
+    const demoUrl = '/demo/' + slug + '.pdf';
+    document.getElementById('preview-book-name').textContent = prod ? prod.name : 'Xem trước';
+    document.getElementById('preview-iframe').src = demoUrl;
+    document.getElementById('preview-overlay').classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePreviewModal() {
+    document.getElementById('preview-overlay').classList.remove('show');
+    document.getElementById('preview-iframe').src = 'about:blank';
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('preview-overlay').classList.contains('show')) {
+      closePreviewModal();
+    }
+  });
 </script>
 <script src="js/cart-badge.js?v=5"></script>
 <script type="module" src="js/firestore-sync.js"></script>
 
 <script type="module" src="/auth-ui.js"></script>
 <script type="module" src="/js/reviews.js"></script>
+<script src="js/product-data.js"></script>
 <script>
 (async function loadProductFromSlug() {
   const slug = new URLSearchParams(location.search).get('slug');
@@ -1455,15 +1385,10 @@
   const excerptEl = document.querySelector('.p-excerpt');
   if (excerptEl && product.description) excerptEl.textContent = product.description;
 
-  // Cập nhật tab Mô tả chi tiết
-  const descContent = document.querySelector('.desc-content');
-  if (descContent && product.description) {
-    const pTags = descContent.querySelectorAll('p');
-    if (pTags.length >= 2) {
-      pTags[0].textContent = product.description;
-      pTags[1].style.display = 'none'; // Ẩn đoạn hardcode cũ
-    }
-  }
+  // Render AIDA marketing content
+  renderAIDAContent(product);
+  // Render dynamic TOC
+  renderTOCContent(product);
 
   // Price
   const priceNow = document.querySelector('.p-price-now');
@@ -1502,7 +1427,102 @@
 
   // Store product id for cart actions
   window._currentProduct = { id: product.id, slug: product.slug, name: product.name, price: product.price, emoji: product.emoji, imageUrl: product.imageUrl };
+
+  // Dynamic related products
+  renderRelatedProducts(product);
 })();
+
+function renderAIDAContent(product) {
+  const el = document.getElementById('desc-content-dynamic');
+  if (!el) return;
+  const aida = window.PRODUCT_AIDA && window.PRODUCT_AIDA[product.slug];
+  if (!aida) {
+    el.innerHTML = `<h3>Tổng quan</h3><p>${product.description || ''}</p>`;
+    return;
+  }
+  const benefitsHtml = aida.benefits.map(b => `<li>${b}</li>`).join('');
+  el.innerHTML = `
+    <h3>${aida.hook}</h3>
+    <p>${aida.pain}</p>
+    <p>${aida.solution}</p>
+    <div class="desc-highlight"><p>${aida.quote}</p></div>
+    <h3>Bạn sẽ nhận được gì?</h3>
+    <ul>${benefitsHtml}</ul>
+    <div style="background:linear-gradient(135deg,rgba(239,68,68,.06),rgba(245,166,35,.06));border:1px solid rgba(245,166,35,.15);border-radius:12px;padding:20px 24px;margin:24px 0;">
+      <div style="font-family:'Exo 2',sans-serif;font-size:14px;font-weight:700;color:var(--warn);margin-bottom:8px;">Đừng bỏ lỡ</div>
+      <p style="margin:0;">${aida.urgency}</p>
+    </div>
+    <div style="text-align:center;margin-top:28px;">
+      <button class="btn-preview" onclick="openPreviewModal()" style="max-width:400px;margin:0 auto 12px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Đọc thử miễn phí
+      </button>
+      <p style="font-size:12px;color:var(--text-3);font-style:italic;">— Thư viện Sơn Nhai: Nơi mỗi cuốn sách là một hành trình. —</p>
+    </div>
+  `;
+}
+
+function renderTOCContent(product) {
+  const el = document.getElementById('toc-dynamic');
+  if (!el) return;
+  const toc = window.PRODUCT_TOC && window.PRODUCT_TOC[product.slug];
+  if (!toc || toc.length === 0) {
+    el.innerHTML = '<div style="text-align:center;padding:40px 0;color:var(--text-3);">Mục lục đang được cập nhật.</div>';
+    return;
+  }
+  // Update tab count
+  const countEl = document.getElementById('toc-count');
+  if (countEl) countEl.textContent = toc.length + ' phần';
+
+  let html = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <div style="font-size:13.5px;color:var(--text-2);">${product.pages || 250} trang · ${toc.length} phần</div>
+    <div style="font-size:12px;color:var(--teal);cursor:pointer;" onclick="openPreviewModal()">Xem trước miễn phí →</div>
+  </div>`;
+
+  toc.forEach((ch, i) => {
+    const num = String(i + 1).padStart(2, '0');
+    const isFirst = i === 0 ? ' open' : '';
+    const subsHtml = ch.subs.map(s => `<div class="toc-item"><div class="toc-item-name"><span class="toc-dot"></span>${s}</div></div>`).join('');
+    html += `<div class="toc-chapter${isFirst}" onclick="toggleToc(this)">
+      <div class="toc-chapter-head">
+        <div class="toc-chapter-name"><span class="toc-chapter-num">CH.${num}</span> ${ch.title}</div>
+        <svg class="toc-chapter-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div class="toc-items">${subsHtml}</div>
+    </div>`;
+  });
+
+  html += `<div class="toc-preview-note">📖 Bạn có thể đọc thử <strong>bản xem trước miễn phí</strong> trước khi quyết định mua.
+    <a href="#" onclick="openPreviewModal(); return false;" style="color:var(--teal);margin-left:8px;">Xem trước →</a>
+  </div>`;
+  el.innerHTML = html;
+}
+
+async function renderRelatedProducts(currentProduct) {
+  const grid = document.querySelector('.related-grid');
+  if (!grid) return;
+  let products = [];
+  try {
+    if (window.SonHaiData) products = await window.SonHaiData.getProducts();
+    else if (window.SonHaiCartBadge) products = window.SonHaiCartBadge.getProducts();
+  } catch(e) { return; }
+  const related = products.filter(p => p.slug !== currentProduct.slug && p.status === 'published').slice(0, 4);
+  if (related.length === 0) return;
+  const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
+  grid.innerHTML = related.map(p => `
+    <a href="product.html?slug=${p.slug}" class="r-card">
+      <div class="r-thumb" style="background:${p.coverGradient || 'var(--bg-3)'};padding:0;overflow:hidden;">
+        <img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" loading="lazy"
+          onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent='${p.emoji || '📚'}'">
+      </div>
+      <div class="r-body">
+        <div class="r-cat">${p.category || ''}</div>
+        <div class="r-name">${p.name}</div>
+        <div class="r-foot"><span class="r-price">${fmt(p.price)}</span><span class="r-stars">★★★★★ ${(p.rating||4.5).toFixed(1)}</span></div>
+      </div>
+    </a>
+  `).join('');
+}
 </script>
 <script src="js/morph-engine.js?v=1"></script>
 <script src="js/parallax-engine.js?v=grid-particles-2"></script>

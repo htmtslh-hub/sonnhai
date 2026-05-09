@@ -338,3 +338,228 @@ Cache: localStorage với prefix `sndata_`, TTL 5 phút.
 
 **Trạng thái:** Phase 1-11 hoàn thành + tất cả Bugfix. Website live tại https://sonnhai.vercel.app. Admin Product Editor hoạt động đầy đủ. Optimistic UI cho save nhanh. Cross-page sync khi admin cập nhật sản phẩm. Cần setup custom domain + verify email domain.
 
+---
+
+## 🎬 Công thức AIDA — Viết Content Video & Bài viết giới thiệu sách
+
+> **Mục đích:** Dùng công thức này để tạo kịch bản video (YouTube, TikTok, Reels) hoặc bài viết giới thiệu/bán sách trên website Sơn Nhai. Áp dụng được cho mọi loại content marketing.
+
+### Tổng quan 8 Giai đoạn
+
+| # | Giai đoạn | Mục tiêu | Thời lượng gợi ý (video) |
+|---|-----------|----------|--------------------------|
+| 1 | **HOOK — Mở màn** | Giữ chân người xem trong 3 giây đầu | 3–5s |
+| 2 | **Nêu vấn đề** | Thu hút sự quan tâm, đồng cảm | 10–20s |
+| 3 | **Tương tác lần 1** | Tăng engagement sớm | 5–10s |
+| 4 | **Intro thương hiệu** | Cài đặt brand vào tiềm thức | 3–5s |
+| 5 | **Xử lý vấn đề / Giải pháp** | Deliver giá trị cốt lõi | Tùy chỉnh (phần lớn thời lượng) |
+| 6 | **Kích động cảm xúc** | Đẩy mạnh nhu cầu hành động | 15–30s |
+| 7 | **Kêu gọi hành động (CTA)** | Chuyển đổi: mua, đăng ký, follow | 10–15s |
+| 8 | **Chào kết / Outro** | Kết thúc chuyên nghiệp + giữ kênh | 5–10s |
+
+---
+
+### Giai đoạn 1 — 🪝 HOOK (Attention)
+
+> **Nguyên tắc:** 3 giây đầu quyết định người xem ở lại hay lướt đi.
+
+**Kỹ thuật HOOK hiệu quả:**
+- **Câu hỏi gây sốc:** "Bạn có biết 90% người đọc sách quên hết nội dung sau 7 ngày?"
+- **Đoạn highlight:** Cắt đoạn hay nhất, cao trào nhất của video đặt lên đầu
+- **Tuyên bố ngược:** "Đọc nhiều sách KHÔNG giúp bạn thành công — đây mới là lý do"
+- **Cảm xúc mạnh:** Sợ hãi, tò mò, hài hước, bất ngờ, phẫn nộ
+- **Con số gây shock:** "Cuốn sách 200 trang này đã thay đổi tư duy 100.000 người"
+
+**Áp dụng cho bài viết sách:**
+> Mở đầu bằng một câu chuyện ngắn, một trích dẫn đắt giá từ sách, hoặc một câu hỏi khiến người đọc phải dừng lại suy nghĩ.
+
+---
+
+### Giai đoạn 2 — 🎯 Nêu vấn đề / Giải pháp (Interest)
+
+> **Nguyên tắc:** Chạm đúng nỗi đau (pain point) của khán giả mục tiêu.
+
+**Cấu trúc:**
+1. **Mô tả vấn đề** mà khán giả đang gặp phải (cụ thể, đời thực)
+2. **Tạo sự đồng cảm** — "Mình cũng từng như vậy..."
+3. **Hé lộ giải pháp** — "Và cuốn sách này đã thay đổi tất cả"
+
+**Ví dụ cho sách:**
+> "Bạn đã bao giờ cảm thấy mình đọc rất nhiều nhưng cuộc sống chẳng thay đổi gì? Mình cũng từng vậy — cho đến khi tìm được cuốn sách này..."
+
+---
+
+### Giai đoạn 3 — 💬 Kêu gọi tương tác lần 1 (Engagement Boost)
+
+> **Nguyên tắc:** Tương tác sớm giúp thuật toán đẩy video lên nhiều người hơn.
+
+**Kỹ thuật:**
+- **Đặt câu hỏi mở:** "Bạn nghĩ sao? Comment bên dưới cho mình biết nhé!"
+- **Thăm dò ý kiến:** "Đã ai từng đọc cuốn này chưa? Like nếu rồi!"
+- **Yêu cầu cụ thể:** "Nếu bạn cũng từng gặp vấn đề này, hãy gõ 'YES' dưới comment"
+- **Subscribe/Follow:** "Ấn theo dõi để không bỏ lỡ các bài review sách tiếp theo!"
+
+---
+
+### Giai đoạn 4 — 🏷️ Intro thương hiệu (Brand Imprint)
+
+> **Nguyên tắc:** Ngắn gọn, lặp lại mỗi video → ghi nhớ thương hiệu theo thời gian. **Tối đa 3–5 giây.**
+
+**Cấu trúc:**
+- Logo/Jingle ngắn của kênh
+- Tagline: "Sơn Nhai — Đọc sách, đổi đời" (ví dụ)
+- Hoặc đơn giản: "Chào mọi người, mình là [tên] đến từ Thư viện Sơn Nhai"
+
+**Áp dụng cho bài viết:**
+> Chèn một dòng brand signature: *"— Thư viện Sơn Nhai: Nơi mỗi cuốn sách là một hành trình."*
+
+---
+
+### Giai đoạn 5 — 📖 Xử lý vấn đề / Giải pháp chi tiết (Desire — Phần chính)
+
+> **Nguyên tắc:** Đây là phần chiếm nhiều thời lượng nhất — deliver giá trị thật sự.
+
+**Cấu trúc cho video review sách:**
+1. **Giới thiệu tổng quan sách:** Tác giả, thể loại, bối cảnh
+2. **3–5 bài học / ý tưởng hay nhất** từ sách (kèm ví dụ cụ thể)
+3. **Trải nghiệm cá nhân:** Cuốn sách đã thay đổi mình như thế nào
+4. **Trích dẫn đắt giá:** Đọc 1–2 câu trích hay nhất trong sách
+
+**Kỹ thuật giữ chân:**
+- Cứ mỗi 2–3 phút, chèn một câu hỏi hoặc CTA nhỏ (micro-engagement)
+- Dùng hình ảnh minh họa, B-roll, text overlay
+- Thay đổi góc quay, tốc độ, nhạc nền để tránh nhàm chán
+
+**💡 Tip — Tương tác giữa chừng:**
+> *"Trước khi mình nói bài học tiếp theo — bạn đoán xem bài học số 3 là gì? Comment đáp án, mình cho bạn 10 giây..."* (đếm ngược tạo urgency)
+
+---
+
+### Giai đoạn 6 — 🔥 Kích động cảm xúc (Desire — Amplify)
+
+> **Nguyên tắc:** Đẩy cảm xúc lên đỉnh điểm → tạo nhu cầu hành động NGAY.
+
+**A) Tác hại nếu KHÔNG hành động (Fear/Pain):**
+- "Nếu bạn không thay đổi tư duy, 5 năm sau bạn vẫn ở đúng vị trí hiện tại"
+- "Mỗi ngày trôi qua mà không đọc là một ngày bạn tụt lại phía sau"
+- Nhấn mạnh: hậu quả, chi phí cơ hội, sự hối tiếc
+
+**B) Lợi ích nếu hành động (Pleasure/Gain):**
+- "Chỉ cần áp dụng 1 bài học trong cuốn sách này, thu nhập mình đã tăng gấp đôi"
+- "Hãy tưởng tượng 3 tháng tới, bạn đã đọc xong 10 cuốn sách thay đổi cuộc đời..."
+- Nhấn mạnh: kết quả cụ thể, câu chuyện thành công, viễn cảnh tươi sáng
+
+---
+
+### Giai đoạn 7 — 🛒 Kêu gọi hành động — CTA (Action)
+
+> **Nguyên tắc:** Rõ ràng, cụ thể, khẩn cấp. Chỉ MỘT hành động chính.
+
+**Loại CTA phù hợp cho Sơn Nhai:**
+
+| Mục tiêu | CTA mẫu |
+|-----------|---------|
+| **Bán sách** | "Link mua sách ở dưới mô tả — giá chỉ [X]đ, rẻ hơn 1 ly trà sữa nhưng giá trị cả đời!" |
+| **Subscribe** | "Ấn đăng ký và bật chuông để nhận thông báo khi mình ra video mới!" |
+| **Cộng đồng** | "Tham gia group đọc sách Sơn Nhai — link Zalo/Facebook ở mô tả!" |
+| **Chia sẻ** | "Nếu video này hữu ích, hãy chia sẻ cho 1 người bạn đang cần!" |
+| **Website** | "Truy cập sonnhai.vercel.app để xem thêm các cuốn sách hay khác!" |
+
+**Tạo urgency:**
+- "Giảm giá chỉ còn hôm nay!"
+- "Chỉ còn [X] suất ưu đãi!"
+- "Link ở dưới — xem ngay trước khi hết!"
+
+---
+
+### Giai đoạn 8 — 👋 Chào kết / Outro
+
+> **Nguyên tắc:** Kết thúc gọn gàng, chuyên nghiệp, và dẫn dắt sang nội dung tiếp theo.
+
+**Cấu trúc:**
+1. **Tóm tắt 1 câu:** "Vậy là hôm nay chúng ta đã cùng tìm hiểu [tên sách] — cuốn sách về [chủ đề]"
+2. **Lời chào:** "Cảm ơn mọi người đã xem, hẹn gặp lại ở video tiếp theo!"
+3. **End screen:** Đề xuất 2 video liên quan (YouTube end card)
+4. **Outro animation:** Logo Sơn Nhai + nhạc kết
+
+---
+
+### 📝 Template nhanh — Viết kịch bản video review sách
+
+```
+[HOOK — 3-5s]
+"{Câu hỏi/tuyên bố gây sốc liên quan đến chủ đề sách}"
+
+[VẤN ĐỀ — 10-20s]
+"Bạn có bao giờ {mô tả pain point}? {Mô tả hệ quả}..."
+
+[TƯƠNG TÁC 1 — 5s]
+"Comment cho mình biết: {câu hỏi liên quan}!"
+
+[INTRO BRAND — 3s]
+"Xin chào, mình là [tên] từ Thư viện Sơn Nhai"
+
+[NỘI DUNG CHÍNH — phần lớn thời lượng]
+"Hôm nay mình sẽ review cuốn {tên sách} của {tác giả}..."
+- Bài học 1: ...
+- Bài học 2: ...
+- [TƯƠNG TÁC GIỮA CHỪNG]: "Đoán xem bài học tiếp theo là gì?"
+- Bài học 3: ...
+
+[KÍCH ĐỘNG — 15-30s]
+"Nếu bạn không {hành động}, thì {hậu quả}..."
+"Nhưng nếu bạn {hành động}, bạn sẽ {lợi ích}..."
+
+[CTA — 10-15s]
+"Link mua sách ở mô tả bên dưới! {Urgency}"
+
+[OUTRO — 5-10s]
+"Cảm ơn mọi người! Xem thêm video {đề xuất} nhé! 👋"
+```
+
+---
+
+### 📝 Template nhanh — Bài viết giới thiệu sách (cho website Sơn Nhai)
+
+```
+[TIÊU ĐỀ BÀI VIẾT]
+→ Dùng công thức: Số + Kết quả + Thời gian
+→ VD: "5 bài học thay đổi tư duy từ cuốn [Tên sách] — đọc trong 10 phút"
+
+[HOOK — Mở bài]
+→ Câu chuyện / trích dẫn / câu hỏi gây tò mò
+
+[VẤN ĐỀ & ĐỒNG CẢM]
+→ Mô tả pain point → "Mình cũng từng..."
+
+[NỘI DUNG CHÍNH — Giá trị từ sách]
+→ 3-5 bài học kèm ví dụ
+→ Trích dẫn hay
+→ Trải nghiệm cá nhân
+
+[KÍCH ĐỘNG]
+→ Tác hại nếu bỏ qua vs. Lợi ích nếu đọc
+
+[CTA]
+→ "Mua ngay tại Thư viện Sơn Nhai — [link sản phẩm]"
+→ Giá + ưu đãi + urgency
+
+[KẾT BÀI]
+→ Tóm tắt 1 dòng + signature brand
+```
+
+---
+
+### 💡 Tips thực chiến
+
+1. **Quy tắc 3 giây:** Người xem quyết định ở lại hay lướt trong 3s đầu → HOOK phải cực mạnh
+2. **Quy tắc 80/20:** 80% giá trị, 20% bán hàng — đừng quá push CTA
+3. **Storytelling > Liệt kê:** Kể câu chuyện thay vì chỉ liệt kê thông tin
+4. **Cảm xúc > Logic:** Người ta mua vì cảm xúc, biện minh bằng lý trí
+5. **CTA đơn giản:** Mỗi content chỉ nên có 1 CTA chính — đừng yêu cầu quá nhiều thứ cùng lúc
+6. **Lặp lại brand:** Cài thương hiệu Sơn Nhai vào mỗi nội dung → nhận diện theo thời gian
+7. **Test & Optimize:** A/B test các HOOK khác nhau, theo dõi retention rate
+
+---
+
+*Công thức AIDA được tối ưu bởi Thư viện Sơn Nhai — Cập nhật: 2026-05-08*
