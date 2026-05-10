@@ -700,10 +700,6 @@
       </p>
       <div class="feat-nums">
         <div>
-          <div class="fn-label">Số trang</div>
-          <div class="fn-val">320</div>
-        </div>
-        <div>
           <div class="fn-label">Định dạng</div>
           <div class="fn-val" style="font-size:15px;margin-top:6px;">PDF</div>
         </div>
@@ -1336,8 +1332,7 @@
       featSplit.querySelector('.feat-desc').textContent = featDesc;
 
       const fnVals = featSplit.querySelectorAll('.fn-val');
-      if (fnVals[0]) fnVals[0].textContent = p.pages || 280;
-      if (fnVals[2]) fnVals[2].textContent = (p.rating || 4.8) + '★';
+      if (fnVals[0]) fnVals[0].textContent = (p.rating || 4.8) + '★';
       featSplit.querySelector('.btn-teal').textContent = `Mua ngay — ${fmt(p.price)}`;
       featSplit.querySelector('.btn-teal').href = `product.html?slug=${p.slug}`;
       featSplit.querySelector('.btn-outline').href = `product.html?slug=${p.slug}`;

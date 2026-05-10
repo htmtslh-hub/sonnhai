@@ -1708,7 +1708,7 @@ function renderTOCContent(product) {
   if (countEl) countEl.textContent = toc.length + ' phần';
 
   let html = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-    <div style="font-size:13.5px;color:var(--text-2);">${product.pages || 250} trang · ${toc.length} phần</div>
+    <div style="font-size:13.5px;color:var(--text-2);">${toc.length} phần</div>
     <div style="font-size:12px;color:var(--teal);cursor:pointer;" onclick="openPreviewModal()">Xem trước miễn phí →</div>
   </div>`;
 
