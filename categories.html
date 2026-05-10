@@ -364,24 +364,50 @@
     .cat-banner-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 32px; }
     .cat-banner {
       border-radius: 14px; padding: 28px 22px; cursor: pointer; position: relative;
-      overflow: hidden; border: 1px solid rgba(255,255,255,.06); transition: all .28s;
-      text-decoration: none;
+      overflow: hidden; transition: all .28s; text-decoration: none;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(12px);
     }
-    .cat-banner:hover { transform: translateY(-4px); }
-    .cat-b1 { background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 100%); }
-    .cat-b1:hover { border-color: #6B3FA0; box-shadow: 0 12px 36px rgba(107,63,160,.2); }
-    .cat-b2 { background: linear-gradient(135deg, #0a1a2e 0%, #0d2845 100%); }
-    .cat-b2:hover { border-color: #3A7FA0; box-shadow: 0 12px 36px rgba(58,127,160,.2); }
-    .cat-b3 { background: linear-gradient(135deg, #0a2e1a 0%, #1b4e2d 100%); }
-    .cat-b3:hover { border-color: #2D8B5A; box-shadow: 0 12px 36px rgba(45,139,90,.2); }
+    .cat-banner:hover { transform: translateY(-4px); border-color: rgba(0,212,212,.3); box-shadow: 0 8px 32px rgba(0,212,212,.1); background: rgba(0,212,212,.04); }
+    .cat-banner[style*="outline"] { border-color: var(--teal); background: rgba(0,212,212,.06); }
 
-    .cb-name { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
-    .cb-count { font-size: 12px; color: var(--text-2); opacity: .8; }
-    .cb-arrow { position: absolute; bottom: 16px; right: 18px; font-size: 18px; color: var(--text-3); opacity: 0; transform: translateX(-4px); transition: all .25s; }
+    .cb-name { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 6px; position: relative; z-index: 1; }
+    .cb-count { font-size: 12px; color: var(--text-2); opacity: .8; position: relative; z-index: 1; }
+    .cb-arrow { position: absolute; bottom: 16px; right: 18px; font-size: 18px; color: var(--text-3); opacity: 0; transform: translateX(-4px); transition: all .25s; z-index: 1; }
     .cat-banner:hover .cb-arrow { opacity: 1; transform: translateX(0); color: var(--teal); }
-    .cat-banner::before {
-      content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%;
-      background: radial-gradient(circle, rgba(0,212,212,.06) 0%, transparent 70%);
+
+    .cat-banner-particles {
+      position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; border-radius: 14px;
+    }
+    .cat-banner-particles::before, .cat-banner-particles::after {
+      position: absolute; top: -20px; opacity: .6; animation-iteration-count: infinite; animation-timing-function: linear;
+    }
+    .cbp-leaf::before, .cbp-leaf::after { content: '🍁'; font-size: 16px; animation-name: catFallLeaf; }
+    .cbp-leaf::before { left: 15%; animation-duration: 4s; animation-delay: 0s; }
+    .cbp-leaf::after { left: 70%; animation-duration: 5s; animation-delay: 2s; font-size: 12px; }
+    .cbp-snow::before, .cbp-snow::after { content: '❄'; font-size: 14px; animation-name: catFallSnow; }
+    .cbp-snow::before { left: 20%; animation-duration: 3.5s; animation-delay: 0.5s; }
+    .cbp-snow::after { left: 75%; animation-duration: 4.5s; animation-delay: 2s; font-size: 10px; }
+    .cbp-coin::before, .cbp-coin::after { content: '₿'; font-size: 15px; color: #f7931a; animation-name: catFloatCoin; }
+    .cbp-coin::before { left: 25%; animation-duration: 3.5s; animation-delay: 0s; }
+    .cbp-coin::after { left: 65%; animation-duration: 5s; animation-delay: 1.5s; font-size: 11px; }
+
+    @keyframes catFallLeaf {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+      10% { opacity: .7; }
+      100% { transform: translateY(100px) rotate(360deg) translateX(20px); opacity: 0; }
+    }
+    @keyframes catFallSnow {
+      0% { transform: translateY(-10px); opacity: 0; }
+      10% { opacity: .8; }
+      100% { transform: translateY(100px) translateX(15px); opacity: 0; }
+    }
+    @keyframes catFloatCoin {
+      0% { transform: translateY(100px) rotate(0deg); opacity: 0; }
+      10% { opacity: .7; }
+      90% { opacity: .5; }
+      100% { transform: translateY(-20px) rotate(180deg); opacity: 0; }
     }
 
     /* ── FOOTER ── */
@@ -566,17 +592,20 @@
     <div class="cat-banner-section">
       <div class="cat-banner-title">Chọn lĩnh vực</div>
       <div class="cat-banner-grid">
-        <a href="#" class="cat-banner cat-b1" data-cat="Thấu hiểu nhân tính" onclick="filterCat(this,'Thấu hiểu nhân tính');return false;">
+        <a href="#" class="cat-banner" data-cat="Thấu hiểu nhân tính" onclick="filterCat(this,'Thấu hiểu nhân tính');return false;">
+          <div class="cat-banner-particles cbp-leaf"></div>
           <div class="cb-name">Thấu hiểu nhân tính</div>
           <div class="cb-count">6 sản phẩm</div>
           <span class="cb-arrow">→</span>
         </a>
-        <a href="#" class="cat-banner cat-b2" data-cat="Thay đổi tư duy" onclick="filterCat(this,'Thay đổi tư duy');return false;">
+        <a href="#" class="cat-banner" data-cat="Thay đổi tư duy" onclick="filterCat(this,'Thay đổi tư duy');return false;">
+          <div class="cat-banner-particles cbp-snow"></div>
           <div class="cb-name">Thay đổi tư duy</div>
           <div class="cb-count">6 sản phẩm</div>
           <span class="cb-arrow">→</span>
         </a>
-        <a href="#" class="cat-banner cat-b3" data-cat="Làm chủ tài chính" onclick="filterCat(this,'Làm chủ tài chính');return false;">
+        <a href="#" class="cat-banner" data-cat="Làm chủ tài chính" onclick="filterCat(this,'Làm chủ tài chính');return false;">
+          <div class="cat-banner-particles cbp-coin"></div>
           <div class="cb-name">Làm chủ tài chính</div>
           <div class="cb-count">3 sản phẩm</div>
           <span class="cb-arrow">→</span>

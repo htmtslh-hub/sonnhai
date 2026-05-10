@@ -378,19 +378,18 @@
     .cat-particles {
       position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; border-radius: 14px;
     }
-    .cat-particles::before, .cat-particles::after,
-    .cat-particles span {
-      position: absolute; opacity: .5; animation-iteration-count: infinite; animation-timing-function: linear;
+    .cat-particles::before, .cat-particles::after {
+      position: absolute; top: -20px; opacity: .6; animation-iteration-count: infinite; animation-timing-function: linear;
     }
-    .cat-p-leaf::before, .cat-p-leaf::after { content: '🍁'; font-size: 14px; animation-name: fallLeaf; }
-    .cat-p-leaf::before { left: 15%; animation-duration: 4.5s; animation-delay: 0s; }
-    .cat-p-leaf::after { left: 65%; animation-duration: 5.5s; animation-delay: 2s; font-size: 11px; }
-    .cat-p-snow::before, .cat-p-snow::after { content: '❄'; font-size: 12px; animation-name: fallSnow; }
-    .cat-p-snow::before { left: 20%; animation-duration: 4s; animation-delay: 0.5s; }
-    .cat-p-snow::after { left: 70%; animation-duration: 5s; animation-delay: 2.5s; font-size: 9px; }
-    .cat-p-coin::before, .cat-p-coin::after { content: '₿'; font-size: 13px; color: #f7931a; animation-name: floatCoin; }
-    .cat-p-coin::before { left: 25%; animation-duration: 4s; animation-delay: 0s; }
-    .cat-p-coin::after { left: 60%; animation-duration: 5.5s; animation-delay: 1.8s; font-size: 10px; }
+    .cat-p-leaf::before, .cat-p-leaf::after { content: '🍁'; font-size: 16px; animation-name: fallLeaf; }
+    .cat-p-leaf::before { left: 15%; animation-duration: 4s; animation-delay: 0s; }
+    .cat-p-leaf::after { left: 70%; animation-duration: 5s; animation-delay: 2s; font-size: 12px; }
+    .cat-p-snow::before, .cat-p-snow::after { content: '❄'; font-size: 14px; animation-name: fallSnow; }
+    .cat-p-snow::before { left: 20%; animation-duration: 3.5s; animation-delay: 0.5s; }
+    .cat-p-snow::after { left: 75%; animation-duration: 4.5s; animation-delay: 2s; font-size: 10px; }
+    .cat-p-coin::before, .cat-p-coin::after { content: '₿'; font-size: 15px; color: #f7931a; animation-name: floatCoin; }
+    .cat-p-coin::before { left: 25%; animation-duration: 3.5s; animation-delay: 0s; }
+    .cat-p-coin::after { left: 65%; animation-duration: 5s; animation-delay: 1.5s; font-size: 11px; }
     .cat-name { font-size: 15px; font-weight: 700; color: var(--text); position: relative; z-index: 1; }
     .cat-cnt { font-size: 11px; color: var(--text-2); position: relative; z-index: 1; opacity: .8; }
     .cat-products { display: none; margin-top: 20px; }
