@@ -747,7 +747,90 @@
       <a href="categories.html" class="sec-more">Tất cả combo <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="combo-grid" id="home-combo-grid">
-      <!-- Combos rendered dynamically from Firestore -->
+      <!-- Static fallback combos — JS will replace when loaded -->
+      <div class="combo-card hot" data-combo-id="combo-nhan-tinh" data-products="1,8,9,10" style="opacity:1;transform:none;clip-path:none;">
+        <div class="combo-save">−39%</div>
+        <div class="combo-covers">
+          <div class="combo-book b1 book-color-1"><img src="product/tuyet_mat_nhan_tinh.webp" alt="Tuyệt mật nhân tính" onerror="this.remove()">🧠</div>
+          <div class="combo-book b2 book-color-2"><img src="product/tinh_cam_bi_tich.webp" alt="Tình cảm bí tịch" onerror="this.remove()">❤️</div>
+          <div class="combo-book b3 book-color-3"><img src="product/xuyen_thau_nhan_tinh.webp" alt="Xuyên thấu nhân tính" onerror="this.remove()">👁️</div>
+        </div>
+        <div class="combo-body">
+          <div class="combo-tag">◆ Bộ sưu tập · 4 cuốn</div>
+          <div class="combo-name">Combo Nhân Tính</div>
+          <ul class="combo-list">
+            <li>Tuyệt mật nhân tính (99.000đ)</li>
+            <li>Tình cảm bí tịch (129.000đ)</li>
+            <li>Xuyên thấu nhân tính (129.000đ)</li>
+            <li>Nhân tính đen trắng (129.000đ)</li>
+          </ul>
+        </div>
+        <div class="combo-pricing">
+          <div class="combo-orig">Mua lẻ: 486.000đ</div>
+          <div class="combo-row">
+            <div class="combo-cost">299.000đ</div>
+            <div class="combo-off">Tiết kiệm 187.000đ</div>
+          </div>
+          <button class="btn btn-teal combo-cta" onclick="buyCombo(event)">Mua combo ngay</button>
+        </div>
+      </div>
+
+      <div class="combo-card" data-combo-id="combo-tu-duy" data-products="2,3,4,6,7,12" style="opacity:1;transform:none;clip-path:none;">
+        <div class="combo-save">−48%</div>
+        <div class="combo-covers">
+          <div class="combo-book b1 book-color-4"><img src="product/thuc_tinh_nhan_thuc.webp" alt="Thức tỉnh nhận thức" onerror="this.remove()">💡</div>
+          <div class="combo-book b2 book-color-5"><img src="product/logic_nguoi_ngheo.webp" alt="Logic người nghèo" onerror="this.remove()">💸</div>
+          <div class="combo-book b3 book-color-6"><img src="product/he_thong_manh_me.webp" alt="Hệ thống mạnh mẽ" onerror="this.remove()">⚙️</div>
+        </div>
+        <div class="combo-body">
+          <div class="combo-tag">◆ Bộ sưu tập · 6 cuốn</div>
+          <div class="combo-name">Combo Tư Duy</div>
+          <ul class="combo-list">
+            <li>Thức tỉnh nhận thức (129.000đ)</li>
+            <li>Logic người nghèo (129.000đ)</li>
+            <li>Hệ thống mạnh mẽ (129.000đ)</li>
+            <li>Tư duy sâu sắc (129.000đ)</li>
+            <li>Tư duy cường giả (129.000đ)</li>
+            <li>Mưu lược tuổi trẻ (129.000đ)</li>
+          </ul>
+        </div>
+        <div class="combo-pricing">
+          <div class="combo-orig">Mua lẻ: 774.000đ</div>
+          <div class="combo-row">
+            <div class="combo-cost">399.000đ</div>
+            <div class="combo-off">Tiết kiệm 375.000đ</div>
+          </div>
+          <button class="btn btn-outline combo-cta" onclick="buyCombo(event)">Mua combo ngay</button>
+        </div>
+      </div>
+
+      <div class="combo-card" data-combo-id="combo-tai-chinh" data-products="5,11,13,14,15" style="opacity:1;transform:none;clip-path:none;">
+        <div class="combo-save">−53%</div>
+        <div class="combo-covers">
+          <div class="combo-book b1 book-color-7"><img src="product/muu_luoc_tai_chinh.webp" alt="Mưu lược tài chính" onerror="this.remove()">📊</div>
+          <div class="combo-book b2 book-color-8"><img src="product/thuong_chien.webp" alt="Thương chiến" onerror="this.remove()">⚔️</div>
+          <div class="combo-book b3 book-color-1"><img src="product/goc_nhin_tao_lap.webp" alt="Góc nhìn tạo lập" onerror="this.remove()">🏛️</div>
+        </div>
+        <div class="combo-body">
+          <div class="combo-tag">◆ Bộ sưu tập · 5 cuốn</div>
+          <div class="combo-name">Combo Tài Chính</div>
+          <ul class="combo-list">
+            <li>Mưu lược tài chính (179.000đ)</li>
+            <li>Thương chiến (179.000đ)</li>
+            <li>Góc nhìn tạo lập - Luật ngầm (179.000đ)</li>
+            <li>Bản chất tài chính (179.000đ)</li>
+            <li>Ẩn chứa huyền cơ (129.000đ)</li>
+          </ul>
+        </div>
+        <div class="combo-pricing">
+          <div class="combo-orig">Mua lẻ: 845.000đ</div>
+          <div class="combo-row">
+            <div class="combo-cost">399.000đ</div>
+            <div class="combo-off">Tiết kiệm 446.000đ</div>
+          </div>
+          <button class="btn btn-outline combo-cta" onclick="buyCombo(event)">Mua combo ngay</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1396,108 +1479,201 @@
     'book-color-5','book-color-6','book-color-7','book-color-8'
   ];
 
+  // Product ID → image mapping for combo covers (always available, no Firestore needed)
+  const productImageMap = {
+    1: 'product/tuyet_mat_nhan_tinh.webp',
+    2: 'product/thuc_tinh_nhan_thuc.webp',
+    3: 'product/logic_nguoi_ngheo.webp',
+    4: 'product/he_thong_manh_me.webp',
+    5: 'product/muu_luoc_tai_chinh.webp',
+    6: 'product/tu_duy_sau_sac.webp',
+    7: 'product/tu_duy_cuong_gia.webp',
+    8: 'product/tinh_cam_bi_tich.webp',
+    9: 'product/xuyen_thau_nhan_tinh.webp',
+    10: 'product/nhan_tinh_den_trang.webp',
+    11: 'product/thuong_chien.webp',
+    12: 'product/muu_luoc_tuoir_tre.webp',
+    13: 'product/goc_nhin_tao_lap.webp',
+    14: 'product/ban_chat_tai_chinh.webp',
+    15: 'product/an_chua_huyen_co.webp'
+  };
+
+  // Default combos from info.txt — used when Firestore has no combo documents
+  const defaultCombos = [
+    {
+      id: 'combo-nhan-tinh',
+      name: 'Combo Nhân Tính',
+      tag: '◆ Bộ sưu tập · 4 cuốn',
+      productIds: [1, 8, 9, 10],
+      productNames: ['Tuyệt mật nhân tính', 'Tình cảm bí tịch', 'Xuyên thấu nhân tính', 'Nhân tính đen trắng'],
+      originalPrice: 486000,
+      comboPrice: 299000,
+      isHot: true,
+      badgeText: '−39%',
+      order: 1
+    },
+    {
+      id: 'combo-tu-duy',
+      name: 'Combo Tư Duy',
+      tag: '◆ Bộ sưu tập · 6 cuốn',
+      productIds: [2, 3, 4, 6, 7, 12],
+      productNames: ['Thức tỉnh nhận thức', 'Logic người nghèo', 'Hệ thống mạnh mẽ', 'Tư duy sâu sắc', 'Tư duy cường giả', 'Mưu lược tuổi trẻ'],
+      originalPrice: 774000,
+      comboPrice: 399000,
+      isHot: false,
+      badgeText: '−48%',
+      order: 2
+    },
+    {
+      id: 'combo-tai-chinh',
+      name: 'Combo Tài Chính',
+      tag: '◆ Bộ sưu tập · 5 cuốn',
+      productIds: [5, 11, 13, 14, 15],
+      productNames: ['Mưu lược tài chính', 'Thương chiến', 'Góc nhìn tạo lập - Luật ngầm', 'Bản chất tài chính', 'Ẩn chứa huyền cơ'],
+      originalPrice: 845000,
+      comboPrice: 399000,
+      isHot: false,
+      badgeText: '−53%',
+      order: 3
+    }
+  ];
+
   async function renderCombos() {
     const grid = document.getElementById('home-combo-grid');
-    if (!grid) return;
-
-    // Wait for firestore-sync module to load
-    let retries = 0;
-    while (!window.SonHaiData && retries < 30) {
-      await new Promise(r => setTimeout(r, 300));
-      retries++;
-    }
+    if (!grid) { console.warn('renderCombos: grid not found'); return; }
 
     let combos = [];
+
+    // Try Firestore first (but with shorter timeout)
     if (window.SonHaiData) {
       try {
         combos = await window.SonHaiData.getCombos();
-      } catch(e) { console.warn('Combo load failed:', e); }
+      } catch(e) { console.warn('Combo load from Firestore failed:', e); }
+    } else {
+      // Wait briefly for SonHaiData, but don't block too long
+      let retries = 0;
+      while (!window.SonHaiData && retries < 15) {
+        await new Promise(r => setTimeout(r, 200));
+        retries++;
+      }
+      if (window.SonHaiData) {
+        try {
+          combos = await window.SonHaiData.getCombos();
+        } catch(e) { console.warn('Combo load failed after wait:', e); }
+      }
     }
 
+    // Fallback to hardcoded combos if Firestore has none
     if (!combos || combos.length === 0) {
-      const section = document.getElementById('combo');
-      if (section) section.style.display = 'none';
-      return;
+      console.log('renderCombos: using default combos (Firestore empty or unavailable)');
+      combos = defaultCombos;
     }
 
     const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
     
-    // Get all products for emoji lookup
+    // Get all products for emoji/image lookup
     let allProducts = [];
     if (window.SonHaiCartBadge) {
       allProducts = window.SonHaiCartBadge.getProducts() || [];
     }
 
-    grid.innerHTML = combos.map((combo, idx) => {
-      const origPrice = combo.originalPrice || 0;
-      const comboPrice = combo.comboPrice || 0;
-      const savings = origPrice - comboPrice;
-      const productIds = combo.productIds || [];
-      const productNames = combo.productNames || [];
-      
-      // Get product data for covers
-      const comboProducts = productIds.map(pid => {
-        return allProducts.find(p => String(p.id) === String(pid));
-      });
-      
-      // Product items list
-      const itemsList = productNames.map((name, i) => {
-        const prod = comboProducts[i];
-        const price = prod ? fmt(prod.price) : '';
-        return `<li>${name}${price ? ' (' + price + ')' : ''}</li>`;
+    try {
+      grid.innerHTML = combos.map((combo, idx) => {
+        const origPrice = combo.originalPrice || 0;
+        const comboPrice = combo.comboPrice || 0;
+        const savings = origPrice - comboPrice;
+        const productIds = combo.productIds || [];
+        const productNames = combo.productNames || [];
+        
+        // Get product data for covers
+        const comboProducts = productIds.map(pid => {
+          return allProducts.find(p => String(p.id) === String(pid));
+        });
+        
+        // Product items list
+        const itemsList = productNames.map((name, i) => {
+          const prod = comboProducts[i];
+          const price = prod ? fmt(prod.price) : '';
+          return `<li>${name}${price ? ' (' + price + ')' : ''}</li>`;
+        }).join('');
+
+        // Book cover colors
+        const bc1 = bookColors[(idx * 3) % bookColors.length];
+        const bc2 = bookColors[(idx * 3 + 1) % bookColors.length];
+        const bc3 = bookColors[(idx * 3 + 2) % bookColors.length];
+
+        function bookHtml(prod, bcClass, posClass, prodId) {
+          const emoji = prod ? (prod.emoji || prod.icon || '📚') : '📚';
+          const imgSrc = productImageMap[prodId]
+            || (prod && prod.imageUrl)
+            || (prod && prod.slug ? 'product/' + prod.slug.replace(/-/g, '_') + '.webp' : '');
+          const imgTag = imgSrc ? `<img src="${imgSrc}" alt="${prod ? prod.name : ''}" onerror="this.remove()">` : '';
+          return `<div class="combo-book ${posClass} ${bcClass}">${emoji}${imgTag}</div>`;
+        }
+
+        let booksHtml = '';
+        // Show first 3 products as cover books
+        const coverProducts = comboProducts.slice(0, 3);
+        const coverIds = productIds.slice(0, 3);
+        if (coverProducts.length >= 3) {
+          booksHtml = bookHtml(coverProducts[0], bc1, 'b1', coverIds[0]) + bookHtml(coverProducts[1], bc2, 'b2', coverIds[1]) + bookHtml(coverProducts[2], bc3, 'b3', coverIds[2]);
+        } else if (coverProducts.length === 2) {
+          booksHtml = bookHtml(coverProducts[0], bc1, 'b1', coverIds[0]) + bookHtml(coverProducts[1], bc2, 'b2', coverIds[1]);
+        } else if (coverProducts.length === 1) {
+          booksHtml = bookHtml(coverProducts[0], bc1, 'b2', coverIds[0]);
+        } else {
+          // No products matched — still use images from productImageMap
+          const fallbackIds = productIds.slice(0, 3);
+          booksHtml = fallbackIds.map((fid, fi) => {
+            const pos = ['b1','b2','b3'][fi] || 'b2';
+            const bc = [bc1,bc2,bc3][fi] || bc1;
+            const src = productImageMap[fid];
+            const imgTag = src ? `<img src="${src}" alt="" onerror="this.remove()">` : '';
+            return `<div class="combo-book ${pos} ${bc}">📚${imgTag}</div>`;
+          }).join('');
+        }
+
+        const isHot = combo.isHot || false;
+        const badgeText = combo.badgeText || (origPrice > 0 ? `−${Math.round((savings / origPrice) * 100)}%` : '');
+
+        return `
+          <div class="combo-card${isHot ? ' hot' : ''}" data-combo-id="${combo.id}" data-products="${productIds.join(',')}">
+            <div class="combo-save">${badgeText}</div>
+            <div class="combo-covers">${booksHtml}</div>
+            <div class="combo-body">
+              <div class="combo-tag">${combo.tag || '◆ Bộ sưu tập · ' + productIds.length + ' cuốn'}</div>
+              <div class="combo-name">${combo.name || 'Combo'}</div>
+              <ul class="combo-list">${itemsList}</ul>
+            </div>
+            <div class="combo-pricing">
+              <div class="combo-orig">Mua lẻ: ${fmt(origPrice)}</div>
+              <div class="combo-row">
+                <div class="combo-cost">${fmt(comboPrice)}</div>
+                <div class="combo-off">Tiết kiệm ${fmt(savings)}</div>
+              </div>
+              <button class="btn ${isHot ? 'btn-teal' : 'btn-outline'} combo-cta" onclick="buyCombo(event)">Mua combo ngay</button>
+            </div>
+          </div>`;
       }).join('');
 
-      // Book cover colors
-      const bc1 = bookColors[(idx * 3) % bookColors.length];
-      const bc2 = bookColors[(idx * 3 + 1) % bookColors.length];
-      const bc3 = bookColors[(idx * 3 + 2) % bookColors.length];
-
-      // Build book cover HTML with product images (emoji always shown as fallback)
-      function bookHtml(prod, bcClass, posClass) {
-        const emoji = prod ? (prod.emoji || prod.icon || '📚') : '📚';
-        const imgTag = (prod && prod.imageUrl) ? `<img src="${prod.imageUrl}" alt="${prod.name || ''}" onerror="this.remove()">` : '';
-        return `<div class="combo-book ${posClass} ${bcClass}">${emoji}${imgTag}</div>`;
-      }
-
-      let booksHtml = '';
-      if (comboProducts.length >= 3) {
-        booksHtml = bookHtml(comboProducts[0], bc1, 'b1') + bookHtml(comboProducts[1], bc2, 'b2') + bookHtml(comboProducts[2], bc3, 'b3');
-      } else if (comboProducts.length === 2) {
-        booksHtml = bookHtml(comboProducts[0], bc1, 'b1') + bookHtml(comboProducts[1], bc2, 'b2');
-      } else if (comboProducts.length === 1) {
-        booksHtml = bookHtml(comboProducts[0], bc1, 'b2');
-      }
-
-      const isHot = combo.isHot || false;
-      const badgeText = combo.badgeText || `−${Math.round((savings / origPrice) * 100)}%`;
-
-      return `
-        <div class="combo-card${isHot ? ' hot' : ''}" data-combo-id="${combo.id}" data-products="${productIds.join(',')}">
-          <div class="combo-save">${badgeText}</div>
-          <div class="combo-covers">${booksHtml}</div>
-          <div class="combo-body">
-            <div class="combo-tag">${combo.tag || '◆ Bộ sưu tập · ' + productIds.length + ' cuốn'}</div>
-            <div class="combo-name">${combo.name || 'Combo'}</div>
-            <ul class="combo-list">${itemsList}</ul>
-          </div>
-          <div class="combo-pricing">
-            <div class="combo-orig">Mua lẻ: ${fmt(origPrice)}</div>
-            <div class="combo-row">
-              <div class="combo-cost">${fmt(comboPrice)}</div>
-              <div class="combo-off">Tiết kiệm ${fmt(savings)}</div>
-            </div>
-            <button class="btn ${isHot ? 'btn-teal' : 'btn-outline'} combo-cta" onclick="buyCombo(event)">Mua combo ngay</button>
-          </div>
-        </div>`;
-    }).join('');
+      console.log('renderCombos: rendered', combos.length, 'combos, grid children:', grid.children.length);
+    } catch (renderErr) {
+      console.error('renderCombos: render error:', renderErr);
+      return;
+    }
 
     // Force combo cards visible (morph-engine adds morph-reveal which hides them)
-    setTimeout(() => {
+    function forceVisible() {
       grid.querySelectorAll('.combo-card').forEach(card => {
-        card.classList.remove('morph-reveal');
         card.classList.add('visible');
+        card.style.opacity = '1';
+        card.style.transform = 'scale(1)';
+        card.style.clipPath = 'none';
       });
-    }, 100);
+    }
+    setTimeout(forceVisible, 200);
+    setTimeout(forceVisible, 800);
+    setTimeout(forceVisible, 1500);
   }
 
   async function buyCombo(e) {
