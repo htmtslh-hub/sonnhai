@@ -375,6 +375,22 @@
     }
     .cat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,212,212,.1); border-color: rgba(0,212,212,.3); background: rgba(0,212,212,.04); }
     .cat-card.active { border-color: var(--teal); background: rgba(0,212,212,.06); box-shadow: 0 0 20px rgba(0,212,212,.12); }
+    .cat-particles {
+      position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; border-radius: 14px;
+    }
+    .cat-particles::before, .cat-particles::after,
+    .cat-particles span {
+      position: absolute; opacity: .5; animation-iteration-count: infinite; animation-timing-function: linear;
+    }
+    .cat-p-leaf::before, .cat-p-leaf::after { content: '🍁'; font-size: 14px; animation-name: fallLeaf; }
+    .cat-p-leaf::before { left: 15%; animation-duration: 4.5s; animation-delay: 0s; }
+    .cat-p-leaf::after { left: 65%; animation-duration: 5.5s; animation-delay: 2s; font-size: 11px; }
+    .cat-p-snow::before, .cat-p-snow::after { content: '❄'; font-size: 12px; animation-name: fallSnow; }
+    .cat-p-snow::before { left: 20%; animation-duration: 4s; animation-delay: 0.5s; }
+    .cat-p-snow::after { left: 70%; animation-duration: 5s; animation-delay: 2.5s; font-size: 9px; }
+    .cat-p-coin::before, .cat-p-coin::after { content: '₿'; font-size: 13px; color: #f7931a; animation-name: floatCoin; }
+    .cat-p-coin::before { left: 25%; animation-duration: 4s; animation-delay: 0s; }
+    .cat-p-coin::after { left: 60%; animation-duration: 5.5s; animation-delay: 1.8s; font-size: 10px; }
     .cat-name { font-size: 15px; font-weight: 700; color: var(--text); position: relative; z-index: 1; }
     .cat-cnt { font-size: 11px; color: var(--text-2); position: relative; z-index: 1; opacity: .8; }
     .cat-products { display: none; margin-top: 20px; }
@@ -871,9 +887,9 @@
       <a href="categories.html" class="sec-more">Tất cả sản phẩm <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="cats-grid">
-      <div class="cat-card" data-category="Thấu hiểu nhân tính" onclick="toggleCatProducts(this)"><div class="cat-name">Thấu hiểu nhân tính</div><div class="cat-cnt">6 cuốn</div></div>
-      <div class="cat-card" data-category="Thay đổi tư duy" onclick="toggleCatProducts(this)"><div class="cat-name">Thay đổi tư duy</div><div class="cat-cnt">6 cuốn</div></div>
-      <div class="cat-card" data-category="Làm chủ tài chính" onclick="toggleCatProducts(this)"><div class="cat-name">Làm chủ tài chính</div><div class="cat-cnt">3 cuốn</div></div>
+      <div class="cat-card" data-category="Thấu hiểu nhân tính" onclick="toggleCatProducts(this)"><div class="cat-particles cat-p-leaf"></div><div class="cat-name">Thấu hiểu nhân tính</div><div class="cat-cnt">6 cuốn</div></div>
+      <div class="cat-card" data-category="Thay đổi tư duy" onclick="toggleCatProducts(this)"><div class="cat-particles cat-p-snow"></div><div class="cat-name">Thay đổi tư duy</div><div class="cat-cnt">6 cuốn</div></div>
+      <div class="cat-card" data-category="Làm chủ tài chính" onclick="toggleCatProducts(this)"><div class="cat-particles cat-p-coin"></div><div class="cat-name">Làm chủ tài chính</div><div class="cat-cnt">3 cuốn</div></div>
     </div>
     <div class="cat-products" id="cat-products-grid"></div>
   </div>
