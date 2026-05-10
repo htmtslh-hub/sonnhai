@@ -908,7 +908,15 @@
       const rating = parseFloat(card.dataset.rating);
 
       let show = true;
-      if (activeCategory && cat !== activeCategory) show = false;
+      if (activeCategory) {
+        const catMap = {
+          'Thấu hiểu nhân tính': ['Thấu hiểu nhân tính', 'Nhân tính học', 'Nhân tính'],
+          'Thay đổi tư duy': ['Thay đổi tư duy', 'Phát triển bản thân', 'Tư duy', 'Nhận thức', 'Hệ thống'],
+          'Làm chủ tài chính': ['Làm chủ tài chính', 'Tài chính'],
+        };
+        const matchCats = catMap[activeCategory] || [activeCategory];
+        if (!matchCats.some(c => cat && cat.includes(c))) show = false;
+      }
       if (minPrice && price < minPrice) show = false;
       if (maxPrice && price > maxPrice) show = false;
       if (minRating && rating < minRating) show = false;
