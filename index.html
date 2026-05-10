@@ -1208,7 +1208,7 @@
   updateCartBadge();
 
   // ── Render Products Dynamically ──
-  function renderHomeProducts() {
+  async function renderHomeProducts() {
     if (!window.SonHaiCartBadge) return;
     const allProducts = window.SonHaiCartBadge.getProducts().filter(p => p.status === 'published');
     const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
