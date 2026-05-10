@@ -1296,21 +1296,45 @@
       });
     }
     
-    // 3. Render Featured Split (first product)
+    // 3. Render Featured Split (rotate daily based on date)
     const featSplit = document.querySelector('.feat');
     if (featSplit && allProducts.length > 0) {
-      const p = allProducts[0];
+      const dayIndex = Math.floor(Date.now() / 86400000) % allProducts.length;
+      const p = allProducts[dayIndex];
       featSplit.querySelector('.feat-h2').innerHTML = p.name.replace(/ /g, '<br>');
-      if (p.description) featSplit.querySelector('.feat-desc').textContent = p.description;
-      featSplit.querySelector('.fn-val:nth-child(2)').textContent = p.pages || 320;
-      featSplit.querySelector('.fn-val:nth-child(4)').textContent = 'PDF';
-      featSplit.querySelector('.fn-val:nth-child(6)').textContent = (p.rating || 4.9) + '★';
+
+      // Try to find a matching blog post for this product
+      let featDesc = p.description || '';
+      if (window.SonHaiData) {
+        try {
+          const posts = await window.SonHaiData.getBlogPosts();
+          const matchPost = posts.find(post => {
+            const title = (post.title || '').toLowerCase();
+            const content = (post.excerpt || post.content || '').toLowerCase();
+            const pName = p.name.toLowerCase();
+            return title.includes(pName) || content.includes(pName) || (p.slug && (title.includes(p.slug) || content.includes(p.slug)));
+          });
+          if (matchPost) {
+            featDesc = matchPost.excerpt || matchPost.content?.substring(0, 200) || featDesc;
+          }
+        } catch(e) {}
+      }
+      featSplit.querySelector('.feat-desc').textContent = featDesc;
+
+      const fnVals = featSplit.querySelectorAll('.fn-val');
+      if (fnVals[0]) fnVals[0].textContent = p.pages || 280;
+      if (fnVals[2]) fnVals[2].textContent = (p.rating || 4.8) + '★';
       featSplit.querySelector('.btn-teal').textContent = `Mua ngay — ${fmt(p.price)}`;
-      // Update cover image src
+      featSplit.querySelector('.btn-teal').href = `product.html?slug=${p.slug}`;
+      featSplit.querySelector('.btn-outline').href = `product.html?slug=${p.slug}`;
+      // Update cover image
       const featCoverImg = document.getElementById('feat-cover-img');
-      if (p.imageUrl && featCoverImg) {
-        featCoverImg.src = p.imageUrl;
-        featCoverImg.alt = p.name;
+      if (featCoverImg) {
+        const imgSrc = p.imageUrl || (p.slug ? 'product/' + p.slug.replace(/-/g, '_') + '.webp' : '');
+        if (imgSrc) {
+          featCoverImg.src = imgSrc;
+          featCoverImg.alt = p.name;
+        }
       }
     }
 
