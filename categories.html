@@ -453,7 +453,9 @@
       border: 1px solid rgba(255,255,255,.08); box-shadow: 0 10px 28px rgba(0,0,0,.65);
       transition: transform .3s ease; overflow: hidden;
     }
-    .combo-book img { width: 100%; height: 100%; object-fit: cover; }
+    .combo-book img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;
+    }
     .combo-book.b1 { transform: rotate(-9deg) translateX(-38px); z-index: 1; }
     .combo-book.b2 { transform: rotate(0deg); z-index: 3; }
     .combo-book.b3 { transform: rotate(9deg) translateX(38px); z-index: 1; }
@@ -1211,11 +1213,9 @@
       const bc3 = bookColors[(idx * 3 + 2) % bookColors.length];
 
       function bookHtml(prod, bcClass, posClass) {
-        if (prod && prod.imageUrl) {
-          return `<div class="combo-book ${posClass} ${bcClass}"><img src="${prod.imageUrl}" alt="${prod.name || ''}" onerror="this.style.display='none';this.parentElement.textContent='${prod.emoji || prod.icon || '📚'}'"></div>`;
-        }
         const emoji = prod ? (prod.emoji || prod.icon || '📚') : '📚';
-        return `<div class="combo-book ${posClass} ${bcClass}">${emoji}</div>`;
+        const imgTag = (prod && prod.imageUrl) ? `<img src="${prod.imageUrl}" alt="${prod.name || ''}" onerror="this.remove()">` : '';
+        return `<div class="combo-book ${posClass} ${bcClass}">${emoji}${imgTag}</div>`;
       }
 
       let booksHtml = '';
