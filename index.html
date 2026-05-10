@@ -539,33 +539,7 @@
       padding: 36px 24px 28px; background: linear-gradient(180deg, var(--bg-3), var(--bg-2));
       border-bottom: 1px solid var(--border);
       display: flex; justify-content: center; align-items: flex-end;
-      position: relative; min-height: 130px; z-index: 1; overflow: hidden;
-    }
-    .combo-particle {
-      position: absolute; pointer-events: none; z-index: 0; opacity: .7;
-      animation-timing-function: linear; animation-iteration-count: infinite;
-    }
-    /* Lá phong - Nhân tính */
-    .combo-card[data-combo-id*="nhan-tinh"] .combo-particle { animation-name: fallLeaf; }
-    @keyframes fallLeaf {
-      0% { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: 0; }
-      10% { opacity: .8; }
-      100% { transform: translateY(140px) rotate(360deg) translateX(30px); opacity: 0; }
-    }
-    /* Tuyết - Tư duy */
-    .combo-card[data-combo-id*="tu-duy"] .combo-particle { animation-name: fallSnow; }
-    @keyframes fallSnow {
-      0% { transform: translateY(-10px) translateX(0); opacity: 0; }
-      10% { opacity: .9; }
-      100% { transform: translateY(140px) translateX(20px); opacity: 0; }
-    }
-    /* Bitcoin - Tài chính */
-    .combo-card[data-combo-id*="tai-chinh"] .combo-particle { animation-name: floatCoin; }
-    @keyframes floatCoin {
-      0% { transform: translateY(140px) rotate(0deg); opacity: 0; }
-      10% { opacity: .8; }
-      90% { opacity: .6; }
-      100% { transform: translateY(-20px) rotate(180deg); opacity: 0; }
+      position: relative; min-height: 130px; z-index: 1;
     }
     .combo-book {
       width: 64px; height: 86px; border-radius: 7px; position: absolute;
@@ -1791,28 +1765,6 @@
     setTimeout(forceVisible, 200);
     setTimeout(forceVisible, 800);
     setTimeout(forceVisible, 1500);
-
-    // Inject particles into combo covers
-    setTimeout(() => {
-      grid.querySelectorAll('.combo-card').forEach(card => {
-        const covers = card.querySelector('.combo-covers');
-        if (!covers) return;
-        const id = card.dataset.comboId || '';
-        let symbol = '🍁', count = 8;
-        if (id.includes('tu-duy')) { symbol = '❄'; count = 10; }
-        else if (id.includes('tai-chinh')) { symbol = '₿'; count = 6; }
-        for (let i = 0; i < count; i++) {
-          const el = document.createElement('span');
-          el.className = 'combo-particle';
-          el.textContent = symbol;
-          el.style.left = Math.random() * 90 + '%';
-          el.style.fontSize = (10 + Math.random() * 10) + 'px';
-          el.style.animationDuration = (3 + Math.random() * 4) + 's';
-          el.style.animationDelay = (Math.random() * 5) + 's';
-          covers.appendChild(el);
-        }
-      });
-    }, 300);
   }
 
   async function buyCombo(e) {
