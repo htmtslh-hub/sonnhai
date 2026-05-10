@@ -4,7 +4,7 @@
   var CART_KEY = 'sonhai_cart_items';
   var PRODUCTS_KEY = 'sonhai_products';
   var PRODUCTS_VERSION_KEY = 'sonhai_products_version';
-  var CURRENT_VERSION = 6; // v6: correct individual pricing per info.txt + combos
+  var CURRENT_VERSION = 7; // v7: 3 categories moi + addCombo support
 
   var defaultProducts = [
     { id: 1, slug: 'tuyet-mat-nhan-tinh', name: 'Tuyệt mật nhân tính', category: 'Thấu hiểu nhân tính', price: 99000, original_price: 199000, emoji: '🧠', coverGradient: 'linear-gradient(145deg, #1a0a2e, #2d1b4e)', imageUrl: 'chuan/tuyet_mat_nhan_tinh.webp', description: 'Khám phá những bí mật ẩn giấu sâu thẳm trong bản chất con người, giúp bạn hiểu rõ động cơ và hành vi của mọi người xung quanh.', rating: 4.9, sold_count: 512, status: 'published', pages: 280, format: 'PDF' },
