@@ -361,40 +361,28 @@
       font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 12px; font-weight: 800;
       letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px;
     }
-    .cat-banner-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 32px; }
+    .cat-banner-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 32px; }
     .cat-banner {
-      border-radius: 14px; padding: 20px 18px; cursor: pointer; position: relative;
-      overflow: hidden; border: 1px solid var(--border); transition: all .28s;
+      border-radius: 14px; padding: 28px 22px; cursor: pointer; position: relative;
+      overflow: hidden; border: 1px solid rgba(255,255,255,.06); transition: all .28s;
       text-decoration: none;
     }
-    .cat-banner:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(0,0,0,.5); }
-    .cat-b1 { background: linear-gradient(135deg, #0F1D38 0%, #0D1018 100%); }
-    .cat-b1:hover { border-color: #3A5FA0; box-shadow: 0 12px 36px rgba(0,0,0,.5), 0 0 20px rgba(58,95,160,.15); }
-    .cat-b2 { background: linear-gradient(135deg, #1A2520 0%, #0D1018 100%); }
-    .cat-b2:hover { border-color: #3D7A5A; box-shadow: 0 12px 36px rgba(0,0,0,.5), 0 0 20px rgba(61,122,90,.15); }
-    .cat-b3 { background: linear-gradient(135deg, #1F1209 0%, #0D1018 100%); }
-    .cat-b3:hover { border-color: #8B4A15; box-shadow: 0 12px 36px rgba(0,0,0,.5), 0 0 20px rgba(139,74,21,.15); }
-    .cat-b4 { background: linear-gradient(135deg, #0D1F2E 0%, #0D1018 100%); }
-    .cat-b4:hover { border-color: var(--teal-dark); box-shadow: 0 12px 36px rgba(0,0,0,.5), 0 0 20px rgba(0,212,212,.12); }
-    .cat-b5 { background: linear-gradient(135deg, #1A0A1A 0%, #0D1018 100%); }
-    .cat-b5:hover { border-color: #6B3080; box-shadow: 0 12px 36px rgba(0,0,0,.5), 0 0 20px rgba(107,48,128,.15); }
-    .cat-b6 { background: linear-gradient(135deg, #0E1A1F 0%, #0D1018 100%); }
-    .cat-b6:hover { border-color: #256070; box-shadow: 0 12px 36px rgba(0,0,0,.5), 0 0 20px rgba(37,96,112,.15); }
-    .cat-b7 { background: linear-gradient(135deg, #1A1F0A 0%, #0D1018 100%); }
-    .cat-b7:hover { border-color: #567A20; box-shadow: 0 12px 36px rgba(0,0,0,.5), 0 0 20px rgba(86,122,32,.15); }
-    .cat-b8 { background: linear-gradient(135deg, #1F1A09 0%, #0D1018 100%); }
-    .cat-b8:hover { border-color: #8B6B15; box-shadow: 0 12px 36px rgba(0,0,0,.5), 0 0 20px rgba(139,107,21,.15); }
+    .cat-banner:hover { transform: translateY(-4px); }
+    .cat-b1 { background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 100%); }
+    .cat-b1:hover { border-color: #6B3FA0; box-shadow: 0 12px 36px rgba(107,63,160,.2); }
+    .cat-b2 { background: linear-gradient(135deg, #0a1a2e 0%, #0d2845 100%); }
+    .cat-b2:hover { border-color: #3A7FA0; box-shadow: 0 12px 36px rgba(58,127,160,.2); }
+    .cat-b3 { background: linear-gradient(135deg, #0a2e1a 0%, #1b4e2d 100%); }
+    .cat-b3:hover { border-color: #2D8B5A; box-shadow: 0 12px 36px rgba(45,139,90,.2); }
 
-    .cb-emoji { font-size: 28px; margin-bottom: 10px; }
-    .cb-name { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
-    .cb-count { font-size: 11.5px; color: var(--text-3); }
-    .cb-arrow { position: absolute; bottom: 14px; right: 16px; font-size: 16px; color: var(--text-3); opacity: 0; transform: translateX(-4px); transition: all .25s; }
-    .cat-banner:hover .cb-arrow { opacity: 1; transform: translateX(0); }
-    .cb-glow {
-      position: absolute; top: -30px; right: -30px; width: 100px; height: 100px;
-      border-radius: 50%; opacity: .15; pointer-events: none; transition: opacity .3s;
+    .cb-name { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+    .cb-count { font-size: 12px; color: var(--text-2); opacity: .8; }
+    .cb-arrow { position: absolute; bottom: 16px; right: 18px; font-size: 18px; color: var(--text-3); opacity: 0; transform: translateX(-4px); transition: all .25s; }
+    .cat-banner:hover .cb-arrow { opacity: 1; transform: translateX(0); color: var(--teal); }
+    .cat-banner::before {
+      content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%;
+      background: radial-gradient(circle, rgba(0,212,212,.06) 0%, transparent 70%);
     }
-    .cat-banner:hover .cb-glow { opacity: .35; }
 
     /* ── FOOTER ── */
     .footer { border-top: 1px solid var(--border); padding: 60px 0 0; background: var(--bg-2); }
@@ -579,22 +567,16 @@
       <div class="cat-banner-title">Chọn lĩnh vực</div>
       <div class="cat-banner-grid">
         <a href="#" class="cat-banner cat-b1" data-cat="Thấu hiểu nhân tính" onclick="filterCat(this,'Thấu hiểu nhân tính');return false;">
-          <div class="cb-glow" style="background:#3A5FA0"></div>
-          <div class="cb-emoji">🧠</div>
           <div class="cb-name">Thấu hiểu nhân tính</div>
           <div class="cb-count">6 sản phẩm</div>
           <span class="cb-arrow">→</span>
         </a>
         <a href="#" class="cat-banner cat-b2" data-cat="Thay đổi tư duy" onclick="filterCat(this,'Thay đổi tư duy');return false;">
-          <div class="cb-glow" style="background:#8B4A15"></div>
-          <div class="cb-emoji">💡</div>
           <div class="cb-name">Thay đổi tư duy</div>
           <div class="cb-count">6 sản phẩm</div>
           <span class="cb-arrow">→</span>
         </a>
         <a href="#" class="cat-banner cat-b3" data-cat="Làm chủ tài chính" onclick="filterCat(this,'Làm chủ tài chính');return false;">
-          <div class="cb-glow" style="background:#008080"></div>
-          <div class="cb-emoji">💰</div>
           <div class="cb-name">Làm chủ tài chính</div>
           <div class="cb-count">3 sản phẩm</div>
           <span class="cb-arrow">→</span>

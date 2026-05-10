@@ -364,16 +364,24 @@
     .pfill { height: 100%; background: var(--teal); border-radius: 2px; }
 
     /* ───── CATEGORIES ───── */
-    .cats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px,1fr)); gap: 14px; }
+    .cats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     .cat-card {
-      background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px;
-      padding: 24px 16px; text-align: center; cursor: pointer; transition: all .25s;
-      text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 10px;
+      position: relative; overflow: hidden; border-radius: 14px;
+      padding: 32px 20px; text-align: left; cursor: pointer; transition: all .3s;
+      text-decoration: none; display: flex; flex-direction: column; gap: 8px;
+      border: 1px solid rgba(255,255,255,.06);
     }
-    .cat-card:hover { border-color: var(--teal-dark); transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,212,212,.09); }
-    .cat-ico { font-size: 30px; filter: drop-shadow(0 0 8px rgba(0,212,212,.2)); }
-    .cat-name { font-size: 13px; font-weight: 600; color: var(--text); }
-    .cat-cnt { font-size: 10.5px; color: var(--text-3); }
+    .cat-card:nth-child(1) { background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 100%); }
+    .cat-card:nth-child(2) { background: linear-gradient(135deg, #0a1a2e 0%, #0d2845 100%); }
+    .cat-card:nth-child(3) { background: linear-gradient(135deg, #0a2e1a 0%, #1b4e2d 100%); }
+    .cat-card::before {
+      content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%;
+      background: radial-gradient(circle, rgba(0,212,212,.08) 0%, transparent 70%);
+      transition: opacity .3s;
+    }
+    .cat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,212,212,.12); border-color: var(--teal-dark); }
+    .cat-name { font-size: 16px; font-weight: 700; color: var(--text); position: relative; z-index: 1; }
+    .cat-cnt { font-size: 11px; color: var(--text-2); position: relative; z-index: 1; opacity: .8; }
 
     /* ───── BLOG ───── */
     .blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
@@ -839,9 +847,9 @@
       <a href="categories.html" class="sec-more">Tất cả danh mục <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="cats-grid">
-      <a href="categories.html?cat=Th%E1%BA%A5u+hi%E1%BB%83u+nh%C3%A2n+t%C3%ADnh" class="cat-card"><div class="cat-ico">🧠</div><div class="cat-name">Thấu hiểu nhân tính</div><div class="cat-cnt">6 cuốn</div></a>
-      <a href="categories.html?cat=Thay+%C4%91%E1%BB%95i+t%C6%B0+duy" class="cat-card"><div class="cat-ico">💡</div><div class="cat-name">Thay đổi tư duy</div><div class="cat-cnt">6 cuốn</div></a>
-      <a href="categories.html?cat=L%C3%A0m+ch%E1%BB%A7+t%C3%A0i+ch%C3%ADnh" class="cat-card"><div class="cat-ico">💰</div><div class="cat-name">Làm chủ tài chính</div><div class="cat-cnt">3 cuốn</div></a>
+      <a href="categories.html?cat=Th%E1%BA%A5u+hi%E1%BB%83u+nh%C3%A2n+t%C3%ADnh" class="cat-card"><div class="cat-name">Thấu hiểu nhân tính</div><div class="cat-cnt">6 cuốn</div></a>
+      <a href="categories.html?cat=Thay+%C4%91%E1%BB%95i+t%C6%B0+duy" class="cat-card"><div class="cat-name">Thay đổi tư duy</div><div class="cat-cnt">6 cuốn</div></a>
+      <a href="categories.html?cat=L%C3%A0m+ch%E1%BB%A7+t%C3%A0i+ch%C3%ADnh" class="cat-card"><div class="cat-name">Làm chủ tài chính</div><div class="cat-cnt">3 cuốn</div></a>
     </div>
   </div>
 </section>
