@@ -206,9 +206,38 @@
     saveCart(cart);
   }
 
+  function addCombo(comboData) {
+    var cart = getCart();
+    var comboId = 'combo-' + (comboData.id || Date.now());
+    var existing = cart.find(function(item) { return String(item.id) === comboId; });
+    if (existing) {
+      existing.quantity = (existing.quantity || 1) + 1;
+    } else {
+      cart.push({
+        id: comboId,
+        productId: comboId,
+        name: comboData.name || 'Combo',
+        price: comboData.comboPrice || 0,
+        quantity: 1,
+        emoji: '📦',
+        bg: 'linear-gradient(145deg, #0a2e2e, #1b4e4e)',
+        category: 'Combo',
+        imageUrl: '',
+        isCombo: true,
+        comboProductIds: comboData.productIds || [],
+        comboProductNames: comboData.productNames || [],
+        comboProductSlugs: comboData.productSlugs || []
+      });
+    }
+    saveCart(cart);
+    var count = cart.reduce(function(sum, item) { return sum + (item.quantity || 1); }, 0);
+    return { success: true, data: { itemCount: count } };
+  }
+
   window.SonHaiCartBadge = {
     setCount: paintBadge,
     addProduct: addProduct,
+    addCombo: addCombo,
     removeProduct: removeProduct,
     refresh: refreshBadge,
     getCart: getCart,

@@ -768,12 +768,12 @@
     const id = item.id || item.productId;
     const name = item.name || item.product?.name || 'Sản phẩm';
     const price = item.price || item.product?.price || 0;
-    const emoji = item.emoji || item.product?.emoji || '=';
+    const emoji = item.isCombo ? '📦' : (item.emoji || item.product?.emoji || '📚');
     const bg = item.bg || item.product?.coverGradient || 'linear-gradient(145deg,#0D1018,#161B27)';
-    const cat = item.category || item.product?.category || 'Sản phẩm số';
+    const cat = item.isCombo ? 'Combo' : (item.category || item.product?.category || 'Sản phẩm số');
     const pages = item.pages || item.product?.pages || '';
     const size = item.fileSize || item.product?.fileSize || '';
-    const imgUrl = item.product?.imageUrl || item.imageUrl || '';
+    const imgUrl = item.isCombo ? '' : (item.product?.imageUrl || item.imageUrl || '');
 
     PRICES[id] = price;
     activeItems.add(id);
@@ -783,26 +783,33 @@
     const row = document.createElement('div');
     row.className = 'cart-item';
     row.id = 'item-' + id;
-    
+
     let thumbHtml;
     if (imgUrl) {
       thumbHtml = `<div class="item-thumb" style="background:${bg};padding:0;overflow:hidden;"><img src="${imgUrl}" alt="${name}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${emoji}'"></div>`;
     } else {
       thumbHtml = `<div class="item-thumb" style="background:${bg};">${emoji}</div>`;
     }
-    row.innerHTML = `
-      ${thumbHtml}
-      <div class="item-info">
-        <div class="item-cat">${cat}</div>
-        <div class="item-name">${name}</div>
-        <div class="item-meta">
+
+    let metaHtml = '';
+    if (item.isCombo && item.comboProductNames && item.comboProductNames.length > 0) {
+      metaHtml = `<div class="item-meta" style="flex-direction:column;align-items:flex-start;gap:2px;">${item.comboProductNames.map(n => `<span style="font-size:11px;color:var(--text-2);">✓ ${n}</span>`).join('')}</div>`;
+    } else {
+      metaHtml = `<div class="item-meta">
           <span class="item-tag">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
             PDF
           </span>
           ${pages ? `<span class="item-tag">${pages} trang</span>` : ''}
           ${size ? `<span class="item-tag">${size}</span>` : ''}
-        </div>
+        </div>`;
+    }
+    row.innerHTML = `
+      ${thumbHtml}
+      <div class="item-info">
+        <div class="item-cat">${cat}</div>
+        <div class="item-name">${name}</div>
+        ${metaHtml}
         <div class="item-actions">
           <button class="item-action-btn remove" onclick="removeItemApi('${id}')">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14a2,2,0,0,1-2,2H8a2,2,0,0,1-2-2L5,6"/><path d="M10,11v6M14,11v6"/></svg>
@@ -859,9 +866,13 @@
         const allProducts = window.SonHaiCartBadge.getProducts();
         if (cart && cart.length > 0) {
           cart.forEach(item => {
-            const product = allProducts.find(p => String(p.id) === String(item.id) || String(p.id) === String(item.productId));
-            if (product || item.name) {
-              renderItemRow({ ...item, product: product || item });
+            if (item.isCombo) {
+              renderItemRow(item);
+            } else {
+              const product = allProducts.find(p => String(p.id) === String(item.id) || String(p.id) === String(item.productId));
+              if (product || item.name) {
+                renderItemRow({ ...item, product: product || item });
+              }
             }
           });
         }

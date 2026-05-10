@@ -1683,25 +1683,54 @@
   async function buyCombo(e) {
     e.stopPropagation();
     const card = e.target.closest('.combo-card');
-    const idsRaw = card.dataset.products;
-    if (!idsRaw) return;
-    const ids = idsRaw.split(',');
     const btn = card.querySelector('.combo-cta');
     const origText = btn.textContent;
     btn.textContent = 'Đang thêm...';
     btn.disabled = true;
 
     try {
+      const comboId = card.dataset.comboId || '';
+      const idsRaw = card.dataset.products || '';
+      const ids = idsRaw.split(',').filter(Boolean);
+      const comboName = card.querySelector('.combo-name')?.textContent || 'Combo';
+      const comboPriceText = card.querySelector('.combo-cost')?.textContent || '0';
+      const comboPrice = parseInt(comboPriceText.replace(/\D/g, '')) || 0;
+
+      // Collect product names and slugs
+      const productNames = [];
+      const productSlugs = [];
+      card.querySelectorAll('.combo-list li').forEach(li => {
+        const name = li.textContent.replace(/\s*\(.*?\)\s*$/, '').trim();
+        productNames.push(name);
+      });
+
+      // Get slugs from products data
+      let allProducts = [];
+      if (window.SonHaiData) {
+        try { allProducts = await window.SonHaiData.getProducts(); } catch(e2) {}
+      }
+      if (!allProducts.length && window.SonHaiCartBadge) {
+        allProducts = window.SonHaiCartBadge.getProducts() || [];
+      }
+      ids.forEach(pid => {
+        const prod = allProducts.find(p => String(p.id) === String(pid));
+        productSlugs.push(prod ? prod.slug : '');
+      });
+
       if (window.SonHaiCartBadge) {
-        for (const productId of ids) {
-          // Support both string and number IDs
-          const pid = isNaN(productId) ? productId : parseInt(productId);
-          await window.SonHaiCartBadge.addProduct(pid, 1);
-        }
+        window.SonHaiCartBadge.addCombo({
+          id: comboId,
+          name: comboName,
+          comboPrice: comboPrice,
+          productIds: ids,
+          productNames: productNames,
+          productSlugs: productSlugs
+        });
       }
       btn.textContent = '✓ Đã thêm vào giỏ';
       btn.style.background = 'var(--teal-dark)';
     } catch (err) {
+      console.error('buyCombo error:', err);
       btn.textContent = 'Lỗi!';
     }
     setTimeout(() => {
