@@ -442,10 +442,34 @@
             'nhan-tinh-den-trang': 'https://drive.google.com/open?id=1rY3S41OljfXGTQy1D1eATInOx2JN8uIo',
             'tu-duy-sau-sac': 'https://drive.google.com/open?id=15Rmta6sip9K2KV9mm5WhCXyTDQS5GAPf',
           };
-          const downloadUrl = item.downloadUrl || (item.slug ? PRODUCT_DOWNLOAD_URLS[item.slug] : '') || '';
+          let slug = item.slug || '';
+          if (!slug && item.name) {
+            const nameSlugMap = {
+              'tuyệt mật nhân tính': 'tuyet-mat-nhan-tinh',
+              'thức tỉnh nhận thức': 'thuc-tinh-nhan-thuc',
+              'logic người nghèo': 'logic-nguoi-ngheo',
+              'hệ thống mạnh mẽ': 'he-thong-manh-me',
+              'mưu lược tài chính': 'muu-luoc-tai-chinh',
+              'tư duy sâu sắc': 'tu-duy-sau-sac',
+              'tư duy cường giả': 'tu-duy-cuong-gia',
+              'tình cảm bí tịch': 'tinh-cam-bi-tich',
+              'xuyên thấu nhân tính': 'xuyen-thau-nhan-tinh',
+              'nhân tính đen trắng': 'nhan-tinh-den-trang',
+              'thương chiến': 'thuong-chien',
+              'mưu lược tuổi trẻ': 'muu-luoc-tuoi-tre',
+              'góc nhìn tạo lập': 'goc-nhin-tao-lap',
+              'bản chất tài chính': 'ban-chat-tai-chinh',
+              'ẩn chứa huyền cơ': 'an-chua-huyen-co',
+            };
+            const nameLower = item.name.toLowerCase();
+            for (const [key, val] of Object.entries(nameSlugMap)) {
+              if (nameLower.includes(key)) { slug = val; break; }
+            }
+          }
+          const downloadUrl = item.downloadUrl || (slug ? PRODUCT_DOWNLOAD_URLS[slug] : '') || '';
 
           // Build thumbnail: prefer cover image from slug, fallback to emoji
-          const imgSrc = item.slug ? 'product/' + item.slug.replace(/-/g, '_') + '.webp' : '';
+          const imgSrc = slug ? 'product/' + slug.replace(/-/g, '_') + '.webp' : '';
           const thumbHtml = imgSrc
             ? `<div style="width:40px;height:40px;border-radius:6px;overflow:hidden;flex-shrink:0;border:1px solid var(--border);"><img src="${imgSrc}" alt="${name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='${emoji}'"></div>`
             : `<div style="width:40px;height:40px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(0,212,212,0.08);border:1px solid var(--border);flex-shrink:0;">${emoji}</div>`;
