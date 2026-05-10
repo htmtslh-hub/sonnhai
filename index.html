@@ -1573,8 +1573,13 @@
     
     // Get all products for emoji/image lookup
     let allProducts = [];
-    if (window.SonHaiCartBadge) {
-      allProducts = window.SonHaiCartBadge.getProducts() || [];
+    if (window.SonHaiData) {
+      try { allProducts = await window.SonHaiData.getProducts(); } catch(e) {}
+    }
+    if (!allProducts || allProducts.length === 0) {
+      if (window.SonHaiCartBadge) {
+        allProducts = window.SonHaiCartBadge.getProducts() || [];
+      }
     }
 
     try {
@@ -1605,7 +1610,7 @@
         function bookHtml(prod, bcClass, posClass, prodId) {
           const emoji = prod ? (prod.emoji || prod.icon || '📚') : '📚';
           const imgSrc = productImageMap[prodId]
-            || (prod && prod.imageUrl)
+            || (prod && prod.imageUrl && !prod.imageUrl.startsWith('chuan/') ? prod.imageUrl : '')
             || (prod && prod.slug ? 'product/' + prod.slug.replace(/-/g, '_') + '.webp' : '');
           const imgTag = imgSrc ? `<img src="${imgSrc}" alt="${prod ? prod.name : ''}" onerror="this.remove()">` : '';
           return `<div class="combo-book ${posClass} ${bcClass}">${emoji}${imgTag}</div>`;
