@@ -213,6 +213,18 @@
     if (existing) {
       existing.quantity = (existing.quantity || 1) + 1;
     } else {
+      var slugs = comboData.productSlugs || [];
+      // Fallback: resolve slugs from products if empty
+      if (slugs.length === 0 || slugs.every(function(s) { return !s; })) {
+        var products = getProducts();
+        var ids = comboData.productIds || [];
+        slugs = ids.map(function(pid) {
+          var p = products.find(function(pr) { return String(pr.id) === String(pid); });
+          return p ? p.slug : '';
+        });
+      }
+      var firstSlug = slugs.find(function(s) { return !!s; }) || '';
+      var comboImg = firstSlug ? 'product/' + firstSlug.replace(/-/g, '_') + '.webp' : '';
       cart.push({
         id: comboId,
         productId: comboId,
@@ -222,11 +234,11 @@
         emoji: '📦',
         bg: 'linear-gradient(145deg, #0a2e2e, #1b4e4e)',
         category: 'Combo',
-        imageUrl: '',
+        imageUrl: comboImg,
         isCombo: true,
         comboProductIds: comboData.productIds || [],
         comboProductNames: comboData.productNames || [],
-        comboProductSlugs: comboData.productSlugs || []
+        comboProductSlugs: slugs
       });
     }
     saveCart(cart);
