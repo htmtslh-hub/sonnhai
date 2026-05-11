@@ -587,12 +587,8 @@
         </div>
       </div>
       <!-- Thumbnails -->
-      <div class="gallery-thumbs" style="display:none;">
-        <div class="g-thumb on" onclick="switchThumb(this,'💡','bc-1')" title="Bìa sách">💡</div>
-        <div class="g-thumb" onclick="switchThumb(this,'📖','bc-preview')" title="Trang mẫu">📖</div>
-        <div class="g-thumb" onclick="switchThumb(this,'📑','bc-toc')" title="Mục lục">📑</div>
-        <div class="g-thumb" onclick="switchThumb(this,'✍️','bc-author')" title="Tác giả">✍️</div>
-      </div>
+      <!-- Related product thumbnails -->
+      <div class="gallery-thumbs" id="related-thumbs"></div>
     </div>
 
     <!-- RIGHT: INFO -->
@@ -1552,6 +1548,19 @@
   // Dynamic related products
   renderRelatedProducts(product);
   renderComboSuggestion(product);
+
+  // Render related thumbnails below main image
+  const thumbsGrid = document.getElementById('related-thumbs');
+  if (thumbsGrid) {
+    const allProds = window.SonHaiCartBadge ? window.SonHaiCartBadge.getProducts().filter(p => p.status === 'published' && String(p.id) !== String(product.id)) : [];
+    const sameCat = allProds.filter(p => p.category === product.category);
+    const others = allProds.filter(p => p.category !== product.category);
+    const related = [...sameCat, ...others].slice(0, 4);
+    thumbsGrid.innerHTML = related.map(p => {
+      const img = p.imageUrl || (p.slug ? 'product/' + p.slug.replace(/-/g, '_') + '.webp' : '');
+      return `<a href="product.html?slug=${p.slug}" class="g-thumb" title="${p.name}" style="padding:0;overflow:hidden;">${img ? `<img src="${img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">` : p.emoji || '📚'}</a>`;
+    }).join('');
+  }
 })();
 
 async function renderComboSuggestion(product) {
