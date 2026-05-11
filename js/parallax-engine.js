@@ -501,7 +501,6 @@
     initParallaxScroll();
     initMouseParallax();
     initScrollProgress();
-    initBackToTop();
     initNavbarScroll();
   }
 
