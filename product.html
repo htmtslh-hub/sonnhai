@@ -1552,7 +1552,14 @@
   // Render related thumbnails below main image
   const thumbsGrid = document.getElementById('related-thumbs');
   if (thumbsGrid) {
-    const allProds = window.SonHaiCartBadge ? window.SonHaiCartBadge.getProducts().filter(p => p.status === 'published' && String(p.id) !== String(product.id)) : [];
+    let allProds = [];
+    if (window.SonHaiData) {
+      try { allProds = await window.SonHaiData.getProducts(); } catch(e) {}
+    }
+    if (!allProds.length && window.SonHaiCartBadge) {
+      allProds = window.SonHaiCartBadge.getProducts() || [];
+    }
+    allProds = allProds.filter(p => p.status === 'published' && String(p.id) !== String(product.id));
     const sameCat = allProds.filter(p => p.category === product.category);
     const others = allProds.filter(p => p.category !== product.category);
     const related = [...sameCat, ...others].slice(0, 4);
