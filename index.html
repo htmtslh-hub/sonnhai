@@ -543,13 +543,14 @@
     }
     .combo-book {
       width: 64px; height: 86px; border-radius: 7px; position: absolute;
-      display: flex; align-items: center; justify-content: center; font-size: 30px;
+      display: flex; align-items: center; justify-content: center; font-size: 0;
       border: 1px solid rgba(255,255,255,.08); box-shadow: 0 10px 28px rgba(0,0,0,.65);
       transition: transform .3s ease; overflow: hidden;
     }
     .combo-book img {
       position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;
     }
+    .combo-book img:only-child ~ * { font-size: 30px; }
     .combo-book.b1 { transform: rotate(-9deg) translateX(-38px); z-index: 1; }
     .combo-book.b2 { transform: rotate(0deg); z-index: 3; }
     .combo-book.b3 { transform: rotate(9deg) translateX(38px); z-index: 1; }
@@ -764,9 +765,9 @@
       <div class="combo-card hot" data-combo-id="combo-nhan-tinh" data-products="1,8,9,10" style="opacity:1;transform:none;clip-path:none;">
         <div class="combo-save">−39%</div>
         <div class="combo-covers">
-          <div class="combo-book b1 book-color-1"><img src="product/tuyet_mat_nhan_tinh.webp" alt="Tuyệt mật nhân tính" onerror="this.remove()">🧠</div>
-          <div class="combo-book b2 book-color-2"><img src="product/tinh_cam_bi_tich.webp" alt="Tình cảm bí tịch" onerror="this.remove()">❤️</div>
-          <div class="combo-book b3 book-color-3"><img src="product/xuyen_thau_nhan_tinh.webp" alt="Xuyên thấu nhân tính" onerror="this.remove()">👁️</div>
+          <div class="combo-book b1 book-color-1"><img src="product/tuyet_mat_nhan_tinh.webp" alt="Tuyệt mật nhân tính" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='🧠'"></div>
+          <div class="combo-book b2 book-color-2"><img src="product/tinh_cam_bi_tich.webp" alt="Tình cảm bí tịch" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='❤️'"></div>
+          <div class="combo-book b3 book-color-3"><img src="product/xuyen_thau_nhan_tinh.webp" alt="Xuyên thấu nhân tính" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='👁️'"></div>
         </div>
         <div class="combo-body">
           <div class="combo-tag">◆ Bộ sưu tập · 4 cuốn</div>
@@ -791,9 +792,9 @@
       <div class="combo-card" data-combo-id="combo-tu-duy" data-products="2,3,4,6,7,12" style="opacity:1;transform:none;clip-path:none;">
         <div class="combo-save">−48%</div>
         <div class="combo-covers">
-          <div class="combo-book b1 book-color-4"><img src="product/thuc_tinh_nhan_thuc.webp" alt="Thức tỉnh nhận thức" onerror="this.remove()">💡</div>
-          <div class="combo-book b2 book-color-5"><img src="product/logic_nguoi_ngheo.webp" alt="Logic người nghèo" onerror="this.remove()">💸</div>
-          <div class="combo-book b3 book-color-6"><img src="product/he_thong_manh_me.webp" alt="Hệ thống mạnh mẽ" onerror="this.remove()">⚙️</div>
+          <div class="combo-book b1 book-color-4"><img src="product/thuc_tinh_nhan_thuc.webp" alt="Thức tỉnh nhận thức" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='💡'"></div>
+          <div class="combo-book b2 book-color-5"><img src="product/logic_nguoi_ngheo.webp" alt="Logic người nghèo" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='💸'"></div>
+          <div class="combo-book b3 book-color-6"><img src="product/he_thong_manh_me.webp" alt="Hệ thống mạnh mẽ" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='⚙️'"></div>
         </div>
         <div class="combo-body">
           <div class="combo-tag">◆ Bộ sưu tập · 6 cuốn</div>
@@ -820,9 +821,9 @@
       <div class="combo-card" data-combo-id="combo-tai-chinh" data-products="5,11,13,14,15" style="opacity:1;transform:none;clip-path:none;">
         <div class="combo-save">−53%</div>
         <div class="combo-covers">
-          <div class="combo-book b1 book-color-7"><img src="product/muu_luoc_tai_chinh.webp" alt="Mưu lược tài chính" onerror="this.remove()">📊</div>
-          <div class="combo-book b2 book-color-8"><img src="product/thuong_chien.webp" alt="Thương chiến" onerror="this.remove()">⚔️</div>
-          <div class="combo-book b3 book-color-1"><img src="product/goc_nhin_tao_lap.webp" alt="Góc nhìn tạo lập" onerror="this.remove()">🏛️</div>
+          <div class="combo-book b1 book-color-7"><img src="product/muu_luoc_tai_chinh.webp" alt="Mưu lược tài chính" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='📊'"></div>
+          <div class="combo-book b2 book-color-8"><img src="product/thuong_chien.webp" alt="Thương chiến" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='⚔️'"></div>
+          <div class="combo-book b3 book-color-1"><img src="product/goc_nhin_tao_lap.webp" alt="Góc nhìn tạo lập" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='🏛️'"></div>
         </div>
         <div class="combo-body">
           <div class="combo-tag">◆ Bộ sưu tập · 5 cuốn</div>
@@ -1650,8 +1651,10 @@
           const imgSrc = productImageMap[prodId]
             || (prod && prod.imageUrl && !prod.imageUrl.startsWith('chuan/') ? prod.imageUrl : '')
             || (prod && prod.slug ? 'product/' + prod.slug.replace(/-/g, '_') + '.webp' : '');
-          const imgTag = imgSrc ? `<img src="${imgSrc}" alt="${prod ? prod.name : ''}" onerror="this.remove()">` : '';
-          return `<div class="combo-book ${posClass} ${bcClass}">${emoji}${imgTag}</div>`;
+          if (imgSrc) {
+            return `<div class="combo-book ${posClass} ${bcClass}"><img src="${imgSrc}" alt="${prod ? prod.name : ''}" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='${emoji}'"></div>`;
+          }
+          return `<div class="combo-book ${posClass} ${bcClass}" style="font-size:30px">${emoji}</div>`;
         }
 
         let booksHtml = '';
