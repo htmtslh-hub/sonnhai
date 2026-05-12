@@ -23,7 +23,8 @@ const htmlFiles = [
   'blog-post.html',
   'about.html',
   'support.html',
-  'seapay-return.html'
+  'seapay-return.html',
+  'landing.html'
 ];
 
 // Copy HTML files
