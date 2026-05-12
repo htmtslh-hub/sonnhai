@@ -8,11 +8,11 @@
   <meta name="description" content="Bài viết chia sẻ kiến thức từ Thư viện Sơn Nhai.">
   <meta name="author" content="Thư viện Sơn Nhai">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://sonnhai.vercel.app/blog-post">
+  <link rel="canonical" href="https://thuviensonnhai.com/blog-post">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Blog — Thư viện Sơn Nhai">
   <meta property="og:description" content="Bài viết chia sẻ kiến thức từ Thư viện Sơn Nhai.">
-  <meta property="og:url" content="https://sonnhai.vercel.app/blog-post">
+  <meta property="og:url" content="https://thuviensonnhai.com/blog-post">
   <meta property="og:locale" content="vi_VN">
   <meta property="og:site_name" content="Thư viện Sơn Nhai">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -986,6 +986,33 @@ function getSlug() {
 
 function renderPost(post) {
   document.title = post.title + ' — Thư viện Sơn Nhai';
+
+  // SEO: Update meta tags dynamically
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.content = post.excerpt || post.title;
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.content = post.title + ' — Thư viện Sơn Nhai';
+  const ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.content = post.excerpt || post.title;
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.href = 'https://thuviensonnhai.com/blog-post?slug=' + post.slug;
+  const ogUrl = document.querySelector('meta[property="og:url"]');
+  if (ogUrl) ogUrl.content = 'https://thuviensonnhai.com/blog-post?slug=' + post.slug;
+
+  // SEO: JSON-LD structured data
+  const jsonLd = document.createElement('script');
+  jsonLd.type = 'application/ld+json';
+  jsonLd.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": post.title,
+    "description": post.excerpt || '',
+    "author": { "@type": "Organization", "name": "Thư viện Sơn Nhai" },
+    "publisher": { "@type": "Organization", "name": "Thư viện Sơn Nhai", "url": "https://thuviensonnhai.com" },
+    "datePublished": post.createdAt || '',
+    "mainEntityOfPage": "https://thuviensonnhai.com/blog-post?slug=" + post.slug
+  });
+  document.head.appendChild(jsonLd);
 
   const tocHTML = post.toc.map((item, i) =>
     `<li><a href="#section-${i}">${item}</a></li>`
