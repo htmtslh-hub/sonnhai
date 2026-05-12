@@ -566,6 +566,12 @@
     .combo-list li { font-size: 11.5px; color: var(--text-2); display: flex !important; align-items: center; gap: 8px; line-height: 1.5; }
     .combo-list li::before { content: none; }
     .combo-pricing { padding: 16px 20px 20px; border-top: 1px solid var(--border); margin-top: 18px; position: relative; z-index: 1; }
+    .combo-timer {
+      display: flex; align-items: center; gap: 6px; margin-bottom: 10px;
+      font-size: 11px; color: var(--warn); font-weight: 600;
+    }
+    .combo-timer svg { flex-shrink: 0; }
+    .combo-timer-val { font-family: 'Exo 2', sans-serif; letter-spacing: 0.5px; }
     .combo-orig { font-size: 11.5px; color: var(--text-3); text-decoration: line-through; margin-bottom: 7px; }
     .combo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
     .combo-cost { font-family: 'Exo 2', sans-serif; font-size: 24px; font-weight: 900; color: var(--teal); }
@@ -783,6 +789,7 @@
           </ul>
         </div>
         <div class="combo-pricing">
+          <div class="combo-timer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="combo-timer-val">00:00:00</span> — Ưu đãi hôm nay</div>
           <div class="combo-orig">Mua lẻ: 486.000đ</div>
           <div class="combo-row">
             <div class="combo-cost">299.000đ</div>
@@ -812,6 +819,7 @@
           </ul>
         </div>
         <div class="combo-pricing">
+          <div class="combo-timer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="combo-timer-val">00:00:00</span> — Ưu đãi hôm nay</div>
           <div class="combo-orig">Mua lẻ: 774.000đ</div>
           <div class="combo-row">
             <div class="combo-cost">399.000đ</div>
@@ -840,6 +848,7 @@
           </ul>
         </div>
         <div class="combo-pricing">
+          <div class="combo-timer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="combo-timer-val">00:00:00</span> — Ưu đãi hôm nay</div>
           <div class="combo-orig">Mua lẻ: 845.000đ</div>
           <div class="combo-row">
             <div class="combo-cost">399.000đ</div>
@@ -1951,6 +1960,25 @@
     d.textContent = str;
     return d.innerHTML;
   }
+
+  // Countdown timer for combo deals
+  function startComboCountdown() {
+    function update() {
+      const now = new Date();
+      const end = new Date(now);
+      end.setHours(23, 59, 59, 999);
+      const diff = end - now;
+      const h = String(Math.floor(diff / 3600000)).padStart(2, '0');
+      const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+      const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+      document.querySelectorAll('.combo-timer-val').forEach(el => {
+        el.textContent = h + ':' + m + ':' + s;
+      });
+    }
+    update();
+    setInterval(update, 1000);
+  }
+  startComboCountdown();
 </script>
 <script src="js/morph-engine.js?v=1"></script>
 <!-- Floating Contact Buttons -->
