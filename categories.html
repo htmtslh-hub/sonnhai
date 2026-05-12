@@ -389,15 +389,15 @@ fbq('init','438100172987941');fbq('track','PageView');
     .cat-banner-particles::before, .cat-banner-particles::after {
       position: absolute; top: -20px; opacity: .6; animation-iteration-count: infinite; animation-timing-function: linear;
     }
-    .cbp-leaf::before, .cbp-leaf::after { content: '🍁'; font-size: 16px; animation-name: catFallLeaf; }
+    .cbp-leaf::before, .cbp-leaf::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #e85d3a; animation-name: catFallLeaf; }
     .cbp-leaf::before { left: 15%; animation-duration: 4s; animation-delay: 0s; }
-    .cbp-leaf::after { left: 70%; animation-duration: 5s; animation-delay: 2s; font-size: 12px; }
-    .cbp-snow::before, .cbp-snow::after { content: '❄'; font-size: 14px; animation-name: catFallSnow; }
+    .cbp-leaf::after { left: 70%; animation-duration: 5s; animation-delay: 2s; width: 6px; height: 6px; }
+    .cbp-snow::before, .cbp-snow::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #a8d8ea; animation-name: catFallSnow; }
     .cbp-snow::before { left: 20%; animation-duration: 3.5s; animation-delay: 0.5s; }
-    .cbp-snow::after { left: 75%; animation-duration: 4.5s; animation-delay: 2s; font-size: 10px; }
-    .cbp-coin::before, .cbp-coin::after { content: '₿'; font-size: 15px; color: #f7931a; animation-name: catFloatCoin; }
+    .cbp-snow::after { left: 75%; animation-duration: 4.5s; animation-delay: 2s; width: 4px; height: 4px; }
+    .cbp-coin::before, .cbp-coin::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #f7931a; animation-name: catFloatCoin; }
     .cbp-coin::before { left: 25%; animation-duration: 3.5s; animation-delay: 0s; }
-    .cbp-coin::after { left: 65%; animation-duration: 5s; animation-delay: 1.5s; font-size: 11px; }
+    .cbp-coin::after { left: 65%; animation-duration: 5s; animation-delay: 1.5s; width: 5px; height: 5px; }
 
     @keyframes catFallLeaf {
       0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
@@ -532,7 +532,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 <canvas id="parallax-canvas"></canvas>
 
 <!-- ANNOUNCEMENT -->
-<div class="ann-bar">◆ Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật ◆</div>
+<div class="ann-bar">Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật</div>
 
 <!-- NAVBAR -->
 <nav class="nav">
@@ -574,7 +574,7 @@ fbq('init','438100172987941');fbq('track','PageView');
         <div class="page-hero-glow"></div>
       </div>
       <div class="page-hero-inner">
-        <div class="page-eyebrow">◆ Khám phá bộ sưu tập</div>
+        <div class="page-eyebrow">Khám phá bộ sưu tập</div>
         <h1 class="page-h1">Tất cả <span>Danh mục</span></h1>
         <p class="page-sub">Khám phá tri thức qua từng lĩnh vực — từ nhân tính, tư duy đến tài chính và phát triển bản thân.</p>
         <div class="page-stats">
@@ -621,7 +621,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 
     <!-- COMBO SECTION -->
     <div class="combo-section" id="combo-section" style="display:none">
-      <div class="combo-section-title">📦 Gói combo ưu đãi</div>
+      <div class="combo-section-title">Gói combo ưu đãi</div>
       <div class="combo-grid" id="cat-combo-grid">
         <!-- Combos rendered dynamically from Firestore -->
       </div>
@@ -899,7 +899,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       let html = `
         <div class="p-card" onclick="if(!event.target.closest('.btn-add,.p-wish'))goToProduct(this)" data-slug="${p.slug}" data-cat="${p.category}" data-price="${p.price}" data-rating="${rating}" data-id="${p.id}">
           <div class="p-badges">${badgeHtml}</div>
-          <div class="p-wish" onclick="toggleWish(this)" title="Yêu thích">♡</div>
+          <div class="p-wish" onclick="toggleWish(this)" title="Yêu thích"></div>
           ${thumbContent}
           <div class="p-body">
             <div class="p-cat">${p.category}</div>
@@ -1093,7 +1093,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   // ── Wishlist ──
   function toggleWish(el) {
     el.classList.toggle('on');
-    el.textContent = el.classList.contains('on') ? '♥' : '♡';
+    el.textContent = el.classList.contains('on') ? '♥' : '';
     el.style.color = el.classList.contains('on') ? 'var(--red)' : '';
     showToast(el.classList.contains('on') ? '♥ Đã thêm vào yêu thích' : 'Đã xóa khỏi yêu thích');
   }
@@ -1225,7 +1225,7 @@ fbq('init','438100172987941');fbq('track','PageView');
           <div class="combo-save">${badgeText}</div>
           <div class="combo-covers">${booksHtml}</div>
           <div class="combo-body">
-            <div class="combo-tag">${combo.tag || '◆ Bộ sưu tập · ' + productIds.length + ' cuốn'}</div>
+            <div class="combo-tag">${combo.tag || 'Bộ sưu tập · ' + productIds.length + ' cuốn'}</div>
             <div class="combo-name">${combo.name || 'Combo'}</div>
             <ul class="combo-list">${itemsList}</ul>
           </div>

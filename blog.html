@@ -596,11 +596,11 @@ fbq('init','438100172987941');fbq('track','PageView');
   <span class="cat-count">2</span>
   </a>
   <a href="#" class="cat-item" data-cat="Tình cảm" onclick="filterTab(document.querySelector('.ftab[data-cat=\'Tình cảm\']'),'Tình cảm');return false;">
-  <span class="cat-left"><span class="ci-emoji">♡</span>Tình cảm</span>
+  <span class="cat-left"><span class="ci-emoji"></span>Tình cảm</span>
   <span class="cat-count">1</span>
   </a>
   <a href="#" class="cat-item" data-cat="Hệ thống" onclick="filterTab(document.querySelector('.ftab[data-cat=\'Hệ thống\']'),'Hệ thống');return false;">
-  <span class="cat-left"><span class="ci-emoji">✦</span>Hệ thống</span>
+  <span class="cat-left"><span class="ci-emoji"></span>Hệ thống</span>
   <span class="cat-count">2</span>
   </a>
   </div>
@@ -748,7 +748,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       <div class="featured-label">Bài viết nổi bật</div>
       <a href="blog-post.html?slug=${p.slug || ''}" class="featured-card">
         <div class="fc-img" style="background:${gradient}">
-          ${p.emoji || '📝'}
+          ${p.emoji || ''}
           <div class="fc-img-shine"></div>
           <div class="fc-img-glow"></div>
         </div>
@@ -926,7 +926,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     container.innerHTML = popular.map((p, i) => `
       <a href="blog-post.html?slug=${p.slug || ''}" class="pop-item">
         <div class="pop-num">${String(i + 1).padStart(2, '0')}</div>
-        <div class="pop-img" style="background:${p.coverGradient || 'linear-gradient(145deg, #0F1D38, #091525)'}">${p.emoji || '📝'}</div>
+        <div class="pop-img" style="background:${p.coverGradient || 'linear-gradient(145deg, #0F1D38, #091525)'}">${p.emoji || ''}</div>
         <div class="pop-info">
           <div class="pop-title">${p.title || ''}</div>
           <div class="pop-meta">${p.views || 0} lượt đọc · ${p.readTime || '5 phút'}</div>
@@ -942,14 +942,14 @@ fbq('init','438100172987941');fbq('track','PageView');
     allPosts.forEach(p => {
       if (p.category) catCounts[p.category] = (catCounts[p.category] || 0) + 1;
     });
-    const catEmojis = { 'Nhân tính': '🧠', 'Tư duy': '💡', 'Tài chính': '💰', 'Nhận thức': '🔍', 'Tình cảm': '💜', 'Hệ thống': '⚙️', 'Kỹ năng sống': '📊' };
+    const catEmojis = { 'Nhân tính': '', 'Tư duy': '', 'Tài chính': '', 'Nhận thức': '', 'Tình cảm': '', 'Hệ thống': '', 'Kỹ năng sống': '' };
     let html = `<a href="#" class="cat-item${activeCat === 'all' ? ' on' : ''}" data-cat="all" onclick="filterTab(document.querySelector('.ftab[data-cat=all]'),'all');return false;">
       <span class="cat-left"><span class="ci-emoji">◆</span>Tất cả chủ đề</span>
       <span class="cat-count">${allPosts.length}</span>
     </a>`;
     categories.forEach(cat => {
       html += `<a href="#" class="cat-item${activeCat === cat ? ' on' : ''}" data-cat="${cat}" onclick="filterTab(document.querySelector('.ftab[data-cat=\\'${cat}\\']'),'${cat}');return false;">
-        <span class="cat-left"><span class="ci-emoji">${catEmojis[cat] || '📝'}</span>${cat}</span>
+        <span class="cat-left"><span class="ci-emoji">${catEmojis[cat] || ''}</span>${cat}</span>
         <span class="cat-count">${catCounts[cat] || 0}</span>
       </a>`;
     });

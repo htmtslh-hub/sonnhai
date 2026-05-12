@@ -390,15 +390,15 @@ fbq('init','438100172987941');fbq('track','PageView');
     .cat-particles::before, .cat-particles::after {
       position: absolute; top: -20px; opacity: .6; animation-iteration-count: infinite; animation-timing-function: linear;
     }
-    .cat-p-leaf::before, .cat-p-leaf::after { content: '🍁'; font-size: 16px; animation-name: fallLeaf; }
+    .cat-p-leaf::before, .cat-p-leaf::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #e85d3a; animation-name: fallLeaf; }
     .cat-p-leaf::before { left: 15%; animation-duration: 4s; animation-delay: 0s; }
-    .cat-p-leaf::after { left: 70%; animation-duration: 5s; animation-delay: 2s; font-size: 12px; }
-    .cat-p-snow::before, .cat-p-snow::after { content: '❄'; font-size: 14px; animation-name: fallSnow; }
+    .cat-p-leaf::after { left: 70%; animation-duration: 5s; animation-delay: 2s; width: 6px; height: 6px; }
+    .cat-p-snow::before, .cat-p-snow::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #a8d8ea; animation-name: fallSnow; }
     .cat-p-snow::before { left: 20%; animation-duration: 3.5s; animation-delay: 0.5s; }
-    .cat-p-snow::after { left: 75%; animation-duration: 4.5s; animation-delay: 2s; font-size: 10px; }
-    .cat-p-coin::before, .cat-p-coin::after { content: '₿'; font-size: 15px; color: #f7931a; animation-name: floatCoin; }
+    .cat-p-snow::after { left: 75%; animation-duration: 4.5s; animation-delay: 2s; width: 4px; height: 4px; }
+    .cat-p-coin::before, .cat-p-coin::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #f7931a; animation-name: floatCoin; }
     .cat-p-coin::before { left: 25%; animation-duration: 3.5s; animation-delay: 0s; }
-    .cat-p-coin::after { left: 65%; animation-duration: 5s; animation-delay: 1.5s; font-size: 11px; }
+    .cat-p-coin::after { left: 65%; animation-duration: 5s; animation-delay: 1.5s; width: 5px; height: 5px; }
     .cat-name { font-size: 15px; font-weight: 700; color: var(--text); position: relative; z-index: 1; }
     .cat-cnt { font-size: 11px; color: var(--text-2); position: relative; z-index: 1; opacity: .8; }
     .cat-products { display: none; margin-top: 20px; }
@@ -606,7 +606,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 
 <!-- TOP ANNOUNCEMENT BAR -->
 <div id="site-banner" style="background:rgba(0,212,212,.1);border-bottom:1px solid rgba(0,212,212,.2);padding:7px 20px;text-align:center;font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--teal);text-transform:uppercase;font-family:'Be Vietnam Pro',sans-serif;">
-  ◆ Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật ◆
+  Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật
 </div>
 
 <!-- NAVBAR -->
@@ -644,7 +644,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     <div class="hero-grid"></div>
   </div>
 
-  <p class="hero-eyebrow">◆ Bộ sưu tập tinh hoa tri thức ◆</p>
+  <p class="hero-eyebrow">Bộ sưu tập tinh hoa tri thức</p>
 
   <h1 class="hero-h1">
     <span class="l1">Thấu hiểu</span>
@@ -696,7 +696,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 <section class="sec">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title">◆ Sản phẩm nổi bật</h2>
+      <h2 class="sec-title">Sản phẩm nổi bật</h2>
       <a href="categories.html" class="sec-more">Xem tất cả <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="cards-row" id="home-featured-grid">
@@ -709,7 +709,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 <section class="feat">
   <div class="feat-inner">
     <div class="feat-left">
-      <div class="feat-label">◆ Sản phẩm nổi bật</div>
+      <div class="feat-label">Sản phẩm nổi bật</div>
       <h2 class="feat-h2">Tuyệt<br>mật<br>nhân tính</h2>
       <p class="feat-desc">
         Cuốn sách phân tích sâu sắc về bản chất con người. Khám phá những bí mật ẩn giấu trong tâm lý, hành vi và mối quan hệ — chìa khóa để thấu hiểu và ảnh hưởng người xung quanh.
@@ -733,11 +733,11 @@ fbq('init','438100172987941');fbq('track','PageView');
     <div class="feat-right">
       <div class="feat-cover has-image" style="padding:0;display:block;">
         <img src="chuan/tuyet_mat_nhan_tinh.webp" alt="Tuyệt mật nhân tính" id="feat-cover-img" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:10px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="feat-cover-emoji" style="display:none;">🧠</div>
+        <div class="feat-cover-emoji" style="display:none;"></div>
         <div class="feat-cover-ttl" style="display:none;">Tuyệt mật nhân tính<br>Thư viện Sơn Nhai</div>
       </div>
       <div class="feat-panel">
-        <div class="panel-ttl">◆ Thông tin chi tiết</div>
+        <div class="panel-ttl">Thông tin chi tiết</div>
         <div class="prow"><span class="pk">Tác giả</span><span class="pv t">Thư viện Sơn Nhai</span></div>
         <div class="prow"><span class="pk">Ngôn ngữ</span><span class="pv">Tiếng Việt</span></div>
         <div class="prow"><span class="pk">Định dạng</span><span class="pv">PDF</span></div>
@@ -759,7 +759,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title">◆ Bán chạy nhất</h2>
+      <h2 class="sec-title">Bán chạy nhất</h2>
       <a href="categories.html" class="sec-more">Xem tất cả <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="bs-grid" id="home-bestseller-grid">
@@ -772,7 +772,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 <section class="sec" id="combo" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title">◆ Gói combo ưu đãi</h2>
+      <h2 class="sec-title">Gói combo ưu đãi</h2>
       <a href="categories.html" class="sec-more">Tất cả combo <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="combo-grid" id="home-combo-grid">
@@ -780,12 +780,12 @@ fbq('init','438100172987941');fbq('track','PageView');
       <div class="combo-card hot" data-combo-id="combo-nhan-tinh" data-products="1,8,9,10" style="opacity:1;transform:none;clip-path:none;">
         <div class="combo-save">−39%</div>
         <div class="combo-covers">
-          <div class="combo-book b1 book-color-1"><img src="product/tuyet_mat_nhan_tinh.webp" alt="Tuyệt mật nhân tính" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='🧠'"></div>
-          <div class="combo-book b2 book-color-2"><img src="product/tinh_cam_bi_tich.webp" alt="Tình cảm bí tịch" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='❤️'"></div>
-          <div class="combo-book b3 book-color-3"><img src="product/xuyen_thau_nhan_tinh.webp" alt="Xuyên thấu nhân tính" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='👁️'"></div>
+          <div class="combo-book b1 book-color-1"><img src="product/tuyet_mat_nhan_tinh.webp" alt="Tuyệt mật nhân tính" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
+          <div class="combo-book b2 book-color-2"><img src="product/tinh_cam_bi_tich.webp" alt="Tình cảm bí tịch" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
+          <div class="combo-book b3 book-color-3"><img src="product/xuyen_thau_nhan_tinh.webp" alt="Xuyên thấu nhân tính" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
         </div>
         <div class="combo-body">
-          <div class="combo-tag">◆ Bộ sưu tập · 4 cuốn</div>
+          <div class="combo-tag">Bộ sưu tập · 4 cuốn</div>
           <div class="combo-name">Combo Nhân Tính</div>
           <ul class="combo-list">
             <li><img src="product/tuyet_mat_nhan_tinh.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Tuyệt mật nhân tính <span style="opacity:.6">(99.000đ)</span></li>
@@ -808,12 +808,12 @@ fbq('init','438100172987941');fbq('track','PageView');
       <div class="combo-card" data-combo-id="combo-tu-duy" data-products="2,3,4,6,7,12" style="opacity:1;transform:none;clip-path:none;">
         <div class="combo-save">−48%</div>
         <div class="combo-covers">
-          <div class="combo-book b1 book-color-4"><img src="product/thuc_tinh_nhan_thuc.webp" alt="Thức tỉnh nhận thức" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='💡'"></div>
-          <div class="combo-book b2 book-color-5"><img src="product/logic_nguoi_ngheo.webp" alt="Logic người nghèo" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='💸'"></div>
-          <div class="combo-book b3 book-color-6"><img src="product/he_thong_manh_me.webp" alt="Hệ thống mạnh mẽ" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='⚙️'"></div>
+          <div class="combo-book b1 book-color-4"><img src="product/thuc_tinh_nhan_thuc.webp" alt="Thức tỉnh nhận thức" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
+          <div class="combo-book b2 book-color-5"><img src="product/logic_nguoi_ngheo.webp" alt="Logic người nghèo" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
+          <div class="combo-book b3 book-color-6"><img src="product/he_thong_manh_me.webp" alt="Hệ thống mạnh mẽ" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
         </div>
         <div class="combo-body">
-          <div class="combo-tag">◆ Bộ sưu tập · 6 cuốn</div>
+          <div class="combo-tag">Bộ sưu tập · 6 cuốn</div>
           <div class="combo-name">Combo Tư Duy</div>
           <ul class="combo-list">
             <li><img src="product/thuc_tinh_nhan_thuc.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Thức tỉnh nhận thức <span style="opacity:.6">(129.000đ)</span></li>
@@ -838,12 +838,12 @@ fbq('init','438100172987941');fbq('track','PageView');
       <div class="combo-card" data-combo-id="combo-tai-chinh" data-products="5,11,13,14,15" style="opacity:1;transform:none;clip-path:none;">
         <div class="combo-save">−53%</div>
         <div class="combo-covers">
-          <div class="combo-book b1 book-color-7"><img src="product/muu_luoc_tai_chinh.webp" alt="Mưu lược tài chính" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='📊'"></div>
-          <div class="combo-book b2 book-color-8"><img src="product/thuong_chien.webp" alt="Thương chiến" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='⚔️'"></div>
-          <div class="combo-book b3 book-color-1"><img src="product/goc_nhin_tao_lap.webp" alt="Góc nhìn tạo lập" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='🏛️'"></div>
+          <div class="combo-book b1 book-color-7"><img src="product/muu_luoc_tai_chinh.webp" alt="Mưu lược tài chính" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
+          <div class="combo-book b2 book-color-8"><img src="product/thuong_chien.webp" alt="Thương chiến" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
+          <div class="combo-book b3 book-color-1"><img src="product/goc_nhin_tao_lap.webp" alt="Góc nhìn tạo lập" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
         </div>
         <div class="combo-body">
-          <div class="combo-tag">◆ Bộ sưu tập · 5 cuốn</div>
+          <div class="combo-tag">Bộ sưu tập · 5 cuốn</div>
           <div class="combo-name">Combo Tài Chính</div>
           <ul class="combo-list">
             <li><img src="product/muu_luoc_tai_chinh.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Mưu lược tài chính <span style="opacity:.6">(179.000đ)</span></li>
@@ -888,7 +888,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title">◆ Bài viết mới nhất</h2>
+      <h2 class="sec-title">Bài viết mới nhất</h2>
       <a href="blog.html" class="sec-more">Xem tất cả <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="blog-grid" id="home-blog-grid">
@@ -904,7 +904,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 
   <div class="wrap" style="position:relative;z-index:1;">
     <div class="sec-head" style="flex-direction:column;align-items:center;text-align:center;gap:10px;">
-      <div style="font-family:'Exo 2','Be Vietnam Pro',sans-serif;font-size:10px;font-weight:800;letter-spacing:3px;color:var(--teal);text-transform:uppercase;opacity:.8;">◆ Khách hàng nói gì</div>
+      <div style="font-family:'Exo 2','Be Vietnam Pro',sans-serif;font-size:10px;font-weight:800;letter-spacing:3px;color:var(--teal);text-transform:uppercase;opacity:.8;">Khách hàng nói gì</div>
       <h2 class="sec-title" style="font-size:26px;">Phản hồi từ cộng đồng</h2>
       <p style="font-size:13.5px;color:var(--text-2);max-width:480px;line-height:1.65;">Hàng trăm độc giả đã tin tưởng Thư viện Sơn Nhai. Đây là những chia sẻ thật từ khách hàng.</p>
     </div>
@@ -1068,7 +1068,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     box-shadow: 0 0 30px rgba(0,212,212,.06);
   }
   .testi-card.featured::after {
-    content: '⭐ Nổi bật';
+    content: ' Nổi bật';
     position: absolute; top: 12px; left: 16px;
     font-size: 9px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase;
     color: var(--warn); background: rgba(245,166,35,.1);
@@ -1488,7 +1488,7 @@ fbq('init','438100172987941');fbq('track','PageView');
         : (p.date || '');
       return `
         <a href="blog-post.html?slug=${p.slug || ''}" class="blog-card">
-          <div class="blog-img" style="background:${gradient};font-size:44px;">${p.emoji || '📝'}</div>
+          <div class="blog-img" style="background:${gradient};font-size:44px;">${p.emoji || ''}</div>
           <div class="blog-body">
             <span class="blog-tag">${p.category || ''}</span>
             <div class="blog-ttl">${p.title || ''}</div>
@@ -1511,7 +1511,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       const banner = document.getElementById('site-banner');
       if (!banner) return;
       if (data.enabled === false) { banner.style.display = 'none'; return; }
-      if (data.text) banner.textContent = '◆ ' + data.text + ' ◆';
+      if (data.text) banner.textContent = '' + data.text + '';
       const typeColors = {
         info: { bg: 'rgba(0,212,212,.1)', border: 'rgba(0,212,212,.2)', color: '#00D4D4' },
         promo: { bg: 'rgba(245,166,35,.1)', border: 'rgba(245,166,35,.2)', color: '#F5A623' },
@@ -1555,7 +1555,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     {
       id: 'combo-nhan-tinh',
       name: 'Combo Nhân Tính',
-      tag: '◆ Bộ sưu tập · 4 cuốn',
+      tag: 'Bộ sưu tập · 4 cuốn',
       productIds: [1, 8, 9, 10],
       productNames: ['Tuyệt mật nhân tính', 'Tình cảm bí tịch', 'Xuyên thấu nhân tính', 'Nhân tính đen trắng'],
       originalPrice: 486000,
@@ -1567,7 +1567,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     {
       id: 'combo-tu-duy',
       name: 'Combo Tư Duy',
-      tag: '◆ Bộ sưu tập · 6 cuốn',
+      tag: 'Bộ sưu tập · 6 cuốn',
       productIds: [2, 3, 4, 6, 7, 12],
       productNames: ['Thức tỉnh nhận thức', 'Logic người nghèo', 'Hệ thống mạnh mẽ', 'Tư duy sâu sắc', 'Tư duy cường giả', 'Mưu lược tuổi trẻ'],
       originalPrice: 774000,
@@ -1579,7 +1579,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     {
       id: 'combo-tai-chinh',
       name: 'Combo Tài Chính',
-      tag: '◆ Bộ sưu tập · 5 cuốn',
+      tag: 'Bộ sưu tập · 5 cuốn',
       productIds: [5, 11, 13, 14, 15],
       productNames: ['Mưu lược tài chính', 'Thương chiến', 'Góc nhìn tạo lập - Luật ngầm', 'Bản chất tài chính', 'Ẩn chứa huyền cơ'],
       originalPrice: 845000,
@@ -1705,7 +1705,7 @@ fbq('init','438100172987941');fbq('track','PageView');
             <div class="combo-save">${badgeText}</div>
             <div class="combo-covers">${booksHtml}</div>
             <div class="combo-body">
-              <div class="combo-tag">${combo.tag || '◆ Bộ sưu tập · ' + productIds.length + ' cuốn'}</div>
+              <div class="combo-tag">${combo.tag || 'Bộ sưu tập · ' + productIds.length + ' cuốn'}</div>
               <div class="combo-name">${combo.name || 'Combo'}</div>
               <ul class="combo-list">${itemsList}</ul>
             </div>

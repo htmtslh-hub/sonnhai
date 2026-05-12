@@ -37,7 +37,7 @@
   </div>
 
   <button id="btn" onclick="startSync()">🚀 Bắt đầu đồng bộ</button>
-  <button onclick="startComboSync()" style="background:#f5a623;margin-left:12px">📦 Sync Combo</button>
+  <button onclick="startComboSync()" style="background:#f5a623;margin-left:12px">Sync Combo</button>
   <div class="log" id="log"></div>
 
   <script type="module">
@@ -63,7 +63,7 @@
       {
         name: 'Tuyệt mật nhân tính',
         slug: 'tuyet-mat-nhan-tinh',
-        emoji: '🧠',
+        emoji: '',
         category: 'Nhân tính học',
         price: 99000,
         originalPrice: 199000,
@@ -76,7 +76,7 @@
       {
         name: 'Thức tỉnh nhận thức',
         slug: 'thuc-tinh-nhan-thuc',
-        emoji: '💡',
+        emoji: '',
         category: 'Phát triển bản thân',
         price: 129000,
         originalPrice: 249000,
@@ -89,7 +89,7 @@
       {
         name: 'Logic người nghèo',
         slug: 'logic-nguoi-ngheo',
-        emoji: '💸',
+        emoji: '',
         category: 'Tài chính',
         price: 129000,
         originalPrice: 249000,
@@ -102,7 +102,7 @@
       {
         name: 'Hệ thống mạnh mẽ',
         slug: 'he-thong-manh-me',
-        emoji: '⚙️',
+        emoji: '',
         category: 'Phát triển bản thân',
         price: 129000,
         originalPrice: 249000,
@@ -115,7 +115,7 @@
       {
         name: 'Mưu lược tài chính',
         slug: 'muu-luoc-tai-chinh',
-        emoji: '📊',
+        emoji: '',
         category: 'Tài chính',
         price: 179000,
         originalPrice: 299000,
@@ -128,7 +128,7 @@
       {
         name: 'Tư duy sâu sắc',
         slug: 'tu-duy-sau-sac',
-        emoji: '🔍',
+        emoji: '',
         category: 'Phát triển bản thân',
         price: 129000,
         originalPrice: 249000,
@@ -141,7 +141,7 @@
       {
         name: 'Tư duy cường giả',
         slug: 'tu-duy-cuong-gia',
-        emoji: '🦁',
+        emoji: '',
         category: 'Phát triển bản thân',
         price: 129000,
         originalPrice: 249000,
@@ -154,7 +154,7 @@
       {
         name: 'Tình cảm bí tịch',
         slug: 'tinh-cam-bi-tich',
-        emoji: '❤️',
+        emoji: '',
         category: 'Nhân tính học',
         price: 129000,
         originalPrice: 249000,
@@ -167,7 +167,7 @@
       {
         name: 'Xuyên thấu nhân tính',
         slug: 'xuyen-thau-nhan-tinh',
-        emoji: '👁️',
+        emoji: '',
         category: 'Nhân tính học',
         price: 129000,
         originalPrice: 249000,
@@ -180,7 +180,7 @@
       {
         name: 'Nhân tính đen trắng',
         slug: 'nhan-tinh-den-trang',
-        emoji: '☯️',
+        emoji: '',
         category: 'Nhân tính học',
         price: 129000,
         originalPrice: 249000,
@@ -193,7 +193,7 @@
       {
         name: 'Thương chiến - Bí thuật làm chủ trận địa tiền bạc',
         slug: 'thuong-chien',
-        emoji: '⚔️',
+        emoji: '',
         category: 'Tài chính',
         price: 179000,
         originalPrice: 299000,
@@ -206,7 +206,7 @@
       {
         name: 'Mưu lược tuổi trẻ',
         slug: 'muu-luoc-tuoi-tre',
-        emoji: '🎯',
+        emoji: '',
         category: 'Phát triển bản thân',
         price: 129000,
         originalPrice: 249000,
@@ -219,7 +219,7 @@
       {
         name: 'Góc nhìn tạo lập - Luật ngầm',
         slug: 'goc-nhin-tao-lap',
-        emoji: '🏛️',
+        emoji: '',
         category: 'Nhân tính học',
         price: 179000,
         originalPrice: 299000,
@@ -232,7 +232,7 @@
       {
         name: 'Bản chất tài chính',
         slug: 'ban-chat-tai-chinh',
-        emoji: '💰',
+        emoji: '',
         category: 'Tài chính',
         price: 179000,
         originalPrice: 299000,
@@ -245,7 +245,7 @@
       {
         name: 'Ẩn chứa huyền cơ',
         slug: 'an-chua-huyen-co',
-        emoji: '🔮',
+        emoji: '',
         category: 'Nhân tính học',
         price: 129000,
         originalPrice: 249000,
@@ -291,7 +291,7 @@
       try {
         const snap = await getDocs(collection(db, 'products'));
         existingSlugs = snap.docs.map(d => d.data().slug);
-        log(`📦 Firestore hiện có ${snap.size} sản phẩm`, 'info');
+        log(`Firestore hiện có ${snap.size} sản phẩm`, 'info');
       } catch(e) {
         log('⚠ Không thể đọc sản phẩm hiện có: ' + e.message, 'warn');
       }

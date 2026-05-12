@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -156,7 +156,7 @@
 
     const iconMap = { success: '✅', failed: '❌', pending: '⏳' };
     document.getElementById('result-icon').className = `icon-wrap ${type}`;
-    document.getElementById('result-icon').textContent = iconMap[type] || '📋';
+    document.getElementById('result-icon').textContent = iconMap[type] || '';
     document.getElementById('result-title').className = `result-title ${type}`;
     document.getElementById('result-title').textContent = title;
     document.getElementById('result-sub').textContent = sub;
@@ -230,7 +230,7 @@
           'Cảm ơn bạn đã mua hàng. File tải về và thông tin đơn hàng đã được gửi đến email của bạn.',
           infoRows,
           [
-            { label: '📦 Xem đơn hàng & tải file', href: 'thank-you.html', primary: true },
+            { label: 'Xem đơn hàng & tải file', href: 'thank-you.html', primary: true },
             { label: 'Tiếp tục mua sắm', href: 'index.html' },
           ]
         );
