@@ -90,7 +90,7 @@ const modalHTML = `
     <!-- Forgot Password View -->
     <div id="auth-forgot-view" style="display:none;">
       <button id="auth-forgot-back" style="background:none;border:none;color:#8B93A8;font-size:13px;cursor:pointer;margin-bottom:16px;display:flex;align-items:center;gap:4px;">
-        ← Quay lại
+         -  Quay lại
       </button>
       <div style="text-align:center;margin-bottom:20px;">
         <div style="font-size:28px;margin-bottom:8px;"></div>

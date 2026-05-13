@@ -1220,7 +1220,7 @@
       if (p.description) featSplit.querySelector('.feat-desc').textContent = p.description;
       featSplit.querySelector('.fn-val:nth-child(2)').textContent = p.pages || 320;
       featSplit.querySelector('.fn-val:nth-child(4)').textContent = 'PDF';
-      featSplit.querySelector('.fn-val:nth-child(6)').textContent = (p.rating || 4.9) + '•';
+      featSplit.querySelector('.fn-val:nth-child(6)').textContent = (p.rating || 4.9) + '';
       featSplit.querySelector('.btn-teal').textContent = `Mua ngay — ${fmt(p.price)}`;
       // Update cover image src
       const featCoverImg = document.getElementById('feat-cover-img');
@@ -1581,7 +1581,7 @@
     const starsEl = document.getElementById('testi-avg-stars');
     const totalEl = document.getElementById('testi-total');
     if (avgEl) avgEl.textContent = avgRating;
-    if (starsEl) starsEl.textContent = '<i class="sn-star filled"></i>'.repeat(avgFull) + (avgHalf ? '•' : '') + '<i class="sn-star empty"></i>'.repeat(5 - avgFull - avgHalf);
+    if (starsEl) starsEl.textContent = '<i class="sn-star filled"></i>'.repeat(avgFull) + (avgHalf ? '' : '') + '<i class="sn-star empty"></i>'.repeat(5 - avgFull - avgHalf);
     if (totalEl) totalEl.textContent = totalReviews > 99 ? totalReviews + '+' : totalReviews + '+';
 
     // Get products for linking

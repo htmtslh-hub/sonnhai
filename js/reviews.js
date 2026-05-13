@@ -89,7 +89,7 @@ function updateSummary() {
   if (starsEl) {
     const full = Math.floor(avgNum);
     const half = avgNum - full >= 0.5 ? 1 : 0;
-    starsEl.textContent = '<i class="sn-star filled"></i>'.repeat(full) + (half ? '•' : '') + '<i class="sn-star empty"></i>'.repeat(5 - full - half);
+    starsEl.textContent = '<i class="sn-star filled"></i>'.repeat(full) + (half ? '' : '') + '<i class="sn-star empty"></i>'.repeat(5 - full - half);
   }
 
   // Update bars

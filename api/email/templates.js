@@ -205,7 +205,7 @@ function welcomeEmail(data) {
 
       <div style="text-align:center;margin-top:28px;">
         <a href="https://sonnhai.vercel.app" style="display:inline-block;padding:14px 36px;background:#00D4D4;color:#08090E;font-size:15px;font-weight:700;text-decoration:none;border-radius:8px;">
-          Khám phá ngay →
+          Khám phá ngay  - 
         </a>
       </div>
     </div>

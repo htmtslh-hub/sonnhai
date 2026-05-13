@@ -27,7 +27,7 @@ window.PRODUCT_TOC = {
   ],
   'he-thong-manh-me': [
     { title: 'Tại sao kỷ luật thất bại — Hệ thống mới thành công', subs: ['Giới hạn của ý chí', 'Bí mật của những người thành công', 'Hệ thống vs. Mục tiêu'] },
-    { title: 'Xây dựng hệ thống thói quen tự động', subs: ['Vòng lặp thói quen: Gợi ý → Hành động → Phần thưởng', 'Stacking habits — xếp chồng thói quen', 'Thiết kế môi trường hỗ trợ'] },
+    { title: 'Xây dựng hệ thống thói quen tự động', subs: ['Vòng lặp thói quen: Gợi ý  -  Hành động  -  Phần thưởng', 'Stacking habits — xếp chồng thói quen', 'Thiết kế môi trường hỗ trợ'] },
     { title: 'Framework quản lý thời gian', subs: ['Ma trận Eisenhower nâng cao', 'Time blocking cho người bận rộn', 'Nguyên tắc 80/20 trong công việc'] },
     { title: 'Tự động hóa quy trình cá nhân', subs: ['Checklist và template hóa', 'Quy trình ra quyết định', 'Hệ thống review hàng tuần'] },
     { title: 'Duy trì và nâng cấp hệ thống', subs: ['Khi nào cần thay đổi hệ thống', 'Đo lường hiệu quả', 'Mở rộng hệ thống theo mục tiêu mới'] },

@@ -1353,7 +1353,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       featSplit.querySelector('.feat-desc').textContent = featDesc;
 
       const fnVals = featSplit.querySelectorAll('.fn-val');
-      if (fnVals[0]) fnVals[0].textContent = (p.rating || 4.8) + '•';
+      if (fnVals[0]) fnVals[0].textContent = (p.rating || 4.8) + '';
       featSplit.querySelector('.btn-teal').textContent = `Mua ngay — ${fmt(p.price)}`;
       featSplit.querySelector('.btn-teal').href = `product.html?slug=${p.slug}`;
       featSplit.querySelector('.btn-outline').href = `product.html?slug=${p.slug}`;
@@ -1871,7 +1871,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     const starsEl = document.getElementById('testi-avg-stars');
     const totalEl = document.getElementById('testi-total');
     if (avgEl) avgEl.textContent = avgRating;
-    if (starsEl) starsEl.textContent = '<i class="sn-star filled"></i>'.repeat(avgFull) + (avgHalf ? '•' : '') + '<i class="sn-star empty"></i>'.repeat(5 - avgFull - avgHalf);
+    if (starsEl) starsEl.textContent = '<i class="sn-star filled"></i>'.repeat(avgFull) + (avgHalf ? '' : '') + '<i class="sn-star empty"></i>'.repeat(5 - avgFull - avgHalf);
     if (totalEl) totalEl.textContent = totalReviews > 99 ? totalReviews + '+' : totalReviews + '+';
 
     // Get products for linking
