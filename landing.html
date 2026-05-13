@@ -148,6 +148,7 @@
       .hero-cta { flex-direction: column; align-items: center; }
     }
   </style>
+  <link rel="stylesheet" href="css/sn-icons.css">
 </head>
 <body>
 
@@ -165,7 +166,7 @@
     <div class="stats">
       <div><div class="stat-num">15+</div><div class="stat-label">Đầu sách</div></div>
       <div><div class="stat-num">500+</div><div class="stat-label">Khách hàng</div></div>
-      <div><div class="stat-num">4.8★</div><div class="stat-label">Đánh giá</div></div>
+      <div><div class="stat-num">4.8</div><div class="stat-label">Đánh giá</div></div>
     </div>
   </div>
 </section>
@@ -208,17 +209,17 @@
     <p class="sec-sub">Phản hồi thật từ những người đã đọc</p>
     <div class="testi-grid">
       <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
+        <div class="testi-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i></div>
         <div class="testi-text">"Cuốn Tuyệt mật nhân tính thay đổi hoàn toàn cách tôi nhìn nhận con người. Nội dung sâu sắc, thực tế và rất dễ áp dụng."</div>
         <div class="testi-author">— Minh Tuấn</div>
       </div>
       <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
+        <div class="testi-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i></div>
         <div class="testi-text">"Mua combo Tư Duy, đọc xong 3 cuốn trong 2 tuần. Tư duy thay đổi rõ rệt, cách giải quyết vấn đề khác hẳn trước."</div>
         <div class="testi-author">— Thu Hà</div>
       </div>
       <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
+        <div class="testi-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i></div>
         <div class="testi-text">"Giá rẻ hơn 1 ly trà sữa nhưng giá trị cả đời. Đã mua 5 cuốn và recommend cho bạn bè."</div>
         <div class="testi-author">— Đức Anh</div>
       </div>
@@ -265,7 +266,7 @@
   grid.innerHTML = products.map(p => {
     const img = p.imageUrl || (p.slug ? 'product/' + p.slug.replace(/-/g, '_') + '.webp' : '');
     return `<a href="product.html?slug=${p.slug}" class="prod-card">
-      ${img ? `<img src="${img}" alt="${p.name}" class="prod-img" loading="lazy">` : `<div style="width:100%;aspect-ratio:3/4;background:${p.coverGradient || 'var(--bg-3)'};display:flex;align-items:center;justify-content:center;font-size:36px;">${p.emoji || '📚'}</div>`}
+      ${img ? `<img src="${img}" alt="${p.name}" class="prod-img" loading="lazy">` : `<div style="width:100%;aspect-ratio:3/4;background:${p.coverGradient || 'var(--bg-3)'};display:flex;align-items:center;justify-content:center;font-size:36px;">${p.emoji || ''}</div>`}
       <div class="prod-info">
         <div class="prod-name">${p.name}</div>
         <div class="prod-price">${fmt(p.price)}</div>

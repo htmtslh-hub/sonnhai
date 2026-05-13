@@ -249,7 +249,7 @@ function renderProducts(productsToRender) {
     <tr>
       <td>
         <div style="display:flex;align-items:center;gap:12px;">
-          <div class="prod-icon">${product.icon || '📦'}</div>
+          <div class="prod-icon">${product.icon || ''}</div>
           <div>
             <div style="font-weight:600;">${product.name}</div>
             <div style="font-size:11px;color:var(--text-3);">${product.slug}</div>
@@ -262,8 +262,8 @@ function renderProducts(productsToRender) {
       <td>${product.sold || 0}</td>
       <td><span class="badge badge-${product.status}">${product.status === 'published' ? 'Published' : 'Draft'}</span></td>
       <td>
-        <button class="btn-ghost-sm" onclick="window.adminApp.editProduct('${product.id}')">✏️ Sửa</button>
-        <button class="btn-danger-sm" onclick="window.adminApp.deleteProductConfirm('${product.id}')">🗑️ Xóa</button>
+        <button class="btn-ghost-sm" onclick="window.adminApp.editProduct('${product.id}')"> Sửa</button>
+        <button class="btn-danger-sm" onclick="window.adminApp.deleteProductConfirm('${product.id}')"> Xóa</button>
       </td>
     </tr>
   `).join('');
@@ -457,7 +457,7 @@ function renderCategories(categoriesToRender) {
     <tr>
       <td>
         <div style="display:flex;align-items:center;gap:12px;">
-          <div class="prod-icon">${cat.icon || '📁'}</div>
+          <div class="prod-icon">${cat.icon || ''}</div>
           <div>
             <div style="font-weight:600;">${cat.name}</div>
             <div style="font-size:11px;color:var(--text-3);">${cat.slug}</div>
@@ -467,8 +467,8 @@ function renderCategories(categoriesToRender) {
       <td>${cat.order || 0}</td>
       <td>${getProductCountByCategory(cat.id)}</td>
       <td>
-        <button class="btn-ghost-sm" onclick="window.adminApp.editCategory('${cat.id}')">✏️ Sửa</button>
-        <button class="btn-danger-sm" onclick="window.adminApp.deleteCategoryConfirm('${cat.id}')">🗑️ Xóa</button>
+        <button class="btn-ghost-sm" onclick="window.adminApp.editCategory('${cat.id}')"> Sửa</button>
+        <button class="btn-danger-sm" onclick="window.adminApp.deleteCategoryConfirm('${cat.id}')"> Xóa</button>
       </td>
     </tr>
   `).join('');
@@ -653,7 +653,7 @@ async function handleSeedData() {
     showToast('Lỗi: ' + error.message, 'error');
   } finally {
     btn.disabled = false;
-    btn.textContent = '📦 Import dữ liệu mẫu';
+    btn.textContent = ' Import dữ liệu mẫu';
   }
 }
 

@@ -623,6 +623,7 @@
     // Expose to global scope for inline handlers
     window._fb = { authFB, dbFB, storageFB, collection, doc, getDoc, getDocs, addDoc, setDoc, updateDoc, deleteDoc, query, where, orderBy, limit, serverTimestamp, ref, uploadBytes, getDownloadURL, deleteObject, signOut, onAuthStateChanged, signInWithEmailAndPassword };
   </script>
+  <link rel="stylesheet" href="css/sn-icons.css">
 </head>
 <body>
 <!--    LOGIN SCREEN    -->
@@ -665,14 +666,14 @@
       <div class="sidebar-nav">
         <div class="sb-section-label">HỆ THỐNG</div>
         <a class="sb-item active" onclick="switchPage('dashboard')"><span class="sb-icon"></span><span class="sb-text">Dashboard</span></a>
-        <a class="sb-item" onclick="switchPage('products')"><span class="sb-icon">📚</span><span class="sb-text">Sản phẩm</span></a>
+        <a class="sb-item" onclick="switchPage('products')"><span class="sb-icon"></span><span class="sb-text">Sản phẩm</span></a>
         <a class="sb-item" onclick="switchPage('orders')"><span class="sb-icon"></span><span class="sb-text">Đơn hàng</span></a>
         <a class="sb-item" onclick="switchPage('customers')"><span class="sb-icon"></span><span class="sb-text">Khách hàng</span></a>
         <a class="sb-item" onclick="switchPage('payments')"><span class="sb-icon"></span><span class="sb-text">Thanh toán</span></a>
 
         <div class="sb-section-label">NỘI DUNG</div>
         <a class="sb-item" onclick="switchPage('product-editor')"><span class="sb-icon"></span><span class="sb-text">Chỉnh sửa SP</span></a>
-        <a class="sb-item" onclick="switchPage('combos')"><span class="sb-icon">📦</span><span class="sb-text">Combo</span></a>
+        <a class="sb-item" onclick="switchPage('combos')"><span class="sb-icon"></span><span class="sb-text">Combo</span></a>
         <a class="sb-item" onclick="switchPage('content')"><span class="sb-icon"></span><span class="sb-text">Blog</span></a>
         <a class="sb-item" onclick="switchPage('about')"><span class="sb-icon"></span><span class="sb-text">About</span></a>
         <a class="sb-item" onclick="switchPage('support')"><span class="sb-icon"></span><span class="sb-text">Support</span></a>
@@ -691,7 +692,7 @@
         <a class="sb-item" onclick="switchPage('logs')"><span class="sb-icon"></span><span class="sb-text">Nhật ký</span></a>
       </div>
 
-      <div class="sb-toggle" onclick="toggleSidebar()"><span id="sb-toggle-icon">◀</span></div>
+      <div class="sb-toggle" onclick="toggleSidebar()"><span id="sb-toggle-icon">‹</span></div>
     </div>
 
     <!--    MAIN    -->
@@ -699,7 +700,7 @@
 <!--    TOPBAR    -->
       <div class="topbar">
         <div class="breadcrumb">
-          <span class="breadcrumb-home">🏠 Admin</span>
+          <span class="breadcrumb-home"> Admin</span>
           <span class="breadcrumb-sep">/</span>
           <span class="breadcrumb-current" id="breadcrumb-current">Dashboard</span>
         </div>
@@ -730,7 +731,7 @@
           <!--    STATS    -->
           <div class="stats-grid">
             <div class="stat-card" onclick="switchPage('orders')" style="cursor:pointer;">
-              <div class="stat-bg-icon">💰</div>
+              <div class="stat-bg-icon"></div>
               <div class="stat-label">Doanh thu tháng</div>
               <div class="stat-value" id="stat-revenue">0đ</div>
               <div class="stat-change up" id="stat-revenue-change">+0%</div>
@@ -748,7 +749,7 @@
               <div class="stat-change up" id="stat-customers-change">+0%</div>
             </div>
             <div class="stat-card" onclick="switchPage('products')" style="cursor:pointer;">
-              <div class="stat-bg-icon">📚</div>
+              <div class="stat-bg-icon"></div>
               <div class="stat-label">Sản phẩm</div>
               <div class="stat-value" id="stat-products">0</div>
               <div class="stat-change" id="stat-products-change">0 mới</div>
@@ -759,7 +760,7 @@
           <div class="dash-grid">
             <div class="card-block">
               <div class="card-block-header">
-                <div class="card-block-title">📈 Doanh thu 7 ngày qua</div>
+                <div class="card-block-title"> Doanh thu 7 ngày qua</div>
               </div>
               <div class="card-block-body">
                 <div class="chart-container">
@@ -1094,7 +1095,7 @@
         </div>
         <div class="form-group">
           <label class="form-label">Emoji / Icon</label>
-          <input type="text" class="form-input" id="content-emoji" placeholder="VD: 🧠" value="">
+          <input type="text" class="form-input" id="content-emoji" placeholder="VD: " value="">
         </div>
       </div>
       <div class="form-group">
@@ -1239,7 +1240,7 @@
   <div style="display:flex;flex-direction:column;gap:20px;">
     <!-- Hero Section -->
     <div class="card-block" style="padding:24px;">
-      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">🏠 Hero Section</div>
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;"> Hero Section</div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Eyebrow text</label>
@@ -1312,7 +1313,7 @@
 
     <!-- Contact Info -->
     <div class="card-block" style="padding:24px;">
-      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">📞 Thông tin liên hệ</div>
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;"> Thông tin liên hệ</div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Email</label>
@@ -1344,7 +1345,7 @@
   <div style="display:flex;flex-direction:column;gap:20px;">
     <!-- Hero -->
     <div class="card-block" style="padding:24px;">
-      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">🏠 Hero Section</div>
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;"> Hero Section</div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Eyebrow</label>
@@ -1363,7 +1364,7 @@
 
     <!-- Contact Info -->
     <div class="card-block" style="padding:24px;">
-      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">📞 Thông tin liên hệ</div>
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;"> Thông tin liên hệ</div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Email hỗ trợ</label>
@@ -1414,8 +1415,8 @@
         <div class="form-group">
           <label class="form-label">Bật/Tắt Banner</label>
           <select class="form-input" id="banner-enabled">
-            <option value="true">✅ Bật — Hiển thị trên tất cả trang</option>
-            <option value="false">❌ Tắt — Ẩn banner</option>
+            <option value="true"> Bật — Hiển thị trên tất cả trang</option>
+            <option value="false"> Tắt — Ẩn banner</option>
           </select>
         </div>
         <div class="form-group">
@@ -1423,8 +1424,8 @@
           <select class="form-input" id="banner-type">
             <option value="info"> Thông tin</option>
             <option value="promo">🎁 Khuyến mãi</option>
-            <option value="warning">⚠️ Cảnh báo</option>
-            <option value="success">✅ Thành công</option>
+            <option value="warning"> Cảnh báo</option>
+            <option value="success"> Thành công</option>
           </select>
         </div>
       </div>
@@ -1445,7 +1446,7 @@
     </div>
 
     <div class="card-block" style="padding:24px;">
-      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">👁️ Xem trước</div>
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;"> Xem trước</div>
       <div id="banner-preview" style="background:rgba(0,212,212,.1);border:1px solid rgba(0,212,212,.2);padding:7px 20px;text-align:center;font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--teal);text-transform:uppercase;border-radius:6px;">
         Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật
       </div>
@@ -1468,7 +1469,7 @@
           <div class="dash-grid">
             <div class="card-block">
               <div class="card-block-header">
-                <div class="card-block-title">📧 Email đã gửi</div>
+                <div class="card-block-title"> Email đã gửi</div>
               </div>
               <div class="card-block-body no-pad">
                 <div class="tbl-wrap">
@@ -1540,7 +1541,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline-sm" onclick="closeEmailModal()">Huỷ</button>
-      <button class="btn btn-teal btn-sm" onclick="sendEmail()">📤 Gửi Email</button>
+      <button class="btn btn-teal btn-sm" onclick="sendEmail()"> Gửi Email</button>
     </div>
   </div>
 </div>
@@ -1654,7 +1655,7 @@
 
             <div class="card-block">
               <div class="card-block-header">
-                <div class="card-block-title">☁️ Lưu trữ</div>
+                <div class="card-block-title"> Lưu trữ</div>
               </div>
               <div class="card-block-body">
                 <div class="form-group">
@@ -1761,7 +1762,7 @@
                   </div>
                   <div class="editor-group">
                     <label class="editor-label">Emoji / Icon</label>
-                    <input type="text" class="editor-input" id="edit-product-emoji" placeholder="💡" style="font-size:20px;">
+                    <input type="text" class="editor-input" id="edit-product-emoji" placeholder="" style="font-size:20px;">
                   </div>
                 </div>
 
@@ -1782,10 +1783,10 @@
                     <div class="image-upload-actions">
                       <input type="file" id="product-image-input" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
                       <button type="button" class="btn btn-outline-sm" onclick="document.getElementById('product-image-input').click()">
-                        📁 Chọn ảnh bìa
+                         Chọn ảnh bìa
                       </button>
                       <button type="button" class="btn btn-danger-sm" onclick="removeProductImage()" id="remove-image-btn" style="display:none;">
-                        🗑️ Xóa ảnh
+                         Xóa ảnh
                       </button>
                     </div>
                     <p class="image-upload-hint">Định dạng: JPG, PNG, WebP. Tối đa 5MB. Khuyến nghị: 800x1200px</p>
@@ -1851,7 +1852,7 @@
                 </div>
 
                 <div class="editor-group">
-                  <label class="editor-label">📥 Link tải sản phẩm (Google Drive)</label>
+                  <label class="editor-label"> Link tải sản phẩm (Google Drive)</label>
                   <input type="url" class="editor-input" id="edit-product-download-url" placeholder="https://drive.google.com/file/d/...">
                   <div style="font-size:11px;color:var(--text-3);margin-top:4px;">Dán link Google Drive để gửi cho khách sau thanh toán.</div>
                 </div>
@@ -1859,7 +1860,7 @@
                 <div class="editor-group">
                   <label class="editor-label">Trạng thái</label>
                   <select class="editor-input" id="edit-product-status">
-                    <option value="published">✅ Đã xuất bản</option>
+                    <option value="published"> Đã xuất bản</option>
                     <option value="draft"> Nháp</option>
                   </select>
                 </div>
@@ -1878,15 +1879,15 @@
           </div>
 
           <div class="content-nav">
-            <a class="content-nav-item" onclick="switchPage('home-hero')">🏠 Hero</a>
+            <a class="content-nav-item" onclick="switchPage('home-hero')"> Hero</a>
             <a class="content-nav-item" onclick="switchPage('home-features')">✨ Features</a>
-            <a class="content-nav-item" onclick="switchPage('home-pricing')">💰 Pricing</a>
+            <a class="content-nav-item" onclick="switchPage('home-pricing')"> Pricing</a>
             <a class="content-nav-item" onclick="switchPage('page-about')"> About</a>
-            <a class="content-nav-item" onclick="switchPage('page-support')">❓ FAQ</a>
-            <a class="content-nav-item" onclick="switchPage('testimonials')">💬 Testimonials</a>
+            <a class="content-nav-item" onclick="switchPage('page-support')"> FAQ</a>
+            <a class="content-nav-item" onclick="switchPage('testimonials')"> Testimonials</a>
             <a class="content-nav-item" onclick="switchPage('layout-menu')"> Menu</a>
             <a class="content-nav-item" onclick="switchPage('layout-footer')"> Footer</a>
-            <a class="content-nav-item" onclick="switchPage('layout-banner')">🎨 Banner</a>
+            <a class="content-nav-item" onclick="switchPage('layout-banner')"> Banner</a>
             <a class="content-nav-item active" onclick="switchPage('seo')"> SEO</a>
           </div>
 
@@ -2062,7 +2063,7 @@
           'auth/too-many-requests': 'Quá nhiều lần thử, vui lòng đợi',
           'auth/invalid-credential': 'Email hoặc mật khẩu không đúng',
         };
-        errorDiv.textContent = '❌ ' + (msgMap[err.code] || err.message);
+        errorDiv.textContent = ' ' + (msgMap[err.code] || err.message);
         errorDiv.style.display = 'block';
         btn.disabled = false;
         btn.textContent = 'Đăng nhập';
@@ -2174,7 +2175,7 @@
       sidebarCollapsed = !sidebarCollapsed;
       const sidebar = document.getElementById('sidebar');
       sidebar.classList.toggle('collapsed');
-      document.getElementById('sb-toggle-icon').textContent = sidebarCollapsed ? '▶' : '◀';
+      document.getElementById('sb-toggle-icon').textContent = sidebarCollapsed ? '›' : '‹';
     }
 
     // ==================== FIRESTORE DATA LOADING ====================
@@ -2195,8 +2196,8 @@
         price: p.price || 0,
         originalPrice: p.originalPrice || p.original_price || 0,
         original_price: p.originalPrice || p.original_price || 0,
-        emoji: p.emoji || p.icon || '📚',
-        icon: p.emoji || p.icon || '📚',
+        emoji: p.emoji || p.icon || '',
+        icon: p.emoji || p.icon || '',
         coverGradient: p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)',
         description: p.description || '',
         fullDescription: p.fullDescription || p.full_description || '',
@@ -2226,14 +2227,14 @@
           mockData.products = products;
           // Also sync to localStorage for public pages
           localStorage.setItem('sonhai_products', JSON.stringify(products));
-          console.log('✅ Loaded', products.length, 'products from Firestore');
+          console.log(' Loaded', products.length, 'products from Firestore');
         } else {
           console.log(' No products in Firestore, seeding from defaults...');
           // Auto-seed: upload default products to Firestore
           await seedProductsToFirestore();
         }
       } catch (err) {
-        console.warn('⚠️ Firestore products load failed, using local data:', err.message);
+        console.warn(' Firestore products load failed, using local data:', err.message);
       }
     }
 
@@ -2255,8 +2256,8 @@
             price: p.price || 0,
             originalPrice: p.original_price || p.originalPrice || 0,
             original_price: p.original_price || p.originalPrice || 0,
-            emoji: p.emoji || p.icon || '📚',
-            icon: p.emoji || p.icon || '📚',
+            emoji: p.emoji || p.icon || '',
+            icon: p.emoji || p.icon || '',
             coverGradient: p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)',
             description: p.description || '',
             fullDescription: p.fullDescription || '',
@@ -2272,7 +2273,7 @@
           await addDoc(collection(dbFB, 'products'), productData);
           count++;
         }
-        console.log('✅ Seeded', count, 'products to Firestore');
+        console.log(' Seeded', count, 'products to Firestore');
         showToast('success', `Đã đồng bộ ${count} sản phẩm lên Firestore!`);
         // Reload products from Firestore
         await loadFirestoreProducts();
@@ -2329,7 +2330,7 @@
       if (window.SonHaiCartBadge && window.SonHaiCartBadge.saveProducts) {
         window.SonHaiCartBadge.saveProducts(normalized);
       }
-      console.log('🔄 Synced', normalized.length, 'products to all public page caches');
+      console.log(' Synced', normalized.length, 'products to all public page caches');
     }
 
     // ==================== COMBO MANAGEMENT ====================
@@ -2346,7 +2347,7 @@
         document.getElementById('combos-count-sub').textContent = combos.length + ' combos';
         
         if (combos.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">📦</div><div class="empty-title">Chưa có combo nào</div><div class="empty-text">Tạo combo đầu tiên để hiển thị trên trang chủ</div></div></td></tr>';
+          tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon"></div><div class="empty-title">Chưa có combo nào</div><div class="empty-text">Tạo combo đầu tiên để hiển thị trên trang chủ</div></div></td></tr>';
           return;
         }
         
@@ -2360,7 +2361,7 @@
           return `<tr>
             <td>
               <div style="display:flex;align-items:center;gap:10px;">
-                <div class="prod-icon" style="font-size:16px;">${c.isHot ? '' : '📦'}</div>
+                <div class="prod-icon" style="font-size:16px;">${c.isHot ? '' : ''}</div>
                 <div>
                   <div style="font-weight:600;">${c.name || 'Chưa đặt tên'}</div>
                   <div style="font-size:11px;color:var(--text-3);">${c.tag || ''}</div>
@@ -2374,7 +2375,7 @@
             <td>${c.isHot ? '<span class="badge badge-published"> HOT</span>' : '<span class="badge badge-draft">Thường</span>'}</td>
             <td>
               <button class="btn btn-outline-sm" onclick="editCombo('${c.id}')"> Sửa</button>
-              <button class="btn btn-danger-sm" onclick="deleteCombo('${c.id}')">🗑️ Xóa</button>
+              <button class="btn btn-danger-sm" onclick="deleteCombo('${c.id}')"> Xóa</button>
             </td>
           </tr>`;
         }).join('');
@@ -2402,7 +2403,7 @@
         const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
         return `<label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 8px;border-radius:6px;transition:background .15s;" onmouseover="this.style.background='var(--bg-2)'" onmouseout="this.style.background=''">
           <input type="checkbox" value="${p.id}" ${checked} style="width:16px;height:16px;cursor:pointer;">
-          <span style="font-size:18px;">${p.emoji || '📚'}</span>
+          <span style="font-size:18px;">${p.emoji || ''}</span>
           <span style="flex:1;font-size:13px;font-weight:500;color:var(--text);">${p.name}</span>
           <span style="font-size:12px;color:var(--teal);font-weight:600;">${fmt(p.price)}</span>
         </label>`;
@@ -2556,7 +2557,7 @@
       } catch (err) {
         console.warn('Dashboard load error:', err);
         // Fallback
-        document.getElementById('stat-revenue').textContent = '0₫';
+        document.getElementById('stat-revenue').textContent = '0đ';
         document.getElementById('stat-revenue-change').textContent = 'Chưa có dữ liệu';
         document.getElementById('stat-orders').textContent = '0';
         document.getElementById('stat-orders-change').textContent = 'Chưa có';
@@ -2660,7 +2661,7 @@
       const html = top.map((p, i) => `
         <div class="top-prod-item">
           <div class="top-prod-rank">${i + 1}</div>
-          <div class="prod-icon">${p.emoji || p.icon || '📚'}</div>
+          <div class="prod-icon">${p.emoji || p.icon || ''}</div>
           <div class="top-prod-name">${p.name || p.title || ''}</div>
           <div class="top-prod-sold">${p.soldCount || p.sold || 0} đã bán</div>
           <div class="top-prod-price">${formatCurrency(p.price || 0)}</div>
@@ -2711,7 +2712,7 @@
       const html = mockData.recentActivity.map(a => `
         <div class="activity-item">
           <div class="activity-icon ${iconMap[a.type]}">
-            ${a.type === 'add' ? '➕' : a.type === 'edit' ? '' : a.type === 'delete' ? '🗑️' : ''}
+            ${a.type === 'add' ? '➕' : a.type === 'edit' ? '' : a.type === 'delete' ? '' : ''}
           </div>
           <div class="activity-content">
             <div class="activity-text"><strong>${a.user}</strong> ${a.action}: ${a.detail}</div>
@@ -2732,8 +2733,8 @@
       const html = products.map(p => {
         const imgUrl = p.imageUrl || p.image || '';
         const thumbHtml = imgUrl
-          ? `<div class="prod-icon" style="width:40px;height:52px;border-radius:6px;overflow:hidden;padding:0;font-size:0;flex-shrink:0;"><img src="${imgUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.fontSize='18px';this.parentElement.textContent='${p.emoji || '📚'}'"></div>`
-          : `<div class="prod-icon">${p.emoji || p.icon || '📚'}</div>`;
+          ? `<div class="prod-icon" style="width:40px;height:52px;border-radius:6px;overflow:hidden;padding:0;font-size:0;flex-shrink:0;"><img src="${imgUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.style.fontSize='18px';this.parentElement.textContent='${p.emoji || ''}'"></div>`
+          : `<div class="prod-icon">${p.emoji || p.icon || ''}</div>`;
         return `
         <tr>
           <td>
@@ -2748,11 +2749,11 @@
           <td>${getCategoryText(p.category)}</td>
           <td><strong>${formatCurrency(p.price)}</strong></td>
           <td>${p.sold_count || p.soldCount || p.sold || 0}</td>
-          <td><span style="color:${p.stock === 'Không giới hạn' || p.stock === '∞' ? 'var(--green)' : 'var(--text)'};">${p.stock === 'Không giới hạn' || p.stock === '∞' ? '♾️ Không giới hạn' : p.stock}</span></td>
+          <td><span style="color:${p.stock === 'Không giới hạn' || p.stock === '∞' ? 'var(--green)' : 'var(--text)'};">${p.stock === 'Không giới hạn' || p.stock === '∞' ? '♾ Không giới hạn' : p.stock}</span></td>
           <td><span class="badge badge-${p.status || 'published'}">${getStatusText(p.status || 'published')}</span></td>
           <td>
             <button class="btn btn-outline-sm" onclick="editProduct('${p.id}')"> Sửa</button>
-            <button class="btn btn-danger-sm" onclick="deleteProduct('${p.id}')">🗑️</button>
+            <button class="btn btn-danger-sm" onclick="deleteProduct('${p.id}')"></button>
           </td>
         </tr>`;
       }).join('');
@@ -2803,7 +2804,7 @@
         document.getElementById('product-modal-title').textContent = 'Chỉnh sửa sản phẩm';
         document.getElementById('product-name').value = product.name;
         document.getElementById('product-category').value = product.category;
-        document.getElementById('product-icon').value = product.emoji || product.icon || '📚';
+        document.getElementById('product-icon').value = product.emoji || product.icon || '';
         document.getElementById('product-description').value = product.description || '';
         document.getElementById('product-price').value = product.price;
         document.getElementById('product-original-price').value = product.original_price || product.originalPrice || '';
@@ -2893,7 +2894,7 @@
       const imageUrl = selectedImage || (existingProduct?.imageUrl) || autoImageUrl(slug);
 
       const productData = {
-        name, category, emoji: icon || '📚', icon: icon || '📚', description,
+        name, category, emoji: icon || '', icon: icon || '', description,
         price, originalPrice, original_price: originalPrice,
         stock, status, slug,
         coverGradient,
@@ -2915,10 +2916,10 @@
         syncProductsToPublicPages();
         closeProductModal();
         loadProducts();
-        showToast('success', '✅ Đã cập nhật: ' + name);
+        showToast('success', ' Đã cập nhật: ' + name);
         firestoreUpdateProduct(currentIdStr, productData).catch(err => {
           console.error('Firestore update failed:', err);
-          showToast('error', '⚠️ Sync Firestore lỗi: ' + err.message);
+          showToast('error', ' Sync Firestore lỗi: ' + err.message);
         });
       } else {
         // ── Create: need Firestore ID, but close modal first with temp ID ──
@@ -2928,7 +2929,7 @@
         syncProductsToPublicPages();
         closeProductModal();
         loadProducts();
-        showToast('success', '✅ Đã thêm: ' + name);
+        showToast('success', ' Đã thêm: ' + name);
         firestoreCreateProduct(productData).then(newId => {
           // Replace temp ID with real Firestore ID
           const p = mockData.products.find(p => p.id === tempId);
@@ -2936,7 +2937,7 @@
           syncProductsToPublicPages();
         }).catch(err => {
           console.error('Firestore create failed:', err);
-          showToast('error', '⚠️ Sync Firestore lỗi: ' + err.message);
+          showToast('error', ' Sync Firestore lỗi: ' + err.message);
         });
       }
     }
@@ -3048,7 +3049,7 @@
           <td><span class="badge badge-${status}">${getStatusText(status)}</span></td>
           <td>${orderDate ? formatDate(orderDate) : '—'}</td>
           <td onclick="event.stopPropagation();">
-            <button class="btn btn-outline-sm" onclick="viewOrderDetail('${o.id}')">👁️ Xem</button>
+            <button class="btn btn-outline-sm" onclick="viewOrderDetail('${o.id}')"> Xem</button>
           </td>
         </tr>`;
       }).join('');
@@ -3095,7 +3096,7 @@
         ? order.items.map(i => `
             <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
               <div style="display:flex;align-items:center;gap:8px;">
-                <span style="font-size:16px;">${i.emoji || '📚'}</span>
+                <span style="font-size:16px;">${i.emoji || ''}</span>
                 <span style="font-size:13px;">${i.name || '—'}</span>
               </div>
               <span style="font-weight:600;color:var(--teal);">${formatCurrency(i.price || 0)}</span>
@@ -3114,7 +3115,7 @@
               <div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">KHÁCH HÀNG</div>
               <div style="font-weight:600;">${customer}</div>
               <div style="font-size:12px;color:var(--text-3);margin-top:2px;">${email}</div>
-              <div style="font-size:12px;color:var(--text-3);margin-top:2px;">📞 ${phone}</div>
+              <div style="font-size:12px;color:var(--text-3);margin-top:2px;"> ${phone}</div>
             </div>
             <div>
               <div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">NGÀY ĐẶT</div>
@@ -3256,7 +3257,7 @@
           <td><strong style="color:var(--teal);">${formatCurrency(c.spending)}</strong></td>
           <td>${joinedStr}</td>
           <td onclick="event.stopPropagation();">
-            <button class="btn btn-outline-sm" onclick="viewCustomerDetail('${c.id}')">👁️ Xem</button>
+            <button class="btn btn-outline-sm" onclick="viewCustomerDetail('${c.id}')"> Xem</button>
           </td>
         </tr>`;
       }).join('');
@@ -3349,7 +3350,7 @@
             </div>
             <div style="background:var(--bg-3);padding:16px;border-radius:10px;">
               <div style="font-size:11px;color:var(--text-3);margin-bottom:6px;">VAI TRÒ</div>
-              <div style="font-size:14px;font-weight:600;">${customer.role === 'admin' ? '🔑 Admin' : ' Khách hàng'}</div>
+              <div style="font-size:14px;font-weight:600;">${customer.role === 'admin' ? ' Admin' : ' Khách hàng'}</div>
             </div>
           </div>
 
@@ -3423,7 +3424,7 @@
           <td><span class="badge badge-${status}">${getStatusText(status)}</span></td>
           <td style="white-space:nowrap;">${time}</td>
           <td>
-            <button class="btn btn-outline-sm" onclick="viewPaymentDetail('${p.id}')">👁️ Xem</button>
+            <button class="btn btn-outline-sm" onclick="viewPaymentDetail('${p.id}')"> Xem</button>
           </td>
         </tr>`;
       }).join('');
@@ -3500,7 +3501,7 @@
           <td>${date}</td>
           <td>
             <button class="btn btn-outline-sm" onclick="editContent('${c.id}')"> Sửa</button>
-            <button class="btn btn-danger-sm" onclick="deleteContent('${c.id}')">🗑️</button>
+            <button class="btn btn-danger-sm" onclick="deleteContent('${c.id}')"></button>
           </td>
         </tr>`;
       }).join('');
@@ -3858,7 +3859,7 @@
       };
 
       tbody.innerHTML = reviews.map(r => {
-        const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+        const stars = '<i class="sn-star filled"></i>'.repeat(r.rating) + '<i class="sn-star empty"></i>'.repeat(5 - r.rating);
         const dateStr = r.createdAt instanceof Date ? r.createdAt.toLocaleDateString('vi-VN') : '';
         const comment = (r.comment || '').substring(0, 80) + ((r.comment || '').length > 80 ? '...' : '');
         const verifiedTag = r.verified ? ' <span style="color:var(--green);font-size:10px;">✓MH</span>' : '';
@@ -3872,7 +3873,7 @@
         } else {
           actions = `<button class="btn btn-sm btn-teal" onclick="approveReview('${r.id}')" style="font-size:11px;padding:4px 10px;">Duyệt lại</button>`;
         }
-        actions += ` <button class="btn-danger-sm" onclick="deleteAdminReview('${r.id}')" style="font-size:11px;padding:4px 8px;" title="Xóa vĩnh viễn">🗑</button>`;
+        actions += ` <button class="btn-danger-sm" onclick="deleteAdminReview('${r.id}')" style="font-size:11px;padding:4px 8px;" title="Xóa vĩnh viễn"></button>`;
 
         return `<tr>
           <td><strong>${escHTML(r.userName || 'Ẩn danh')}</strong>${verifiedTag}</td>
@@ -3948,9 +3949,9 @@
         return;
       }
       const statusMap = {
-        sent: { badge: 'success', text: '✅ Đã gửi' },
-        failed: { badge: 'cancelled', text: '❌ Thất bại' },
-        error: { badge: 'cancelled', text: '⚠️ Lỗi' },
+        sent: { badge: 'success', text: ' Đã gửi' },
+        failed: { badge: 'cancelled', text: ' Thất bại' },
+        error: { badge: 'cancelled', text: ' Lỗi' },
       };
       const typeMap = {
         order_confirmation: ' Xác nhận ĐH',
@@ -4044,7 +4045,7 @@
           total: 0,
           paidAmount: 0,
           paidAt: new Date().toISOString(),
-          items: [{ name: 'Sản phẩm test', price: 0, emoji: '📘' }],
+          items: [{ name: 'Sản phẩm test', price: 0, emoji: '' }],
           downloadPageUrl: window.location.origin + '/thank-you.html?order=' + orderNum,
         };
       } else if (type === 'welcome') {
@@ -4108,7 +4109,7 @@
       if (admins.length === 0) {
         document.getElementById('admins-tbody').innerHTML = `
           <tr><td colspan="6" style="text-align:center;padding:50px;color:var(--text-3);">
-            <div style="font-size:36px;margin-bottom:12px;">🔐</div>
+            <div style="font-size:36px;margin-bottom:12px;"></div>
             <div style="font-size:15px;font-weight:600;">Chưa có admin nào</div>
           </td></tr>`;
         return;
@@ -4301,9 +4302,9 @@
     function getCategoryText(category) {
       const map = {
         'ebook': 'Ebook',
-        'course': '🎓 Khóa học',
+        'course': ' Khóa học',
         'template': ' Template',
-        'tool': '🛠️ Công cụ'
+        'tool': '🛠 Công cụ'
       };
       return map[category] || category;
     }
@@ -4311,14 +4312,14 @@
     function getPaymentMethodText(method) {
       const map = {
         'stripe': ' Stripe',
-        'vnpay': '🏦 VNPay',
+        'vnpay': ' VNPay',
         'momo': '📱 MoMo',
-        'sepay': '🏦 SePay',
-        'chuyển khoản': '🏦 Chuyển khoản',
-        'bank_transfer': '🏦 Chuyển khoản',
-        'bank': '🏦 Ngân hàng',
+        'sepay': ' SePay',
+        'chuyển khoản': ' Chuyển khoản',
+        'bank_transfer': ' Chuyển khoản',
+        'bank': ' Ngân hàng',
       };
-      return map[method] || method || '🏦 Chuyển khoản';
+      return map[method] || method || ' Chuyển khoản';
     }
 
     function getRoleText(role) {
@@ -4337,7 +4338,7 @@
 
       // Set icon based on type
       const icons = {
-        'success': '✓',
+        'success': '·',
         'error': '✕',
         'info': 'ℹ'
       };
@@ -4361,7 +4362,7 @@
       }
 
       let html = `
-        <button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="${onPageChange}(${currentPage - 1})">◀</button>
+        <button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="${onPageChange}(${currentPage - 1})">‹</button>
       `;
 
       for (let i = 1; i <= totalPages; i++) {
@@ -4373,7 +4374,7 @@
       }
 
       html += `
-        <button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="${onPageChange}(${currentPage + 1})">▶</button>
+        <button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="${onPageChange}(${currentPage + 1})" sn-chevron">›</button>
       `;
 
       document.getElementById(containerId).innerHTML = html;
@@ -4406,8 +4407,8 @@
     //   }
     // }, 30000);
 
-    console.log('✅ Admin System Loaded');
-    console.log('📧 Login: admin@sonnhai.com / admin123');
+    console.log(' Admin System Loaded');
+    console.log(' Login: admin@sonnhai.com / admin123');
   
 function loadAllContent() {
       loadHomeHero();
@@ -4438,7 +4439,7 @@ function loadPageContent(page) {
       mockData.products.forEach(product => {
         const option = document.createElement('option');
         option.value = product.id;
-        option.textContent = (product.emoji || '📚') + ' ' + product.name;
+        option.textContent = (product.emoji || '') + ' ' + product.name;
         select.appendChild(option);
       });
     }
@@ -4461,7 +4462,7 @@ function loadPageContent(page) {
 
       document.getElementById('edit-product-name').value = product.name || '';
       document.getElementById('edit-product-slug').value = product.slug || '';
-      document.getElementById('edit-product-emoji').value = product.emoji || product.icon || '📚';
+      document.getElementById('edit-product-emoji').value = product.emoji || product.icon || '';
       document.getElementById('edit-product-price').value = product.price || 0;
       document.getElementById('edit-product-original-price').value = product.originalPrice || product.original_price || 0;
       document.getElementById('edit-product-category').value = product.category || '';
@@ -4536,8 +4537,8 @@ function loadPageContent(page) {
       const updates = {
         name: nameVal,
         slug: slugVal,
-        emoji: document.getElementById('edit-product-emoji').value.trim() || '📚',
-        icon: document.getElementById('edit-product-emoji').value.trim() || '📚',
+        emoji: document.getElementById('edit-product-emoji').value.trim() || '',
+        icon: document.getElementById('edit-product-emoji').value.trim() || '',
         price: parseInt(document.getElementById('edit-product-price').value) || 0,
         originalPrice: parseInt(document.getElementById('edit-product-original-price').value) || 0,
         original_price: parseInt(document.getElementById('edit-product-original-price').value) || 0,
@@ -4588,13 +4589,13 @@ function loadPageContent(page) {
       Object.assign(product, updates);
       syncProductsToPublicPages();
       const selectedOption = select.querySelector(`option[value="${productId}"]`);
-      if (selectedOption) selectedOption.textContent = (updates.emoji || '📚') + ' ' + updates.name;
-      showToast('success', '✅ Đã lưu: ' + updates.name);
+      if (selectedOption) selectedOption.textContent = (updates.emoji || '') + ' ' + updates.name;
+      showToast('success', ' Đã lưu: ' + updates.name);
 
       // ── Background sync to Firestore (fire-and-forget) ──
       firestoreUpdateProduct(productId, updates).catch(err => {
         console.error('Firestore sync failed:', err);
-        showToast('error', '⚠️ Lưu local OK nhưng sync Firestore lỗi: ' + err.message);
+        showToast('error', ' Lưu local OK nhưng sync Firestore lỗi: ' + err.message);
       });
     }
 
@@ -4743,14 +4744,14 @@ function importContent() {
           </div>
           <div class="editor-group">
             <label class="editor-label">Icon / Emoji</label>
-            <input type="text" class="editor-input" id="product-icon" placeholder="📚" value="📚">
+            <input type="text" class="editor-input" id="product-icon" placeholder="" value="">
           </div>
         </div>
 
         <!-- IMAGE SELECTION -->
         <div style="display:flex;gap:16px;align-items:flex-start;">
           <div class="editor-group" style="flex:1;">
-            <label class="editor-label">🖼️ Ảnh bìa sản phẩm</label>
+            <label class="editor-label"> Ảnh bìa sản phẩm</label>
             <select class="editor-input" id="product-image-select" onchange="updateImagePreview(this.value)">
               <option value="">Tự động từ slug</option>
             </select>
@@ -4794,7 +4795,7 @@ function importContent() {
 
         <!-- COVER GRADIENT -->
         <div class="editor-group">
-          <label class="editor-label">🎨 Cover Gradient (CSS)</label>
+          <label class="editor-label"> Cover Gradient (CSS)</label>
           <input type="text" class="editor-input" id="product-cover-gradient" placeholder="linear-gradient(145deg, #0A1A2E, #0D2845)" value="linear-gradient(145deg, #0A1A2E, #0D2845)">
           <div style="height:24px;border-radius:6px;margin-top:6px;border:1px solid var(--border);" id="gradient-preview"></div>
         </div>
@@ -4811,7 +4812,7 @@ function importContent() {
         </div>
 
         <div class="editor-group">
-          <label class="editor-label">📥 Link tải sản phẩm (Google Drive)</label>
+          <label class="editor-label"> Link tải sản phẩm (Google Drive)</label>
           <input type="url" class="editor-input" id="product-download-url" placeholder="https://drive.google.com/file/d/...">
           <div style="font-size:11px;color:var(--text-3);margin-top:4px;">Dán link Google Drive để gửi cho khách sau thanh toán. Có thể thêm sau.</div>
         </div>

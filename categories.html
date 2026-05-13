@@ -486,7 +486,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     .combo-name { font-family: 'Exo 2', 'Be Vietnam Pro', sans-serif; font-size: 16px; font-weight: 900; color: var(--text); margin-bottom: 14px; line-height: 1.2; }
     .combo-list { list-style: none; margin-bottom: 0; display: flex; flex-direction: column; gap: 6px; }
     .combo-list li { font-size: 11.5px; color: var(--text-2); display: flex; align-items: flex-start; gap: 7px; line-height: 1.4; }
-    .combo-list li::before { content: '✓'; color: var(--teal); font-weight: 800; font-size: 10px; margin-top: 1px; flex-shrink: 0; }
+    .combo-list li::before { content: '·'; color: var(--teal); font-weight: 800; font-size: 10px; margin-top: 1px; flex-shrink: 0; }
     .combo-pricing { padding: 16px 20px 20px; border-top: 1px solid var(--border); margin-top: 18px; position: relative; z-index: 1; }
     .combo-orig { font-size: 11.5px; color: var(--text-3); text-decoration: line-through; margin-bottom: 7px; }
     .combo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
@@ -525,6 +525,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/morph.css?v=1">
   <link rel="stylesheet" href="css/responsive.css?v=2">
+  <link rel="stylesheet" href="css/sn-icons.css">
 </head>
 <body>
 
@@ -602,19 +603,19 @@ fbq('init','438100172987941');fbq('track','PageView');
           <div class="cat-banner-particles cbp-leaf"></div>
           <div class="cb-name">Thấu hiểu nhân tính</div>
           <div class="cb-count">6 sản phẩm</div>
-          <span class="cb-arrow">→</span>
+          <span class="cb-arrow">&#8250;</span>
         </a>
         <a href="#" class="cat-banner" data-cat="Thay đổi tư duy" onclick="filterCat(this,'Thay đổi tư duy');return false;">
           <div class="cat-banner-particles cbp-snow"></div>
           <div class="cb-name">Thay đổi tư duy</div>
           <div class="cb-count">6 sản phẩm</div>
-          <span class="cb-arrow">→</span>
+          <span class="cb-arrow">&#8250;</span>
         </a>
         <a href="#" class="cat-banner" data-cat="Làm chủ tài chính" onclick="filterCat(this,'Làm chủ tài chính');return false;">
           <div class="cat-banner-particles cbp-coin"></div>
           <div class="cb-name">Làm chủ tài chính</div>
           <div class="cb-count">3 sản phẩm</div>
-          <span class="cb-arrow">→</span>
+          <span class="cb-arrow">&#8250;</span>
         </a>
       </div>
     </div>
@@ -683,17 +684,17 @@ fbq('init','438100172987941');fbq('track','PageView');
             <div class="rating-opts">
               <div class="rating-opt" onclick="toggleRating(this,5)">
                 <div class="r-check">✓</div>
-                <span class="r-stars">★★★★★</span> 5 sao
+                <span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i></span> 5 sao
                 <span class="r-count">4</span>
               </div>
               <div class="rating-opt" onclick="toggleRating(this,4)">
                 <div class="r-check">✓</div>
-                <span class="r-stars">★★★★☆</span> 4+ sao
+                <span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star empty"></i></span> 4+ sao
                 <span class="r-count">6</span>
               </div>
               <div class="rating-opt" onclick="toggleRating(this,3)">
                 <div class="r-check">✓</div>
-                <span class="r-stars">★★★☆☆</span> 3+ sao
+                <span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star empty"></i><i class="sn-star empty"></i></span> 3+ sao
                 <span class="r-count">10</span>
               </div>
             </div>
@@ -750,7 +751,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 
         <!-- EMPTY STATE -->
         <div class="empty-state" id="empty-state">
-          <div class="empty-icon">📭</div>
+          <div class="empty-icon"></div>
           <div class="empty-title">Không tìm thấy sản phẩm</div>
           <div class="empty-sub">Thử thay đổi bộ lọc hoặc chọn danh mục khác.</div>
         </div>
@@ -778,9 +779,9 @@ fbq('init','438100172987941');fbq('track','PageView');
         <p class="foot-about">Nơi lưu giữ những tinh hoa tri thức về nhân tính, tư duy và tài chính. Sản phẩm số chất lượng cao, được cập nhật thường xuyên.</p>
         <div class="foot-social">
           <a class="soc" href="#">f</a>
-          <a class="soc" href="#">𝕏</a>
+          <a class="soc" href="#">X</a>
           <a class="soc" href="#">in</a>
-          <a class="soc" href="#">▶</a>
+          <a class="soc" href="#" sn-play">›</a>
         </div>
       </div>
       <div>
@@ -881,18 +882,18 @@ fbq('init','438100172987941');fbq('track','PageView');
       else if (idx === 3) badgeHtml = `<span class="p-badge badge-best">BESTSELLER</span>`;
 
       let rating = p.rating || 4.8;
-      let stars = rating >= 4.9 ? '★★★★★' : '★★★★☆';
+      let stars = '<i class="sn-star filled"></i>'.repeat(rating >= 4.9 ? 5 : 4) + '<i class="sn-star empty"></i>'.repeat(rating >= 4.9 ? 0 : 1);
       
       let thumbContent;
       if (p.imageUrl) {
         thumbContent = `
           <div class="p-thumb" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}; padding: 0; overflow: hidden;">
-             <img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\\'p-thumb-shine\\'></div>${p.emoji || '📚'}'">
+             <img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\\'p-thumb-shine\\'></div>${p.emoji || ''}'">
           </div>`;
       } else {
         thumbContent = `
           <div class="p-thumb" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}">
-             <div class="p-thumb-shine"></div>${p.emoji || '📚'}
+             <div class="p-thumb-shine"></div>${p.emoji || ''}
           </div>`;
       }
       
@@ -980,7 +981,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       wrap.innerHTML += `<span class="af-tag">${label} <em class="af-remove" onclick="clearPriceFilter()">✕</em></span>`;
     }
     if (minRating) {
-      wrap.innerHTML += `<span class="af-tag">${minRating}★+ <em class="af-remove" onclick="clearRatingFilter()">✕</em></span>`;
+      wrap.innerHTML += `<span class="af-tag">${minRating}+ <em class="af-remove" onclick="clearRatingFilter()">✕</em></span>`;
     }
   }
 
@@ -1093,9 +1094,9 @@ fbq('init','438100172987941');fbq('track','PageView');
   // ── Wishlist ──
   function toggleWish(el) {
     el.classList.toggle('on');
-    el.textContent = el.classList.contains('on') ? '♥' : '';
+    el.textContent = el.classList.contains('on') ? '' : '';
     el.style.color = el.classList.contains('on') ? 'var(--red)' : '';
-    showToast(el.classList.contains('on') ? '♥ Đã thêm vào yêu thích' : 'Đã xóa khỏi yêu thích');
+    showToast(el.classList.contains('on') ? ' Đã thêm vào yêu thích' : 'Đã xóa khỏi yêu thích');
   }
 
   // ── Add to cart ──
@@ -1203,7 +1204,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       const bc3 = bookColors[(idx * 3 + 2) % bookColors.length];
 
       function bookHtml(prod, bcClass, posClass) {
-        const emoji = prod ? (prod.emoji || prod.icon || '📚') : '📚';
+        const emoji = prod ? (prod.emoji || prod.icon || '') : '';
         const imgTag = (prod && prod.imageUrl) ? `<img src="${prod.imageUrl}" alt="${prod.name || ''}" onerror="this.remove()">` : '';
         return `<div class="combo-book ${posClass} ${bcClass}">${emoji}${imgTag}</div>`;
       }
@@ -1356,3 +1357,4 @@ fbq('init','438100172987941');fbq('track','PageView');
 </body>
 </html>
 
+   

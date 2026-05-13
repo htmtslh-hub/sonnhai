@@ -131,7 +131,7 @@ module.exports = async (req, res) => {
           itemsWithDownload.push({
             name: item.name || 'Sản phẩm',
             price: item.price || 0,
-            emoji: item.emoji || '📦',
+            emoji: item.emoji || '',
             downloadUrl,
           });
         }

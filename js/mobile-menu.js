@@ -50,8 +50,8 @@
 
     // Thêm extra links
     const extraLinks = [
-      { href: 'cart.html', text: '🛒 Giỏ hàng' },
-      { href: 'account.html', text: '👤 Tài khoản' },
+      { href: 'cart.html', text: ' Giỏ hàng' },
+      { href: 'account.html', text: ' Tài khoản' },
     ];
     const divider = document.createElement('div');
     divider.style.cssText = 'height:1px;background:#1C2232;margin:8px 0;';

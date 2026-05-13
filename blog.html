@@ -307,6 +307,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   <link rel="stylesheet" href="css/morph.css?v=1">
   <link rel="stylesheet" href="css/parallax-animations.css">
   <link rel="stylesheet" href="css/responsive.css?v=2">
+  <link rel="stylesheet" href="css/sn-icons.css">
 </head>
 <body>
 
@@ -576,7 +577,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   <div class="sb-body" style="padding-top:10px;padding-bottom:10px;">
   <div class="cat-list">
   <a href="#" class="cat-item on" data-cat="all" onclick="filterTab(document.querySelector('.ftab[data-cat=all]'),'all');return false;">
-  <span class="cat-left"><span class="ci-emoji">◆</span>Tất cả chủ đề</span>
+  <span class="cat-left"><span class="ci-emoji"><span class="sn-dot"></span></span>Tất cả chủ đề</span>
   <span class="cat-count">12</span>
   </a>
   <a href="#" class="cat-item" data-cat="Nhân tính" onclick="filterTab(document.querySelector('.ftab[data-cat=\'Nhân tính\']'),'Nhân tính');return false;">
@@ -584,7 +585,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   <span class="cat-count">3</span>
   </a>
   <a href="#" class="cat-item" data-cat="Tư duy" onclick="filterTab(document.querySelector('.ftab[data-cat=\'Tư duy\']'),'Tư duy');return false;">
-  <span class="cat-left"><span class="ci-emoji">◆</span>Tư duy</span>
+  <span class="cat-left"><span class="ci-emoji"><span class="sn-dot"></span></span>Tư duy</span>
   <span class="cat-count">3</span>
   </a>
   <a href="#" class="cat-item" data-cat="Tài chính" onclick="filterTab(document.querySelector('.ftab[data-cat=\'Tài chính\']'),'Tài chính');return false;">
@@ -944,7 +945,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     });
     const catEmojis = { 'Nhân tính': '', 'Tư duy': '', 'Tài chính': '', 'Nhận thức': '', 'Tình cảm': '', 'Hệ thống': '', 'Kỹ năng sống': '' };
     let html = `<a href="#" class="cat-item${activeCat === 'all' ? ' on' : ''}" data-cat="all" onclick="filterTab(document.querySelector('.ftab[data-cat=all]'),'all');return false;">
-      <span class="cat-left"><span class="ci-emoji">◆</span>Tất cả chủ đề</span>
+      <span class="cat-left"><span class="ci-emoji"><span class="sn-dot"></span></span>Tất cả chủ đề</span>
       <span class="cat-count">${allPosts.length}</span>
     </a>`;
     categories.forEach(cat => {

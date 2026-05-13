@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
     if (!isValid) {
       console.error(`[SePay Webhook] Auth failed. Header: "${authHeader.substring(0, 20)}..."`);
       // Vẫn xử lý nhưng log cảnh báo (để không miss webhook)
-      console.warn('[SePay Webhook] ⚠️ Proceeding without auth for reliability');
+      console.warn('[SePay Webhook]  Proceeding without auth for reliability');
     }
   }
 
@@ -277,7 +277,7 @@ module.exports = async (req, res) => {
           itemsWithDownload.push({
             name: item.name || 'Sản phẩm',
             price: item.price || 0,
-            emoji: item.emoji || '📦',
+            emoji: item.emoji || '',
             downloadUrl,
           });
         }

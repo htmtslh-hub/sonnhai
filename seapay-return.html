@@ -107,6 +107,7 @@
   </style>
   <link rel="stylesheet" href="css/parallax-animations.css">
   <link rel="stylesheet" href="css/responsive.css?v=1">
+  <link rel="stylesheet" href="css/sn-icons.css">
 </head>
 <body>
 
@@ -154,7 +155,7 @@
     resultCard.style.display  = 'block';
     resultCard.className = `result-card ${type}`;
 
-    const iconMap = { success: '✅', failed: '❌', pending: '⏳' };
+    const iconMap = { success: '', failed: '', pending: '⏳' };
     document.getElementById('result-icon').className = `icon-wrap ${type}`;
     document.getElementById('result-icon').textContent = iconMap[type] || '';
     document.getElementById('result-title').className = `result-title ${type}`;
@@ -266,7 +267,7 @@
             ['Trạng thái', 'Đang xử lý'],
           ],
           [
-            { label: '🔄 Kiểm tra lại', href: window.location.href, primary: true },
+            { label: ' Kiểm tra lại', href: window.location.href, primary: true },
             { label: 'Liên hệ hỗ trợ', href: 'support.html' },
           ]
         );

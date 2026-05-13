@@ -314,9 +314,9 @@ export async function seedDatabase() {
 
   // Categories
   const categories = [
-    { id: 'nhan-tinh', name: 'Thấu hiểu nhân tính', slug: 'thau-hieu-nhan-tinh', icon: '🧠', order: 1 },
-    { id: 'tu-duy', name: 'Thay đổi tư duy', slug: 'thay-doi-tu-duy', icon: '💡', order: 2 },
-    { id: 'tai-chinh', name: 'Làm chủ tài chính', slug: 'lam-chu-tai-chinh', icon: '💰', order: 3 },
+    { id: 'nhan-tinh', name: 'Thấu hiểu nhân tính', slug: 'thau-hieu-nhan-tinh', icon: '', order: 1 },
+    { id: 'tu-duy', name: 'Thay đổi tư duy', slug: 'thay-doi-tu-duy', icon: '', order: 2 },
+    { id: 'tai-chinh', name: 'Làm chủ tài chính', slug: 'lam-chu-tai-chinh', icon: '', order: 3 },
   ];
 
   for (const cat of categories) {
@@ -330,12 +330,12 @@ export async function seedDatabase() {
 
   // Products (from mock data)
   const products = [
-    { name: 'JavaScript từ A-Z', slug: 'javascript-tu-a-z', icon: '📚', category: 'ebook', price: 299000, originalPrice: 399000, sold: 45, stock: 100, status: 'published', description: 'Sách JavaScript toàn tập cho người mới bắt đầu đến nâng cao', format: 'PDF', pages: 320, imageUrl: '', tags: ['javascript', 'programming', 'web'] },
-    { name: 'React Master Course', slug: 'react-master-course', icon: '⚛️', category: 'course', price: 499000, originalPrice: 699000, sold: 38, stock: 50, status: 'published', description: 'Khóa học React từ cơ bản đến nâng cao, bao gồm hooks, context, redux', format: 'PDF + Video', pages: 450, imageUrl: '', tags: ['react', 'frontend', 'javascript'] },
-    { name: 'Node.js Backend', slug: 'nodejs-backend', icon: '🟢', category: 'course', price: 399000, originalPrice: 499000, sold: 32, stock: 75, status: 'published', description: 'Backend với Node.js và Express, MongoDB, REST API', format: 'PDF + Code', pages: 380, imageUrl: '', tags: ['nodejs', 'backend', 'api'] },
-    { name: 'Python cho AI', slug: 'python-cho-ai', icon: '🐍', category: 'course', price: 599000, originalPrice: 799000, sold: 28, stock: 60, status: 'published', description: 'Python cho Machine Learning và AI, NumPy, Pandas, TensorFlow', format: 'PDF + Notebook', pages: 520, imageUrl: '', tags: ['python', 'ai', 'machine-learning'] },
-    { name: 'UI/UX Design', slug: 'ui-ux-design', icon: '🎨', category: 'ebook', price: 349000, originalPrice: 449000, sold: 24, stock: 80, status: 'published', description: 'Thiết kế UI/UX chuyên nghiệp với Figma, design system, user research', format: 'PDF', pages: 280, imageUrl: '', tags: ['design', 'ui', 'ux'] },
-    { name: 'TypeScript Guide', slug: 'typescript-guide', icon: '📘', category: 'ebook', price: 249000, originalPrice: 349000, sold: 18, stock: 100, status: 'draft', description: 'Hướng dẫn TypeScript toàn tập, types, interfaces, generics', format: 'PDF', pages: 300, imageUrl: '', tags: ['typescript', 'javascript', 'programming'] },
+    { name: 'JavaScript từ A-Z', slug: 'javascript-tu-a-z', icon: '', category: 'ebook', price: 299000, originalPrice: 399000, sold: 45, stock: 100, status: 'published', description: 'Sách JavaScript toàn tập cho người mới bắt đầu đến nâng cao', format: 'PDF', pages: 320, imageUrl: '', tags: ['javascript', 'programming', 'web'] },
+    { name: 'React Master Course', slug: 'react-master-course', icon: '', category: 'course', price: 499000, originalPrice: 699000, sold: 38, stock: 50, status: 'published', description: 'Khóa học React từ cơ bản đến nâng cao, bao gồm hooks, context, redux', format: 'PDF + Video', pages: 450, imageUrl: '', tags: ['react', 'frontend', 'javascript'] },
+    { name: 'Node.js Backend', slug: 'nodejs-backend', icon: '', category: 'course', price: 399000, originalPrice: 499000, sold: 32, stock: 75, status: 'published', description: 'Backend với Node.js và Express, MongoDB, REST API', format: 'PDF + Code', pages: 380, imageUrl: '', tags: ['nodejs', 'backend', 'api'] },
+    { name: 'Python cho AI', slug: 'python-cho-ai', icon: '', category: 'course', price: 599000, originalPrice: 799000, sold: 28, stock: 60, status: 'published', description: 'Python cho Machine Learning và AI, NumPy, Pandas, TensorFlow', format: 'PDF + Notebook', pages: 520, imageUrl: '', tags: ['python', 'ai', 'machine-learning'] },
+    { name: 'UI/UX Design', slug: 'ui-ux-design', icon: '', category: 'ebook', price: 349000, originalPrice: 449000, sold: 24, stock: 80, status: 'published', description: 'Thiết kế UI/UX chuyên nghiệp với Figma, design system, user research', format: 'PDF', pages: 280, imageUrl: '', tags: ['design', 'ui', 'ux'] },
+    { name: 'TypeScript Guide', slug: 'typescript-guide', icon: '', category: 'ebook', price: 249000, originalPrice: 349000, sold: 18, stock: 100, status: 'draft', description: 'Hướng dẫn TypeScript toàn tập, types, interfaces, generics', format: 'PDF', pages: 300, imageUrl: '', tags: ['typescript', 'javascript', 'programming'] },
   ];
 
   for (const product of products) {
@@ -348,7 +348,7 @@ export async function seedDatabase() {
   }
 
   await batch.commit();
-  console.log('✅ Seed data imported successfully!');
+  console.log(' Seed data imported successfully!');
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

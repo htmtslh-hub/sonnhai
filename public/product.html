@@ -472,6 +472,7 @@
   <link rel="stylesheet" href="css/morph.css?v=1">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <link rel="stylesheet" href="css/responsive.css?v=2">
+  <link rel="stylesheet" href="css/sn-icons.css">
 </head>
 <body>
 
@@ -523,12 +524,12 @@
         <div class="gallery-book" id="gallery-book">
           <div class="book-spine-bar"></div>
           <div class="book-face bc-1" id="book-face">
-            <div class="book-emoji-lg" id="gallery-emoji">💡</div>
+            <div class="book-emoji-lg" id="gallery-emoji"></div>
             <div class="book-title-face">Thức tỉnh nhận thức</div>
             <div class="book-author-face">Thư viện Sơn Nhai</div>
           </div>
         </div>
-        <div class="gallery-badge">🔥 Bestseller</div>
+        <div class="gallery-badge"> Bestseller</div>
         <div class="gallery-zoom-hint" onclick="openPreviewModal()" style="cursor:pointer;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6m-3-3h6"/></svg>
           Xem trước
@@ -536,26 +537,26 @@
       </div>
       <!-- Thumbnails -->
       <div class="gallery-thumbs">
-        <div class="g-thumb on" onclick="switchThumb(this,'💡','bc-1')" title="Bìa sách">💡</div>
-        <div class="g-thumb" onclick="switchThumb(this,'📖','bc-preview')" title="Trang mẫu">📖</div>
-        <div class="g-thumb" onclick="switchThumb(this,'📑','bc-toc')" title="Mục lục">📑</div>
-        <div class="g-thumb" onclick="switchThumb(this,'✍️','bc-author')" title="Tác giả">✍️</div>
+        <div class="g-thumb on" onclick="switchThumb(this,'','bc-1')" title="Bìa sách"></div>
+        <div class="g-thumb" onclick="switchThumb(this,'','bc-preview')" title="Trang mẫu"></div>
+        <div class="g-thumb" onclick="switchThumb(this,'','bc-toc')" title="Mục lục"></div>
+        <div class="g-thumb" onclick="switchThumb(this,'','bc-author')" title="Tác giả"></div>
       </div>
     </div>
 
     <!-- RIGHT: INFO -->
     <div class="product-info">
       <div class="p-badges">
-        <span class="p-badge badge-hot">🔥 Top 1 Nhận thức</span>
-        <span class="p-badge badge-digital">💾 Digital Download</span>
-        <span class="p-badge badge-exclusive">⭐ Độc quyền</span>
+        <span class="p-badge badge-hot"> Top 1 Nhận thức</span>
+        <span class="p-badge badge-digital"> Digital Download</span>
+        <span class="p-badge badge-exclusive"> Độc quyền</span>
       </div>
 
       <a href="categories.html" class="p-category">Nhận thức</a>
       <h1 class="p-title">Thức tỉnh nhận thức</h1>
 
       <div class="p-rating-row">
-        <span class="stars">★★★★★</span>
+        <span class="stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i></span>
         <span class="rating-num">4.9</span>
         <span class="rating-sep">·</span>
         <span class="rating-count">94 đánh giá</span>
@@ -652,7 +653,7 @@
       <div class="p-social">
         <span class="p-social-label">Chia sẻ:</span>
         <a href="#" class="share-btn" title="Facebook">f</a>
-        <a href="#" class="share-btn" title="X / Twitter">𝕏</a>
+        <a href="#" class="share-btn" title="X / Twitter">X</a>
         <a href="#" class="share-btn" title="Copy link">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
         </a>
@@ -684,15 +685,15 @@
     <div class="review-summary" id="review-summary">
       <div class="rs-big">
         <div class="rs-score" id="rv-avg-score">—</div>
-        <div class="rs-stars" id="rv-avg-stars">☆☆☆☆☆</div>
+        <div class="rs-stars" id="rv-avg-stars"><i class="sn-star empty"></i><i class="sn-star empty"></i><i class="sn-star empty"></i><i class="sn-star empty"></i><i class="sn-star empty"></i></div>
         <div class="rs-total" id="rv-total-count">0 đánh giá</div>
       </div>
       <div class="rs-bars" id="rv-bars">
-        <div class="rs-bar-row"><span class="rs-bar-label">5★</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-5" style="width:0%"></div></div><span class="rs-bar-pct" id="rv-pct-5">0%</span></div>
-        <div class="rs-bar-row"><span class="rs-bar-label">4★</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-4" style="width:0%;background:#10B981;"></div></div><span class="rs-bar-pct" id="rv-pct-4">0%</span></div>
-        <div class="rs-bar-row"><span class="rs-bar-label">3★</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-3" style="width:0%;background:#6B7280;"></div></div><span class="rs-bar-pct" id="rv-pct-3">0%</span></div>
-        <div class="rs-bar-row"><span class="rs-bar-label">2★</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-2" style="width:0%;background:#EF4444;"></div></div><span class="rs-bar-pct" id="rv-pct-2">0%</span></div>
-        <div class="rs-bar-row"><span class="rs-bar-label">1★</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-1" style="width:0%;background:#EF4444;"></div></div><span class="rs-bar-pct" id="rv-pct-1">0%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">5</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-5" style="width:0%"></div></div><span class="rs-bar-pct" id="rv-pct-5">0%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">4</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-4" style="width:0%;background:#10B981;"></div></div><span class="rs-bar-pct" id="rv-pct-4">0%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">3</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-3" style="width:0%;background:#6B7280;"></div></div><span class="rs-bar-pct" id="rv-pct-3">0%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">2</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-2" style="width:0%;background:#EF4444;"></div></div><span class="rs-bar-pct" id="rv-pct-2">0%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">1</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-1" style="width:0%;background:#EF4444;"></div></div><span class="rs-bar-pct" id="rv-pct-1">0%</span></div>
       </div>
     </div>
 
@@ -715,14 +716,14 @@
 
     <!-- Write review form (hidden by default) -->
     <div class="write-review-form" id="write-review-form">
-      <div class="wr-title">✍️ Viết đánh giá</div>
+      <div class="wr-title"> Viết đánh giá</div>
       <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px;">Chọn số sao:</div>
       <div class="star-selector" id="star-selector">
-        <button class="star-btn" data-star="1">★</button>
-        <button class="star-btn" data-star="2">★</button>
-        <button class="star-btn" data-star="3">★</button>
-        <button class="star-btn" data-star="4">★</button>
-        <button class="star-btn" data-star="5">★</button>
+        <button class="star-btn" data-star="1"></button>
+        <button class="star-btn" data-star="2"></button>
+        <button class="star-btn" data-star="3"></button>
+        <button class="star-btn" data-star="4"></button>
+        <button class="star-btn" data-star="5"></button>
       </div>
       <div class="wr-rating-label" id="wr-rating-label">Chưa chọn đánh giá</div>
       <textarea class="wr-textarea" id="wr-comment" placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm này..." maxlength="1000"></textarea>
@@ -735,7 +736,7 @@
 
     <!-- Login prompt (shown if not logged in) -->
     <div class="wr-login-prompt" id="wr-login-prompt" style="display:none;">
-      <div class="prompt-icon">🔐</div>
+      <div class="prompt-icon"></div>
       <div class="prompt-text">Bạn cần đăng nhập để viết đánh giá.<br>Mỗi sản phẩm đã mua được đánh giá 1 lần.</div>
       <button class="wr-login-btn" onclick="window.openAuthModal && window.openAuthModal()">Đăng nhập ngay</button>
     </div>
@@ -747,40 +748,40 @@
 <div class="related-section">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title">◆ Có thể bạn cũng thích</h2>
+      <h2 class="sec-title"><span class="sn-dot"></span> Có thể bạn cũng thích</h2>
       <a href="categories.html" class="sec-more">Xem tất cả <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="related-grid">
       <a href="product.html?slug=thuc-tinh-nhan-thuc" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(145deg,#1A0D2E,#2D0A4E);padding:0;overflow:hidden;"><img src="chuan/thuc_tinh_nhan_thuc.webp" alt="Thức tỉnh nhận thức" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent='💡'"></div>
+        <div class="r-thumb" style="background:linear-gradient(145deg,#1A0D2E,#2D0A4E);padding:0;overflow:hidden;"><img src="chuan/thuc_tinh_nhan_thuc.webp" alt="Thức tỉnh nhận thức" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent=''"></div>
         <div class="r-body">
           <div class="r-cat">Nhận thức</div>
           <div class="r-name">Thức tỉnh nhận thức</div>
-          <div class="r-foot"><span class="r-price">119.000đ</span><span class="r-stars">★★★★★ 4.8</span></div>
+          <div class="r-foot"><span class="r-price">119.000đ</span><span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i> 4.8</span></div>
         </div>
       </a>
       <a href="product.html?slug=logic-nguoi-ngheo" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(145deg,#091A0D,#0D3318);padding:0;overflow:hidden;"><img src="chuan/logic_nguoi_ngheo.webp" alt="Logic người nghèo" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent='🔮'"></div>
+        <div class="r-thumb" style="background:linear-gradient(145deg,#091A0D,#0D3318);padding:0;overflow:hidden;"><img src="chuan/logic_nguoi_ngheo.webp" alt="Logic người nghèo" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent=''"></div>
         <div class="r-body">
           <div class="r-cat">Tư duy</div>
           <div class="r-name">Logic người nghèo</div>
-          <div class="r-foot"><span class="r-price">99.000đ</span><span class="r-stars">★★★★★ 4.7</span></div>
+          <div class="r-foot"><span class="r-price">99.000đ</span><span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i> 4.7</span></div>
         </div>
       </a>
       <a href="product.html?slug=muu-luoc-tai-chinh" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(145deg,#1F1A08,#3D2E0A);padding:0;overflow:hidden;"><img src="chuan/muu_luoc_tai_chinh.webp" alt="Mưu lược tài chính" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent='💰'"></div>
+        <div class="r-thumb" style="background:linear-gradient(145deg,#1F1A08,#3D2E0A);padding:0;overflow:hidden;"><img src="chuan/muu_luoc_tai_chinh.webp" alt="Mưu lược tài chính" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent=''"></div>
         <div class="r-body">
           <div class="r-cat">Tài chính</div>
           <div class="r-name">Mưu lược tài chính</div>
-          <div class="r-foot"><span class="r-price">159.000đ</span><span class="r-stars">★★★★★ 4.8</span></div>
+          <div class="r-foot"><span class="r-price">159.000đ</span><span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i> 4.8</span></div>
         </div>
       </a>
       <a href="product.html?slug=he-thong-manh-me" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(145deg,#0A1A1A,#0A2D2D);padding:0;overflow:hidden;"><img src="chuan/he_thong_manh_me.webp" alt="Hệ thống mạnh mẽ" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent='⚙️'"></div>
+        <div class="r-thumb" style="background:linear-gradient(145deg,#0A1A1A,#0A2D2D);padding:0;overflow:hidden;"><img src="chuan/he_thong_manh_me.webp" alt="Hệ thống mạnh mẽ" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent=''"></div>
         <div class="r-body">
           <div class="r-cat">Hệ thống</div>
           <div class="r-name">Hệ thống mạnh mẽ</div>
-          <div class="r-foot"><span class="r-price">139.000đ</span><span class="r-stars">★★★★★ 4.9</span></div>
+          <div class="r-foot"><span class="r-price">139.000đ</span><span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i> 4.9</span></div>
         </div>
       </a>
     </div>
@@ -795,7 +796,7 @@
         <a href="index.html" class="foot-logo">Thư viện <span>Sơn Nhai</span></a>
         <p class="foot-about">Nơi lưu giữ những tinh hoa tri thức về nhân tính, tư duy và tài chính. Sản phẩm số chất lượng cao, được cập nhật thường xuyên.</p>
         <div class="foot-social">
-          <a class="soc" href="#">f</a><a class="soc" href="#">𝕏</a><a class="soc" href="#">in</a><a class="soc" href="#">▶</a>
+          <a class="soc" href="#">f</a><a class="soc" href="#">X</a><a class="soc" href="#">in</a><a class="soc" href="#" sn-play">›</a>
         </div>
       </div>
       <div>
@@ -1093,7 +1094,7 @@
       }
 
       const total = prod.price || 0;
-      const items = [{ productId: prod.id, name: prod.name, price: total, emoji: prod.emoji || '📦', slug: prod.slug || '', downloadUrl: '' }];
+      const items = [{ productId: prod.id, name: prod.name, price: total, emoji: prod.emoji || '', slug: prod.slug || '', downloadUrl: '' }];
 
       // Call real checkout API to create Firestore order
       const response = await fetch('/api/checkout', {
@@ -1302,7 +1303,7 @@
   // ── Like review ──
   function likeReview(btn) {
     const m = btn.textContent.match(/\((\d+)\)/);
-    if (m) { btn.textContent = `👍 Có (${parseInt(m[1]) + 1})`; btn.disabled = true; btn.style.color = 'var(--teal)'; }
+    if (m) { btn.textContent = ` Có (${parseInt(m[1]) + 1})`; btn.disabled = true; btn.style.color = 'var(--teal)'; }
   }
 
   // ── Sticky bar on scroll ──
@@ -1431,7 +1432,7 @@
     };
   } else {
     const galleryEmoji = document.getElementById('gallery-emoji');
-    if (galleryEmoji) galleryEmoji.textContent = product.emoji || '📖';
+    if (galleryEmoji) galleryEmoji.textContent = product.emoji || '';
   }
   document.querySelectorAll('.book-title-face').forEach(el => el.textContent = product.name);
 
@@ -1552,7 +1553,7 @@ function renderTOCContent(product) {
     </div>`;
   });
 
-  html += `<div class="toc-preview-note">📖 Bạn có thể đọc thử <strong>bản xem trước miễn phí</strong> trước khi quyết định mua.
+  html += `<div class="toc-preview-note"> Bạn có thể đọc thử <strong>bản xem trước miễn phí</strong> trước khi quyết định mua.
     <a href="#" onclick="openPreviewModal(); return false;" style="color:var(--teal);margin-left:8px;">Xem trước →</a>
   </div>`;
   el.innerHTML = html;
@@ -1573,12 +1574,12 @@ async function renderRelatedProducts(currentProduct) {
     <a href="product.html?slug=${p.slug}" class="r-card">
       <div class="r-thumb" style="background:${p.coverGradient || 'var(--bg-3)'};padding:0;overflow:hidden;">
         <img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" loading="lazy"
-          onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent='${p.emoji || '📚'}'">
+          onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent='${p.emoji || ''}'">
       </div>
       <div class="r-body">
         <div class="r-cat">${p.category || ''}</div>
         <div class="r-name">${p.name}</div>
-        <div class="r-foot"><span class="r-price">${fmt(p.price)}</span><span class="r-stars">★★★★★ ${(p.rating||4.5).toFixed(1)}</span></div>
+        <div class="r-foot"><span class="r-price">${fmt(p.price)}</span><span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i> ${(p.rating||4.5).toFixed(1)}</span></div>
       </div>
     </a>
   `).join('');

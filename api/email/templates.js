@@ -32,7 +32,7 @@ function orderConfirmation(data) {
   const itemRows = items.map(item => `
     <tr>
       <td style="padding:12px 16px;border-bottom:1px solid #1C2232;font-size:14px;color:#DDE1EC;">
-        <span style="font-size:18px;margin-right:8px;">${item.emoji || '📦'}</span>
+        <span style="font-size:18px;margin-right:8px;">${item.emoji || ''}</span>
         ${item.name || 'Sản phẩm'}
       </td>
       <td style="padding:12px 16px;border-bottom:1px solid #1C2232;font-size:14px;color:#00D4D4;text-align:right;font-weight:600;">
@@ -45,12 +45,12 @@ function orderConfirmation(data) {
   const downloadSection = items.some(i => i.downloadUrl) ? `
     <div style="margin-top:28px;padding:24px;background:#12161F;border:1px solid #1C2232;border-radius:12px;">
       <h3 style="margin:0 0 16px;font-size:16px;color:#00D4D4;font-weight:700;">
-        📥 Tải sản phẩm
+         Tải sản phẩm
       </h3>
       ${items.filter(i => i.downloadUrl).map(item => `
         <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #1C2232;">
           <span style="font-size:14px;color:#DDE1EC;">
-            ${item.emoji || '📦'} ${item.name || 'Sản phẩm'}
+            ${item.emoji || ''} ${item.name || 'Sản phẩm'}
           </span>
           <a href="${item.downloadUrl}" style="display:inline-block;padding:8px 18px;background:#00D4D4;color:#08090E;font-size:13px;font-weight:700;text-decoration:none;border-radius:6px;">
             Tải xuống
@@ -58,7 +58,7 @@ function orderConfirmation(data) {
         </div>
       `).join('')}
       <p style="margin:16px 0 0;font-size:12px;color:#555F75;line-height:1.6;">
-        ⚠️ Link tải có hiệu lực trong 7 ngày. Nếu gặp vấn đề, vui lòng liên hệ hỗ trợ.
+         Link tải có hiệu lực trong 7 ngày. Nếu gặp vấn đề, vui lòng liên hệ hỗ trợ.
       </p>
     </div>
   ` : '';
@@ -67,7 +67,7 @@ function orderConfirmation(data) {
   const downloadPageButton = downloadPageUrl ? `
     <div style="text-align:center;margin-top:24px;">
       <a href="${downloadPageUrl}" style="display:inline-block;padding:14px 36px;background:#00D4D4;color:#08090E;font-size:15px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.5px;">
-        📥 Trang tải sản phẩm
+         Trang tải sản phẩm
       </a>
       <p style="margin-top:10px;font-size:12px;color:#555F75;">
         Hoặc truy cập: <a href="${downloadPageUrl}" style="color:#00AEAE;">${downloadPageUrl}</a>
@@ -97,7 +97,7 @@ function orderConfirmation(data) {
 
       <!-- Success Icon -->
       <div style="text-align:center;margin-bottom:24px;">
-        <div style="display:inline-block;width:64px;height:64px;line-height:64px;background:rgba(16,185,129,0.15);border-radius:50%;font-size:28px;text-align:center;">✅</div>
+        <div style="display:inline-block;width:64px;height:64px;line-height:64px;background:rgba(16,185,129,0.15);border-radius:50%;font-size:28px;text-align:center;"></div>
         <h2 style="margin:16px 0 4px;font-size:20px;color:#10B981;font-weight:700;">Thanh toán thành công!</h2>
         <p style="margin:0;font-size:14px;color:#8B93A8;">Cảm ơn bạn đã mua hàng tại Thư viện Sơn Nhai</p>
       </div>
@@ -188,7 +188,7 @@ function welcomeEmail(data) {
     <!-- Body -->
     <div style="padding:32px 28px;background:#0D1018;border-left:1px solid #1C2232;border-right:1px solid #1C2232;">
       <div style="text-align:center;margin-bottom:24px;">
-        <div style="display:inline-block;width:64px;height:64px;line-height:64px;background:rgba(0,212,212,0.15);border-radius:50%;font-size:28px;">🎉</div>
+        <div style="display:inline-block;width:64px;height:64px;line-height:64px;background:rgba(0,212,212,0.15);border-radius:50%;font-size:28px;"></div>
         <h2 style="margin:16px 0 4px;font-size:20px;color:#00D4D4;font-weight:700;">Chào mừng ${name}!</h2>
         <p style="margin:0;font-size:14px;color:#8B93A8;">Cảm ơn bạn đã tham gia Thư viện Sơn Nhai</p>
       </div>
@@ -197,10 +197,10 @@ function welcomeEmail(data) {
         Bạn đã đăng ký tài khoản thành công. Giờ đây bạn có thể:
       </p>
       <ul style="padding-left:20px;margin:16px 0;">
-        <li style="font-size:14px;color:#DDE1EC;line-height:2;">📚 Khám phá sách và tài liệu chất lượng cao</li>
-        <li style="font-size:14px;color:#DDE1EC;line-height:2;">💳 Thanh toán nhanh qua chuyển khoản ngân hàng</li>
-        <li style="font-size:14px;color:#DDE1EC;line-height:2;">📥 Tải sản phẩm ngay sau khi thanh toán</li>
-        <li style="font-size:14px;color:#DDE1EC;line-height:2;">📖 Theo dõi lịch sử đơn hàng</li>
+        <li style="font-size:14px;color:#DDE1EC;line-height:2;"> Khám phá sách và tài liệu chất lượng cao</li>
+        <li style="font-size:14px;color:#DDE1EC;line-height:2;"> Thanh toán nhanh qua chuyển khoản ngân hàng</li>
+        <li style="font-size:14px;color:#DDE1EC;line-height:2;"> Tải sản phẩm ngay sau khi thanh toán</li>
+        <li style="font-size:14px;color:#DDE1EC;line-height:2;"> Theo dõi lịch sử đơn hàng</li>
       </ul>
 
       <div style="text-align:center;margin-top:28px;">
@@ -261,7 +261,7 @@ function otpEmail(data) {
 
       <!-- Lock Icon -->
       <div style="text-align:center;margin-bottom:24px;">
-        <div style="display:inline-block;width:64px;height:64px;line-height:64px;background:rgba(0,212,212,0.15);border-radius:50%;font-size:28px;text-align:center;">🔐</div>
+        <div style="display:inline-block;width:64px;height:64px;line-height:64px;background:rgba(0,212,212,0.15);border-radius:50%;font-size:28px;text-align:center;"></div>
         <h2 style="margin:16px 0 4px;font-size:20px;color:#00D4D4;font-weight:700;">Mã xác thực của bạn</h2>
         <p style="margin:0;font-size:14px;color:#8B93A8;">Nhập mã bên dưới để đăng nhập</p>
       </div>
@@ -276,13 +276,13 @@ function otpEmail(data) {
       <!-- Info -->
       <div style="background:#12161F;border:1px solid #1C2232;border-radius:12px;padding:18px 22px;margin:24px 0;">
         <p style="margin:0 0 10px;font-size:13px;color:#DDE1EC;">
-          📧 Mã được gửi đến: <strong style="color:#00D4D4;">${email}</strong>
+           Mã được gửi đến: <strong style="color:#00D4D4;">${email}</strong>
         </p>
         <p style="margin:0 0 10px;font-size:13px;color:#DDE1EC;">
-          ⏱️ Mã có hiệu lực trong <strong style="color:#F5A623;">${expiryMinutes} phút</strong>
+          ⏱ Mã có hiệu lực trong <strong style="color:#F5A623;">${expiryMinutes} phút</strong>
         </p>
         <p style="margin:0;font-size:13px;color:#DDE1EC;">
-          🔒 Không chia sẻ mã này với bất kỳ ai
+           Không chia sẻ mã này với bất kỳ ai
         </p>
       </div>
 

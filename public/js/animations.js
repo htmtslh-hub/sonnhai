@@ -354,7 +354,7 @@
     document.body.appendChild(toastEl);
 
     window.snhaiToast = function (msg, icon, duration) {
-      toastEl.innerHTML = '<span class="toast-icon">' + (icon || 'ℹ️') + '</span><span>' + msg + '</span>';
+      toastEl.innerHTML = '<span class="toast-icon">' + (icon || 'ℹ') + '</span><span>' + msg + '</span>';
       toastEl.classList.add('show');
       clearTimeout(window._snhaiToastTimer);
       window._snhaiToastTimer = setTimeout(function () {

@@ -509,9 +509,9 @@ fbq('init','438100172987941');fbq('track','PageView');
     .cs-name { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 15px; font-weight: 800; color: var(--text); line-height: 1.2; }
     .cs-items { display: flex; flex-direction: column; gap: 4px; position: relative; z-index: 1; }
     .cs-item { font-size: 12px; color: var(--text-2); display: flex; align-items: center; gap: 6px; }
-    .cs-item::before { content: '✓'; color: var(--teal); font-weight: 800; font-size: 10px; }
+    .cs-item::before { content: '·'; color: var(--teal); font-weight: 800; font-size: 10px; }
     .cs-item.current { color: var(--teal); font-weight: 600; }
-    .cs-item.current::before { content: '★'; }
+    .cs-item.current::before { content: ''; width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#00D4D4,#00AAAA);display:inline-block; }
     .cs-pricing { display: flex; align-items: center; gap: 12px; padding-top: 10px; border-top: 1px solid var(--border); position: relative; z-index: 1; }
     .cs-orig { font-size: 12px; color: var(--text-3); text-decoration: line-through; }
     .cs-price { font-family: 'Exo 2',sans-serif; font-size: 20px; font-weight: 900; color: var(--teal); }
@@ -530,6 +530,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   <link rel="stylesheet" href="css/morph.css?v=1">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <link rel="stylesheet" href="css/responsive.css?v=2">
+  <link rel="stylesheet" href="css/sn-icons.css">
 </head>
 <body>
 
@@ -609,7 +610,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       <h1 class="p-title">Thức tỉnh nhận thức</h1>
 
       <div class="p-rating-row">
-        <span class="stars">★★★★★</span>
+        <span class="stars"><i class="star-filled"></i><i class="star-filled"></i><i class="star-filled"></i><i class="star-filled"></i><i class="star-filled"></i></span>
         <span class="rating-num">4.9</span>
         <span class="rating-sep">·</span>
         <span class="rating-count">94 đánh giá</span>
@@ -706,7 +707,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       <div class="p-social">
         <span class="p-social-label">Chia sẻ:</span>
         <a href="#" class="share-btn" title="Facebook">f</a>
-        <a href="#" class="share-btn" title="X / Twitter">𝕏</a>
+        <a href="#" class="share-btn" title="X / Twitter">X</a>
         <a href="#" class="share-btn" title="Copy link">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
         </a>
@@ -738,15 +739,15 @@ fbq('init','438100172987941');fbq('track','PageView');
     <div class="review-summary" id="review-summary">
       <div class="rs-big">
         <div class="rs-score" id="rv-avg-score">—</div>
-        <div class="rs-stars" id="rv-avg-stars">☆☆☆☆☆</div>
+        <div class="rs-stars" id="rv-avg-stars"><i class="sn-star empty"></i><i class="sn-star empty"></i><i class="sn-star empty"></i><i class="sn-star empty"></i><i class="sn-star empty"></i></div>
         <div class="rs-total" id="rv-total-count">0 đánh giá</div>
       </div>
       <div class="rs-bars" id="rv-bars">
-        <div class="rs-bar-row"><span class="rs-bar-label">5★</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-5" style="width:0%"></div></div><span class="rs-bar-pct" id="rv-pct-5">0%</span></div>
-        <div class="rs-bar-row"><span class="rs-bar-label">4★</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-4" style="width:0%;background:#10B981;"></div></div><span class="rs-bar-pct" id="rv-pct-4">0%</span></div>
-        <div class="rs-bar-row"><span class="rs-bar-label">3★</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-3" style="width:0%;background:#6B7280;"></div></div><span class="rs-bar-pct" id="rv-pct-3">0%</span></div>
-        <div class="rs-bar-row"><span class="rs-bar-label">2★</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-2" style="width:0%;background:#EF4444;"></div></div><span class="rs-bar-pct" id="rv-pct-2">0%</span></div>
-        <div class="rs-bar-row"><span class="rs-bar-label">1★</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-1" style="width:0%;background:#EF4444;"></div></div><span class="rs-bar-pct" id="rv-pct-1">0%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">5</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-5" style="width:0%"></div></div><span class="rs-bar-pct" id="rv-pct-5">0%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">4</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-4" style="width:0%;background:#10B981;"></div></div><span class="rs-bar-pct" id="rv-pct-4">0%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">3</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-3" style="width:0%;background:#6B7280;"></div></div><span class="rs-bar-pct" id="rv-pct-3">0%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">2</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-2" style="width:0%;background:#EF4444;"></div></div><span class="rs-bar-pct" id="rv-pct-2">0%</span></div>
+        <div class="rs-bar-row"><span class="rs-bar-label">1</span><div class="rs-bar-track"><div class="rs-bar-fill" id="rv-bar-1" style="width:0%;background:#EF4444;"></div></div><span class="rs-bar-pct" id="rv-pct-1">0%</span></div>
       </div>
     </div>
 
@@ -772,11 +773,11 @@ fbq('init','438100172987941');fbq('track','PageView');
       <div class="wr-title"> Viết đánh giá</div>
       <div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px;">Chọn số sao:</div>
       <div class="star-selector" id="star-selector">
-        <button class="star-btn" data-star="1">★</button>
-        <button class="star-btn" data-star="2">★</button>
-        <button class="star-btn" data-star="3">★</button>
-        <button class="star-btn" data-star="4">★</button>
-        <button class="star-btn" data-star="5">★</button>
+        <button class="star-btn" data-star="1"></button>
+        <button class="star-btn" data-star="2"></button>
+        <button class="star-btn" data-star="3"></button>
+        <button class="star-btn" data-star="4"></button>
+        <button class="star-btn" data-star="5"></button>
       </div>
       <div class="wr-rating-label" id="wr-rating-label">Chưa chọn đánh giá</div>
       <textarea class="wr-textarea" id="wr-comment" placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm này..." maxlength="1000"></textarea>
@@ -789,7 +790,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 
     <!-- Login prompt (shown if not logged in) -->
     <div class="wr-login-prompt" id="wr-login-prompt" style="display:none;">
-      <div class="prompt-icon">🔐</div>
+      <div class="prompt-icon"></div>
       <div class="prompt-text">Bạn cần đăng nhập để viết đánh giá.<br>Mỗi sản phẩm đã mua được đánh giá 1 lần.</div>
       <button class="wr-login-btn" onclick="window.openAuthModal && window.openAuthModal()">Đăng nhập ngay</button>
     </div>
@@ -819,7 +820,7 @@ fbq('init','438100172987941');fbq('track','PageView');
         <div class="r-body">
           <div class="r-cat">Nhận thức</div>
           <div class="r-name">Thức tỉnh nhận thức</div>
-          <div class="r-foot"><span class="r-price">119.000đ</span><span class="r-stars">★★★★★ 4.8</span></div>
+          <div class="r-foot"><span class="r-price">119.000đ</span><span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i> 4.8</span></div>
         </div>
       </a>
       <a href="product.html?slug=logic-nguoi-ngheo" class="r-card">
@@ -827,7 +828,7 @@ fbq('init','438100172987941');fbq('track','PageView');
         <div class="r-body">
           <div class="r-cat">Tư duy</div>
           <div class="r-name">Logic người nghèo</div>
-          <div class="r-foot"><span class="r-price">99.000đ</span><span class="r-stars">★★★★★ 4.7</span></div>
+          <div class="r-foot"><span class="r-price">99.000đ</span><span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i> 4.7</span></div>
         </div>
       </a>
       <a href="product.html?slug=muu-luoc-tai-chinh" class="r-card">
@@ -835,7 +836,7 @@ fbq('init','438100172987941');fbq('track','PageView');
         <div class="r-body">
           <div class="r-cat">Tài chính</div>
           <div class="r-name">Mưu lược tài chính</div>
-          <div class="r-foot"><span class="r-price">159.000đ</span><span class="r-stars">★★★★★ 4.8</span></div>
+          <div class="r-foot"><span class="r-price">159.000đ</span><span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i> 4.8</span></div>
         </div>
       </a>
       <a href="product.html?slug=he-thong-manh-me" class="r-card">
@@ -843,7 +844,7 @@ fbq('init','438100172987941');fbq('track','PageView');
         <div class="r-body">
           <div class="r-cat">Hệ thống</div>
           <div class="r-name">Hệ thống mạnh mẽ</div>
-          <div class="r-foot"><span class="r-price">139.000đ</span><span class="r-stars">★★★★★ 4.9</span></div>
+          <div class="r-foot"><span class="r-price">139.000đ</span><span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i> 4.9</span></div>
         </div>
       </a>
     </div>
@@ -858,7 +859,7 @@ fbq('init','438100172987941');fbq('track','PageView');
         <a href="index.html" class="foot-logo">Thư viện <span>Sơn Nhai</span></a>
         <p class="foot-about">Nơi lưu giữ những tinh hoa tri thức về nhân tính, tư duy và tài chính. Sản phẩm số chất lượng cao, được cập nhật thường xuyên.</p>
         <div class="foot-social">
-          <a class="soc" href="#">f</a><a class="soc" href="#">𝕏</a><a class="soc" href="#">in</a><a class="soc" href="#">▶</a>
+          <a class="soc" href="#">f</a><a class="soc" href="#">X</a><a class="soc" href="#">in</a><a class="soc" href="#" sn-play">›</a>
         </div>
       </div>
       <div>
@@ -1156,7 +1157,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       }
 
       const total = prod.price || 0;
-      const items = [{ productId: prod.id, name: prod.name, price: total, emoji: prod.emoji || '📦', slug: prod.slug || '', downloadUrl: '' }];
+      const items = [{ productId: prod.id, name: prod.name, price: total, emoji: prod.emoji || '', slug: prod.slug || '', downloadUrl: '' }];
 
       // Call real checkout API to create Firestore order
       const response = await fetch('/api/checkout', {
@@ -1365,7 +1366,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   // ── Like review ──
   function likeReview(btn) {
     const m = btn.textContent.match(/\((\d+)\)/);
-    if (m) { btn.textContent = `👍 Có (${parseInt(m[1]) + 1})`; btn.disabled = true; btn.style.color = 'var(--teal)'; }
+    if (m) { btn.textContent = ` Có (${parseInt(m[1]) + 1})`; btn.disabled = true; btn.style.color = 'var(--teal)'; }
   }
 
   // ── Sticky bar on scroll ──
@@ -1571,7 +1572,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     const related = [...sameCat, ...others].slice(0, 4);
     thumbsGrid.innerHTML = related.map(p => {
       const img = p.imageUrl || (p.slug ? 'product/' + p.slug.replace(/-/g, '_') + '.webp' : '');
-      return `<a href="product.html?slug=${p.slug}" class="g-thumb" title="${p.name}" style="padding:0;overflow:hidden;">${img ? `<img src="${img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">` : p.emoji || '📚'}</a>`;
+      return `<a href="product.html?slug=${p.slug}" class="g-thumb" title="${p.name}" style="padding:0;overflow:hidden;">${img ? `<img src="${img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">` : p.emoji || ''}</a>`;
     }).join('');
   }
 })();
@@ -1630,7 +1631,7 @@ async function renderComboSuggestion(product) {
 
     const emojisHtml = productIds.slice(0, 4).map((pid, i) => {
       const prod = allProducts.find(p => String(p.id) === String(pid));
-      const emoji = prod ? (prod.emoji || prod.icon || '📚') : '📚';
+      const emoji = prod ? (prod.emoji || prod.icon || '') : '';
       const bg = bookBgs[i % bookBgs.length];
       return `<div class="cs-emoji" style="background:${bg}">${emoji}</div>`;
     }).join('');
@@ -1768,12 +1769,12 @@ async function renderRelatedProducts(currentProduct) {
     <a href="product.html?slug=${p.slug}" class="r-card">
       <div class="r-thumb" style="background:${p.coverGradient || 'var(--bg-3)'};padding:0;overflow:hidden;">
         <img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" loading="lazy"
-          onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent='${p.emoji || '📚'}'">
+          onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent='${p.emoji || ''}'">
       </div>
       <div class="r-body">
         <div class="r-cat">${p.category || ''}</div>
         <div class="r-name">${p.name}</div>
-        <div class="r-foot"><span class="r-price">${fmt(p.price)}</span><span class="r-stars">★★★★★ ${(p.rating||4.5).toFixed(1)}</span></div>
+        <div class="r-foot"><span class="r-price">${fmt(p.price)}</span><span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i> ${(p.rating||4.5).toFixed(1)}</span></div>
       </div>
     </a>
   `).join('');

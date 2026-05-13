@@ -51,12 +51,12 @@ module.exports = async (req, res) => {
 
   switch (type) {
     case 'order_confirmation':
-      subject = `✅ Xác nhận đơn hàng ${data.orderNumber || ''} — Thư viện Sơn Nhai`;
+      subject = ` Xác nhận đơn hàng ${data.orderNumber || ''} — Thư viện Sơn Nhai`;
       html = orderConfirmation(data);
       break;
 
     case 'welcome':
-      subject = `🎉 Chào mừng đến với Thư viện Sơn Nhai!`;
+      subject = ` Chào mừng đến với Thư viện Sơn Nhai!`;
       html = welcomeEmail(data);
       break;
 

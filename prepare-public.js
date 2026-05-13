@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-console.log('🚀 Preparing frontend for deployment...\n');
+console.log(' Preparing frontend for deployment...\n');
 
 // Create public directory
 if (!fs.existsSync('public')) {
@@ -76,19 +76,19 @@ console.log(`\n✓ Copied ${images.length} images`);
 // Create .gitignore in public
 // NOTE: Do NOT create .gitignore in public/ — it causes Vercel to skip files
 
-console.log('\n✅ Frontend preparation complete!');
-console.log(`📁 Files in public/: ${fs.readdirSync('public').length}`);
+console.log('\n Frontend preparation complete!');
+console.log(` Files in public/: ${fs.readdirSync('public').length}`);
 
 // Debug: verify chuan/ images in output
 const chuanDir = path.join('public', 'chuan');
 if (fs.existsSync(chuanDir)) {
   const chuanFiles = fs.readdirSync(chuanDir);
-  console.log(`\n📸 chuan/ has ${chuanFiles.length} files:`);
+  console.log(`\n chuan/ has ${chuanFiles.length} files:`);
   chuanFiles.forEach(f => {
     const size = fs.statSync(path.join(chuanDir, f)).size;
     console.log(`  ${f} (${(size/1024).toFixed(0)}KB)`);
   });
 } else {
-  console.error('\n❌ ERROR: public/chuan/ does NOT exist!');
+  console.error('\n ERROR: public/chuan/ does NOT exist!');
 }
 

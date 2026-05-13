@@ -598,6 +598,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/morph.css?v=1">
   <link rel="stylesheet" href="css/responsive.css?v=2">
+  <link rel="stylesheet" href="css/sn-icons.css">
 </head>
 <body>
 
@@ -671,7 +672,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       <div class="hs-label">Khách hàng</div>
     </div>
     <div>
-      <span class="hs-num">4.9★</span>
+      <span class="hs-num">4.9</span>
       <div class="hs-label">Đánh giá TB</div>
     </div>
   </div>
@@ -721,7 +722,7 @@ fbq('init','438100172987941');fbq('track','PageView');
         </div>
         <div>
           <div class="fn-label">Đánh giá</div>
-          <div class="fn-val">4.9★</div>
+          <div class="fn-val">4.9</div>
         </div>
       </div>
       <div class="feat-btns">
@@ -913,7 +914,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     <div class="testi-stats" id="testi-stats">
       <div class="tstat">
         <div class="tstat-num" id="testi-avg">4.9</div>
-        <div class="tstat-stars" id="testi-avg-stars">★★★★★</div>
+        <div class="tstat-stars" id="testi-avg-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i></div>
         <div class="tstat-label">Đánh giá trung bình</div>
       </div>
       <div class="tstat-divider"></div>
@@ -1109,9 +1110,9 @@ fbq('init','438100172987941');fbq('track','PageView');
         <p class="foot-about">Nơi lưu giữ những tinh hoa tri thức về nhân tính, tư duy và tài chính. Sản phẩm số chất lượng cao, được cập nhật thường xuyên.</p>
         <div class="foot-social">
           <a class="soc" href="#">f</a>
-          <a class="soc" href="#">𝕏</a>
+          <a class="soc" href="#">X</a>
           <a class="soc" href="#">in</a>
-          <a class="soc" href="#">▶</a>
+          <a class="soc" href="#" sn-play">›</a>
         </div>
       </div>
       <div>
@@ -1257,13 +1258,13 @@ fbq('init','438100172987941');fbq('track','PageView');
         else if (idx === 2) badgeHtml = `<span class="badge badge-sale">-34%</span>`;
 
         let rating = p.rating || 4.8;
-        let stars = rating >= 4.9 ? '★★★★★' : '★★★★☆';
+        let stars = '<i class="sn-star filled"></i>'.repeat(rating >= 4.9 ? 5 : 4) + '<i class="sn-star empty"></i>'.repeat(rating >= 4.9 ? 0 : 1);
         
         let thumbInner;
         if (p.imageUrl) {
-          thumbInner = `<div class="card-thumb-inner" style="overflow:hidden;"><img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;flex-direction:column;width:100%;height:100%;"><div class='book-top' style='background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}'><div class='card-emoji'>${p.emoji || '📚'}</div></div><div class='book-bottom'><div class='book-bottom-title'>${p.name}</div><div class='book-bottom-author'>Thư viện Sơn Nhai</div></div></div></div>`;
+          thumbInner = `<div class="card-thumb-inner" style="overflow:hidden;"><img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;flex-direction:column;width:100%;height:100%;"><div class='book-top' style='background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}'><div class='card-emoji'>${p.emoji || ''}</div></div><div class='book-bottom'><div class='book-bottom-title'>${p.name}</div><div class='book-bottom-author'>Thư viện Sơn Nhai</div></div></div></div>`;
         } else {
-          thumbInner = `<div class="card-thumb-inner"><div class="book-top" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}"><div class="card-emoji">${p.emoji || '📚'}</div></div><div class="book-bottom"><div class="book-bottom-title">${p.name}</div><div class="book-bottom-author">Thư viện Sơn Nhai</div></div></div>`;
+          thumbInner = `<div class="card-thumb-inner"><div class="book-top" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}"><div class="card-emoji">${p.emoji || ''}</div></div><div class="book-bottom"><div class="book-bottom-title">${p.name}</div><div class="book-bottom-author">Thư viện Sơn Nhai</div></div></div>`;
         }
 
         let html = `
@@ -1296,13 +1297,13 @@ fbq('init','438100172987941');fbq('track','PageView');
       const bestsellers = [...allProducts].sort((a,b) => getSoldCount(b) - getSoldCount(a)).slice(0, 6);
       bestsellers.forEach((p, idx) => {
         let rating = p.rating || 4.8;
-        let stars = rating >= 4.9 ? '★★★★★' : '★★★★☆';
+        let stars = '<i class="sn-star filled"></i>'.repeat(rating >= 4.9 ? 5 : 4) + '<i class="sn-star empty"></i>'.repeat(rating >= 4.9 ? 0 : 1);
         let badgeHtml = idx === 0 ? '<div class="bs-hot">HOT</div>' : '';
         let bsCoverHtml;
         if (p.imageUrl) {
-          bsCoverHtml = `<div class="bs-cover" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'};padding:0;overflow:hidden;"><img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${p.emoji || '📚'}'"></div>`;
+          bsCoverHtml = `<div class="bs-cover" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'};padding:0;overflow:hidden;"><img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${p.emoji || ''}'"></div>`;
         } else {
-          bsCoverHtml = `<div class="bs-cover" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}">${p.emoji || '📚'}</div>`;
+          bsCoverHtml = `<div class="bs-cover" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}">${p.emoji || ''}</div>`;
         }
         let html = `
           <div class="bs-item" data-slug="${p.slug}" onclick="goToProduct(this)">
@@ -1352,7 +1353,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       featSplit.querySelector('.feat-desc').textContent = featDesc;
 
       const fnVals = featSplit.querySelectorAll('.fn-val');
-      if (fnVals[0]) fnVals[0].textContent = (p.rating || 4.8) + '★';
+      if (fnVals[0]) fnVals[0].textContent = (p.rating || 4.8) + '•';
       featSplit.querySelector('.btn-teal').textContent = `Mua ngay — ${fmt(p.price)}`;
       featSplit.querySelector('.btn-teal').href = `product.html?slug=${p.slug}`;
       featSplit.querySelector('.btn-outline').href = `product.html?slug=${p.slug}`;
@@ -1665,7 +1666,7 @@ fbq('init','438100172987941');fbq('track','PageView');
         const bc3 = bookColors[(idx * 3 + 2) % bookColors.length];
 
         function bookHtml(prod, bcClass, posClass, prodId) {
-          const emoji = prod ? (prod.emoji || prod.icon || '📚') : '📚';
+          const emoji = prod ? (prod.emoji || prod.icon || '') : '';
           const imgSrc = productImageMap[prodId]
             || (prod && prod.imageUrl && !prod.imageUrl.startsWith('chuan/') ? prod.imageUrl : '')
             || (prod && prod.slug ? 'product/' + prod.slug.replace(/-/g, '_') + '.webp' : '');
@@ -1693,7 +1694,7 @@ fbq('init','438100172987941');fbq('track','PageView');
             const bc = [bc1,bc2,bc3][fi] || bc1;
             const src = productImageMap[fid];
             const imgTag = src ? `<img src="${src}" alt="" onerror="this.remove()">` : '';
-            return `<div class="combo-book ${pos} ${bc}">📚${imgTag}</div>`;
+            return `<div class="combo-book ${pos} ${bc}">${imgTag}</div>`;
           }).join('');
         }
 
@@ -1870,7 +1871,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     const starsEl = document.getElementById('testi-avg-stars');
     const totalEl = document.getElementById('testi-total');
     if (avgEl) avgEl.textContent = avgRating;
-    if (starsEl) starsEl.textContent = '★'.repeat(avgFull) + (avgHalf ? '★' : '') + '☆'.repeat(5 - avgFull - avgHalf);
+    if (starsEl) starsEl.textContent = '<i class="sn-star filled"></i>'.repeat(avgFull) + (avgHalf ? '•' : '') + '<i class="sn-star empty"></i>'.repeat(5 - avgFull - avgHalf);
     if (totalEl) totalEl.textContent = totalReviews > 99 ? totalReviews + '+' : totalReviews + '+';
 
     // Get products for linking
@@ -1878,7 +1879,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 
     // Render cards
     carousel.innerHTML = reviews.map((r, idx) => {
-      const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+      const stars = '<i class="sn-star filled"></i>'.repeat(r.rating) + '<i class="sn-star empty"></i>'.repeat(5 - r.rating);
       const initial = (r.userName || '?').charAt(0).toUpperCase();
       const avatarHtml = r.userPhoto
         ? `<img src="${r.userPhoto}" alt="" referrerpolicy="no-referrer">`
@@ -1892,7 +1893,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       if (r.productId) {
         const prod = allProducts.find(p => p.slug === r.productId || String(p.id) === String(r.productId));
         if (prod) {
-          productTag = `<a href="product.html?slug=${prod.slug}" class="testi-product"><span class="testi-product-emoji">${prod.emoji || '📚'}</span>${prod.name}</a>`;
+          productTag = `<a href="product.html?slug=${prod.slug}" class="testi-product"><span class="testi-product-emoji">${prod.emoji || ''}</span>${prod.name}</a>`;
         }
       }
 

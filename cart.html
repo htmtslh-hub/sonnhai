@@ -312,6 +312,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   <link rel="stylesheet" href="css/morph.css?v=1">
   <link rel="stylesheet" href="css/parallax-animations.css">
   <link rel="stylesheet" href="css/responsive.css?v=2">
+  <link rel="stylesheet" href="css/sn-icons.css">
 </head>
 <body>
 
@@ -369,7 +370,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 
         <!-- Empty state (shown when cart is empty) -->
         <div class="empty-state" id="empty-state" style="display:flex;">
-          <div class="empty-icon">◇</div>
+          <div class="empty-icon"><span class="sn-dot outline"></span></div>
           <div class="empty-title">Giỏ hàng trống</div>
           <p class="empty-sub">Chưa có sản phẩm nào trong giỏ hàng. Khám phá bộ sưu tập của Thư viện Sơn Nhai ngay!</p>
           <a href="index.html" class="btn-shop">
@@ -484,7 +485,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     <div class="upsell-grid">
 
       <div class="u-card">
-        <div class="u-thumb" style="background:linear-gradient(145deg,#1A0D2E,#2D0A4E);padding:0;overflow:hidden;"><img src="chuan/thuc_tinh_nhan_thuc.webp" alt="Thức tỉnh nhận thức" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='◆'"></div>
+        <div class="u-thumb" style="background:linear-gradient(145deg,#1A0D2E,#2D0A4E);padding:0;overflow:hidden;"><img src="chuan/thuc_tinh_nhan_thuc.webp" alt="Thức tỉnh nhận thức" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='<span class="sn-dot"></span>'"></div>
         <div class="u-body">
           <div class="u-cat">Tư duy</div>
           <div class="u-name">Thức tỉnh nhận thức</div>
@@ -508,7 +509,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       </div>
 
       <div class="u-card">
-        <div class="u-thumb" style="background:linear-gradient(145deg,#0A1A2E,#0D2845);padding:0;overflow:hidden;"><img src="chuan/tu_duy_sau_sac.webp" alt="Tư duy sâu sắc" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='◆'"></div>
+        <div class="u-thumb" style="background:linear-gradient(145deg,#0A1A2E,#0D2845);padding:0;overflow:hidden;"><img src="chuan/tu_duy_sau_sac.webp" alt="Tư duy sâu sắc" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='<span class="sn-dot"></span>'"></div>
         <div class="u-body">
           <div class="u-cat">Tư duy</div>
           <div class="u-name">Tư duy sâu sắc</div>
@@ -774,7 +775,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     const id = item.id || item.productId;
     const name = item.name || item.product?.name || 'Sản phẩm';
     const price = item.price || item.product?.price || 0;
-    const emoji = item.isCombo ? '📦' : (item.emoji || item.product?.emoji || '📚');
+    const emoji = item.isCombo ? '' : (item.emoji || item.product?.emoji || '');
     const bg = item.bg || item.product?.coverGradient || 'linear-gradient(145deg,#0D1018,#161B27)';
     const cat = item.isCombo ? 'Combo' : (item.category || item.product?.category || 'Sản phẩm số');
     const pages = item.pages || item.product?.pages || '';
@@ -946,7 +947,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 
       const emojisHtml = productIds.slice(0, 4).map((pid, i) => {
         const prod = allProducts.find(p => String(p.id) === String(pid));
-        const emoji = prod ? (prod.emoji || prod.icon || '📚') : '📚';
+        const emoji = prod ? (prod.emoji || prod.icon || '') : '';
         const bg = bookBgs[i % bookBgs.length];
         return `<div class="cu-emoji" style="background:${bg}">${emoji}</div>`;
       }).join('');

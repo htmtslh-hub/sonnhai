@@ -536,7 +536,7 @@
     .combo-name { font-family: 'Exo 2', 'Be Vietnam Pro', sans-serif; font-size: 16px; font-weight: 900; color: var(--text); margin-bottom: 14px; line-height: 1.2; }
     .combo-list { list-style: none; margin-bottom: 0; display: flex; flex-direction: column; gap: 6px; }
     .combo-list li { font-size: 11.5px; color: var(--text-2); display: flex; align-items: flex-start; gap: 7px; line-height: 1.4; }
-    .combo-list li::before { content: '✓'; color: var(--teal); font-weight: 800; font-size: 10px; margin-top: 1px; flex-shrink: 0; }
+    .combo-list li::before { content: '·'; color: var(--teal); font-weight: 800; font-size: 10px; margin-top: 1px; flex-shrink: 0; }
     .combo-pricing { padding: 16px 20px 20px; border-top: 1px solid var(--border); margin-top: 18px; position: relative; z-index: 1; }
     .combo-orig { font-size: 11.5px; color: var(--text-3); text-decoration: line-through; margin-bottom: 7px; }
     .combo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
@@ -558,6 +558,7 @@
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/morph.css?v=1">
   <link rel="stylesheet" href="css/responsive.css?v=2">
+  <link rel="stylesheet" href="css/sn-icons.css">
 </head>
 <body>
 
@@ -566,7 +567,7 @@
 
 <!-- TOP ANNOUNCEMENT BAR -->
 <div id="site-banner" style="background:rgba(0,212,212,.1);border-bottom:1px solid rgba(0,212,212,.2);padding:7px 20px;text-align:center;font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--teal);text-transform:uppercase;font-family:'Be Vietnam Pro',sans-serif;">
-  ◆ Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật ◆
+  <span class="sn-accent">Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật</span>
 </div>
 
 <!-- NAVBAR -->
@@ -604,7 +605,7 @@
     <div class="hero-grid"></div>
   </div>
 
-  <p class="hero-eyebrow">◆ Bộ sưu tập tinh hoa tri thức ◆</p>
+  <p class="hero-eyebrow"><span class="sn-accent">Bộ sưu tập tinh hoa tri thức</span></p>
 
   <h1 class="hero-h1">
     <span class="l1">Thấu hiểu</span>
@@ -631,7 +632,7 @@
       <div class="hs-label">Khách hàng</div>
     </div>
     <div>
-      <span class="hs-num">4.9★</span>
+      <span class="hs-num">4.9</span>
       <div class="hs-label">Đánh giá TB</div>
     </div>
   </div>
@@ -660,7 +661,7 @@
 <section class="sec">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title">◆ Sản phẩm nổi bật</h2>
+      <h2 class="sec-title"><span class="sn-dot"></span> Sản phẩm nổi bật</h2>
       <a href="categories.html" class="sec-more">Xem tất cả <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="cards-row" id="home-featured-grid">
@@ -673,7 +674,7 @@
 <section class="feat">
   <div class="feat-inner">
     <div class="feat-left">
-      <div class="feat-label">◆ Sản phẩm nổi bật</div>
+      <div class="feat-label"><span class="sn-dot"></span> Sản phẩm nổi bật</div>
       <h2 class="feat-h2">Tuyệt<br>mật<br>nhân tính</h2>
       <p class="feat-desc">
         Cuốn sách phân tích sâu sắc về bản chất con người. Khám phá những bí mật ẩn giấu trong tâm lý, hành vi và mối quan hệ — chìa khóa để thấu hiểu và ảnh hưởng người xung quanh.
@@ -689,7 +690,7 @@
         </div>
         <div>
           <div class="fn-label">Đánh giá</div>
-          <div class="fn-val">4.9★</div>
+          <div class="fn-val">4.9</div>
         </div>
       </div>
       <div class="feat-btns">
@@ -701,11 +702,11 @@
     <div class="feat-right">
       <div class="feat-cover has-image" style="padding:0;display:block;">
         <img src="chuan/tuyet_mat_nhan_tinh.webp" alt="Tuyệt mật nhân tính" id="feat-cover-img" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:10px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="feat-cover-emoji" style="display:none;">🧠</div>
+        <div class="feat-cover-emoji" style="display:none;"></div>
         <div class="feat-cover-ttl" style="display:none;">Tuyệt mật nhân tính<br>Thư viện Sơn Nhai</div>
       </div>
       <div class="feat-panel">
-        <div class="panel-ttl">◆ Thông tin chi tiết</div>
+        <div class="panel-ttl"><span class="sn-dot"></span> Thông tin chi tiết</div>
         <div class="prow"><span class="pk">Tác giả</span><span class="pv t">Thư viện Sơn Nhai</span></div>
         <div class="prow"><span class="pk">Ngôn ngữ</span><span class="pv">Tiếng Việt</span></div>
         <div class="prow"><span class="pk">Định dạng</span><span class="pv">PDF</span></div>
@@ -727,7 +728,7 @@
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title">◆ Bán chạy nhất</h2>
+      <h2 class="sec-title"><span class="sn-dot"></span> Bán chạy nhất</h2>
       <a href="categories.html" class="sec-more">Xem tất cả <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="bs-grid" id="home-bestseller-grid">
@@ -740,7 +741,7 @@
 <section class="sec" id="combo" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title">◆ Gói combo ưu đãi</h2>
+      <h2 class="sec-title"><span class="sn-dot"></span> Gói combo ưu đãi</h2>
       <a href="categories.html" class="sec-more">Tất cả combo <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="combo-grid" id="home-combo-grid">
@@ -753,18 +754,18 @@
 <section class="sec">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title">◆ Danh mục</h2>
+      <h2 class="sec-title"><span class="sn-dot"></span> Danh mục</h2>
       <a href="categories.html" class="sec-more">Tất cả danh mục <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="cats-grid">
-      <a href="categories.html" class="cat-card"><div class="cat-ico">🧠</div><div class="cat-name">Nhân tính</div><div class="cat-cnt">Đang cập nhật</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico">💡</div><div class="cat-name">Nhận thức</div><div class="cat-cnt">Đang cập nhật</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico">🔮</div><div class="cat-name">Tư duy</div><div class="cat-cnt">Đang cập nhật</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico">💰</div><div class="cat-name">Tài chính</div><div class="cat-cnt">Đang cập nhật</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico">🌙</div><div class="cat-name">Tình cảm</div><div class="cat-cnt">Đang cập nhật</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico">⚙️</div><div class="cat-name">Hệ thống</div><div class="cat-cnt">Đang cập nhật</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico">📊</div><div class="cat-name">Kỹ năng sống</div><div class="cat-cnt">Đang cập nhật</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico">⚡</div><div class="cat-name">Phát triển bản thân</div><div class="cat-cnt">Đang cập nhật</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Nhân tính</div><div class="cat-cnt">Đang cập nhật</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Nhận thức</div><div class="cat-cnt">Đang cập nhật</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Tư duy</div><div class="cat-cnt">Đang cập nhật</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Tài chính</div><div class="cat-cnt">Đang cập nhật</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Tình cảm</div><div class="cat-cnt">Đang cập nhật</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Hệ thống</div><div class="cat-cnt">Đang cập nhật</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Kỹ năng sống</div><div class="cat-cnt">Đang cập nhật</div></a>
+      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Phát triển bản thân</div><div class="cat-cnt">Đang cập nhật</div></a>
     </div>
   </div>
 </section>
@@ -773,7 +774,7 @@
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title">◆ Bài viết mới nhất</h2>
+      <h2 class="sec-title"><span class="sn-dot"></span> Bài viết mới nhất</h2>
       <a href="blog.html" class="sec-more">Xem tất cả <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="blog-grid" id="home-blog-grid">
@@ -789,7 +790,7 @@
 
   <div class="wrap" style="position:relative;z-index:1;">
     <div class="sec-head" style="flex-direction:column;align-items:center;text-align:center;gap:10px;">
-      <div style="font-family:'Exo 2','Be Vietnam Pro',sans-serif;font-size:10px;font-weight:800;letter-spacing:3px;color:var(--teal);text-transform:uppercase;opacity:.8;">◆ Khách hàng nói gì</div>
+      <div style="font-family:'Exo 2','Be Vietnam Pro',sans-serif;font-size:10px;font-weight:800;letter-spacing:3px;color:var(--teal);text-transform:uppercase;opacity:.8;"><span class="sn-dot"></span> Khách hàng nói gì</div>
       <h2 class="sec-title" style="font-size:26px;">Phản hồi từ cộng đồng</h2>
       <p style="font-size:13.5px;color:var(--text-2);max-width:480px;line-height:1.65;">Hàng trăm độc giả đã tin tưởng Thư viện Sơn Nhai. Đây là những chia sẻ thật từ khách hàng.</p>
     </div>
@@ -798,7 +799,7 @@
     <div class="testi-stats" id="testi-stats">
       <div class="tstat">
         <div class="tstat-num" id="testi-avg">4.9</div>
-        <div class="tstat-stars" id="testi-avg-stars">★★★★★</div>
+        <div class="tstat-stars" id="testi-avg-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i></div>
         <div class="tstat-label">Đánh giá trung bình</div>
       </div>
       <div class="tstat-divider"></div>
@@ -953,7 +954,7 @@
     box-shadow: 0 0 30px rgba(0,212,212,.06);
   }
   .testi-card.featured::after {
-    content: '⭐ Nổi bật';
+    content: ' Nổi bật';
     position: absolute; top: 12px; left: 16px;
     font-size: 9px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase;
     color: var(--warn); background: rgba(245,166,35,.1);
@@ -994,9 +995,9 @@
         <p class="foot-about">Nơi lưu giữ những tinh hoa tri thức về nhân tính, tư duy và tài chính. Sản phẩm số chất lượng cao, được cập nhật thường xuyên.</p>
         <div class="foot-social">
           <a class="soc" href="#">f</a>
-          <a class="soc" href="#">𝕏</a>
+          <a class="soc" href="#">X</a>
           <a class="soc" href="#">in</a>
-          <a class="soc" href="#">▶</a>
+          <a class="soc" href="#" sn-play">›</a>
         </div>
       </div>
       <div>
@@ -1142,13 +1143,13 @@
         else if (idx === 2) badgeHtml = `<span class="badge badge-sale">-34%</span>`;
 
         let rating = p.rating || 4.8;
-        let stars = rating >= 4.9 ? '★★★★★' : '★★★★☆';
+        let stars = rating >= 4.9 ? '<i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i>' : '<i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star empty"></i>';
         
         let thumbInner;
         if (p.imageUrl) {
-          thumbInner = `<div class="card-thumb-inner" style="overflow:hidden;"><img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;flex-direction:column;width:100%;height:100%;"><div class='book-top' style='background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}'><div class='card-emoji'>${p.emoji || '📚'}</div></div><div class='book-bottom'><div class='book-bottom-title'>${p.name}</div><div class='book-bottom-author'>Thư viện Sơn Nhai</div></div></div></div>`;
+          thumbInner = `<div class="card-thumb-inner" style="overflow:hidden;"><img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;flex-direction:column;width:100%;height:100%;"><div class='book-top' style='background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}'><div class='card-emoji'>${p.emoji || ''}</div></div><div class='book-bottom'><div class='book-bottom-title'>${p.name}</div><div class='book-bottom-author'>Thư viện Sơn Nhai</div></div></div></div>`;
         } else {
-          thumbInner = `<div class="card-thumb-inner"><div class="book-top" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}"><div class="card-emoji">${p.emoji || '📚'}</div></div><div class="book-bottom"><div class="book-bottom-title">${p.name}</div><div class="book-bottom-author">Thư viện Sơn Nhai</div></div></div>`;
+          thumbInner = `<div class="card-thumb-inner"><div class="book-top" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}"><div class="card-emoji">${p.emoji || ''}</div></div><div class="book-bottom"><div class="book-bottom-title">${p.name}</div><div class="book-bottom-author">Thư viện Sơn Nhai</div></div></div>`;
         }
 
         let html = `
@@ -1181,13 +1182,13 @@
       const bestsellers = [...allProducts].sort((a,b) => getSoldCount(b) - getSoldCount(a)).slice(0, 6);
       bestsellers.forEach((p, idx) => {
         let rating = p.rating || 4.8;
-        let stars = rating >= 4.9 ? '★★★★★' : '★★★★☆';
+        let stars = rating >= 4.9 ? '<i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i>' : '<i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star empty"></i>';
         let badgeHtml = idx === 0 ? '<div class="bs-hot">HOT</div>' : '';
         let bsCoverHtml;
         if (p.imageUrl) {
-          bsCoverHtml = `<div class="bs-cover" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'};padding:0;overflow:hidden;"><img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${p.emoji || '📚'}'"></div>`;
+          bsCoverHtml = `<div class="bs-cover" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'};padding:0;overflow:hidden;"><img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${p.emoji || ''}'"></div>`;
         } else {
-          bsCoverHtml = `<div class="bs-cover" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}">${p.emoji || '📚'}</div>`;
+          bsCoverHtml = `<div class="bs-cover" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}">${p.emoji || ''}</div>`;
         }
         let html = `
           <div class="bs-item" data-slug="${p.slug}" onclick="goToProduct(this)">
@@ -1219,7 +1220,7 @@
       if (p.description) featSplit.querySelector('.feat-desc').textContent = p.description;
       featSplit.querySelector('.fn-val:nth-child(2)').textContent = p.pages || 320;
       featSplit.querySelector('.fn-val:nth-child(4)').textContent = 'PDF';
-      featSplit.querySelector('.fn-val:nth-child(6)').textContent = (p.rating || 4.9) + '★';
+      featSplit.querySelector('.fn-val:nth-child(6)').textContent = (p.rating || 4.9) + '•';
       featSplit.querySelector('.btn-teal').textContent = `Mua ngay — ${fmt(p.price)}`;
       // Update cover image src
       const featCoverImg = document.getElementById('feat-cover-img');
@@ -1346,7 +1347,7 @@
         : (p.date || '');
       return `
         <a href="blog-post.html?slug=${p.slug || ''}" class="blog-card">
-          <div class="blog-img" style="background:${gradient};font-size:44px;">${p.emoji || '📝'}</div>
+          <div class="blog-img" style="background:${gradient};font-size:44px;">${p.emoji || ''}</div>
           <div class="blog-body">
             <span class="blog-tag">${p.category || ''}</span>
             <div class="blog-ttl">${p.title || ''}</div>
@@ -1369,7 +1370,7 @@
       const banner = document.getElementById('site-banner');
       if (!banner) return;
       if (data.enabled === false) { banner.style.display = 'none'; return; }
-      if (data.text) banner.textContent = '◆ ' + data.text + ' ◆';
+      if (data.text) banner.textContent = '<span class="sn-accent">' + data.text + '</span>';
       const typeColors = {
         info: { bg: 'rgba(0,212,212,.1)', border: 'rgba(0,212,212,.2)', color: '#00D4D4' },
         promo: { bg: 'rgba(245,166,35,.1)', border: 'rgba(245,166,35,.2)', color: '#F5A623' },
@@ -1425,7 +1426,7 @@
       // Get emojis from products for book covers
       const emojis = productIds.map((pid, i) => {
         const prod = allProducts.find(p => String(p.id) === String(pid));
-        return prod ? (prod.emoji || prod.icon || '📚') : '📚';
+        return prod ? (prod.emoji || prod.icon || '') : '';
       });
       
       // Product items list
@@ -1463,7 +1464,7 @@
           <div class="combo-save">${badgeText}</div>
           <div class="combo-covers">${booksHtml}</div>
           <div class="combo-body">
-            <div class="combo-tag">${combo.tag || '◆ Bộ sưu tập · ' + productIds.length + ' cuốn'}</div>
+            <div class="combo-tag">${combo.tag || '<span class="sn-dot"></span> Bộ sưu tập · ' + productIds.length + ' cuốn'}</div>
             <div class="combo-name">${combo.name || 'Combo'}</div>
             <ul class="combo-list">${itemsList}</ul>
           </div>
@@ -1580,7 +1581,7 @@
     const starsEl = document.getElementById('testi-avg-stars');
     const totalEl = document.getElementById('testi-total');
     if (avgEl) avgEl.textContent = avgRating;
-    if (starsEl) starsEl.textContent = '★'.repeat(avgFull) + (avgHalf ? '★' : '') + '☆'.repeat(5 - avgFull - avgHalf);
+    if (starsEl) starsEl.textContent = '<i class="sn-star filled"></i>'.repeat(avgFull) + (avgHalf ? '•' : '') + '<i class="sn-star empty"></i>'.repeat(5 - avgFull - avgHalf);
     if (totalEl) totalEl.textContent = totalReviews > 99 ? totalReviews + '+' : totalReviews + '+';
 
     // Get products for linking
@@ -1588,7 +1589,7 @@
 
     // Render cards
     carousel.innerHTML = reviews.map((r, idx) => {
-      const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+      const stars = '<i class="sn-star filled"></i>'.repeat(r.rating) + '<i class="sn-star empty"></i>'.repeat(5 - r.rating);
       const initial = (r.userName || '?').charAt(0).toUpperCase();
       const avatarHtml = r.userPhoto
         ? `<img src="${r.userPhoto}" alt="" referrerpolicy="no-referrer">`
@@ -1602,7 +1603,7 @@
       if (r.productId) {
         const prod = allProducts.find(p => p.slug === r.productId || String(p.id) === String(r.productId));
         if (prod) {
-          productTag = `<a href="product.html?slug=${prod.slug}" class="testi-product"><span class="testi-product-emoji">${prod.emoji || '📚'}</span>${prod.name}</a>`;
+          productTag = `<a href="product.html?slug=${prod.slug}" class="testi-product"><span class="testi-product-emoji">${prod.emoji || ''}</span>${prod.name}</a>`;
         }
       }
 

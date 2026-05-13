@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
         productId: item.productId || '',
         name: item.name || '',
         price: item.price || 0,
-        emoji: item.emoji || '📦',
+        emoji: item.emoji || '',
         slug: item.slug || '',
       })),
       subtotal: subtotal || total,

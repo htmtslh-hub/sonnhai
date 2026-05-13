@@ -322,6 +322,7 @@
     }
   </style>
   <link rel="stylesheet" href="css/responsive.css?v=2">
+  <link rel="stylesheet" href="css/sn-icons.css">
 </head>
 <body>
 
@@ -422,7 +423,7 @@
 
         downloadList.innerHTML = items.map((item, i) => {
           const name = item.name || 'Sản phẩm';
-          const emoji = item.emoji || '📦';
+          const emoji = item.emoji || '';
 
           // Resolve download URL: item field → slug-based map fallback
           const PRODUCT_DOWNLOAD_URLS = {

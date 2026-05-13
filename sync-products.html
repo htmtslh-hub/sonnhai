@@ -24,9 +24,10 @@
     .stat-num { font-size:28px; font-weight:800; color:#00d4d4; }
     .stat-label { font-size:11px; color:#8b93a8; text-transform:uppercase; letter-spacing:1px; margin-top:4px; }
   </style>
+  <link rel="stylesheet" href="css/sn-icons.css">
 </head>
 <body>
-  <h1>🔄 Sync Products — Thư viện Sơn Nhai</h1>
+  <h1> Sync Products — Thư viện Sơn Nhai</h1>
   <p style="color:#8b93a8;">Đồng bộ 15 sản phẩm từ info.txt lên Firestore</p>
 
   <div class="stats">
@@ -36,7 +37,7 @@
     <div class="stat"><div class="stat-num" id="s-err">0</div><div class="stat-label">Lỗi</div></div>
   </div>
 
-  <button id="btn" onclick="startSync()">🚀 Bắt đầu đồng bộ</button>
+  <button id="btn" onclick="startSync()"> Bắt đầu đồng bộ</button>
   <button onclick="startComboSync()" style="background:#f5a623;margin-left:12px">Sync Combo</button>
   <div class="log" id="log"></div>
 
@@ -279,9 +280,9 @@
       // Check auth
       const user = auth.currentUser;
       if (!user) {
-        log('❌ Chưa đăng nhập! Hãy mở admin.html đăng nhập trước, rồi quay lại đây.', 'err');
+        log(' Chưa đăng nhập! Hãy mở admin.html đăng nhập trước, rồi quay lại đây.', 'err');
         btn.disabled = false;
-        btn.textContent = '🚀 Bắt đầu đồng bộ';
+        btn.textContent = ' Bắt đầu đồng bộ';
         return;
       }
       log(`✓ Đã đăng nhập: ${user.email}`, 'ok');
@@ -293,7 +294,7 @@
         existingSlugs = snap.docs.map(d => d.data().slug);
         log(`Firestore hiện có ${snap.size} sản phẩm`, 'info');
       } catch(e) {
-        log('⚠ Không thể đọc sản phẩm hiện có: ' + e.message, 'warn');
+        log(' Không thể đọc sản phẩm hiện có: ' + e.message, 'warn');
       }
 
       // Sync each product
@@ -322,7 +323,7 @@
                 status: 'published',
                 updatedAt: serverTimestamp(),
               });
-              log(`🔄 Cập nhật: ${p.name}`, 'warn');
+              log(` Cập nhật: ${p.name}`, 'warn');
               skipCount++;
             }
           } else {
@@ -347,11 +348,11 @@
               createdAt: serverTimestamp(),
               updatedAt: serverTimestamp(),
             });
-            log(`✅ Tạo mới: ${p.name}`, 'ok');
+            log(` Tạo mới: ${p.name}`, 'ok');
             doneCount++;
           }
         } catch(e) {
-          log(`❌ Lỗi "${p.name}": ${e.message}`, 'err');
+          log(` Lỗi "${p.name}": ${e.message}`, 'err');
           errCount++;
         }
         updateStats();
@@ -361,7 +362,7 @@
       log(`══════════════════════════════`, 'info');
       log(`✓ HOÀN TẤT! Tạo mới: ${doneCount} | Cập nhật: ${skipCount} | Lỗi: ${errCount}`, 'ok');
       log(`Lưu ý: Ảnh sản phẩm "Thương chiến" dùng định dạng .jpeg (chưa convert sang .webp)`, 'info');
-      btn.textContent = '✅ Hoàn tất!';
+      btn.textContent = ' Hoàn tất!';
     };
 
     // ═══ COMBO DATA ═══
@@ -401,7 +402,7 @@
     window.startComboSync = async function() {
       const user = auth.currentUser;
       if (!user) {
-        log('❌ Chưa đăng nhập!', 'err');
+        log(' Chưa đăng nhập!', 'err');
         return;
       }
       log('', '');
@@ -434,14 +435,14 @@
 
           if (!snap.empty) {
             await setDoc(doc(db, 'combos', snap.docs[0].id), { ...snap.docs[0].data(), ...comboData });
-            log(`🔄 Cập nhật combo: ${combo.name}`, 'warn');
+            log(` Cập nhật combo: ${combo.name}`, 'warn');
           } else {
             const newRef = doc(collection(db, 'combos'));
             await setDoc(newRef, { ...comboData, createdAt: serverTimestamp() });
-            log(`✅ Tạo mới combo: ${combo.name}`, 'ok');
+            log(` Tạo mới combo: ${combo.name}`, 'ok');
           }
         } catch(e) {
-          log(`❌ Lỗi combo "${combo.name}": ${e.message}`, 'err');
+          log(` Lỗi combo "${combo.name}": ${e.message}`, 'err');
         }
       }
       log('✓ COMBO SYNC HOÀN TẤT!', 'ok');
@@ -450,9 +451,9 @@
     // Check auth on load
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        log(`🔐 Đã đăng nhập: ${user.email}`, 'ok');
+        log(` Đã đăng nhập: ${user.email}`, 'ok');
       } else {
-        log('⚠ Chưa đăng nhập. Hãy mở admin.html đăng nhập trước rồi quay lại.', 'warn');
+        log(' Chưa đăng nhập. Hãy mở admin.html đăng nhập trước rồi quay lại.', 'warn');
       }
     });
   </script>

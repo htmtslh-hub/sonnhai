@@ -89,7 +89,7 @@ function updateSummary() {
   if (starsEl) {
     const full = Math.floor(avgNum);
     const half = avgNum - full >= 0.5 ? 1 : 0;
-    starsEl.textContent = '★'.repeat(full) + (half ? '★' : '') + '☆'.repeat(5 - full - half);
+    starsEl.textContent = '<i class="sn-star filled"></i>'.repeat(full) + (half ? '•' : '') + '<i class="sn-star empty"></i>'.repeat(5 - full - half);
   }
 
   // Update bars
@@ -159,7 +159,7 @@ function renderReviews() {
   if (filtered.length === 0) {
     container.innerHTML = `
       <div class="review-empty">
-        <div class="review-empty-icon">💬</div>
+        <div class="review-empty-icon"></div>
         <div class="review-empty-title">Chưa có đánh giá nào</div>
         <div class="review-empty-text">Hãy là người đầu tiên đánh giá sản phẩm này!</div>
       </div>`;
@@ -171,7 +171,7 @@ function renderReviews() {
 
 // ─── Render single review card ───
 function renderCard(r) {
-  const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+  const stars = '<i class="sn-star filled"></i>'.repeat(r.rating) + '<i class="sn-star empty"></i>'.repeat(5 - r.rating);
   const dateStr = r.createdAt instanceof Date
     ? r.createdAt.toLocaleDateString('vi-VN')
     : new Date(r.createdAt).toLocaleDateString('vi-VN');
@@ -203,7 +203,7 @@ function renderCard(r) {
       </div>
       <div class="rv-body">${escHtml(r.comment)}</div>
       <div class="rv-helpful">Đánh giá này có hữu ích không?
-        <button onclick="window._voteHelpful('${r.id}')" style="${voteStyle}">👍 Có (${helpfulCount})</button>
+        <button onclick="window._voteHelpful('${r.id}')" style="${voteStyle}"> Có (${helpfulCount})</button>
       </div>
     </div>`;
 }

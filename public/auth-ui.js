@@ -22,7 +22,7 @@ const modalHTML = `
     <!-- Main Auth View -->
     <div id="auth-main-view">
       <div style="text-align:center;margin-bottom:24px;">
-        <div style="font-size:28px;margin-bottom:8px;">🔐</div>
+        <div style="font-size:28px;margin-bottom:8px;"></div>
         <div style="font-family:'Exo 2',sans-serif;font-size:18px;font-weight:800;color:#DDE1EC;">Đăng nhập / Đăng ký</div>
         <div style="font-size:12px;color:#555F75;margin-top:4px;">Chọn phương thức đăng nhập</div>
       </div>
@@ -93,7 +93,7 @@ const modalHTML = `
         ← Quay lại
       </button>
       <div style="text-align:center;margin-bottom:20px;">
-        <div style="font-size:28px;margin-bottom:8px;">📧</div>
+        <div style="font-size:28px;margin-bottom:8px;"></div>
         <div style="font-family:'Exo 2',sans-serif;font-size:18px;font-weight:800;color:#DDE1EC;">Quên mật khẩu</div>
         <div style="font-size:12px;color:#555F75;margin-top:4px;">Nhập email để nhận link đặt lại mật khẩu</div>
       </div>

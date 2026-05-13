@@ -431,6 +431,7 @@
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/morph.css?v=1">
   <link rel="stylesheet" href="css/responsive.css?v=2">
+  <link rel="stylesheet" href="css/sn-icons.css">
 </head>
 <body>
 
@@ -438,7 +439,7 @@
 <canvas id="parallax-canvas"></canvas>
 
 <!-- ANNOUNCEMENT -->
-<div class="ann-bar">◆ Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật ◆</div>
+<div class="ann-bar"><span class="sn-accent">Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật</span></div>
 
 <!-- NAVBAR -->
 <nav class="nav">
@@ -480,7 +481,7 @@
         <div class="page-hero-glow"></div>
       </div>
       <div class="page-hero-inner">
-        <div class="page-eyebrow">◆ Khám phá bộ sưu tập</div>
+        <div class="page-eyebrow"><span class="sn-dot"></span> Khám phá bộ sưu tập</div>
         <h1 class="page-h1">Tất cả <span>Danh mục</span></h1>
         <p class="page-sub">Khám phá tri thức qua từng lĩnh vực — từ nhân tính, tư duy đến tài chính và phát triển bản thân.</p>
         <div class="page-stats">
@@ -506,59 +507,59 @@
       <div class="cat-banner-grid">
         <a href="#" class="cat-banner cat-b1" data-cat="Nhân tính" onclick="filterCat(this,'Nhân tính');return false;">
           <div class="cb-glow" style="background:#3A5FA0"></div>
-          <div class="cb-emoji">🧠</div>
+          <div class="cb-emoji"></div>
           <div class="cb-name">Nhân tính</div>
           <div class="cb-count">3 sản phẩm</div>
-          <span class="cb-arrow">→</span>
+          <span class="cb-arrow">&#8250;</span>
         </a>
         <a href="#" class="cat-banner cat-b2" data-cat="Nhận thức" onclick="filterCat(this,'Nhận thức');return false;">
           <div class="cb-glow" style="background:#3D7A5A"></div>
-          <div class="cb-emoji">💡</div>
+          <div class="cb-emoji"></div>
           <div class="cb-name">Nhận thức</div>
           <div class="cb-count">1 sản phẩm</div>
-          <span class="cb-arrow">→</span>
+          <span class="cb-arrow">&#8250;</span>
         </a>
         <a href="#" class="cat-banner cat-b3" data-cat="Tư duy" onclick="filterCat(this,'Tư duy');return false;">
           <div class="cb-glow" style="background:#8B4A15"></div>
-          <div class="cb-emoji">🔮</div>
+          <div class="cb-emoji"></div>
           <div class="cb-name">Tư duy</div>
           <div class="cb-count">3 sản phẩm</div>
-          <span class="cb-arrow">→</span>
+          <span class="cb-arrow">&#8250;</span>
         </a>
         <a href="#" class="cat-banner cat-b4" data-cat="Tài chính" onclick="filterCat(this,'Tài chính');return false;">
           <div class="cb-glow" style="background:#008080"></div>
-          <div class="cb-emoji">💰</div>
+          <div class="cb-emoji"></div>
           <div class="cb-name">Tài chính</div>
           <div class="cb-count">1 sản phẩm</div>
-          <span class="cb-arrow">→</span>
+          <span class="cb-arrow">&#8250;</span>
         </a>
         <a href="#" class="cat-banner cat-b5" data-cat="Tình cảm" onclick="filterCat(this,'Tình cảm');return false;">
           <div class="cb-glow" style="background:#6B3080"></div>
-          <div class="cb-emoji">🌙</div>
+          <div class="cb-emoji"></div>
           <div class="cb-name">Tình cảm</div>
           <div class="cb-count">1 sản phẩm</div>
-          <span class="cb-arrow">→</span>
+          <span class="cb-arrow">&#8250;</span>
         </a>
         <a href="#" class="cat-banner cat-b6" data-cat="Hệ thống" onclick="filterCat(this,'Hệ thống');return false;">
           <div class="cb-glow" style="background:#256070"></div>
-          <div class="cb-emoji">⚙️</div>
+          <div class="cb-emoji"></div>
           <div class="cb-name">Hệ thống</div>
           <div class="cb-count">1 sản phẩm</div>
-          <span class="cb-arrow">→</span>
+          <span class="cb-arrow">&#8250;</span>
         </a>
         <a href="#" class="cat-banner cat-b7" data-cat="Kỹ năng sống" onclick="filterCat(this,'Kỹ năng sống');return false;">
           <div class="cb-glow" style="background:#567A20"></div>
-          <div class="cb-emoji">📊</div>
+          <div class="cb-emoji"></div>
           <div class="cb-name">Kỹ năng sống</div>
           <div class="cb-count">Sắp ra mắt</div>
-          <span class="cb-arrow">→</span>
+          <span class="cb-arrow">&#8250;</span>
         </a>
         <a href="#" class="cat-banner cat-b8" data-cat="Phát triển bản thân" onclick="filterCat(this,'Phát triển bản thân');return false;">
           <div class="cb-glow" style="background:#8B6B15"></div>
-          <div class="cb-emoji">⚡</div>
+          <div class="cb-emoji"></div>
           <div class="cb-name">Phát triển bản thân</div>
           <div class="cb-count">Sắp ra mắt</div>
-          <span class="cb-arrow">→</span>
+          <span class="cb-arrow">&#8250;</span>
         </a>
       </div>
     </div>
@@ -619,17 +620,17 @@
             <div class="rating-opts">
               <div class="rating-opt" onclick="toggleRating(this,5)">
                 <div class="r-check">✓</div>
-                <span class="r-stars">★★★★★</span> 5 sao
+                <span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i></span> 5 sao
                 <span class="r-count">4</span>
               </div>
               <div class="rating-opt" onclick="toggleRating(this,4)">
                 <div class="r-check">✓</div>
-                <span class="r-stars">★★★★☆</span> 4+ sao
+                <span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star empty"></i></span> 4+ sao
                 <span class="r-count">6</span>
               </div>
               <div class="rating-opt" onclick="toggleRating(this,3)">
                 <div class="r-check">✓</div>
-                <span class="r-stars">★★★☆☆</span> 3+ sao
+                <span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star empty"></i><i class="sn-star empty"></i></span> 3+ sao
                 <span class="r-count">10</span>
               </div>
             </div>
@@ -686,7 +687,7 @@
 
         <!-- EMPTY STATE -->
         <div class="empty-state" id="empty-state">
-          <div class="empty-icon">📭</div>
+          <div class="empty-icon"></div>
           <div class="empty-title">Không tìm thấy sản phẩm</div>
           <div class="empty-sub">Thử thay đổi bộ lọc hoặc chọn danh mục khác.</div>
         </div>
@@ -714,9 +715,9 @@
         <p class="foot-about">Nơi lưu giữ những tinh hoa tri thức về nhân tính, tư duy và tài chính. Sản phẩm số chất lượng cao, được cập nhật thường xuyên.</p>
         <div class="foot-social">
           <a class="soc" href="#">f</a>
-          <a class="soc" href="#">𝕏</a>
+          <a class="soc" href="#">X</a>
           <a class="soc" href="#">in</a>
-          <a class="soc" href="#">▶</a>
+          <a class="soc" href="#" sn-play">›</a>
         </div>
       </div>
       <div>
@@ -817,25 +818,25 @@
       else if (idx === 3) badgeHtml = `<span class="p-badge badge-best">BESTSELLER</span>`;
 
       let rating = p.rating || 4.8;
-      let stars = rating >= 4.9 ? '★★★★★' : '★★★★☆';
+      let stars = rating >= 4.9 ? '<i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i>' : '<i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star empty"></i>';
       
       let thumbContent;
       if (p.imageUrl) {
         thumbContent = `
           <div class="p-thumb" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}; padding: 0; overflow: hidden;">
-             <img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\\'p-thumb-shine\\'></div>${p.emoji || '📚'}'">
+             <img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\\'p-thumb-shine\\'></div>${p.emoji || ''}'">
           </div>`;
       } else {
         thumbContent = `
           <div class="p-thumb" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}">
-             <div class="p-thumb-shine"></div>${p.emoji || '📚'}
+             <div class="p-thumb-shine"></div>${p.emoji || ''}
           </div>`;
       }
       
       let html = `
         <div class="p-card" onclick="if(!event.target.closest('.btn-add,.p-wish'))goToProduct(this)" data-slug="${p.slug}" data-cat="${p.category}" data-price="${p.price}" data-rating="${rating}" data-id="${p.id}">
           <div class="p-badges">${badgeHtml}</div>
-          <div class="p-wish" onclick="toggleWish(this)" title="Yêu thích">♡</div>
+          <div class="p-wish" onclick="toggleWish(this)" title="Yêu thích"></div>
           ${thumbContent}
           <div class="p-body">
             <div class="p-cat">${p.category}</div>
@@ -908,7 +909,7 @@
       wrap.innerHTML += `<span class="af-tag">${label} <em class="af-remove" onclick="clearPriceFilter()">✕</em></span>`;
     }
     if (minRating) {
-      wrap.innerHTML += `<span class="af-tag">${minRating}★+ <em class="af-remove" onclick="clearRatingFilter()">✕</em></span>`;
+      wrap.innerHTML += `<span class="af-tag">${minRating}+ <em class="af-remove" onclick="clearRatingFilter()">✕</em></span>`;
     }
   }
 
@@ -1021,9 +1022,9 @@
   // ── Wishlist ──
   function toggleWish(el) {
     el.classList.toggle('on');
-    el.textContent = el.classList.contains('on') ? '♥' : '♡';
+    el.textContent = el.classList.contains('on') ? '' : '';
     el.style.color = el.classList.contains('on') ? 'var(--red)' : '';
-    showToast(el.classList.contains('on') ? '♥ Đã thêm vào yêu thích' : 'Đã xóa khỏi yêu thích');
+    showToast(el.classList.contains('on') ? ' Đã thêm vào yêu thích' : 'Đã xóa khỏi yêu thích');
   }
 
   // ── Add to cart ──
