@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -9,13 +9,19 @@
   <meta name="keywords" content="hỗ trợ, FAQ, liên hệ, Sơn Nhai, trợ giúp">
   <meta name="author" content="Thư viện Sơn Nhai">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://sonnhai.vercel.app/support">
+  <link rel="canonical" href="https://thuviensonnhai.com/support">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Hỗ trợ — Thư viện Sơn Nhai">
   <meta property="og:description" content="Hỗ trợ khách hàng, FAQ và liên hệ Thư viện Sơn Nhai.">
-  <meta property="og:url" content="https://sonnhai.vercel.app/support">
+  <meta property="og:url" content="https://thuviensonnhai.com/support">
   <meta property="og:locale" content="vi_VN">
   <meta property="og:site_name" content="Thư viện Sơn Nhai">
+  <!-- Facebook Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','438100172987941');fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=438100172987941&ev=PageView&noscript=1"/></noscript>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -669,11 +675,11 @@ PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
   <span class="badge badge-green">Được áp dụng</span>
   </div>
   <ul class="policy-list">
-  <li><div class="ico ico-yes">✓</div><span>Sản phẩm không đúng mô tả hoặc thiếu nội dung so với trang giới thiệu.</span></li>
-  <li><div class="ico ico-yes">✓</div><span>File bị lỗi, không đọc được và đội ngũ kỹ thuật xác nhận không thể khắc phục.</span></li>
-  <li><div class="ico ico-yes">✓</div><span>Bị tính tiền hai lần cho cùng một đơn hàng do lỗi hệ thống thanh toán.</span></li>
-  <li><div class="ico ico-yes">✓</div><span>Thanh toán thành công nhưng không nhận được sản phẩm sau 15 phút và không tìm thấy trong tài khoản.</span></li>
-  <li><div class="ico ico-yes">✓</div><span>Yêu cầu trong vòng <strong>7 ngày</strong> kể từ ngày mua, chưa tải file quá 2 lần.</span></li>
+  <li><div class="ico ico-yes"></div><span>Sản phẩm không đúng mô tả hoặc thiếu nội dung so với trang giới thiệu.</span></li>
+  <li><div class="ico ico-yes"></div><span>File bị lỗi, không đọc được và đội ngũ kỹ thuật xác nhận không thể khắc phục.</span></li>
+  <li><div class="ico ico-yes"></div><span>Bị tính tiền hai lần cho cùng một đơn hàng do lỗi hệ thống thanh toán.</span></li>
+  <li><div class="ico ico-yes"></div><span>Thanh toán thành công nhưng không nhận được sản phẩm sau 15 phút và không tìm thấy trong tài khoản.</span></li>
+  <li><div class="ico ico-yes"></div><span>Yêu cầu trong vòng <strong>7 ngày</strong> kể từ ngày mua, chưa tải file quá 2 lần.</span></li>
   </ul>
   </div>
 
@@ -1040,7 +1046,7 @@ PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
 
   <!-- Success state -->
   <div class="form-success" id="form-success">
-  <div class="success-ico">✓</div>
+  <div class="success-ico"></div>
   <h3>Tin nhắn đã được gửi!</h3>
   <p>Cảm ơn bạn đã liên hệ. Đội ngũ hỗ trợ sẽ phản hồi trong vòng <strong>1-2 giờ làm việc</strong> qua email của bạn.<br><br>Trong lúc chờ, bạn có thể xem thêm <a href="#" onclick="switchTab('faq',document.getElementById('tbtn-faq'));return false;">câu hỏi thường gặp.</a></p>
   <button onclick="resetForm()" style="margin-top:20px;background:var(--bg-3);border:1px solid var(--border);color:var(--text-2);padding:9px 20px;border-radius:8px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;font-size:13px;">Gửi tin nhắn khác</button>
@@ -1390,12 +1396,19 @@ PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
   }
 </style>
 
-<script src="js/cart-badge.js?v=5"></script>
+<script src="js/cart-badge.js?v=6"></script>
 <script type="module" src="js/firestore-sync.js"></script>
 
 <script src="js/morph-engine.js?v=1"></script>
 <script src="js/parallax-engine.js?v=grid-particles-2"></script>
 <script type="module" src="/auth-ui.js"></script>
 <script src="js/mobile-menu.js?v=1"></script>
+<!-- Floating Contact Buttons -->
+<div style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:12px;">
+  <a href="https://t.me/sonnhai" target="_blank" rel="noopener" title="Telegram" style="width:48px;height:48px;border-radius:50%;background:#2AABEE;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(42,171,238,.4);transition:transform .2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+  </a>
+</div>
 </body>
 </html>
+                  

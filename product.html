@@ -1134,13 +1134,13 @@ fbq('init','438100172987941');fbq('track','PageView');
     const errEl = document.getElementById('modal-error');
 
     if (!customerName) {
-      errEl.textContent = '✗ Vui lòng nhập họ và tên.';
+      errEl.textContent = 'Vui lòng nhập họ và tên.';
       errEl.style.display = 'block';
       document.getElementById('modal-name').focus();
       return;
     }
     if (!customerEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) {
-      errEl.textContent = '✗ Vui lòng nhập email hợp lệ.';
+      errEl.textContent = 'Vui lòng nhập email hợp lệ.';
       errEl.style.display = 'block';
       document.getElementById('modal-email').focus();
       return;
@@ -1187,7 +1187,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 
     } catch (err) {
       showModalState('form');
-      errEl.textContent = '✗ ' + (err.message || 'Có lỗi xảy ra. Vui lòng thử lại.');
+      errEl.textContent = '' + (err.message || 'Có lỗi xảy ra. Vui lòng thử lại.');
       errEl.style.display = 'block';
     }
   }
@@ -1677,8 +1677,8 @@ async function buyComboProduct(btn) {
         await window.SonHaiCartBadge.addProduct(pid, 1);
       }
     }
-    btn.textContent = '✓ Đã thêm combo vào giỏ';
-    showToast('✓ Đã thêm combo vào giỏ hàng');
+    btn.textContent = 'Đã thêm combo vào giỏ';
+    showToast('Đã thêm combo vào giỏ hàng');
   } catch (err) {
     btn.textContent = 'Lỗi!';
   }

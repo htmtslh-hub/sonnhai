@@ -381,7 +381,7 @@
           </div>
           <div class="total-row">
             <span class="total-key">Phí vận chuyển</span>
-            <span class="total-val green">Miễn phí ✓</span>
+            <span class="total-val green">Miễn phí</span>
           </div>
           <div class="total-row">
             <span class="total-key">Giao hàng</span>
@@ -680,8 +680,8 @@
       const pct = COUPONS[code];
       appliedDiscount = pct;
       fb.className = 'coupon-feedback ok';
-      fb.innerHTML = `✓ Đã áp dụng <span class="coupon-tag">${code} -${pct}% <em class="tag-remove" onclick="removeCoupon()">×</em></span>`;
-      btn.textContent = '✓ Đã áp dụng'; btn.className = 'btn-apply ok';
+      fb.innerHTML = `Đã áp dụng <span class="coupon-tag">${code} -${pct}% <em class="tag-remove" onclick="removeCoupon()">×</em></span>`;
+      btn.textContent = 'Đã áp dụng'; btn.className = 'btn-apply ok';
       document.getElementById('coupon-inp').disabled = true;
       updateSummary();
     } else {
@@ -704,11 +704,11 @@
 
   //  Upsell add 
   function addUpsell(btn) {
-    btn.textContent = '✓ Đã thêm'; btn.classList.add('added'); btn.disabled = true;
+    btn.textContent = 'Đã thêm'; btn.classList.add('added'); btn.disabled = true;
     // Flash toast
     const t = document.createElement('div');
     t.style.cssText = 'position:fixed;bottom:28px;right:28px;background:var(--teal);color:var(--bg);font-family:"Be Vietnam Pro",sans-serif;font-size:13px;font-weight:700;padding:12px 20px;border-radius:9px;z-index:999;animation:toastIn .3s ease;box-shadow:0 8px 32px rgba(0,212,212,.3);';
-    t.textContent = '✓ Đã thêm vào giỏ hàng';
+    t.textContent = 'Đã thêm vào giỏ hàng';
     document.body.appendChild(t);
     setTimeout(() => t.remove(), 2400);
   }

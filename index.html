@@ -1210,7 +1210,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       nl.querySelector('.nl-sub').style.display = 'none';
       nlWrap.innerHTML = `
         <div class="nl-success">
-          <div class="nl-check">✓</div>
+          <div class="nl-check"></div>
           <div class="nl-ok-h">Đăng ký thành công!</div>
           <p class="nl-ok-p">Cảm ơn bạn đã đăng ký. Chúng tôi sẽ gửi thông báo sách mới, deal ưu đãi và tài liệu miễn phí đến <strong style="color:var(--teal)">${val}</strong> mỗi tuần.</p>
         </div>`;
@@ -1402,7 +1402,7 @@ fbq('init','438100172987941');fbq('track','PageView');
           if (window.SonHaiCartBadge) {
             await window.SonHaiCartBadge.addProduct(productId, 1);
           }
-          b.textContent = '✓ Đã thêm';
+          b.textContent = 'Đã thêm';
         } catch (e) {
           b.textContent = 'Chưa thêm được';
         } finally {
@@ -1788,7 +1788,7 @@ fbq('init','438100172987941');fbq('track','PageView');
           productSlugs: productSlugs
         });
       }
-      btn.textContent = '✓ Đã thêm vào giỏ';
+      btn.textContent = 'Đã thêm vào giỏ';
       btn.style.background = 'var(--teal-dark)';
     } catch (err) {
       console.error('buyCombo error:', err);
@@ -1907,7 +1907,7 @@ fbq('init','438100172987941');fbq('track','PageView');
               <div class="testi-name">${escHtml(r.userName)}</div>
               <div class="testi-meta">
                 <span>${dateStr}</span>
-                ${r.verified ? '<span class="testi-verified">✓ Đã mua hàng</span>' : ''}
+                ${r.verified ? '<span class="testi-verified">Đã mua hàng</span>' : ''}
               </div>
             </div>
           </div>

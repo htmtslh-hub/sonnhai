@@ -1970,7 +1970,7 @@
 
   <!--    TOAST    -->
   <div id="toast" class="toast">
-    <span class="toast-icon" id="toast-icon">✓</span>
+    <span class="toast-icon" id="toast-icon"></span>
     <span class="toast-text" id="toast-text">Thao tác thành công!</span>
   </div>
 
@@ -2952,7 +2952,7 @@
               <div class="file-preview-name">${file.name}</div>
               <div class="file-preview-size">${formatFileSize(file.size)}</div>
             </div>
-            <button class="file-preview-remove" onclick="removeProductFile()">✕</button>
+            <button class="file-preview-remove" onclick="removeProductFile()">&times;</button>
           </div>
         `;
         document.getElementById('product-file-preview').innerHTML = html;
@@ -3683,7 +3683,7 @@
         const { dbFB, doc, setDoc, serverTimestamp } = window._fb;
         await setDoc(doc(dbFB, 'site_content', 'about'), { ...aboutData, updatedAt: serverTimestamp() }, { merge: true });
         showToast('success', 'Đã lưu trang About!');
-        document.getElementById('about-status-sub').textContent = 'Đã lưu thành công ✓';
+        document.getElementById('about-status-sub').textContent = 'Đã lưu thành công';
       } catch (err) {
         console.error('Save about error:', err);
         showToast('error', 'Lỗi lưu: ' + err.message);
@@ -3731,7 +3731,7 @@
         const { dbFB, doc, setDoc, serverTimestamp } = window._fb;
         await setDoc(doc(dbFB, 'site_content', 'support'), { ...data, updatedAt: serverTimestamp() }, { merge: true });
         showToast('success', 'Đã lưu trang Support!');
-        document.getElementById('support-status-sub').textContent = 'Đã lưu thành công ✓';
+        document.getElementById('support-status-sub').textContent = 'Đã lưu thành công';
       } catch (err) {
         console.error('Save support error:', err);
         showToast('error', 'Lỗi lưu: ' + err.message);
@@ -3799,7 +3799,7 @@
         const { dbFB, doc, setDoc, serverTimestamp } = window._fb;
         await setDoc(doc(dbFB, 'site_content', 'banner'), { ...data, updatedAt: serverTimestamp() }, { merge: true });
         showToast('success', 'Đã lưu Banner!');
-        document.getElementById('banner-status-sub').textContent = 'Đã lưu thành công ✓';
+        document.getElementById('banner-status-sub').textContent = 'Đã lưu thành công';
       } catch (err) {
         console.error('Save banner error:', err);
         showToast('error', 'Lỗi lưu: ' + err.message);
@@ -3862,12 +3862,12 @@
         const stars = '<i class="sn-star filled"></i>'.repeat(r.rating) + '<i class="sn-star empty"></i>'.repeat(5 - r.rating);
         const dateStr = r.createdAt instanceof Date ? r.createdAt.toLocaleDateString('vi-VN') : '';
         const comment = (r.comment || '').substring(0, 80) + ((r.comment || '').length > 80 ? '...' : '');
-        const verifiedTag = r.verified ? ' <span style="color:var(--green);font-size:10px;">✓MH</span>' : '';
+        const verifiedTag = r.verified ? ' <span style="color:var(--green);font-size:10px;">MH</span>' : '';
 
         let actions = '';
         if (r.status === 'pending') {
-          actions = `<button class="btn btn-sm btn-teal" onclick="approveReview('${r.id}')" style="font-size:11px;padding:4px 10px;">✓ Duyệt</button>
-                     <button class="btn-danger-sm" onclick="rejectReview('${r.id}')" style="font-size:11px;padding:4px 10px;">✗ Ẩn</button>`;
+          actions = `<button class="btn btn-sm btn-teal" onclick="approveReview('${r.id}')" style="font-size:11px;padding:4px 10px;">Duyệt</button>
+                     <button class="btn-danger-sm" onclick="rejectReview('${r.id}')" style="font-size:11px;padding:4px 10px;">Ẩn</button>`;
         } else if (r.status === 'published') {
           actions = `<button class="btn-outline-sm" onclick="rejectReview('${r.id}')" style="font-size:11px;padding:4px 10px;">Ẩn</button>`;
         } else {
@@ -4339,7 +4339,7 @@
       // Set icon based on type
       const icons = {
         'success': '·',
-        'error': '✕',
+        'error': '×',
         'info': 'ℹ'
       };
       icon.textContent = icons[type] || 'ℹ';
@@ -4724,7 +4724,7 @@ function importContent() {
     <div class="modal-content" style="max-width: 640px;">
       <div class="modal-header">
         <h3 id="product-modal-title">Thêm sản phẩm mới</h3>
-        <button class="modal-close" onclick="closeProductModal()">✕</button>
+        <button class="modal-close" onclick="closeProductModal()">&times;</button>
       </div>
       <form id="product-form" onsubmit="event.preventDefault(); saveProduct();">
       <div class="modal-body">

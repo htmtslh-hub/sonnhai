@@ -430,7 +430,7 @@ fbq('init','438100172987941');fbq('track','PageView');
           </div>
           <div class="total-row">
             <span class="total-key">Phí vận chuyển</span>
-            <span class="total-val green">Miễn phí ✓</span>
+            <span class="total-val green">Miễn phí</span>
           </div>
           <div class="total-row">
             <span class="total-key">Giao hàng</span>
@@ -729,8 +729,8 @@ fbq('init','438100172987941');fbq('track','PageView');
       const pct = COUPONS[code];
       appliedDiscount = pct;
       fb.className = 'coupon-feedback ok';
-      fb.innerHTML = `✓ Đã áp dụng <span class="coupon-tag">${code} -${pct}% <em class="tag-remove" onclick="removeCoupon()">×</em></span>`;
-      btn.textContent = '✓ Đã áp dụng'; btn.className = 'btn-apply ok';
+      fb.innerHTML = `Đã áp dụng <span class="coupon-tag">${code} -${pct}% <em class="tag-remove" onclick="removeCoupon()">×</em></span>`;
+      btn.textContent = 'Đã áp dụng'; btn.className = 'btn-apply ok';
       document.getElementById('coupon-inp').disabled = true;
       updateSummary();
     } else {
@@ -753,11 +753,11 @@ fbq('init','438100172987941');fbq('track','PageView');
 
   //  Upsell add 
   function addUpsell(btn) {
-    btn.textContent = '✓ Đã thêm'; btn.classList.add('added'); btn.disabled = true;
+    btn.textContent = 'Đã thêm'; btn.classList.add('added'); btn.disabled = true;
     // Flash toast
     const t = document.createElement('div');
     t.style.cssText = 'position:fixed;bottom:28px;right:28px;background:var(--teal);color:var(--bg);font-family:"Be Vietnam Pro",sans-serif;font-size:13px;font-weight:700;padding:12px 20px;border-radius:9px;z-index:999;animation:toastIn .3s ease;box-shadow:0 8px 32px rgba(0,212,212,.3);';
-    t.textContent = '✓ Đã thêm vào giỏ hàng';
+    t.textContent = 'Đã thêm vào giỏ hàng';
     document.body.appendChild(t);
     setTimeout(() => t.remove(), 2400);
   }
@@ -802,7 +802,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 
     let metaHtml = '';
     if (item.isCombo && item.comboProductNames && item.comboProductNames.length > 0) {
-      metaHtml = `<div class="item-meta" style="flex-direction:column;align-items:flex-start;gap:2px;">${item.comboProductNames.map(n => `<span style="font-size:11px;color:var(--text-2);">✓ ${n}</span>`).join('')}</div>`;
+      metaHtml = `<div class="item-meta" style="flex-direction:column;align-items:flex-start;gap:2px;">${item.comboProductNames.map(n => `<span style="font-size:11px;color:var(--text-2);">${n}</span>`).join('')}</div>`;
     } else {
       metaHtml = `<div class="item-meta">
           <span class="item-tag">
@@ -994,7 +994,7 @@ fbq('init','438100172987941');fbq('track','PageView');
         await loadCart();
         updateSummary();
       }
-      btn.textContent = '✓ Đã nâng cấp';
+      btn.textContent = 'Đã nâng cấp';
       // Refresh combo suggestions
       setTimeout(() => renderComboUpsell(), 500);
     } catch (err) {

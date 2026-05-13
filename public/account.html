@@ -1004,7 +1004,7 @@
     btn.disabled = true; btn.textContent = 'Đang gửi...';
     try {
       await resetPassword(email);
-      msgEl.textContent = '✓ Link đặt lại mật khẩu đã gửi đến ' + email;
+      msgEl.textContent = 'Link đặt lại mật khẩu đã gửi đến ' + email;
       msgEl.style.display = 'block'; msgEl.style.color = 'var(--green)'; msgEl.style.background = 'rgba(16,185,129,.08)';
     } catch (err) {
       const m = { 'auth/user-not-found': 'Không tìm thấy tài khoản.', 'auth/invalid-email': 'Email không hợp lệ.' };

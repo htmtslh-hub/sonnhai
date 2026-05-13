@@ -619,17 +619,17 @@
           <div class="sb-body">
             <div class="rating-opts">
               <div class="rating-opt" onclick="toggleRating(this,5)">
-                <div class="r-check">✓</div>
+                <div class="r-check"></div>
                 <span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i></span> 5 sao
                 <span class="r-count">4</span>
               </div>
               <div class="rating-opt" onclick="toggleRating(this,4)">
-                <div class="r-check">✓</div>
+                <div class="r-check"></div>
                 <span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star empty"></i></span> 4+ sao
                 <span class="r-count">6</span>
               </div>
               <div class="rating-opt" onclick="toggleRating(this,3)">
-                <div class="r-check">✓</div>
+                <div class="r-check"></div>
                 <span class="r-stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star empty"></i><i class="sn-star empty"></i></span> 3+ sao
                 <span class="r-count">10</span>
               </div>
@@ -902,14 +902,14 @@
     const wrap = document.getElementById('active-filters');
     wrap.innerHTML = '';
     if (activeCategory) {
-      wrap.innerHTML += `<span class="af-tag">${activeCategory} <em class="af-remove" onclick="clearCatFilter()">✕</em></span>`;
+      wrap.innerHTML += `<span class="af-tag">${activeCategory} <em class="af-remove" onclick="clearCatFilter()">&times;</em></span>`;
     }
     if (minPrice || maxPrice) {
       const label = (minPrice ? formatVND(minPrice) : '0') + ' — ' + (maxPrice ? formatVND(maxPrice) : '∞');
-      wrap.innerHTML += `<span class="af-tag">${label} <em class="af-remove" onclick="clearPriceFilter()">✕</em></span>`;
+      wrap.innerHTML += `<span class="af-tag">${label} <em class="af-remove" onclick="clearPriceFilter()">&times;</em></span>`;
     }
     if (minRating) {
-      wrap.innerHTML += `<span class="af-tag">${minRating}+ <em class="af-remove" onclick="clearRatingFilter()">✕</em></span>`;
+      wrap.innerHTML += `<span class="af-tag">${minRating}+ <em class="af-remove" onclick="clearRatingFilter()">&times;</em></span>`;
     }
   }
 
@@ -1037,15 +1037,15 @@
     if (!productId) return;
 
     btn.classList.add('added');
-    btn.textContent = '✓ Đã thêm';
+    btn.textContent = 'Đã thêm';
     
     try {
       if (window.SonHaiCartBadge) {
         await window.SonHaiCartBadge.addProduct(productId, 1);
-        showToast('✓ Đã thêm vào giỏ hàng');
+        showToast('Đã thêm vào giỏ hàng');
       }
     } catch (err) {
-      showToast('✗ Có lỗi xảy ra');
+      showToast('Có lỗi xảy ra');
     }
 
     setTimeout(() => {

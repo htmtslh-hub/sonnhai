@@ -285,7 +285,7 @@
         btn.textContent = ' Bắt đầu đồng bộ';
         return;
       }
-      log(`✓ Đã đăng nhập: ${user.email}`, 'ok');
+      log(`Đã đăng nhập: ${user.email}`, 'ok');
 
       // Get existing products
       let existingSlugs = [];
@@ -360,7 +360,7 @@
 
       log('', '');
       log(`══════════════════════════════`, 'info');
-      log(`✓ HOÀN TẤT! Tạo mới: ${doneCount} | Cập nhật: ${skipCount} | Lỗi: ${errCount}`, 'ok');
+      log(`HOÀN TẤT! Tạo mới: ${doneCount} | Cập nhật: ${skipCount} | Lỗi: ${errCount}`, 'ok');
       log(`Lưu ý: Ảnh sản phẩm "Thương chiến" dùng định dạng .jpeg (chưa convert sang .webp)`, 'info');
       btn.textContent = ' Hoàn tất!';
     };
@@ -445,7 +445,7 @@
           log(` Lỗi combo "${combo.name}": ${e.message}`, 'err');
         }
       }
-      log('✓ COMBO SYNC HOÀN TẤT!', 'ok');
+      log('COMBO SYNC HOÀN TẤT!', 'ok');
     };
 
     // Check auth on load

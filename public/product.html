@@ -1071,13 +1071,13 @@
     const errEl = document.getElementById('modal-error');
 
     if (!customerName) {
-      errEl.textContent = '✗ Vui lòng nhập họ và tên.';
+      errEl.textContent = 'Vui lòng nhập họ và tên.';
       errEl.style.display = 'block';
       document.getElementById('modal-name').focus();
       return;
     }
     if (!customerEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) {
-      errEl.textContent = '✗ Vui lòng nhập email hợp lệ.';
+      errEl.textContent = 'Vui lòng nhập email hợp lệ.';
       errEl.style.display = 'block';
       document.getElementById('modal-email').focus();
       return;
@@ -1124,7 +1124,7 @@
 
     } catch (err) {
       showModalState('form');
-      errEl.textContent = '✗ ' + (err.message || 'Có lỗi xảy ra. Vui lòng thử lại.');
+      errEl.textContent = '' + (err.message || 'Có lỗi xảy ra. Vui lòng thử lại.');
       errEl.style.display = 'block';
     }
   }

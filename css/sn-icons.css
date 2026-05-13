@@ -132,3 +132,30 @@
 .contact-card-ico.cc-green::before {
   background: linear-gradient(135deg, #10B981, #059669);
 }
+
+/* Checkmark icons (replaces ✓) */
+.ico-yes::before,
+.why-check::before,
+.success-ico::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10B981, #059669);
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+}
+.success-ico::before {
+  width: 20px;
+  height: 20px;
+}
+.tl-tag.done::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10B981, #059669);
+  margin-right: 6px;
+  vertical-align: middle;
+}
