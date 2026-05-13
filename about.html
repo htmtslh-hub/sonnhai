@@ -221,8 +221,18 @@ fbq('init','438100172987941');fbq('track','PageView');
   padding: 28px 24px; transition: all .28s; position: relative; overflow: hidden;
   }
   .val-item:hover { border-color: var(--teal-dark); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,.4), 0 0 20px rgba(0,212,212,.06); }
-  .val-icon { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(0,212,212,.2), rgba(0,212,212,.05)); border: 1px solid rgba(0,212,212,.25); display: flex; align-items: center; justify-content: center; position: relative; }
-  .val-icon::after { content: ''; position: absolute; width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg, #00D4D4, #007A7A); box-shadow: 0 0 10px rgba(0,212,212,.5); }
+  .val-item::before {
+  content: ''; position: absolute; top: -30px; right: -30px;
+  width: 100px; height: 100px; border-radius: 50%;
+  background: rgba(0,212,212,.1); pointer-events: none; transition: opacity .3s;
+  }
+  .val-item:hover::before { opacity: .2; }
+  .val-item:nth-child(2)::before { background: rgba(59,130,246,.1); }
+  .val-item:nth-child(3)::before { background: rgba(16,185,129,.1); }
+  .val-item:nth-child(4)::before { background: rgba(139,92,246,.1); }
+  .val-item:nth-child(5)::before { background: rgba(245,166,35,.1); }
+  .val-item:nth-child(6)::before { background: rgba(239,68,68,.1); }
+  .val-icon { display: none; }
   .val-body { }
   .val-title { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
   .val-desc { font-size: 13px; color: var(--text-2); line-height: 1.65; }

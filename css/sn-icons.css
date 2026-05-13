@@ -39,21 +39,12 @@
   box-shadow: 0 0 8px rgba(0, 212, 212, 0.5);
 }
 
-/* Decorative dot */
+/* Decorative dot - hidden */
 .sn-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #00D4D4, #007A7A);
-  margin: 0 6px;
-  vertical-align: middle;
-  box-shadow: 0 0 6px rgba(0, 212, 212, 0.3);
+  display: none;
 }
 .sn-dot.outline {
-  background: transparent;
-  border: 1.5px solid #00D4D4;
-  box-shadow: 0 0 6px rgba(0, 212, 212, 0.2);
+  display: none;
 }
 
 /* Accent text wrapper */
@@ -83,7 +74,7 @@
   min-width: 20px;
 }
 
-/* Icon elements - gradient dot replacement for removed emoji */
+/* Icon elements - no dots, use card glow instead */
 .nr-icon::before,
 .pop-img::before,
 .mvv-icon::before,
@@ -94,13 +85,7 @@
 .t-ico::before,
 .ch-ico::before,
 .contact-card-ico::before {
-  content: '';
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #00D4D4, #007A7A);
-  box-shadow: 0 0 6px rgba(0, 212, 212, 0.3);
+  content: none;
 }
 
 /* Larger icon variants */
@@ -109,8 +94,7 @@
 .step-ico::before,
 .cc-icon::before,
 .contact-card-ico::before {
-  width: 14px;
-  height: 14px;
+  content: none;
 }
 
 /* Color variants for support page */
@@ -133,29 +117,15 @@
   background: linear-gradient(135deg, #10B981, #059669);
 }
 
-/* Checkmark icons (replaces ✓) */
+/* Checkmark icons - no dots */
 .ico-yes::before,
 .why-check::before,
 .success-ico::before {
-  content: '';
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #10B981, #059669);
-  box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+  content: none;
 }
 .success-ico::before {
-  width: 20px;
-  height: 20px;
+  content: none;
 }
 .tl-tag.done::before {
-  content: '';
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #10B981, #059669);
-  margin-right: 6px;
-  vertical-align: middle;
+  content: none;
 }
