@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -9,14 +9,20 @@
   <meta name="keywords" content="sách số, ebook, PDF, tài liệu học tập, Sơn Nhai, sách điện tử, thư viện số">
   <meta name="author" content="Thư viện Sơn Nhai">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://sonnhai.vercel.app/">
+  <link rel="canonical" href="https://thuviensonnhai.com/">
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Thư viện Sơn Nhai — Sách & Tài Liệu Số">
   <meta property="og:description" content="Nền tảng sách & tài liệu số hàng đầu. Ebook, PDF chất lượng cao với giá tốt nhất.">
-  <meta property="og:url" content="https://sonnhai.vercel.app/">
+  <meta property="og:url" content="https://thuviensonnhai.com/">
   <meta property="og:locale" content="vi_VN">
   <meta property="og:site_name" content="Thư viện Sơn Nhai">
+  <!-- Facebook Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','438100172987941');fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=438100172987941&ev=PageView&noscript=1"/></noscript>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -47,6 +53,7 @@
     body {
       font-family: 'Be Vietnam Pro', sans-serif;
       background: var(--bg);
+      line-height: 1.6;
       background-image:
         linear-gradient(rgba(28, 34, 50, 0.3) 1px, transparent 1px),
         linear-gradient(90deg, rgba(28, 34, 50, 0.3) 1px, transparent 1px);
@@ -92,7 +99,8 @@
       background: var(--teal); font-size: 9px; font-weight: 700;
       color: var(--bg); display: flex; align-items: center; justify-content: center;
     }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: none; border-radius: 7px; cursor: pointer; font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; transition: all .22s; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: none; border-radius: 7px; cursor: pointer; font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600; transition: all .25s cubic-bezier(.4,0,.2,1); }
+    .btn:active { transform: scale(.97); }
     .btn-teal { background: var(--teal); color: var(--bg); font-size: 13px; padding: 7px 18px; }
     .btn-teal:hover { background: #00EEEE; box-shadow: 0 0 22px var(--teal-glow-strong); transform: translateY(-1px); }
     .btn-lg { font-size: 14px; padding: 13px 30px; border-radius: 8px; }
@@ -142,7 +150,7 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
       filter: drop-shadow(0 0 36px rgba(0,212,212,.45));
     }
-    .hero-sub { font-size: 15px; color: var(--text-2); line-height: 1.75; max-width: 520px; margin-bottom: 44px; }
+    .hero-sub { font-size: 15px; color: var(--text-2); line-height: 1.8; letter-spacing: 0.2px; max-width: 520px; margin-bottom: 44px; }
     .hero-cta { display: flex; gap: 14px; justify-content: center; margin-bottom: 64px; }
     .hero-stats { display: flex; gap: 56px; }
     .hs-num {
@@ -179,7 +187,7 @@
     .sec { padding: 56px 0; }
 
     .sec-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 26px; }
-    .sec-title { font-family: 'Exo 2', 'Be Vietnam Pro', sans-serif; font-size: 18px; font-weight: 800; letter-spacing: 0.5px; color: var(--text); }
+    .sec-title { font-family: 'Exo 2', 'Be Vietnam Pro', sans-serif; font-size: 18px; font-weight: 800; letter-spacing: -0.5px; color: var(--text); }
     .sec-more {
       font-size: 12px; color: var(--teal); text-decoration: none;
       display: flex; align-items: center; gap: 5px; transition: gap .2s;
@@ -264,7 +272,7 @@
     .card-cat { font-size: 10px; font-weight: 600; color: var(--teal); margin-bottom: 4px; }
     .card { cursor: pointer; }
     .card-name {
-      font-size: 12.5px; font-weight: 600; color: var(--text); line-height: 1.35;
+      font-size: 12.5px; font-weight: 600; color: var(--text); line-height: 1.4;
       margin-bottom: 8px;
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
@@ -280,9 +288,10 @@
     .btn-cart {
       font-size: 10.5px; font-weight: 700; color: var(--teal);
       background: rgba(0,212,212,.08); border: 1px solid var(--teal-dark);
-      border-radius: 5px; padding: 4px 9px; cursor: pointer; transition: all .2s;
+      border-radius: 5px; padding: 4px 9px; cursor: pointer; transition: all .25s cubic-bezier(.4,0,.2,1);
     }
-    .btn-cart:hover { background: var(--teal); color: var(--bg); }
+    .btn-cart:hover { background: var(--teal); color: var(--bg); transform: scale(1.05); box-shadow: 0 0 12px rgba(0,212,212,.3); }
+    .btn-cart:active { transform: scale(.95); }
 
     /* ───── FEATURE SPLIT ───── */
     .feat {
@@ -302,7 +311,7 @@
       font-family: 'Exo 2', 'Be Vietnam Pro', sans-serif; font-size: 38px; font-weight: 900;
       color: var(--text); line-height: 1.05; text-transform: uppercase; margin-bottom: 20px;
     }
-    .feat-desc { font-size: 13.5px; color: var(--text-2); line-height: 1.75; margin-bottom: 28px; }
+    .feat-desc { font-size: 13.5px; color: var(--text-2); line-height: 1.7; margin-bottom: 28px; }
     .feat-nums { display: flex; gap: 28px; margin-bottom: 32px; }
     .fn-label { font-size: 9.5px; color: var(--text-3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
     .fn-val { font-family: 'Exo 2', sans-serif; font-size: 22px; font-weight: 800; color: var(--teal); }
@@ -364,16 +373,37 @@
     .pfill { height: 100%; background: var(--teal); border-radius: 2px; }
 
     /* ───── CATEGORIES ───── */
-    .cats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px,1fr)); gap: 14px; }
+    .cats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     .cat-card {
-      background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px;
-      padding: 24px 16px; text-align: center; cursor: pointer; transition: all .25s;
-      text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 10px;
+      position: relative; overflow: hidden; border-radius: 14px;
+      padding: 28px 20px; text-align: left; cursor: pointer; transition: all .3s;
+      text-decoration: none; display: flex; flex-direction: column; gap: 8px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(12px);
     }
-    .cat-card:hover { border-color: var(--teal-dark); transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,212,212,.09); }
-    .cat-ico { font-size: 30px; filter: drop-shadow(0 0 8px rgba(0,212,212,.2)); }
-    .cat-name { font-size: 13px; font-weight: 600; color: var(--text); }
-    .cat-cnt { font-size: 10.5px; color: var(--text-3); }
+    .cat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,212,212,.1); border-color: rgba(0,212,212,.3); background: rgba(0,212,212,.04); }
+    .cat-card.active { border-color: var(--teal); background: rgba(0,212,212,.06); box-shadow: 0 0 20px rgba(0,212,212,.12); }
+    .cat-particles {
+      position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; border-radius: 14px;
+    }
+    .cat-particles::before, .cat-particles::after {
+      position: absolute; top: -20px; opacity: .6; animation-iteration-count: infinite; animation-timing-function: linear;
+    }
+    .cat-p-leaf::before, .cat-p-leaf::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #e85d3a; animation-name: fallLeaf; }
+    .cat-p-leaf::before { left: 15%; animation-duration: 4s; animation-delay: 0s; }
+    .cat-p-leaf::after { left: 70%; animation-duration: 5s; animation-delay: 2s; width: 6px; height: 6px; }
+    .cat-p-snow::before, .cat-p-snow::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #a8d8ea; animation-name: fallSnow; }
+    .cat-p-snow::before { left: 20%; animation-duration: 3.5s; animation-delay: 0.5s; }
+    .cat-p-snow::after { left: 75%; animation-duration: 4.5s; animation-delay: 2s; width: 4px; height: 4px; }
+    .cat-p-coin::before, .cat-p-coin::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #f7931a; animation-name: floatCoin; }
+    .cat-p-coin::before { left: 25%; animation-duration: 3.5s; animation-delay: 0s; }
+    .cat-p-coin::after { left: 65%; animation-duration: 5s; animation-delay: 1.5s; width: 5px; height: 5px; }
+    .cat-name { font-size: 15px; font-weight: 700; color: var(--text); position: relative; z-index: 1; }
+    .cat-cnt { font-size: 11px; color: var(--text-2); position: relative; z-index: 1; opacity: .8; }
+    .cat-products { display: none; margin-top: 20px; }
+    .cat-products.show { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
     /* ───── BLOG ───── */
     .blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
@@ -468,7 +498,7 @@
     .bs-item {
       display: flex; align-items: center; gap: 14px;
       background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px;
-      padding: 14px 16px; cursor: pointer; transition: all .25s;
+      padding: 14px 16px; cursor: pointer; transition: all .3s cubic-bezier(.4,0,.2,1);
     }
     .bs-item:hover { border-color: var(--teal-dark); box-shadow: -3px 0 0 var(--teal-dark) inset, 0 8px 24px rgba(0,212,212,.07); background: var(--bg-3); }
     .bs-rank {
@@ -502,7 +532,7 @@
     .combo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
     .combo-card {
       background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px;
-      overflow: hidden; cursor: pointer; transition: all .3s; position: relative;
+      overflow: hidden; cursor: pointer; transition: all .3s cubic-bezier(.4,0,.2,1); position: relative;
       display: flex; flex-direction: column;
     }
     .combo-card:hover { border-color: var(--teal-dark); transform: translateY(-6px); box-shadow: 0 20px 56px rgba(0,0,0,.5), 0 0 32px rgba(0,212,212,.1); }
@@ -522,10 +552,14 @@
     }
     .combo-book {
       width: 64px; height: 86px; border-radius: 7px; position: absolute;
-      display: flex; align-items: center; justify-content: center; font-size: 30px;
+      display: flex; align-items: center; justify-content: center; font-size: 0;
       border: 1px solid rgba(255,255,255,.08); box-shadow: 0 10px 28px rgba(0,0,0,.65);
-      transition: transform .3s ease;
+      transition: transform .3s ease; overflow: hidden;
     }
+    .combo-book img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;
+    }
+    .combo-book img:only-child ~ * { font-size: 30px; }
     .combo-book.b1 { transform: rotate(-9deg) translateX(-38px); z-index: 1; }
     .combo-book.b2 { transform: rotate(0deg); z-index: 3; }
     .combo-book.b3 { transform: rotate(9deg) translateX(38px); z-index: 1; }
@@ -533,11 +567,17 @@
     .combo-card:hover .combo-book.b3 { transform: rotate(13deg) translateX(48px); }
     .combo-body { padding: 20px 20px 0; flex: 1; display: flex; flex-direction: column; position: relative; z-index: 1; }
     .combo-tag { font-size: 9px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 6px; }
-    .combo-name { font-family: 'Exo 2', 'Be Vietnam Pro', sans-serif; font-size: 16px; font-weight: 900; color: var(--text); margin-bottom: 14px; line-height: 1.2; }
-    .combo-list { list-style: none; margin-bottom: 0; display: flex; flex-direction: column; gap: 6px; }
-    .combo-list li { font-size: 11.5px; color: var(--text-2); display: flex; align-items: flex-start; gap: 7px; line-height: 1.4; }
-    .combo-list li::before { content: '·'; color: var(--teal); font-weight: 800; font-size: 10px; margin-top: 1px; flex-shrink: 0; }
+    .combo-name { font-family: 'Exo 2', 'Be Vietnam Pro', sans-serif; font-size: 16px; font-weight: 900; color: var(--text); margin-bottom: 14px; line-height: 1.2; letter-spacing: -0.3px; }
+    .combo-list { list-style: none; margin-bottom: 0; display: flex !important; flex-direction: column; gap: 8px; }
+    .combo-list li { font-size: 11.5px; color: var(--text-2); display: flex !important; align-items: center; gap: 8px; line-height: 1.5; }
+    .combo-list li::before { content: none; }
     .combo-pricing { padding: 16px 20px 20px; border-top: 1px solid var(--border); margin-top: 18px; position: relative; z-index: 1; }
+    .combo-timer {
+      display: flex; align-items: center; gap: 6px; margin-bottom: 10px;
+      font-size: 11px; color: var(--warn); font-weight: 600;
+    }
+    .combo-timer svg { flex-shrink: 0; }
+    .combo-timer-val { font-family: 'Exo 2', sans-serif; letter-spacing: 0.5px; }
     .combo-orig { font-size: 11.5px; color: var(--text-3); text-decoration: line-through; margin-bottom: 7px; }
     .combo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
     .combo-cost { font-family: 'Exo 2', sans-serif; font-size: 24px; font-weight: 900; color: var(--teal); }
@@ -567,7 +607,7 @@
 
 <!-- TOP ANNOUNCEMENT BAR -->
 <div id="site-banner" style="background:rgba(0,212,212,.1);border-bottom:1px solid rgba(0,212,212,.2);padding:7px 20px;text-align:center;font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--teal);text-transform:uppercase;font-family:'Be Vietnam Pro',sans-serif;">
-  <span class="sn-accent">Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật</span>
+  Thư viện Sơn Nhai — Sản phẩm thường xuyên cập nhật
 </div>
 
 <!-- NAVBAR -->
@@ -605,7 +645,7 @@
     <div class="hero-grid"></div>
   </div>
 
-  <p class="hero-eyebrow"><span class="sn-accent">Bộ sưu tập tinh hoa tri thức</span></p>
+  <p class="hero-eyebrow">Bộ sưu tập tinh hoa tri thức</p>
 
   <h1 class="hero-h1">
     <span class="l1">Thấu hiểu</span>
@@ -647,13 +687,9 @@
 <div class="tabs-bar">
   <div class="tabs-inner">
     <a class="tab on" href="categories.html">Tất cả</a>
-    <a class="tab" href="categories.html?sort=newest">Mới nhất</a>
-    <a class="tab" href="categories.html?cat=Nh%C3%A2n+t%C3%ADnh">Nhân tính</a>
-    <a class="tab" href="categories.html?cat=T%C6%B0+duy">Tư duy</a>
-    <a class="tab" href="categories.html?cat=T%C3%A0i+ch%C3%ADnh">Tài chính</a>
-    <a class="tab" href="categories.html?cat=K%E1%BB%B9+n%C4%83ng+s%E1%BB%91ng">Kỹ năng sống</a>
-    <a class="tab" href="categories.html?cat=T%C3%ACnh+c%E1%BA%A3m">Tình cảm</a>
-    <a class="tab" href="categories.html?cat=H%E1%BB%87+th%E1%BB%91ng">Hệ thống</a>
+    <a class="tab" href="categories.html?cat=Th%E1%BA%A5u+hi%E1%BB%83u+nh%C3%A2n+t%C3%ADnh">Thấu hiểu nhân tính</a>
+    <a class="tab" href="categories.html?cat=Thay+%C4%91%E1%BB%95i+t%C6%B0+duy">Thay đổi tư duy</a>
+    <a class="tab" href="categories.html?cat=L%C3%A0m+ch%E1%BB%A7+t%C3%A0i+ch%C3%ADnh">Làm chủ tài chính</a>
   </div>
 </div>
 
@@ -661,7 +697,7 @@
 <section class="sec">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title"><span class="sn-dot"></span> Sản phẩm nổi bật</h2>
+      <h2 class="sec-title">Sản phẩm nổi bật</h2>
       <a href="categories.html" class="sec-more">Xem tất cả <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="cards-row" id="home-featured-grid">
@@ -674,16 +710,12 @@
 <section class="feat">
   <div class="feat-inner">
     <div class="feat-left">
-      <div class="feat-label"><span class="sn-dot"></span> Sản phẩm nổi bật</div>
+      <div class="feat-label">Sản phẩm nổi bật</div>
       <h2 class="feat-h2">Tuyệt<br>mật<br>nhân tính</h2>
       <p class="feat-desc">
         Cuốn sách phân tích sâu sắc về bản chất con người. Khám phá những bí mật ẩn giấu trong tâm lý, hành vi và mối quan hệ — chìa khóa để thấu hiểu và ảnh hưởng người xung quanh.
       </p>
       <div class="feat-nums">
-        <div>
-          <div class="fn-label">Số trang</div>
-          <div class="fn-val">320</div>
-        </div>
         <div>
           <div class="fn-label">Định dạng</div>
           <div class="fn-val" style="font-size:15px;margin-top:6px;">PDF</div>
@@ -694,7 +726,7 @@
         </div>
       </div>
       <div class="feat-btns">
-        <a href="checkout.html" class="btn btn-teal btn-lg" style="text-decoration:none;" onclick="localStorage.setItem('sonhai_quick_buy','1')">Mua ngay — 149.000đ</a>
+        <a href="product.html" class="btn btn-teal btn-lg" style="text-decoration:none;">Mua ngay</a>
         <a href="product.html" class="btn btn-outline" style="font-size:13px;padding:10px 20px;text-decoration:none;">Xem trước</a>
       </div>
     </div>
@@ -706,7 +738,7 @@
         <div class="feat-cover-ttl" style="display:none;">Tuyệt mật nhân tính<br>Thư viện Sơn Nhai</div>
       </div>
       <div class="feat-panel">
-        <div class="panel-ttl"><span class="sn-dot"></span> Thông tin chi tiết</div>
+        <div class="panel-ttl">Thông tin chi tiết</div>
         <div class="prow"><span class="pk">Tác giả</span><span class="pv t">Thư viện Sơn Nhai</span></div>
         <div class="prow"><span class="pk">Ngôn ngữ</span><span class="pv">Tiếng Việt</span></div>
         <div class="prow"><span class="pk">Định dạng</span><span class="pv">PDF</span></div>
@@ -728,7 +760,7 @@
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title"><span class="sn-dot"></span> Bán chạy nhất</h2>
+      <h2 class="sec-title">Bán chạy nhất</h2>
       <a href="categories.html" class="sec-more">Xem tất cả <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="bs-grid" id="home-bestseller-grid">
@@ -741,31 +773,114 @@
 <section class="sec" id="combo" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title"><span class="sn-dot"></span> Gói combo ưu đãi</h2>
+      <h2 class="sec-title">Gói combo ưu đãi</h2>
       <a href="categories.html" class="sec-more">Tất cả combo <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="combo-grid" id="home-combo-grid">
-      <!-- Combos rendered dynamically from Firestore -->
+      <!-- Static fallback combos — JS will replace when loaded -->
+      <div class="combo-card hot" data-combo-id="combo-nhan-tinh" data-products="1,8,9,10" style="opacity:1;transform:none;clip-path:none;">
+        <div class="combo-save">−39%</div>
+        <div class="combo-covers">
+          <div class="combo-book b1 book-color-1"><img src="product/tuyet_mat_nhan_tinh.webp" alt="Tuyệt mật nhân tính" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
+          <div class="combo-book b2 book-color-2"><img src="product/tinh_cam_bi_tich.webp" alt="Tình cảm bí tịch" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
+          <div class="combo-book b3 book-color-3"><img src="product/xuyen_thau_nhan_tinh.webp" alt="Xuyên thấu nhân tính" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
+        </div>
+        <div class="combo-body">
+          <div class="combo-tag">Bộ sưu tập · 4 cuốn</div>
+          <div class="combo-name">Combo Nhân Tính</div>
+          <ul class="combo-list">
+            <li><img src="product/tuyet_mat_nhan_tinh.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Tuyệt mật nhân tính <span style="opacity:.6">(99.000đ)</span></li>
+            <li><img src="product/tinh_cam_bi_tich.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Tình cảm bí tịch <span style="opacity:.6">(129.000đ)</span></li>
+            <li><img src="product/xuyen_thau_nhan_tinh.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Xuyên thấu nhân tính <span style="opacity:.6">(129.000đ)</span></li>
+            <li><img src="product/nhan_tinh_den_trang.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Nhân tính đen trắng <span style="opacity:.6">(129.000đ)</span></li>
+          </ul>
+        </div>
+        <div class="combo-pricing">
+          <div class="combo-timer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="combo-timer-val">00:00:00</span> — Ưu đãi hôm nay</div>
+          <div class="combo-orig">Mua lẻ: 486.000đ</div>
+          <div class="combo-row">
+            <div class="combo-cost">299.000đ</div>
+            <div class="combo-off">Tiết kiệm 187.000đ</div>
+          </div>
+          <button class="btn btn-teal combo-cta" onclick="buyCombo(event)">Mua combo ngay</button>
+        </div>
+      </div>
+
+      <div class="combo-card" data-combo-id="combo-tu-duy" data-products="2,3,4,6,7,12" style="opacity:1;transform:none;clip-path:none;">
+        <div class="combo-save">−48%</div>
+        <div class="combo-covers">
+          <div class="combo-book b1 book-color-4"><img src="product/thuc_tinh_nhan_thuc.webp" alt="Thức tỉnh nhận thức" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
+          <div class="combo-book b2 book-color-5"><img src="product/logic_nguoi_ngheo.webp" alt="Logic người nghèo" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
+          <div class="combo-book b3 book-color-6"><img src="product/he_thong_manh_me.webp" alt="Hệ thống mạnh mẽ" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
+        </div>
+        <div class="combo-body">
+          <div class="combo-tag">Bộ sưu tập · 6 cuốn</div>
+          <div class="combo-name">Combo Tư Duy</div>
+          <ul class="combo-list">
+            <li><img src="product/thuc_tinh_nhan_thuc.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Thức tỉnh nhận thức <span style="opacity:.6">(129.000đ)</span></li>
+            <li><img src="product/logic_nguoi_ngheo.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Logic người nghèo <span style="opacity:.6">(129.000đ)</span></li>
+            <li><img src="product/he_thong_manh_me.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Hệ thống mạnh mẽ <span style="opacity:.6">(129.000đ)</span></li>
+            <li><img src="product/tu_duy_sau_sac.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Tư duy sâu sắc <span style="opacity:.6">(129.000đ)</span></li>
+            <li><img src="product/tu_duy_cuong_gia.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Tư duy cường giả <span style="opacity:.6">(129.000đ)</span></li>
+            <li><img src="product/muu_luoc_tuoir_tre.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Mưu lược tuổi trẻ <span style="opacity:.6">(129.000đ)</span></li>
+          </ul>
+        </div>
+        <div class="combo-pricing">
+          <div class="combo-timer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="combo-timer-val">00:00:00</span> — Ưu đãi hôm nay</div>
+          <div class="combo-orig">Mua lẻ: 774.000đ</div>
+          <div class="combo-row">
+            <div class="combo-cost">399.000đ</div>
+            <div class="combo-off">Tiết kiệm 375.000đ</div>
+          </div>
+          <button class="btn btn-outline combo-cta" onclick="buyCombo(event)">Mua combo ngay</button>
+        </div>
+      </div>
+
+      <div class="combo-card" data-combo-id="combo-tai-chinh" data-products="5,11,13,14,15" style="opacity:1;transform:none;clip-path:none;">
+        <div class="combo-save">−53%</div>
+        <div class="combo-covers">
+          <div class="combo-book b1 book-color-7"><img src="product/muu_luoc_tai_chinh.webp" alt="Mưu lược tài chính" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
+          <div class="combo-book b2 book-color-8"><img src="product/thuong_chien.webp" alt="Thương chiến" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
+          <div class="combo-book b3 book-color-1"><img src="product/goc_nhin_tao_lap.webp" alt="Góc nhìn tạo lập" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent=''"></div>
+        </div>
+        <div class="combo-body">
+          <div class="combo-tag">Bộ sưu tập · 5 cuốn</div>
+          <div class="combo-name">Combo Tài Chính</div>
+          <ul class="combo-list">
+            <li><img src="product/muu_luoc_tai_chinh.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Mưu lược tài chính <span style="opacity:.6">(179.000đ)</span></li>
+            <li><img src="product/thuong_chien.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Thương chiến <span style="opacity:.6">(179.000đ)</span></li>
+            <li><img src="product/goc_nhin_tao_lap.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Góc nhìn tạo lập - Luật ngầm <span style="opacity:.6">(179.000đ)</span></li>
+            <li><img src="product/ban_chat_tai_chinh.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Bản chất tài chính <span style="opacity:.6">(179.000đ)</span></li>
+            <li><img src="product/an_chua_huyen_co.webp" alt="" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">Ẩn chứa huyền cơ <span style="opacity:.6">(129.000đ)</span></li>
+          </ul>
+        </div>
+        <div class="combo-pricing">
+          <div class="combo-timer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="combo-timer-val">00:00:00</span> — Ưu đãi hôm nay</div>
+          <div class="combo-orig">Mua lẻ: 845.000đ</div>
+          <div class="combo-row">
+            <div class="combo-cost">399.000đ</div>
+            <div class="combo-off">Tiết kiệm 446.000đ</div>
+          </div>
+          <button class="btn btn-outline combo-cta" onclick="buyCombo(event)">Mua combo ngay</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- CATEGORIES -->
-<section class="sec">
+<!-- TELEGRAM GROUP CTA -->
+<section class="sec" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head">
-      <h2 class="sec-title"><span class="sn-dot"></span> Danh mục</h2>
-      <a href="categories.html" class="sec-more">Tất cả danh mục <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
-    </div>
-    <div class="cats-grid">
-      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Nhân tính</div><div class="cat-cnt">Đang cập nhật</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Nhận thức</div><div class="cat-cnt">Đang cập nhật</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Tư duy</div><div class="cat-cnt">Đang cập nhật</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Tài chính</div><div class="cat-cnt">Đang cập nhật</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Tình cảm</div><div class="cat-cnt">Đang cập nhật</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Hệ thống</div><div class="cat-cnt">Đang cập nhật</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Kỹ năng sống</div><div class="cat-cnt">Đang cập nhật</div></a>
-      <a href="categories.html" class="cat-card"><div class="cat-ico"></div><div class="cat-name">Phát triển bản thân</div><div class="cat-cnt">Đang cập nhật</div></a>
+    <div style="background:rgba(42,171,238,.06);border:1px solid rgba(42,171,238,.2);border-radius:16px;padding:36px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(42,171,238,.1) 0%,transparent 70%);pointer-events:none;"></div>
+      <div style="position:relative;z-index:1;">
+        <div style="font-family:'Exo 2','Be Vietnam Pro',sans-serif;font-size:18px;font-weight:800;color:var(--text);margin-bottom:8px;">Muốn đọc nhiều sách hơn?</div>
+        <div style="font-size:13.5px;color:var(--text-2);line-height:1.6;max-width:480px;">Tham gia nhóm Telegram của Sơn Nhai để nhận sách miễn phí, thảo luận cùng cộng đồng và cập nhật sách mới mỗi tuần.</div>
+      </div>
+      <a href="https://t.me/+s0Vm_Fp3j61kZDM1" target="_blank" rel="noopener" style="position:relative;z-index:1;display:inline-flex;align-items:center;gap:8px;background:#2AABEE;color:#fff;font-size:14px;font-weight:700;padding:13px 24px;border-radius:10px;text-decoration:none;white-space:nowrap;transition:all .2s;box-shadow:0 4px 16px rgba(42,171,238,.3);" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(42,171,238,.4)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 16px rgba(42,171,238,.3)'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        Tham gia nhóm
+      </a>
     </div>
   </div>
 </section>
@@ -774,7 +889,7 @@
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title"><span class="sn-dot"></span> Bài viết mới nhất</h2>
+      <h2 class="sec-title">Bài viết mới nhất</h2>
       <a href="blog.html" class="sec-more">Xem tất cả <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="blog-grid" id="home-blog-grid">
@@ -790,7 +905,7 @@
 
   <div class="wrap" style="position:relative;z-index:1;">
     <div class="sec-head" style="flex-direction:column;align-items:center;text-align:center;gap:10px;">
-      <div style="font-family:'Exo 2','Be Vietnam Pro',sans-serif;font-size:10px;font-weight:800;letter-spacing:3px;color:var(--teal);text-transform:uppercase;opacity:.8;"><span class="sn-dot"></span> Khách hàng nói gì</div>
+      <div style="font-family:'Exo 2','Be Vietnam Pro',sans-serif;font-size:10px;font-weight:800;letter-spacing:3px;color:var(--teal);text-transform:uppercase;opacity:.8;">Khách hàng nói gì</div>
       <h2 class="sec-title" style="font-size:26px;">Phản hồi từ cộng đồng</h2>
       <p style="font-size:13.5px;color:var(--text-2);max-width:480px;line-height:1.65;">Hàng trăm độc giả đã tin tưởng Thư viện Sơn Nhai. Đây là những chia sẻ thật từ khách hàng.</p>
     </div>
@@ -1039,7 +1154,7 @@
   </div>
 </footer>
 
-<script src="js/cart-badge.js?v=5"></script>
+<script src="js/cart-badge.js?v=6"></script>
 <script type="module" src="js/firestore-sync.js"></script>
 <script>
   // Các tab Danh mục ở trang chủ sẽ chuyển hướng thẳng sang categories.html
@@ -1124,7 +1239,7 @@
   updateCartBadge();
 
   // ── Render Products Dynamically ──
-  function renderHomeProducts() {
+  async function renderHomeProducts() {
     if (!window.SonHaiCartBadge) return;
     const allProducts = window.SonHaiCartBadge.getProducts().filter(p => p.status === 'published');
     const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
@@ -1143,7 +1258,7 @@
         else if (idx === 2) badgeHtml = `<span class="badge badge-sale">-34%</span>`;
 
         let rating = p.rating || 4.8;
-        let stars = rating >= 4.9 ? '<i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i>' : '<i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star empty"></i>';
+        let stars = '<i class="sn-star filled"></i>'.repeat(rating >= 4.9 ? 5 : 4) + '<i class="sn-star empty"></i>'.repeat(rating >= 4.9 ? 0 : 1);
         
         let thumbInner;
         if (p.imageUrl) {
@@ -1182,7 +1297,7 @@
       const bestsellers = [...allProducts].sort((a,b) => getSoldCount(b) - getSoldCount(a)).slice(0, 6);
       bestsellers.forEach((p, idx) => {
         let rating = p.rating || 4.8;
-        let stars = rating >= 4.9 ? '<i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i>' : '<i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star empty"></i>';
+        let stars = '<i class="sn-star filled"></i>'.repeat(rating >= 4.9 ? 5 : 4) + '<i class="sn-star empty"></i>'.repeat(rating >= 4.9 ? 0 : 1);
         let badgeHtml = idx === 0 ? '<div class="bs-hot">HOT</div>' : '';
         let bsCoverHtml;
         if (p.imageUrl) {
@@ -1212,21 +1327,44 @@
       });
     }
     
-    // 3. Render Featured Split (first product)
+    // 3. Render Featured Split (rotate daily based on date)
     const featSplit = document.querySelector('.feat');
     if (featSplit && allProducts.length > 0) {
-      const p = allProducts[0];
+      const dayIndex = Math.floor(Date.now() / 86400000) % allProducts.length;
+      const p = allProducts[dayIndex];
       featSplit.querySelector('.feat-h2').innerHTML = p.name.replace(/ /g, '<br>');
-      if (p.description) featSplit.querySelector('.feat-desc').textContent = p.description;
-      featSplit.querySelector('.fn-val:nth-child(2)').textContent = p.pages || 320;
-      featSplit.querySelector('.fn-val:nth-child(4)').textContent = 'PDF';
-      featSplit.querySelector('.fn-val:nth-child(6)').textContent = (p.rating || 4.9) + '';
+
+      // Try to find a matching blog post for this product
+      let featDesc = p.description || '';
+      if (window.SonHaiData) {
+        try {
+          const posts = await window.SonHaiData.getBlogPosts();
+          const matchPost = posts.find(post => {
+            const title = (post.title || '').toLowerCase();
+            const content = (post.excerpt || post.content || '').toLowerCase();
+            const pName = p.name.toLowerCase();
+            return title.includes(pName) || content.includes(pName) || (p.slug && (title.includes(p.slug) || content.includes(p.slug)));
+          });
+          if (matchPost) {
+            featDesc = matchPost.excerpt || matchPost.content?.substring(0, 200) || featDesc;
+          }
+        } catch(e) {}
+      }
+      featSplit.querySelector('.feat-desc').textContent = featDesc;
+
+      const fnVals = featSplit.querySelectorAll('.fn-val');
+      if (fnVals[0]) fnVals[0].textContent = (p.rating || 4.8) + '';
       featSplit.querySelector('.btn-teal').textContent = `Mua ngay — ${fmt(p.price)}`;
-      // Update cover image src
+      featSplit.querySelector('.btn-teal').href = `product.html?slug=${p.slug}`;
+      featSplit.querySelector('.btn-outline').href = `product.html?slug=${p.slug}`;
+      // Update cover image
       const featCoverImg = document.getElementById('feat-cover-img');
-      if (p.imageUrl && featCoverImg) {
-        featCoverImg.src = p.imageUrl;
-        featCoverImg.alt = p.name;
+      if (featCoverImg) {
+        const imgSrc = p.imageUrl || (p.slug ? 'product/' + p.slug.replace(/-/g, '_') + '.webp' : '');
+        if (imgSrc) {
+          featCoverImg.src = imgSrc;
+          featCoverImg.alt = p.name;
+        }
       }
     }
 
@@ -1291,30 +1429,34 @@
     });
   }
 
-  document.addEventListener('DOMContentLoaded', async () => {
-    // Wait up to 5s for firestore-sync.js ES module to load
-    const SonHaiData = await waitForSonHaiData(5000);
+  // Init — script is at bottom of body, DOM is already ready
+  (async function initHomepage() {
+    try {
+      // Wait up to 5s for firestore-sync.js ES module to load
+      const SonHaiData = await waitForSonHaiData(5000);
 
-    // Try loading products from Firestore first
-    if (SonHaiData) {
-      try {
-        const products = await SonHaiData.getProducts();
-        if (products && products.length > 0) {
-          // Update cart-badge's product list with normalized data (includes imageUrl)
-          if (window.SonHaiCartBadge) window.SonHaiCartBadge.saveProducts(products);
-        }
-      } catch(e) { console.warn('Firestore load failed, using local:', e); }
-    }
-    // Initialize cart badge and render
-    if (window.SonHaiCartBadge) {
-      window.SonHaiCartBadge.getProducts();
-    }
+      // Try loading products from Firestore first
+      if (SonHaiData) {
+        try {
+          const products = await SonHaiData.getProducts();
+          if (products && products.length > 0) {
+            if (window.SonHaiCartBadge) window.SonHaiCartBadge.saveProducts(products);
+          }
+        } catch(e) { console.warn('Firestore product load failed:', e); }
+      }
+      // Initialize cart badge and render
+      if (window.SonHaiCartBadge) {
+        window.SonHaiCartBadge.getProducts();
+      }
+    } catch(e) { console.warn('Init error:', e); }
+
+    // Render all sections (each handles its own errors)
     renderHomeProducts();
     renderCombos();
     renderHomeBlog();
     loadHomeBanner();
     renderTestimonials();
-  });
+  })();
 
   function goToProduct(el) {
     const slug = el.dataset.slug;
@@ -1370,7 +1512,7 @@
       const banner = document.getElementById('site-banner');
       if (!banner) return;
       if (data.enabled === false) { banner.style.display = 'none'; return; }
-      if (data.text) banner.textContent = '<span class="sn-accent">' + data.text + '</span>';
+      if (data.text) banner.textContent = '' + data.text + '';
       const typeColors = {
         info: { bg: 'rgba(0,212,212,.1)', border: 'rgba(0,212,212,.2)', color: '#00D4D4' },
         promo: { bg: 'rgba(245,166,35,.1)', border: 'rgba(245,166,35,.2)', color: '#F5A623' },
@@ -1390,118 +1532,271 @@
     'book-color-5','book-color-6','book-color-7','book-color-8'
   ];
 
+  // Product ID → image mapping for combo covers (always available, no Firestore needed)
+  const productImageMap = {
+    1: 'product/tuyet_mat_nhan_tinh.webp',
+    2: 'product/thuc_tinh_nhan_thuc.webp',
+    3: 'product/logic_nguoi_ngheo.webp',
+    4: 'product/he_thong_manh_me.webp',
+    5: 'product/muu_luoc_tai_chinh.webp',
+    6: 'product/tu_duy_sau_sac.webp',
+    7: 'product/tu_duy_cuong_gia.webp',
+    8: 'product/tinh_cam_bi_tich.webp',
+    9: 'product/xuyen_thau_nhan_tinh.webp',
+    10: 'product/nhan_tinh_den_trang.webp',
+    11: 'product/thuong_chien.webp',
+    12: 'product/muu_luoc_tuoir_tre.webp',
+    13: 'product/goc_nhin_tao_lap.webp',
+    14: 'product/ban_chat_tai_chinh.webp',
+    15: 'product/an_chua_huyen_co.webp'
+  };
+
+  // Default combos from info.txt — used when Firestore has no combo documents
+  const defaultCombos = [
+    {
+      id: 'combo-nhan-tinh',
+      name: 'Combo Nhân Tính',
+      tag: 'Bộ sưu tập · 4 cuốn',
+      productIds: [1, 8, 9, 10],
+      productNames: ['Tuyệt mật nhân tính', 'Tình cảm bí tịch', 'Xuyên thấu nhân tính', 'Nhân tính đen trắng'],
+      originalPrice: 486000,
+      comboPrice: 299000,
+      isHot: true,
+      badgeText: '−39%',
+      order: 1
+    },
+    {
+      id: 'combo-tu-duy',
+      name: 'Combo Tư Duy',
+      tag: 'Bộ sưu tập · 6 cuốn',
+      productIds: [2, 3, 4, 6, 7, 12],
+      productNames: ['Thức tỉnh nhận thức', 'Logic người nghèo', 'Hệ thống mạnh mẽ', 'Tư duy sâu sắc', 'Tư duy cường giả', 'Mưu lược tuổi trẻ'],
+      originalPrice: 774000,
+      comboPrice: 399000,
+      isHot: false,
+      badgeText: '−48%',
+      order: 2
+    },
+    {
+      id: 'combo-tai-chinh',
+      name: 'Combo Tài Chính',
+      tag: 'Bộ sưu tập · 5 cuốn',
+      productIds: [5, 11, 13, 14, 15],
+      productNames: ['Mưu lược tài chính', 'Thương chiến', 'Góc nhìn tạo lập - Luật ngầm', 'Bản chất tài chính', 'Ẩn chứa huyền cơ'],
+      originalPrice: 845000,
+      comboPrice: 399000,
+      isHot: false,
+      badgeText: '−53%',
+      order: 3
+    }
+  ];
+
   async function renderCombos() {
     const grid = document.getElementById('home-combo-grid');
-    if (!grid) return;
+    if (!grid) { console.warn('renderCombos: grid not found'); return; }
 
     let combos = [];
-    // Try Firestore
+
+    // Try Firestore first (but with shorter timeout)
     if (window.SonHaiData) {
       try {
         combos = await window.SonHaiData.getCombos();
-      } catch(e) { console.warn('Combo load failed:', e); }
+      } catch(e) { console.warn('Combo load from Firestore failed:', e); }
+    } else {
+      // Wait briefly for SonHaiData, but don't block too long
+      let retries = 0;
+      while (!window.SonHaiData && retries < 15) {
+        await new Promise(r => setTimeout(r, 200));
+        retries++;
+      }
+      if (window.SonHaiData) {
+        try {
+          combos = await window.SonHaiData.getCombos();
+        } catch(e) { console.warn('Combo load failed after wait:', e); }
+      }
     }
 
+    // Fallback to hardcoded combos if Firestore has none
     if (!combos || combos.length === 0) {
-      // Fallback: show a message or hide
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-3);font-size:14px;">Đang cập nhật combo...</div>';
-      return;
+      console.log('renderCombos: using default combos (Firestore empty or unavailable)');
+      combos = defaultCombos;
     }
 
     const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
     
-    // Get all products for emoji lookup
+    // Get all products for emoji/image lookup
     let allProducts = [];
-    if (window.SonHaiCartBadge) {
-      allProducts = window.SonHaiCartBadge.getProducts() || [];
+    if (window.SonHaiData) {
+      try { allProducts = await window.SonHaiData.getProducts(); } catch(e) {}
+    }
+    if (!allProducts || allProducts.length === 0) {
+      if (window.SonHaiCartBadge) {
+        allProducts = window.SonHaiCartBadge.getProducts() || [];
+      }
     }
 
-    grid.innerHTML = combos.map((combo, idx) => {
-      const origPrice = combo.originalPrice || 0;
-      const comboPrice = combo.comboPrice || 0;
-      const savings = origPrice - comboPrice;
-      const productIds = combo.productIds || [];
-      const productNames = combo.productNames || [];
-      
-      // Get emojis from products for book covers
-      const emojis = productIds.map((pid, i) => {
-        const prod = allProducts.find(p => String(p.id) === String(pid));
-        return prod ? (prod.emoji || prod.icon || '') : '';
-      });
-      
-      // Product items list
-      const itemsList = productNames.map((name, i) => {
-        const prod = allProducts.find(p => String(p.id) === String(productIds[i]));
-        const price = prod ? fmt(prod.price) : '';
-        return `<li>${name}${price ? ' (' + price + ')' : ''}</li>`;
+    try {
+      grid.innerHTML = combos.map((combo, idx) => {
+        const origPrice = combo.originalPrice || 0;
+        const comboPrice = combo.comboPrice || 0;
+        const savings = origPrice - comboPrice;
+        const productIds = combo.productIds || [];
+
+        // Get product data for covers
+        const comboProducts = productIds.map(pid => {
+          return allProducts.find(p => String(p.id) === String(pid));
+        });
+
+        // Build product names - from combo data or fallback from matched products
+        let productNames = combo.productNames || [];
+        if (productNames.length === 0 && comboProducts.length > 0) {
+          productNames = comboProducts.map(p => p ? (p.name || '') : '');
+        }
+        
+        // Product items list with thumbnails
+        const itemsList = productNames.map((name, i) => {
+          const prod = comboProducts[i];
+          const pid = productIds[i];
+          const price = prod ? fmt(prod.price) : '';
+          const imgSrc = productImageMap[pid]
+            || (prod && prod.imageUrl && !prod.imageUrl.startsWith('chuan/') ? prod.imageUrl : '')
+            || (prod && prod.slug ? 'product/' + prod.slug.replace(/-/g, '_') + '.webp' : '');
+          const imgHtml = imgSrc ? `<img src="${imgSrc}" alt="${name}" style="width:24px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'">` : '';
+          return `<li>${imgHtml}${name}${price ? ' <span style="opacity:.6">(' + price + ')</span>' : ''}</li>`;
+        }).join('');
+
+        // Book cover colors
+        const bc1 = bookColors[(idx * 3) % bookColors.length];
+        const bc2 = bookColors[(idx * 3 + 1) % bookColors.length];
+        const bc3 = bookColors[(idx * 3 + 2) % bookColors.length];
+
+        function bookHtml(prod, bcClass, posClass, prodId) {
+          const emoji = prod ? (prod.emoji || prod.icon || '') : '';
+          const imgSrc = productImageMap[prodId]
+            || (prod && prod.imageUrl && !prod.imageUrl.startsWith('chuan/') ? prod.imageUrl : '')
+            || (prod && prod.slug ? 'product/' + prod.slug.replace(/-/g, '_') + '.webp' : '');
+          if (imgSrc) {
+            return `<div class="combo-book ${posClass} ${bcClass}"><img src="${imgSrc}" alt="${prod ? prod.name : ''}" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='${emoji}'"></div>`;
+          }
+          return `<div class="combo-book ${posClass} ${bcClass}" style="font-size:30px">${emoji}</div>`;
+        }
+
+        let booksHtml = '';
+        // Show first 3 products as cover books
+        const coverProducts = comboProducts.slice(0, 3);
+        const coverIds = productIds.slice(0, 3);
+        if (coverProducts.length >= 3) {
+          booksHtml = bookHtml(coverProducts[0], bc1, 'b1', coverIds[0]) + bookHtml(coverProducts[1], bc2, 'b2', coverIds[1]) + bookHtml(coverProducts[2], bc3, 'b3', coverIds[2]);
+        } else if (coverProducts.length === 2) {
+          booksHtml = bookHtml(coverProducts[0], bc1, 'b1', coverIds[0]) + bookHtml(coverProducts[1], bc2, 'b2', coverIds[1]);
+        } else if (coverProducts.length === 1) {
+          booksHtml = bookHtml(coverProducts[0], bc1, 'b2', coverIds[0]);
+        } else {
+          // No products matched — still use images from productImageMap
+          const fallbackIds = productIds.slice(0, 3);
+          booksHtml = fallbackIds.map((fid, fi) => {
+            const pos = ['b1','b2','b3'][fi] || 'b2';
+            const bc = [bc1,bc2,bc3][fi] || bc1;
+            const src = productImageMap[fid];
+            const imgTag = src ? `<img src="${src}" alt="" onerror="this.remove()">` : '';
+            return `<div class="combo-book ${pos} ${bc}">${imgTag}</div>`;
+          }).join('');
+        }
+
+        const isHot = combo.isHot || false;
+        const badgeText = combo.badgeText || (origPrice > 0 ? `−${Math.round((savings / origPrice) * 100)}%` : '');
+
+        return `
+          <div class="combo-card${isHot ? ' hot' : ''}" data-combo-id="${combo.id}" data-products="${productIds.join(',')}">
+            <div class="combo-save">${badgeText}</div>
+            <div class="combo-covers">${booksHtml}</div>
+            <div class="combo-body">
+              <div class="combo-tag">${combo.tag || 'Bộ sưu tập · ' + productIds.length + ' cuốn'}</div>
+              <div class="combo-name">${combo.name || 'Combo'}</div>
+              <ul class="combo-list">${itemsList}</ul>
+            </div>
+            <div class="combo-pricing">
+              <div class="combo-orig">Mua lẻ: ${fmt(origPrice)}</div>
+              <div class="combo-row">
+                <div class="combo-cost">${fmt(comboPrice)}</div>
+                <div class="combo-off">Tiết kiệm ${fmt(savings)}</div>
+              </div>
+              <button class="btn ${isHot ? 'btn-teal' : 'btn-outline'} combo-cta" onclick="buyCombo(event)">Mua combo ngay</button>
+            </div>
+          </div>`;
       }).join('');
 
-      // Book cover colors
-      const bc1 = bookColors[(idx * 3) % bookColors.length];
-      const bc2 = bookColors[(idx * 3 + 1) % bookColors.length];
-      const bc3 = bookColors[(idx * 3 + 2) % bookColors.length];
+      console.log('renderCombos: rendered', combos.length, 'combos, grid children:', grid.children.length);
+    } catch (renderErr) {
+      console.error('renderCombos: render error:', renderErr);
+      return;
+    }
 
-      // Render max 3 books
-      let booksHtml = '';
-      if (emojis.length >= 3) {
-        booksHtml = `
-          <div class="combo-book b1 ${bc1}">${emojis[0]}</div>
-          <div class="combo-book b2 ${bc2}">${emojis[1]}</div>
-          <div class="combo-book b3 ${bc3}">${emojis[2]}</div>`;
-      } else if (emojis.length === 2) {
-        booksHtml = `
-          <div class="combo-book b1 ${bc1}">${emojis[0]}</div>
-          <div class="combo-book b2 ${bc2}">${emojis[1]}</div>`;
-      } else if (emojis.length === 1) {
-        booksHtml = `<div class="combo-book b2 ${bc1}">${emojis[0]}</div>`;
-      }
-
-      const isHot = combo.isHot || false;
-      const badgeText = combo.badgeText || `−${Math.round((savings / origPrice) * 100)}%`;
-
-      return `
-        <div class="combo-card${isHot ? ' hot' : ''}" data-combo-id="${combo.id}" data-products="${productIds.join(',')}">
-          <div class="combo-save">${badgeText}</div>
-          <div class="combo-covers">${booksHtml}</div>
-          <div class="combo-body">
-            <div class="combo-tag">${combo.tag || '<span class="sn-dot"></span> Bộ sưu tập · ' + productIds.length + ' cuốn'}</div>
-            <div class="combo-name">${combo.name || 'Combo'}</div>
-            <ul class="combo-list">${itemsList}</ul>
-          </div>
-          <div class="combo-pricing">
-            <div class="combo-orig">Mua lẻ: ${fmt(origPrice)}</div>
-            <div class="combo-row">
-              <div class="combo-cost">${fmt(comboPrice)}</div>
-              <div class="combo-off">Tiết kiệm ${fmt(savings)}</div>
-            </div>
-            <button class="btn ${isHot ? 'btn-teal' : 'btn-outline'} combo-cta" onclick="buyCombo(event)">Mua combo ngay</button>
-          </div>
-        </div>`;
-    }).join('');
+    // Force combo cards visible (morph-engine adds morph-reveal which hides them)
+    function forceVisible() {
+      grid.querySelectorAll('.combo-card').forEach(card => {
+        card.classList.add('visible');
+        card.style.opacity = '1';
+        card.style.transform = 'scale(1)';
+        card.style.clipPath = 'none';
+      });
+    }
+    setTimeout(forceVisible, 200);
+    setTimeout(forceVisible, 800);
+    setTimeout(forceVisible, 1500);
   }
 
   async function buyCombo(e) {
     e.stopPropagation();
     const card = e.target.closest('.combo-card');
-    const idsRaw = card.dataset.products;
-    if (!idsRaw) return;
-    const ids = idsRaw.split(',');
     const btn = card.querySelector('.combo-cta');
     const origText = btn.textContent;
     btn.textContent = 'Đang thêm...';
     btn.disabled = true;
 
     try {
+      const comboId = card.dataset.comboId || '';
+      const idsRaw = card.dataset.products || '';
+      const ids = idsRaw.split(',').filter(Boolean);
+      const comboName = card.querySelector('.combo-name')?.textContent || 'Combo';
+      const comboPriceText = card.querySelector('.combo-cost')?.textContent || '0';
+      const comboPrice = parseInt(comboPriceText.replace(/\D/g, '')) || 0;
+
+      // Collect product names and slugs
+      const productNames = [];
+      const productSlugs = [];
+      card.querySelectorAll('.combo-list li').forEach(li => {
+        const name = li.textContent.replace(/\s*\(.*?\)\s*$/, '').trim();
+        productNames.push(name);
+      });
+
+      // Get slugs from products data
+      let allProducts = [];
+      if (window.SonHaiData) {
+        try { allProducts = await window.SonHaiData.getProducts(); } catch(e2) {}
+      }
+      if (!allProducts.length && window.SonHaiCartBadge) {
+        allProducts = window.SonHaiCartBadge.getProducts() || [];
+      }
+      ids.forEach(pid => {
+        const prod = allProducts.find(p => String(p.id) === String(pid));
+        productSlugs.push(prod ? prod.slug : '');
+      });
+
       if (window.SonHaiCartBadge) {
-        for (const productId of ids) {
-          // Support both string and number IDs
-          const pid = isNaN(productId) ? productId : parseInt(productId);
-          await window.SonHaiCartBadge.addProduct(pid, 1);
-        }
+        window.SonHaiCartBadge.addCombo({
+          id: comboId,
+          name: comboName,
+          comboPrice: comboPrice,
+          productIds: ids,
+          productNames: productNames,
+          productSlugs: productSlugs
+        });
       }
       btn.textContent = 'Đã thêm vào giỏ';
       btn.style.background = 'var(--teal-dark)';
     } catch (err) {
+      console.error('buyCombo error:', err);
       btn.textContent = 'Lỗi!';
     }
     setTimeout(() => {
@@ -1677,10 +1972,28 @@
     d.textContent = str;
     return d.innerHTML;
   }
+
+  // Countdown timer for combo deals
+  function startComboCountdown() {
+    function update() {
+      const now = new Date();
+      const end = new Date(now);
+      end.setHours(23, 59, 59, 999);
+      const diff = end - now;
+      const h = String(Math.floor(diff / 3600000)).padStart(2, '0');
+      const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+      const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+      document.querySelectorAll('.combo-timer-val').forEach(el => {
+        el.textContent = h + ':' + m + ':' + s;
+      });
+    }
+    update();
+    setInterval(update, 1000);
+  }
+  startComboCountdown();
 </script>
 <script src="js/morph-engine.js?v=1"></script>
-<script src="js/parallax-engine.js?v=grid-particles-2"></script>
-<script type="module" src="/auth-ui.js"></script>
-<script src="js/mobile-menu.js?v=1"></script>
-</body>
-</html>
+<!-- Floating Contact Buttons -->
+<div style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:12px;">
+  <a href="https://t.me/sonnhai" target="_blank" rel="noopener" title="Telegram" style="width:48px;height:48px;border-radius:50%;background:#2AABEE;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(42,171,238,.4);transition:transform .2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386

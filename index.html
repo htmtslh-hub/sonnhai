@@ -1641,12 +1641,17 @@ fbq('init','438100172987941');fbq('track','PageView');
         const comboPrice = combo.comboPrice || 0;
         const savings = origPrice - comboPrice;
         const productIds = combo.productIds || [];
-        const productNames = combo.productNames || [];
-        
+
         // Get product data for covers
         const comboProducts = productIds.map(pid => {
           return allProducts.find(p => String(p.id) === String(pid));
         });
+
+        // Build product names - from combo data or fallback from matched products
+        let productNames = combo.productNames || [];
+        if (productNames.length === 0 && comboProducts.length > 0) {
+          productNames = comboProducts.map(p => p ? (p.name || '') : '');
+        }
         
         // Product items list with thumbnails
         const itemsList = productNames.map((name, i) => {
