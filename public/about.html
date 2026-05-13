@@ -217,11 +217,12 @@ fbq('init','438100172987941');fbq('track','PageView');
   .values-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
   .val-item {
   display: flex; gap: 16px; align-items: flex-start;
-  background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px;
-  padding: 22px 20px; transition: all .25s;
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px;
+  padding: 28px 24px; transition: all .28s; position: relative; overflow: hidden;
   }
-  .val-item:hover { border-color: var(--teal-dark); background: var(--bg-3); }
-  .val-icon { font-size: 26px; flex-shrink: 0; width: 48px; height: 48px; border-radius: 10px; background: var(--bg-3); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; }
+  .val-item:hover { border-color: var(--teal-dark); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,.4), 0 0 20px rgba(0,212,212,.06); }
+  .val-icon { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(0,212,212,.2), rgba(0,212,212,.05)); border: 1px solid rgba(0,212,212,.25); display: flex; align-items: center; justify-content: center; position: relative; }
+  .val-icon::after { content: ''; position: absolute; width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg, #00D4D4, #007A7A); box-shadow: 0 0 10px rgba(0,212,212,.5); }
   .val-body { }
   .val-title { font-family: 'Be Vietnam Pro','Exo 2',sans-serif; font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
   .val-desc { font-size: 13px; color: var(--text-2); line-height: 1.65; }
@@ -249,9 +250,12 @@ fbq('init','438100172987941');fbq('track','PageView');
   }
   .team-card:hover { border-color: var(--teal-dark); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,.5), 0 0 28px rgba(0,212,212,.07); }
   .team-avatar {
-  width: 88px; height: 88px; border-radius: 50%; margin: 0 auto 18px;
-  display: flex; align-items: center; justify-content: center; font-size: 40px;
-  border: 2px solid var(--border-2); position: relative;
+  width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 800; color: var(--teal); letter-spacing: 1px;
+  background: radial-gradient(circle at 30% 30%, rgba(0,212,212,.15), rgba(0,212,212,.03));
+  border: 1.5px solid rgba(0,212,212,.25); position: relative;
+  box-shadow: 0 0 16px rgba(0,212,212,.1);
   }
   .team-avatar::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid transparent; transition: all .3s; }
   .team-card:hover .team-avatar::after { border-color: var(--teal-dark); box-shadow: 0 0 20px rgba(0,212,212,.15); }
@@ -613,8 +617,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   <p class="sec-sub">Một nhóm nhỏ, đam mê và tập trung vào một mục tiêu duy nhất: mang tri thức đến gần hơn với bạn.</p>
   <div style="display:flex;flex-direction:column;gap:16px;margin-top:36px;">
   <div class="team-card" style="text-align:left;display:flex;align-items:center;gap:20px;padding:20px 22px;">
-  <div class="team-avatar" style="margin:0;flex-shrink:0;">>
-=</div>
+  <div class="team-avatar" style="margin:0;flex-shrink:0;">SN</div>
   <div>
   <div class="team-name">Sơn Nhai</div>
   <div class="team-role">Người sáng lập</div>
@@ -622,8 +625,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   </div>
   </div>
   <div class="team-card" style="text-align:left;display:flex;align-items:center;gap:20px;padding:20px 22px;">
-  <div class="team-avatar" style="margin:0;flex-shrink:0;">=i
-<</div>
+  <div class="team-avatar" style="margin:0;flex-shrink:0;">BT</div>
   <div>
   <div class="team-name">Biên tập viên</div>
   <div class="team-role">Nội dung & Biên soạn</div>
@@ -631,8 +633,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   </div>
   </div>
   <div class="team-card" style="text-align:left;display:flex;align-items:center;gap:20px;padding:20px 22px;">
-  <div class="team-avatar" style="margin:0;flex-shrink:0;">=h
-=</div>
+  <div class="team-avatar" style="margin:0;flex-shrink:0;">KT</div>
   <div>
   <div class="team-name">Kỹ thuật viên</div>
   <div class="team-role">Công nghệ & Vận hành</div>
@@ -653,7 +654,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   <div class="why-grid">
   <div class="fade-up">
   <div class="sec-label">Vì sao chọn chúng tôi</div>
-  <h2 class="sec-h2">Không chỉ l <span>bán sách</span></h2>
+  <h2 class="sec-h2">Không chỉ là <span>bán sách</span></h2>
   <p class="sec-sub">Hàng trăm nơi bạn có thể mua sách, nhưng chỉ có Thư viện Sơn Nhai chắt lọc theo cách này.</p>
   <div class="why-list">
   <div class="why-item">
@@ -959,9 +960,4 @@ fbq('init','438100172987941');fbq('track','PageView');
 <!-- Floating Contact Buttons -->
 <div style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:12px;">
   <a href="https://t.me/sonnhai" target="_blank" rel="noopener" title="Telegram" style="width:48px;height:48px;border-radius:50%;background:#2AABEE;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(42,171,238,.4);transition:transform .2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-  </a>
-</div>
-</body>
-</html>
-                                                                                                     
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.
