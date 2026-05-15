@@ -129,21 +129,21 @@
   z-index: 1;
   transform: rotateY(15deg);
   transform-origin: left center;
-  /* Paper stripe texture */
+  /* Dark paper stripe texture */
   background:
     repeating-linear-gradient(
       180deg,
-      #e8e4de 0px,
-      #e8e4de 1px,
-      #ddd8d1 1px,
-      #ddd8d1 2px,
-      #e5e1db 2px,
-      #e5e1db 3px
+      #3a3832 0px,
+      #3a3832 1px,
+      #332f2b 1px,
+      #332f2b 2px,
+      #3d3935 2px,
+      #3d3935 3px
     );
   border-radius: 0 2px 2px 0;
   box-shadow:
-    2px 0 4px rgba(0, 0, 0, 0.2),
-    1px 0 1px rgba(0, 0, 0, 0.1);
+    2px 0 6px rgba(0, 0, 0, 0.35),
+    1px 0 2px rgba(0, 0, 0, 0.2);
 }
 
 /* ── Bottom page edges ── */
@@ -155,21 +155,21 @@
   right: 2px;
   height: 6px;
   z-index: 0;
-  /* Bottom page stripe texture */
+  /* Dark bottom page stripe texture */
   background:
     repeating-linear-gradient(
       90deg,
-      #d9d5cf 0px,
-      #d9d5cf 1px,
-      #d1cdc7 1px,
-      #d1cdc7 2px,
-      #d6d2cc 2px,
-      #d6d2cc 3px
+      #35322d 0px,
+      #35322d 1px,
+      #2d2b27 1px,
+      #2d2b27 2px,
+      #38352f 2px,
+      #38352f 3px
     );
   border-radius: 0 0 3px 3px;
   box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.3),
-    0 1px 2px rgba(0, 0, 0, 0.15);
+    0 3px 8px rgba(0, 0, 0, 0.4),
+    0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 /* ── Shadow underneath: multi-layer realistic shadow ── */
