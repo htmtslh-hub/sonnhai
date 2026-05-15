@@ -1,9 +1,9 @@
 /* ============================================
-   3D BOOK MOCKUP — Sơn Nhai (v2 — Enhanced depth)
-   Biến ảnh bìa phẳng thành sách 3D bằng CSS
+   3D BOOK MOCKUP — Son Nhai (v2 — Enhanced depth)
+   Bien anh bia phang thanh sach 3D bang CSS
    ============================================ */
 
-/* Container giữ perspective */
+/* Container giu perspective */
 .book-3d {
   position: relative;
   display: inline-flex;
@@ -14,7 +14,7 @@
   height: 100%;
 }
 
-/* Cuốn sách */
+/* Cuon sach */
 .book-3d-inner {
   position: relative;
   width: 70%;
@@ -29,7 +29,7 @@
   transform: rotateY(-16deg) rotateX(1deg) scale(1.04);
 }
 
-/* Bìa trước — ảnh sản phẩm */
+/* Bia truoc — anh san pham */
 .book-3d-cover {
   position: absolute;
   inset: 0;
@@ -51,7 +51,7 @@
   border-radius: 2px 8px 8px 2px;
 }
 
-/* Gáy sách (spine) — bên trái — DÀY HƠN */
+/* Gay sach (spine) — ben trai */
 .book-3d-spine {
   position: absolute;
   top: 0;
@@ -74,7 +74,7 @@
   z-index: 2;
 }
 
-/* Đường kẻ trang trí trên gáy */
+/* Duong ke trang tri tren gay */
 .book-3d-spine::before {
   content: '';
   position: absolute;
@@ -87,7 +87,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Các trang sách (page edge) — bên phải — DÀY HƠN */
+/* Cac trang sach (page edge) — ben phai */
 .book-3d-pages {
   position: absolute;
   top: 2%;
@@ -109,7 +109,7 @@
   z-index: 1;
 }
 
-/* Đường kẻ trang trên mép */
+/* Duong ke trang tren mep */
 .book-3d-pages::before {
   content: '';
   position: absolute;
@@ -125,7 +125,7 @@
   border-radius: 0 3px 3px 0;
 }
 
-/* Bìa sau — DÀY HƠN */
+/* Bia sau */
 .book-3d-back {
   position: absolute;
   inset: 0;
@@ -138,7 +138,7 @@
   z-index: 0;
 }
 
-/* Hiệu ứng ánh sáng trên bìa — RÕ HƠN */
+/* Hieu ung anh sang tren bia */
 .book-3d-cover::after {
   content: '';
   position: absolute;
@@ -157,7 +157,7 @@
   z-index: 4;
 }
 
-/* Bóng đổ dưới sách — ĐẬM HƠN */
+/* Bong do duoi sach */
 .book-3d::after {
   content: '';
   position: absolute;
@@ -172,10 +172,10 @@
 }
 
 /* ============================================
-   VARIANTS — Kích thước khác nhau cho từng page
+   VARIANTS
    ============================================ */
 
-/* Card nhỏ (index featured, categories) */
+/* Card nho (index featured, categories) */
 .book-3d--card {
   min-height: 180px;
 }
@@ -195,7 +195,7 @@
   transform: translateZ(-26px);
 }
 
-/* Bestseller / combo nhỏ hơn */
+/* Bestseller / combo nho hon */
 .book-3d--sm {
   min-height: 60px;
   perspective: 600px;
@@ -226,7 +226,7 @@
   height: 10px;
 }
 
-/* Product detail page — lớn nhất */
+/* Product detail page — lon nhat */
 .book-3d--detail {
   min-height: 350px;
   perspective: 1200px;
@@ -239,4 +239,130 @@
 .book-3d--detail:hover .book-3d-inner {
   transform: rotateY(-14deg) rotateX(1deg) scale(1.03);
 }
-.book-3d--detail .book-3d-sp
+.book-3d--detail .book-3d-spine {
+  width: 42px;
+  transform: rotateY(90deg) translateZ(0px) translateX(-21px);
+}
+.book-3d--detail .book-3d-pages {
+  width: 28px;
+  right: -8px;
+}
+.book-3d--detail .book-3d-back {
+  transform: translateZ(-42px);
+}
+.book-3d--detail::after {
+  bottom: -16px;
+  height: 24px;
+  filter: blur(8px);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .book-3d-inner {
+    transform: rotateY(-25deg) rotateX(2deg);
+  }
+  .book-3d:hover .book-3d-inner {
+    transform: rotateY(-14deg) rotateX(1deg) scale(1.03);
+  }
+  .book-3d--card .book-3d-inner {
+    width: 64%;
+    height: 80%;
+  }
+  .book-3d--detail .book-3d-inner {
+    width: 68%;
+    height: 85%;
+    transform: rotateY(-28deg) rotateX(2deg);
+  }
+}
+
+/* ============================================
+   CART / CHECKOUT — thumbnail nho
+   ============================================ */
+.book-3d--thumb {
+  width: 60px;
+  height: 80px;
+  min-height: unset;
+  perspective: 500px;
+}
+.book-3d--thumb .book-3d-inner {
+  width: 100%;
+  height: 100%;
+  transform: rotateY(-22deg);
+}
+.book-3d--thumb .book-3d-spine {
+  width: 12px;
+  transform: rotateY(90deg) translateZ(0px) translateX(-6px);
+}
+.book-3d--thumb .book-3d-pages {
+  width: 8px;
+  right: -2px;
+  top: 4%;
+  height: 92%;
+}
+.book-3d--thumb .book-3d-back {
+  transform: translateZ(-12px);
+}
+.book-3d--thumb::after {
+  display: none;
+}
+
+/* ============================================
+   CRITICAL OVERRIDES — Fix overflow:hidden tren parent containers
+   ============================================ */
+
+.card:has(.book-3d),
+.card-thumb:has(.book-3d) {
+  overflow: visible !important;
+  transform-style: preserve-3d;
+}
+
+.p-card:has(.book-3d),
+.p-thumb:has(.book-3d) {
+  overflow: visible !important;
+  transform-style: preserve-3d;
+}
+
+.r-thumb:has(.book-3d),
+.g-thumb:has(.book-3d),
+#gallery-main:has(.book-3d) {
+  overflow: visible !important;
+  transform-style: preserve-3d;
+}
+
+.item-thumb:has(.book-3d) {
+  overflow: visible !important;
+  transform-style: preserve-3d;
+}
+
+.prod-card:has(.book-3d) {
+  overflow: visible !important;
+  transform-style: preserve-3d;
+}
+
+.combo-book:has(.book-3d) {
+  overflow: visible !important;
+  transform-style: preserve-3d;
+}
+
+.bs-cover:has(.book-3d) {
+  overflow: visible !important;
+  transform-style: preserve-3d;
+}
+
+.bs-item:has(.book-3d) {
+  overflow: visible !important;
+  transform-style: preserve-3d;
+}
+
+.feat-cover:has(.book-3d) {
+  overflow: visible !important;
+  transform-style: preserve-3d;
+}
+
+/* Fallback class cho browsers khong ho tro :has() */
+.book-3d-parent {
+  overflow: visible !important;
+  transform-style: preserve-3d;
+}
