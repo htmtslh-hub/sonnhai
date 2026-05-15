@@ -885,19 +885,27 @@ fbq('init','438100172987941');fbq('track','PageView');
       let rating = p.rating || 4.8;
       let stars = '<i class="sn-star filled"></i>'.repeat(rating >= 4.9 ? 5 : 4) + '<i class="sn-star empty"></i>'.repeat(rating >= 4.9 ? 0 : 1);
       
-      let thumbContent = `
+      let thumbContent;
+      if (p.imageUrl) {
+        thumbContent = `
           <div class="p-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;">
              <div class="book-3d book-3d--cat">
                <div class="book-3d__inner">
                  <div class="book-3d__spine"></div>
                  <div class="book-3d__cover">
-                   <img src="product/mocup-single.jpg" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
+                   <img src="${p.imageUrl}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
                    <div class="book-3d__shine"></div>
                  </div>
                </div>
                <div class="book-3d__shadow"></div>
              </div>
           </div>`;
+      } else {
+        thumbContent = `
+          <div class="p-thumb" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}">
+             <div class="p-thumb-shine"></div>${p.emoji || ''}
+          </div>`;
+      }
       
       let html = `
         <div class="p-card" onclick="if(!event.target.closest('.btn-add,.p-wish'))goToProduct(this)" data-slug="${p.slug}" data-cat="${p.category}" data-price="${p.price}" data-rating="${rating}" data-id="${p.id}">
