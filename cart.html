@@ -313,6 +313,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   <link rel="stylesheet" href="css/parallax-animations.css">
   <link rel="stylesheet" href="css/responsive.css?v=2">
   <link rel="stylesheet" href="css/sn-icons.css">
+  <link rel="stylesheet" href="css/book-mockup.css?v=1">
 </head>
 <body>
 
@@ -795,7 +796,16 @@ fbq('init','438100172987941');fbq('track','PageView');
 
     let thumbHtml;
     if (imgUrl) {
-      thumbHtml = `<div class="item-thumb" style="background:${bg};padding:0;overflow:hidden;"><img src="${imgUrl}" alt="${name}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${emoji}'"></div>`;
+      thumbHtml = `<div class="item-thumb" style="background:transparent;padding:0;overflow:visible;">
+        <div class="book-3d book-3d--thumb">
+          <div class="book-3d-inner">
+            <div class="book-3d-cover"><img src="${imgUrl}" alt="${name}" loading="lazy" onerror="this.closest('.book-3d').outerHTML='${emoji}'"></div>
+            <div class="book-3d-spine"></div>
+            <div class="book-3d-pages"></div>
+            <div class="book-3d-back"></div>
+          </div>
+        </div>
+      </div>`;
     } else {
       thumbHtml = `<div class="item-thumb" style="background:${bg};">${emoji}</div>`;
     }

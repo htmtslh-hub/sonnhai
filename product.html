@@ -531,6 +531,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <link rel="stylesheet" href="css/responsive.css?v=2">
   <link rel="stylesheet" href="css/sn-icons.css">
+  <link rel="stylesheet" href="css/book-mockup.css?v=1">
 </head>
 <body>
 
@@ -1466,31 +1467,36 @@ fbq('init','438100172987941');fbq('track','PageView');
   const breadcrumbCur = document.querySelector('.breadcrumb .cur');
   if (breadcrumbCur) breadcrumbCur.textContent = product.name;
 
-  // Gallery emoji & book title — or real image
+  // Gallery emoji & book title — or real image (3D Book Mockup)
   const galleryMain = document.getElementById('gallery-main');
   const galleryBook = document.getElementById('gallery-book');
   if (product.imageUrl && galleryMain) {
-    // Replace book with real image
+    // Replace book with 3D book mockup
     galleryBook.style.display = 'none';
     // Hide glow overlay
     const galleryGlow = galleryMain.querySelector('.gallery-glow');
     if (galleryGlow) galleryGlow.style.display = 'none';
-    // Check if image element already exists
-    let imgEl = galleryMain.querySelector('.gallery-real-img');
-    if (!imgEl) {
-      imgEl = document.createElement('img');
-      imgEl.className = 'gallery-real-img';
-      imgEl.style.cssText = 'width:72%;max-height:85%;object-fit:contain;border-radius:8px 12px 12px 8px;position:relative;z-index:2;box-shadow:-6px 10px 40px rgba(0,0,0,.7), 6px 6px 0 0 rgba(0,212,212,.08);transition:transform .35s cubic-bezier(.34,1.56,.64,1);';
-      imgEl.loading = 'lazy';
-      galleryMain.insertBefore(imgEl, galleryMain.querySelector('.gallery-badge'));
-      galleryMain.addEventListener('mouseenter', () => imgEl.style.transform = 'rotate(-3deg) scale(1.04)');
-      galleryMain.addEventListener('mouseleave', () => imgEl.style.transform = '');
+    // Check if 3D book element already exists
+    let book3d = galleryMain.querySelector('.book-3d');
+    if (!book3d) {
+      book3d = document.createElement('div');
+      book3d.className = 'book-3d book-3d--detail';
+      book3d.innerHTML = `
+        <div class="book-3d-inner">
+          <div class="book-3d-cover"><img src="" alt="" loading="lazy"></div>
+          <div class="book-3d-spine"></div>
+          <div class="book-3d-pages"></div>
+          <div class="book-3d-back"></div>
+        </div>
+      `;
+      galleryMain.insertBefore(book3d, galleryMain.querySelector('.gallery-badge'));
     }
+    const imgEl = book3d.querySelector('.book-3d-cover img');
     imgEl.src = product.imageUrl;
     imgEl.alt = product.name;
-    imgEl.onerror = function() { 
-      this.style.display = 'none'; 
-      galleryBook.style.display = ''; 
+    imgEl.onerror = function() {
+      book3d.style.display = 'none';
+      galleryBook.style.display = '';
       if (galleryGlow) galleryGlow.style.display = '';
     };
   } else {
@@ -1572,7 +1578,19 @@ fbq('init','438100172987941');fbq('track','PageView');
     const related = [...sameCat, ...others].slice(0, 4);
     thumbsGrid.innerHTML = related.map(p => {
       const img = p.imageUrl || (p.slug ? 'product/' + p.slug.replace(/-/g, '_') + '.webp' : '');
-      return `<a href="product.html?slug=${p.slug}" class="g-thumb" title="${p.name}" style="padding:0;overflow:hidden;">${img ? `<img src="${img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">` : p.emoji || ''}</a>`;
+      if (img) {
+        return `<a href="product.html?slug=${p.slug}" class="g-thumb" title="${p.name}" style="padding:0;overflow:visible;background:transparent;">
+          <div class="book-3d book-3d--sm" style="width:100%;height:100%;">
+            <div class="book-3d-inner">
+              <div class="book-3d-cover"><img src="${img}" alt="${p.name}" loading="lazy" onerror="this.closest('.book-3d').outerHTML='${p.emoji || ''}'"></div>
+              <div class="book-3d-spine"></div>
+              <div class="book-3d-pages"></div>
+              <div class="book-3d-back"></div>
+            </div>
+          </div>
+        </a>`;
+      }
+      return `<a href="product.html?slug=${p.slug}" class="g-thumb" title="${p.name}">${p.emoji || ''}</a>`;
     }).join('');
   }
 })();
@@ -1767,9 +1785,16 @@ async function renderRelatedProducts(currentProduct) {
   const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
   grid.innerHTML = related.map(p => `
     <a href="product.html?slug=${p.slug}" class="r-card">
-      <div class="r-thumb" style="background:${p.coverGradient || 'var(--bg-3)'};padding:0;overflow:hidden;">
-        <img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" loading="lazy"
-          onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent='${p.emoji || ''}'">
+      <div class="r-thumb" style="background:${p.coverGradient || 'var(--bg-3)'};padding:0;overflow:visible;">
+        <div class="book-3d book-3d--card" style="width:100%;height:100%;">
+          <div class="book-3d-inner">
+            <div class="book-3d-cover"><img src="${p.imageUrl}" alt="${p.name}" loading="lazy"
+              onerror="this.closest('.book-3d').outerHTML='<span style=\'font-size:28px;\'>${p.emoji || ''}</span>'"></div>
+            <div class="book-3d-spine"></div>
+            <div class="book-3d-pages"></div>
+            <div class="book-3d-back"></div>
+          </div>
+        </div>
       </div>
       <div class="r-body">
         <div class="r-cat">${p.category || ''}</div>

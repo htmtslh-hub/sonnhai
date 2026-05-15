@@ -149,6 +149,7 @@
     }
   </style>
   <link rel="stylesheet" href="css/sn-icons.css">
+  <link rel="stylesheet" href="css/book-mockup.css?v=1">
 </head>
 <body>
 
@@ -265,8 +266,21 @@
   const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
   grid.innerHTML = products.map(p => {
     const img = p.imageUrl || (p.slug ? 'product/' + p.slug.replace(/-/g, '_') + '.webp' : '');
+    let imgHtml;
+    if (img) {
+      imgHtml = `<div class="book-3d book-3d--card" style="aspect-ratio:3/4;">
+        <div class="book-3d-inner">
+          <div class="book-3d-cover"><img src="${img}" alt="${p.name}" loading="lazy" onerror="this.closest('.book-3d').outerHTML='<div style=\\'width:100%;aspect-ratio:3/4;background:${(p.coverGradient || 'var(--bg-3)').replace(/'/g, "\\\\'")}\\';display:flex;align-items:center;justify-content:center;font-size:36px;\\'>${p.emoji || ''}</div>'"></div>
+          <div class="book-3d-spine"></div>
+          <div class="book-3d-pages"></div>
+          <div class="book-3d-back"></div>
+        </div>
+      </div>`;
+    } else {
+      imgHtml = `<div style="width:100%;aspect-ratio:3/4;background:${p.coverGradient || 'var(--bg-3)'};display:flex;align-items:center;justify-content:center;font-size:36px;">${p.emoji || ''}</div>`;
+    }
     return `<a href="product.html?slug=${p.slug}" class="prod-card">
-      ${img ? `<img src="${img}" alt="${p.name}" class="prod-img" loading="lazy">` : `<div style="width:100%;aspect-ratio:3/4;background:${p.coverGradient || 'var(--bg-3)'};display:flex;align-items:center;justify-content:center;font-size:36px;">${p.emoji || ''}</div>`}
+      ${imgHtml}
       <div class="prod-info">
         <div class="prod-name">${p.name}</div>
         <div class="prod-price">${fmt(p.price)}</div>

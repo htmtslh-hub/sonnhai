@@ -526,6 +526,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   <link rel="stylesheet" href="css/morph.css?v=1">
   <link rel="stylesheet" href="css/responsive.css?v=2">
   <link rel="stylesheet" href="css/sn-icons.css">
+  <link rel="stylesheet" href="css/book-mockup.css?v=1">
 </head>
 <body>
 
@@ -887,8 +888,15 @@ fbq('init','438100172987941');fbq('track','PageView');
       let thumbContent;
       if (p.imageUrl) {
         thumbContent = `
-          <div class="p-thumb" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}; padding: 0; overflow: hidden;">
-             <img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\\'p-thumb-shine\\'></div>${p.emoji || ''}'">
+          <div class="p-thumb" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}; padding: 0; overflow: visible;">
+             <div class="book-3d book-3d--card">
+               <div class="book-3d-inner">
+                 <div class="book-3d-cover"><img src="${p.imageUrl}" alt="${p.name}" loading="lazy" onerror="this.closest('.book-3d').outerHTML='<div class=\\'p-thumb-shine\\'></div>${p.emoji || ''}'"></div>
+                 <div class="book-3d-spine"></div>
+                 <div class="book-3d-pages"></div>
+                 <div class="book-3d-back"></div>
+               </div>
+             </div>
           </div>`;
       } else {
         thumbContent = `
@@ -1205,8 +1213,10 @@ fbq('init','438100172987941');fbq('track','PageView');
 
       function bookHtml(prod, bcClass, posClass) {
         const emoji = prod ? (prod.emoji || prod.icon || '') : '';
-        const imgTag = (prod && prod.imageUrl) ? `<img src="${prod.imageUrl}" alt="${prod.name || ''}" onerror="this.remove()">` : '';
-        return `<div class="combo-book ${posClass} ${bcClass}">${emoji}${imgTag}</div>`;
+        if (prod && prod.imageUrl) {
+          return `<div class="combo-book ${posClass} ${bcClass}" style="overflow:visible;"><div class="book-3d book-3d--sm" style="width:100%;height:100%;"><div class="book-3d-inner"><div class="book-3d-cover"><img src="${prod.imageUrl}" alt="${prod.name || ''}" onerror="this.closest('.book-3d').outerHTML='<span style=\\'font-size:30px\\'>${emoji}</span>'"></div><div class="book-3d-spine"></div><div class="book-3d-pages"></div><div class="book-3d-back"></div></div></div></div>`;
+        }
+        return `<div class="combo-book ${posClass} ${bcClass}">${emoji}</div>`;
       }
 
       let booksHtml = '';

@@ -599,6 +599,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   <link rel="stylesheet" href="css/morph.css?v=1">
   <link rel="stylesheet" href="css/responsive.css?v=2">
   <link rel="stylesheet" href="css/sn-icons.css">
+  <link rel="stylesheet" href="css/book-mockup.css?v=1">
 </head>
 <body>
 
@@ -732,8 +733,15 @@ fbq('init','438100172987941');fbq('track','PageView');
     </div>
 
     <div class="feat-right">
-      <div class="feat-cover has-image" style="padding:0;display:block;">
-        <img src="chuan/tuyet_mat_nhan_tinh.webp" alt="Tuyệt mật nhân tính" id="feat-cover-img" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:10px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="feat-cover has-image" style="padding:0;display:flex;align-items:center;justify-content:center;overflow:visible;">
+        <div class="book-3d book-3d--detail" id="feat-book-3d" style="width:100%;height:100%;">
+          <div class="book-3d-inner">
+            <div class="book-3d-cover"><img src="chuan/tuyet_mat_nhan_tinh.webp" alt="Tuyệt mật nhân tính" id="feat-cover-img" loading="lazy" onerror="this.closest('.book-3d').style.display='none';document.querySelector('.feat-cover-emoji').style.display='flex';"></div>
+            <div class="book-3d-spine"></div>
+            <div class="book-3d-pages"></div>
+            <div class="book-3d-back"></div>
+          </div>
+        </div>
         <div class="feat-cover-emoji" style="display:none;"></div>
         <div class="feat-cover-ttl" style="display:none;">Tuyệt mật nhân tính<br>Thư viện Sơn Nhai</div>
       </div>
@@ -1262,7 +1270,14 @@ fbq('init','438100172987941');fbq('track','PageView');
         
         let thumbInner;
         if (p.imageUrl) {
-          thumbInner = `<div class="card-thumb-inner" style="overflow:hidden;"><img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;flex-direction:column;width:100%;height:100%;"><div class='book-top' style='background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}'><div class='card-emoji'>${p.emoji || ''}</div></div><div class='book-bottom'><div class='book-bottom-title'>${p.name}</div><div class='book-bottom-author'>Thư viện Sơn Nhai</div></div></div></div>`;
+          thumbInner = `<div class="book-3d book-3d--card">
+            <div class="book-3d-inner">
+              <div class="book-3d-cover"><img src="${p.imageUrl}" alt="${p.name}" loading="lazy" onerror="this.closest('.book-3d').outerHTML='<div class=\\'card-thumb-inner\\'><div class=\\'book-top\\' style=\\'background:${(p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)').replace(/'/g, "\\\\'")}\\''+'><div class=\\'card-emoji\\'>${p.emoji || ''}</div></div><div class=\\'book-bottom\\'><div class=\\'book-bottom-title\\'>${p.name}</div><div class=\\'book-bottom-author\\'>Thư viện Sơn Nhai</div></div></div>'"></div>
+              <div class="book-3d-spine"></div>
+              <div class="book-3d-pages"></div>
+              <div class="book-3d-back"></div>
+            </div>
+          </div>`;
         } else {
           thumbInner = `<div class="card-thumb-inner"><div class="book-top" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}"><div class="card-emoji">${p.emoji || ''}</div></div><div class="book-bottom"><div class="book-bottom-title">${p.name}</div><div class="book-bottom-author">Thư viện Sơn Nhai</div></div></div>`;
         }
@@ -1301,7 +1316,7 @@ fbq('init','438100172987941');fbq('track','PageView');
         let badgeHtml = idx === 0 ? '<div class="bs-hot">HOT</div>' : '';
         let bsCoverHtml;
         if (p.imageUrl) {
-          bsCoverHtml = `<div class="bs-cover" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'};padding:0;overflow:hidden;"><img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${p.emoji || ''}'"></div>`;
+          bsCoverHtml = `<div class="bs-cover book-3d book-3d--sm"><div class="book-3d-inner"><div class="book-3d-cover"><img src="${p.imageUrl}" alt="${p.name}" loading="lazy" onerror="this.closest('.book-3d').outerHTML='<div class=\\'bs-cover\\' style=\\'background:${(p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)').replace(/'/g, "\\\\'")}\\''+'>${p.emoji || ''}</div>'"></div><div class="book-3d-spine"></div><div class="book-3d-pages"></div><div class="book-3d-back"></div></div></div>`;
         } else {
           bsCoverHtml = `<div class="bs-cover" style="background:${p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)'}">${p.emoji || ''}</div>`;
         }
@@ -1676,7 +1691,7 @@ fbq('init','438100172987941');fbq('track','PageView');
             || (prod && prod.imageUrl && !prod.imageUrl.startsWith('chuan/') ? prod.imageUrl : '')
             || (prod && prod.slug ? 'product/' + prod.slug.replace(/-/g, '_') + '.webp' : '');
           if (imgSrc) {
-            return `<div class="combo-book ${posClass} ${bcClass}"><img src="${imgSrc}" alt="${prod ? prod.name : ''}" onerror="this.remove();this.parentElement.style.fontSize='30px';this.parentElement.textContent='${emoji}'"></div>`;
+            return `<div class="combo-book ${posClass} ${bcClass}" style="overflow:visible;"><div class="book-3d book-3d--sm" style="width:100%;height:100%;"><div class="book-3d-inner"><div class="book-3d-cover"><img src="${imgSrc}" alt="${prod ? prod.name : ''}" onerror="this.closest('.book-3d').outerHTML='<span style=\\'font-size:30px\\'>${emoji}</span>'"></div><div class="book-3d-spine"></div><div class="book-3d-pages"></div><div class="book-3d-back"></div></div></div></div>`;
           }
           return `<div class="combo-book ${posClass} ${bcClass}" style="font-size:30px">${emoji}</div>`;
         }
