@@ -8,13 +8,19 @@
   <meta name="description" content="Chi tiết sản phẩm số tại Thư viện Sơn Nhai. Sách điện tử, PDF, tài liệu học tập chất lượng cao.">
   <meta name="author" content="Thư viện Sơn Nhai">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://sonnhai.vercel.app/product">
+  <link rel="canonical" href="https://thuviensonnhai.com/product">
   <meta property="og:type" content="product">
   <meta property="og:title" content="Sản phẩm — Thư viện Sơn Nhai">
   <meta property="og:description" content="Chi tiết sản phẩm số tại Thư viện Sơn Nhai.">
-  <meta property="og:url" content="https://sonnhai.vercel.app/product">
+  <meta property="og:url" content="https://thuviensonnhai.com/product">
   <meta property="og:locale" content="vi_VN">
   <meta property="og:site_name" content="Thư viện Sơn Nhai">
+  <!-- Facebook Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','438100172987941');fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=438100172987941&ev=PageView&noscript=1"/></noscript>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -467,12 +473,65 @@
       .preview-header { padding:10px 16px; }
       .preview-footer { padding:10px 16px; flex-direction:column; gap:8px; }
     }
+
+    /* ───── COMBO SUGGESTION ───── */
+    .combo-suggest { padding: 0 0 48px; }
+    .combo-suggest-title {
+      font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 18px; font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .combo-suggest-sub { font-size: 13px; color: var(--text-3); margin-bottom: 20px; }
+    .combo-suggest-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+    .cs-card {
+      background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px;
+      padding: 22px; display: flex; flex-direction: column; gap: 14px;
+      transition: all .28s; position: relative; overflow: hidden;
+    }
+    .cs-card:hover { border-color: var(--teal-dark); box-shadow: 0 12px 40px rgba(0,0,0,.4), 0 0 24px rgba(0,212,212,.08); transform: translateY(-3px); }
+    .cs-card.hot { border-color: rgba(0,212,212,.25); }
+    .cs-card.hot::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,212,212,.03) 0%, transparent 50%); pointer-events: none; }
+    .cs-badge {
+      position: absolute; top: 14px; right: 14px;
+      font-size: 9px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 5px; background: var(--teal); color: var(--bg);
+    }
+    .cs-card.hot .cs-badge { background: var(--warn); }
+    .cs-header { display: flex; align-items: center; gap: 12px; position: relative; z-index: 1; }
+    .cs-emojis { display: flex; gap: -4px; }
+    .cs-emoji {
+      width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center;
+      justify-content: center; font-size: 18px; border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 4px 12px rgba(0,0,0,.4); margin-left: -6px;
+    }
+    .cs-emoji:first-child { margin-left: 0; }
+    .cs-info { flex: 1; min-width: 0; }
+    .cs-tag { font-size: 9px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--teal); }
+    .cs-name { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 15px; font-weight: 800; color: var(--text); line-height: 1.2; }
+    .cs-items { display: flex; flex-direction: column; gap: 4px; position: relative; z-index: 1; }
+    .cs-item { font-size: 12px; color: var(--text-2); display: flex; align-items: center; gap: 6px; }
+    .cs-item::before { content: '·'; color: var(--teal); font-weight: 800; font-size: 10px; }
+    .cs-item.current { color: var(--teal); font-weight: 600; }
+    .cs-item.current::before { content: ''; width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#00D4D4,#00AAAA);display:inline-block; }
+    .cs-pricing { display: flex; align-items: center; gap: 12px; padding-top: 10px; border-top: 1px solid var(--border); position: relative; z-index: 1; }
+    .cs-orig { font-size: 12px; color: var(--text-3); text-decoration: line-through; }
+    .cs-price { font-family: 'Exo 2',sans-serif; font-size: 20px; font-weight: 900; color: var(--teal); }
+    .cs-save { font-size: 10px; font-weight: 700; color: var(--warn); background: rgba(245,166,35,.1); border: 1px solid rgba(245,166,35,.2); padding: 2px 7px; border-radius: 4px; }
+    .cs-cta {
+      width: 100%; padding: 11px; border-radius: 9px; border: none; cursor: pointer;
+      font-family: 'Be Vietnam Pro',sans-serif; font-size: 13px; font-weight: 700;
+      transition: all .22s; position: relative; z-index: 1;
+    }
+    .cs-cta-hot { background: var(--teal); color: var(--bg); }
+    .cs-cta-hot:hover { background: #00EEEE; box-shadow: 0 0 20px var(--teal-glow-strong); }
+    .cs-cta-normal { background: transparent; border: 1px solid var(--teal-dark); color: var(--teal); }
+    .cs-cta-normal:hover { background: var(--teal-glow); border-color: var(--teal); }
   </style>
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/morph.css?v=1">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <link rel="stylesheet" href="css/responsive.css?v=2">
   <link rel="stylesheet" href="css/sn-icons.css">
+  <link rel="stylesheet" href="css/book-3d.css?v=1">
 </head>
 <body>
 
@@ -536,12 +595,8 @@
         </div>
       </div>
       <!-- Thumbnails -->
-      <div class="gallery-thumbs">
-        <div class="g-thumb on" onclick="switchThumb(this,'','bc-1')" title="Bìa sách"></div>
-        <div class="g-thumb" onclick="switchThumb(this,'','bc-preview')" title="Trang mẫu"></div>
-        <div class="g-thumb" onclick="switchThumb(this,'','bc-toc')" title="Mục lục"></div>
-        <div class="g-thumb" onclick="switchThumb(this,'','bc-author')" title="Tác giả"></div>
-      </div>
+      <!-- Related product thumbnails -->
+      <div class="gallery-thumbs" id="related-thumbs"></div>
     </div>
 
     <!-- RIGHT: INFO -->
@@ -556,7 +611,7 @@
       <h1 class="p-title">Thức tỉnh nhận thức</h1>
 
       <div class="p-rating-row">
-        <span class="stars"><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i><i class="sn-star filled"></i></span>
+        <span class="stars"><i class="star-filled"></i><i class="star-filled"></i><i class="star-filled"></i><i class="star-filled"></i><i class="star-filled"></i></span>
         <span class="rating-num">4.9</span>
         <span class="rating-sep">·</span>
         <span class="rating-count">94 đánh giá</span>
@@ -744,16 +799,27 @@
   </div>
 </div>
 
+<!-- COMBO SUGGESTION -->
+<div class="combo-suggest" id="combo-suggest" style="display:none">
+  <div class="wrap">
+    <div class="combo-suggest-title">Mua combo — tiết kiệm hơn</div>
+    <div class="combo-suggest-sub">Sản phẩm này có trong các combo ưu đãi sau:</div>
+    <div class="combo-suggest-grid" id="combo-suggest-grid"></div>
+  </div>
+</div>
+
 <!-- RELATED PRODUCTS -->
 <div class="related-section">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="sec-title"><span class="sn-dot"></span> Có thể bạn cũng thích</h2>
+      <h2 class="sec-title">Có thể bạn cũng thích</h2>
       <a href="categories.html" class="sec-more">Xem tất cả <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a>
     </div>
     <div class="related-grid">
       <a href="product.html?slug=thuc-tinh-nhan-thuc" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(145deg,#1A0D2E,#2D0A4E);padding:0;overflow:hidden;"><img src="chuan/thuc_tinh_nhan_thuc.webp" alt="Thức tỉnh nhận thức" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent=''"></div>
+        <div class="r-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;">
+          <div class="book-3d book-3d--cat"><div class="book-3d__inner"><div class="book-3d__spine"></div><div class="book-3d__cover"><img src="chuan/thuc_tinh_nhan_thuc.webp" alt="Thức tỉnh nhận thức" loading="lazy" onerror="this.style.display='none'"><div class="book-3d__shine"></div></div></div><div class="book-3d__shadow"></div></div>
+        </div>
         <div class="r-body">
           <div class="r-cat">Nhận thức</div>
           <div class="r-name">Thức tỉnh nhận thức</div>
@@ -761,7 +827,9 @@
         </div>
       </a>
       <a href="product.html?slug=logic-nguoi-ngheo" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(145deg,#091A0D,#0D3318);padding:0;overflow:hidden;"><img src="chuan/logic_nguoi_ngheo.webp" alt="Logic người nghèo" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent=''"></div>
+        <div class="r-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;">
+          <div class="book-3d book-3d--cat"><div class="book-3d__inner"><div class="book-3d__spine"></div><div class="book-3d__cover"><img src="chuan/logic_nguoi_ngheo.webp" alt="Logic người nghèo" loading="lazy" onerror="this.style.display='none'"><div class="book-3d__shine"></div></div></div><div class="book-3d__shadow"></div></div>
+        </div>
         <div class="r-body">
           <div class="r-cat">Tư duy</div>
           <div class="r-name">Logic người nghèo</div>
@@ -769,7 +837,9 @@
         </div>
       </a>
       <a href="product.html?slug=muu-luoc-tai-chinh" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(145deg,#1F1A08,#3D2E0A);padding:0;overflow:hidden;"><img src="chuan/muu_luoc_tai_chinh.webp" alt="Mưu lược tài chính" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent=''"></div>
+        <div class="r-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;">
+          <div class="book-3d book-3d--cat"><div class="book-3d__inner"><div class="book-3d__spine"></div><div class="book-3d__cover"><img src="chuan/muu_luoc_tai_chinh.webp" alt="Mưu lược tài chính" loading="lazy" onerror="this.style.display='none'"><div class="book-3d__shine"></div></div></div><div class="book-3d__shadow"></div></div>
+        </div>
         <div class="r-body">
           <div class="r-cat">Tài chính</div>
           <div class="r-name">Mưu lược tài chính</div>
@@ -777,7 +847,9 @@
         </div>
       </a>
       <a href="product.html?slug=he-thong-manh-me" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(145deg,#0A1A1A,#0A2D2D);padding:0;overflow:hidden;"><img src="chuan/he_thong_manh_me.webp" alt="Hệ thống mạnh mẽ" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent=''"></div>
+        <div class="r-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;">
+          <div class="book-3d book-3d--cat"><div class="book-3d__inner"><div class="book-3d__spine"></div><div class="book-3d__cover"><img src="chuan/he_thong_manh_me.webp" alt="Hệ thống mạnh mẽ" loading="lazy" onerror="this.style.display='none'"><div class="book-3d__shine"></div></div></div><div class="book-3d__shadow"></div></div>
+        </div>
         <div class="r-body">
           <div class="r-cat">Hệ thống</div>
           <div class="r-name">Hệ thống mạnh mẽ</div>
@@ -1364,7 +1436,7 @@
     }
   });
 </script>
-<script src="js/cart-badge.js?v=5"></script>
+<script src="js/cart-badge.js?v=6"></script>
 <script type="module" src="js/firestore-sync.js"></script>
 
 <script type="module" src="/auth-ui.js"></script>
@@ -1407,27 +1479,34 @@
   const galleryMain = document.getElementById('gallery-main');
   const galleryBook = document.getElementById('gallery-book');
   if (product.imageUrl && galleryMain) {
-    // Replace book with real image
+    // Replace book with real image in 3D book mockup
     galleryBook.style.display = 'none';
-    // Hide glow overlay
     const galleryGlow = galleryMain.querySelector('.gallery-glow');
     if (galleryGlow) galleryGlow.style.display = 'none';
-    // Check if image element already exists
-    let imgEl = galleryMain.querySelector('.gallery-real-img');
-    if (!imgEl) {
-      imgEl = document.createElement('img');
-      imgEl.className = 'gallery-real-img';
-      imgEl.style.cssText = 'width:72%;max-height:85%;object-fit:contain;border-radius:8px 12px 12px 8px;position:relative;z-index:2;box-shadow:-6px 10px 40px rgba(0,0,0,.7), 6px 6px 0 0 rgba(0,212,212,.08);transition:transform .35s cubic-bezier(.34,1.56,.64,1);';
-      imgEl.loading = 'lazy';
-      galleryMain.insertBefore(imgEl, galleryMain.querySelector('.gallery-badge'));
-      galleryMain.addEventListener('mouseenter', () => imgEl.style.transform = 'rotate(-3deg) scale(1.04)');
-      galleryMain.addEventListener('mouseleave', () => imgEl.style.transform = '');
+    let book3dEl = galleryMain.querySelector('.book-3d--xl');
+    if (!book3dEl) {
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = `
+        <div class="book-3d book-3d--xl book-3d--float" style="position:relative;z-index:2;">
+          <div class="book-3d__inner">
+            <div class="book-3d__spine"></div>
+            <div class="book-3d__cover">
+              <img class="gallery-real-img" loading="lazy" onerror="this.style.display='none'">
+              <div class="book-3d__shine"></div>
+            </div>
+          </div>
+          <div class="book-3d__shadow"></div>
+        </div>`;
+      const b3d = wrapper.firstElementChild;
+      galleryMain.insertBefore(b3d, galleryMain.querySelector('.gallery-badge'));
+      book3dEl = b3d;
     }
+    const imgEl = book3dEl.querySelector('.gallery-real-img');
     imgEl.src = product.imageUrl;
     imgEl.alt = product.name;
-    imgEl.onerror = function() { 
-      this.style.display = 'none'; 
-      galleryBook.style.display = ''; 
+    imgEl.onerror = function() {
+      book3dEl.style.display = 'none';
+      galleryBook.style.display = '';
       if (galleryGlow) galleryGlow.style.display = '';
     };
   } else {
@@ -1491,7 +1570,139 @@
 
   // Dynamic related products
   renderRelatedProducts(product);
+  renderComboSuggestion(product);
+
+  // Render related thumbnails below main image
+  const thumbsGrid = document.getElementById('related-thumbs');
+  if (thumbsGrid) {
+    let allProds = [];
+    if (window.SonHaiData) {
+      try { allProds = await window.SonHaiData.getProducts(); } catch(e) {}
+    }
+    if (!allProds.length && window.SonHaiCartBadge) {
+      allProds = window.SonHaiCartBadge.getProducts() || [];
+    }
+    allProds = allProds.filter(p => p.status === 'published' && String(p.id) !== String(product.id));
+    const sameCat = allProds.filter(p => p.category === product.category);
+    const others = allProds.filter(p => p.category !== product.category);
+    const related = [...sameCat, ...others].slice(0, 4);
+    thumbsGrid.innerHTML = related.map(p => {
+      const img = p.imageUrl || (p.slug ? 'product/' + p.slug.replace(/-/g, '_') + '.webp' : '');
+      return `<a href="product.html?slug=${p.slug}" class="g-thumb" title="${p.name}" style="padding:0;overflow:hidden;">${img ? `<img src="${img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">` : p.emoji || ''}</a>`;
+    }).join('');
+  }
 })();
+
+async function renderComboSuggestion(product) {
+  const section = document.getElementById('combo-suggest');
+  const grid = document.getElementById('combo-suggest-grid');
+  if (!section || !grid) return;
+
+  // Wait for firestore-sync module to load
+  let retries = 0;
+  while (!window.SonHaiData && retries < 30) {
+    await new Promise(r => setTimeout(r, 200));
+    retries++;
+  }
+
+  let combos = [];
+  try {
+    if (window.SonHaiData) combos = await window.SonHaiData.getCombos();
+  } catch(e) { return; }
+
+  // Find combos that contain this product
+  const currentId = String(product.id);
+  const matchingCombos = combos.filter(c => {
+    const ids = (c.productIds || []).map(String);
+    return ids.includes(currentId);
+  });
+
+  if (matchingCombos.length === 0) { section.style.display = 'none'; return; }
+  section.style.display = '';
+
+  const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
+  let allProducts = [];
+  try {
+    if (window.SonHaiData) allProducts = await window.SonHaiData.getProducts();
+    else if (window.SonHaiCartBadge) allProducts = window.SonHaiCartBadge.getProducts();
+  } catch(e) {}
+
+  const bookBgs = [
+    'linear-gradient(145deg, #0D2137, #0A3B5C)',
+    'linear-gradient(145deg, #1A0D2E, #2D0A4E)',
+    'linear-gradient(145deg, #0D2820, #0A3D2E)',
+    'linear-gradient(145deg, #1F1A08, #3D2E0A)',
+    'linear-gradient(145deg, #1A0A0A, #3D0D0D)',
+  ];
+
+  grid.innerHTML = matchingCombos.map((combo, idx) => {
+    const origPrice = combo.originalPrice || 0;
+    const comboPrice = combo.comboPrice || 0;
+    const savings = origPrice - comboPrice;
+    const savePct = origPrice > 0 ? Math.round((savings / origPrice) * 100) : 0;
+    const productIds = combo.productIds || [];
+    const productNames = combo.productNames || [];
+    const isHot = combo.isHot || false;
+    const badgeText = combo.badgeText || `−${savePct}%`;
+
+    const emojisHtml = productIds.slice(0, 4).map((pid, i) => {
+      const prod = allProducts.find(p => String(p.id) === String(pid));
+      const emoji = prod ? (prod.emoji || prod.icon || '') : '';
+      const bg = bookBgs[i % bookBgs.length];
+      return `<div class="cs-emoji" style="background:${bg}">${emoji}</div>`;
+    }).join('');
+
+    const itemsHtml = productNames.map((name, i) => {
+      const isCurrent = String(productIds[i]) === currentId;
+      return `<div class="cs-item${isCurrent ? ' current' : ''}">${name}${isCurrent ? ' (đang xem)' : ''}</div>`;
+    }).join('');
+
+    return `
+      <div class="cs-card${isHot ? ' hot' : ''}" data-products="${productIds.join(',')}">
+        <div class="cs-badge">${badgeText}</div>
+        <div class="cs-header">
+          <div class="cs-emojis">${emojisHtml}</div>
+          <div class="cs-info">
+            <div class="cs-tag">${combo.tag || 'Bộ sưu tập · ' + productIds.length + ' cuốn'}</div>
+            <div class="cs-name">${combo.name || 'Combo'}</div>
+          </div>
+        </div>
+        <div class="cs-items">${itemsHtml}</div>
+        <div class="cs-pricing">
+          <span class="cs-orig">Mua lẻ: ${fmt(origPrice)}</span>
+          <span class="cs-price">${fmt(comboPrice)}</span>
+          <span class="cs-save">Tiết kiệm ${fmt(savings)}</span>
+        </div>
+        <button class="cs-cta ${isHot ? 'cs-cta-hot' : 'cs-cta-normal'}" onclick="buyComboProduct(this)">Mua combo ngay — ${fmt(comboPrice)}</button>
+      </div>`;
+  }).join('');
+}
+
+async function buyComboProduct(btn) {
+  const card = btn.closest('.cs-card');
+  const idsRaw = card.dataset.products;
+  if (!idsRaw) return;
+  const ids = idsRaw.split(',');
+  const origText = btn.textContent;
+  btn.textContent = 'Đang thêm...';
+  btn.disabled = true;
+  try {
+    if (window.SonHaiCartBadge) {
+      for (const productId of ids) {
+        const pid = isNaN(productId) ? productId : parseInt(productId);
+        await window.SonHaiCartBadge.addProduct(pid, 1);
+      }
+    }
+    btn.textContent = 'Đã thêm combo vào giỏ';
+    showToast('Đã thêm combo vào giỏ hàng');
+  } catch (err) {
+    btn.textContent = 'Lỗi!';
+  }
+  setTimeout(() => {
+    btn.textContent = origText;
+    btn.disabled = false;
+  }, 2000);
+}
 
 function renderAIDAContent(product) {
   const el = document.getElementById('desc-content-dynamic');
@@ -1536,7 +1747,7 @@ function renderTOCContent(product) {
   if (countEl) countEl.textContent = toc.length + ' phần';
 
   let html = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-    <div style="font-size:13.5px;color:var(--text-2);">${product.pages || 250} trang · ${toc.length} phần</div>
+    <div style="font-size:13.5px;color:var(--text-2);">${toc.length} phần</div>
     <div style="font-size:12px;color:var(--teal);cursor:pointer;" onclick="openPreviewModal()">Xem trước miễn phí  - </div>
   </div>`;
 
@@ -1588,6 +1799,12 @@ async function renderRelatedProducts(currentProduct) {
 <script src="js/morph-engine.js?v=1"></script>
 <script src="js/parallax-engine.js?v=grid-particles-2"></script>
 <script src="js/mobile-menu.js?v=1"></script>
+<!-- Floating Contact Buttons -->
+<div style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:12px;">
+  <a href="https://t.me/sonnhai" target="_blank" rel="noopener" title="Telegram" style="width:48px;height:48px;border-radius:50%;background:#2AABEE;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(42,171,238,.4);transition:transform .2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+  </a>
+</div>
 </body>
 </html>
 

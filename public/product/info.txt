@@ -1,0 +1,23 @@
+Tên trang web: Thư viện Sơn Nhai
+Danh sách sản phẩm:
+1. Tuyệt mật nhân tính = 99.000đ
+2. Thức tỉnh nhận thức = 129.000đ
+3. Logic người nghèo = 129.000đ
+4. Hệ thống mạnh mẽ= 129.000đ
+5. Mưu lược tài chính= 179.000đ
+6. Tư duy sâu sắc= 129.000đ
+7. Tư duy cường giả= 129.000đ
+8. Tình cảm bí tịch= 129.000đ
+9. Xuyên thấu nhân tính= 129.000đ
+10. Nhân tính đen trắng= 129.000đ
+11. Thương chiến - Bí thuật làm chủ trận địa tiền bạc= 179.000đ
+12. Mưu lược tuổi trẻ= 129.000đ
+13. Góc nhìn tạo lập - Luật ngầm= 179.000đ
+14. Bản chất tài chính= 179.000đ
+15. Ẩn chứa huyền cơ= 129.000đ
+
+combo nhân tính: 1+8+9+10=299.000đ
+combo tư duy: 2+3+4+6+7+12= 399.000đ
+combo tài chính: 5+11+13+14+15=399.000đ
+
+

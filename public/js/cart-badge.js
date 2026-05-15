@@ -4,24 +4,24 @@
   var CART_KEY = 'sonhai_cart_items';
   var PRODUCTS_KEY = 'sonhai_products';
   var PRODUCTS_VERSION_KEY = 'sonhai_products_version';
-  var CURRENT_VERSION = 6; // v6: correct individual pricing per info.txt + combos
+  var CURRENT_VERSION = 7; // v7: 3 categories moi + addCombo support
 
   var defaultProducts = [
-    { id: 1, slug: 'tuyet-mat-nhan-tinh', name: 'Tuyệt mật nhân tính', category: 'Nhân tính học', price: 99000, original_price: 199000, emoji: '', coverGradient: 'linear-gradient(145deg, #1a0a2e, #2d1b4e)', imageUrl: 'chuan/tuyet_mat_nhan_tinh.webp', description: 'Khám phá những bí mật ẩn giấu sâu thẳm trong bản chất con người, giúp bạn hiểu rõ động cơ và hành vi của mọi người xung quanh.', rating: 4.9, sold_count: 512, status: 'published', pages: 280, format: 'PDF' },
-    { id: 2, slug: 'thuc-tinh-nhan-thuc', name: 'Thức tỉnh nhận thức', category: 'Phát triển bản thân', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #0A1A2E, #0D2845)', imageUrl: 'chuan/thuc_tinh_nhan_thuc.webp', description: 'Hành trình thức tỉnh tư duy, phá vỡ những niềm tin giới hạn và xây dựng nhận thức mới để thay đổi cuộc sống.', rating: 4.8, sold_count: 345, status: 'published', pages: 320, format: 'PDF' },
-    { id: 3, slug: 'logic-nguoi-ngheo', name: 'Logic người nghèo', category: 'Tài chính', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #2E1A0A, #4E3B1B)', imageUrl: 'chuan/logic_nguoi_ngheo.webp', description: 'Phân tích sâu sắc những kiểu tư duy khiến người ta mãi nghèo và cách thay đổi mindset để xây dựng tài chính vững mạnh.', rating: 4.6, sold_count: 890, status: 'published', pages: 260, format: 'PDF' },
-    { id: 4, slug: 'he-thong-manh-me', name: 'Hệ thống mạnh mẽ', category: 'Phát triển bản thân', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #0A2E1A, #1B4E2D)', imageUrl: 'chuan/he_thong_manh_me.webp', description: 'Xây dựng hệ thống tư duy và hành động mạnh mẽ, giúp bạn đạt được mục tiêu một cách bền vững và hiệu quả.', rating: 4.9, sold_count: 210, status: 'published', pages: 300, format: 'PDF' },
-    { id: 5, slug: 'muu-luoc-tai-chinh', name: 'Mưu lược tài chính', category: 'Tài chính', price: 179000, original_price: 299000, emoji: '', coverGradient: 'linear-gradient(145deg, #0A1A2E, #1B2D4E)', imageUrl: 'chuan/muu_luoc_tai_chinh.webp', description: 'Chiến lược quản lý tài chính thông minh, từ tiết kiệm đến đầu tư, giúp bạn làm chủ tiền bạc và xây dựng tương lai tài chính.', rating: 4.7, sold_count: 430, status: 'published', pages: 290, format: 'PDF' },
-    { id: 6, slug: 'tu-duy-sau-sac', name: 'Tư duy sâu sắc', category: 'Phát triển bản thân', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #1A0A2E, #2D1B4E)', imageUrl: 'chuan/tu_duy_sau_sac.webp', description: 'Rèn luyện khả năng tư duy phản biện và phân tích sâu sắc, giúp bạn nhìn nhận vấn đề từ nhiều góc độ khác nhau.', rating: 5.0, sold_count: 150, status: 'published', pages: 310, format: 'PDF' },
-    { id: 7, slug: 'tu-duy-cuong-gia', name: 'Tư duy cường giả', category: 'Phát triển bản thân', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #2E0A0A, #4E1B1B)', imageUrl: 'chuan/tu_duy_cuong_gia.webp', description: 'Phát triển tư duy của người mạnh mẽ, học cách đối mặt với thử thách và biến khó khăn thành cơ hội.', rating: 4.8, sold_count: 620, status: 'published', pages: 275, format: 'PDF' },
-    { id: 8, slug: 'tinh-cam-bi-tich', name: 'Tình cảm bí tịch', category: 'Nhân tính học', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #2E0A1A, #4E1B2D)', imageUrl: 'chuan/tinh_cam_bi_tich.webp', description: 'Giải mã những bí ẩn trong tình cảm và các mối quan hệ, giúp bạn hiểu và xử lý cảm xúc thông minh hơn.', rating: 4.7, sold_count: 180, status: 'published', pages: 265, format: 'PDF' },
-    { id: 9, slug: 'xuyen-thau-nhan-tinh', name: 'Xuyên thấu nhân tính', category: 'Nhân tính học', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #0A2E2E, #1B4E4E)', imageUrl: 'chuan/xuyen_thau_nhan_tinh.webp', description: 'Nhìn thấu bản chất con người qua hành vi và lời nói, giúp bạn đọc vị đối phương và ứng xử phù hợp.', rating: 4.9, sold_count: 320, status: 'published', pages: 295, format: 'PDF' },
-    { id: 10, slug: 'nhan-tinh-den-trang', name: 'Nhân tính đen trắng', category: 'Nhân tính học', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #1A1A2E, #2D2D4E)', imageUrl: 'chuan/nhan_tinh_den_trang.webp', description: 'Phân tích hai mặt sáng tối của nhân tính, giúp bạn nhận diện bản chất thực sự đằng sau mỗi con người.', rating: 4.8, sold_count: 275, status: 'published', pages: 285, format: 'PDF' },
-    { id: 11, slug: 'thuong-chien', name: 'Thương chiến - Bí thuật làm chủ trận địa tiền bạc', category: 'Tài chính', price: 179000, original_price: 299000, emoji: '', coverGradient: 'linear-gradient(145deg, #2E1A0A, #4E2D1B)', imageUrl: 'chuan/thuong_chien.webp', description: 'Bí kíp chiến thắng trên thương trường, nắm vững nghệ thuật đàm phán và làm chủ cuộc chơi tài chính.', rating: 4.8, sold_count: 280, status: 'published', pages: 330, format: 'PDF' },
-    { id: 12, slug: 'muu-luoc-tuoi-tre', name: 'Mưu lược tuổi trẻ', category: 'Phát triển bản thân', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #0A1A2E, #1B3D4E)', imageUrl: 'chuan/muu_luoc_tuoir_tre.webp', description: 'Chiến lược xây dựng sự nghiệp và cuộc sống dành riêng cho tuổi trẻ, giúp bạn tận dụng tối đa thời gian vàng.', rating: 4.9, sold_count: 420, status: 'published', pages: 270, format: 'PDF' },
-    { id: 13, slug: 'goc-nhin-tao-lap', name: 'Góc nhìn tạo lập - Luật ngầm', category: 'Nhân tính học', price: 179000, original_price: 299000, emoji: '', coverGradient: 'linear-gradient(145deg, #1A2E0A, #2D4E1B)', imageUrl: 'chuan/goc_nhin_tao_lap.webp', description: 'Khám phá những luật ngầm chi phối xã hội và cách tạo lập góc nhìn chiến lược để thành công.', rating: 4.6, sold_count: 165, status: 'published', pages: 305, format: 'PDF' },
-    { id: 14, slug: 'ban-chat-tai-chinh', name: 'Bản chất tài chính', category: 'Tài chính', price: 179000, original_price: 299000, emoji: '', coverGradient: 'linear-gradient(145deg, #2E2E0A, #4E4E1B)', imageUrl: 'chuan/ban_chat_tai_chinh.webp', description: 'Hiểu bản chất thực sự của tiền bạc và hệ thống tài chính, xây dựng nền tảng kiến thức vững chắc để quản lý tài sản.', rating: 4.8, sold_count: 310, status: 'published', pages: 315, format: 'PDF' },
-    { id: 15, slug: 'an-chua-huyen-co', name: 'Ẩn chứa huyền cơ', category: 'Nhân tính học', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #0A0A2E, #1B1B4E)', imageUrl: 'chuan/an_chua_huyen_co.webp', description: 'Khám phá những bí ẩn ẩn giấu trong cuộc sống và con người, giải mã những quy luật ngầm chi phối mọi sự việc.', rating: 4.7, sold_count: 195, status: 'published', pages: 290, format: 'PDF' }
+    { id: 1, slug: 'tuyet-mat-nhan-tinh', name: 'Tuyệt mật nhân tính', category: 'Thấu hiểu nhân tính', price: 99000, original_price: 199000, emoji: '', coverGradient: 'linear-gradient(145deg, #1a0a2e, #2d1b4e)', imageUrl: 'chuan/tuyet_mat_nhan_tinh.webp', description: 'Khám phá những bí mật ẩn giấu sâu thẳm trong bản chất con người, giúp bạn hiểu rõ động cơ và hành vi của mọi người xung quanh.', rating: 4.9, sold_count: 512, status: 'published', pages: 280, format: 'PDF' },
+    { id: 2, slug: 'thuc-tinh-nhan-thuc', name: 'Thức tỉnh nhận thức', category: 'Thay đổi tư duy', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #0A1A2E, #0D2845)', imageUrl: 'chuan/thuc_tinh_nhan_thuc.webp', description: 'Hành trình thức tỉnh tư duy, phá vỡ những niềm tin giới hạn và xây dựng nhận thức mới để thay đổi cuộc sống.', rating: 4.8, sold_count: 345, status: 'published', pages: 320, format: 'PDF' },
+    { id: 3, slug: 'logic-nguoi-ngheo', name: 'Logic người nghèo', category: 'Thay đổi tư duy', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #2E1A0A, #4E3B1B)', imageUrl: 'chuan/logic_nguoi_ngheo.webp', description: 'Phân tích sâu sắc những kiểu tư duy khiến người ta mãi nghèo và cách thay đổi mindset để xây dựng tài chính vững mạnh.', rating: 4.6, sold_count: 890, status: 'published', pages: 260, format: 'PDF' },
+    { id: 4, slug: 'he-thong-manh-me', name: 'Hệ thống mạnh mẽ', category: 'Thay đổi tư duy', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #0A2E1A, #1B4E2D)', imageUrl: 'chuan/he_thong_manh_me.webp', description: 'Xây dựng hệ thống tư duy và hành động mạnh mẽ, giúp bạn đạt được mục tiêu một cách bền vững và hiệu quả.', rating: 4.9, sold_count: 210, status: 'published', pages: 300, format: 'PDF' },
+    { id: 5, slug: 'muu-luoc-tai-chinh', name: 'Mưu lược tài chính', category: 'Làm chủ tài chính', price: 179000, original_price: 299000, emoji: '', coverGradient: 'linear-gradient(145deg, #0A1A2E, #1B2D4E)', imageUrl: 'chuan/muu_luoc_tai_chinh.webp', description: 'Chiến lược quản lý tài chính thông minh, từ tiết kiệm đến đầu tư, giúp bạn làm chủ tiền bạc và xây dựng tương lai tài chính.', rating: 4.7, sold_count: 430, status: 'published', pages: 290, format: 'PDF' },
+    { id: 6, slug: 'tu-duy-sau-sac', name: 'Tư duy sâu sắc', category: 'Thay đổi tư duy', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #1A0A2E, #2D1B4E)', imageUrl: 'chuan/tu_duy_sau_sac.webp', description: 'Rèn luyện khả năng tư duy phản biện và phân tích sâu sắc, giúp bạn nhìn nhận vấn đề từ nhiều góc độ khác nhau.', rating: 5.0, sold_count: 150, status: 'published', pages: 310, format: 'PDF' },
+    { id: 7, slug: 'tu-duy-cuong-gia', name: 'Tư duy cường giả', category: 'Thay đổi tư duy', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #2E0A0A, #4E1B1B)', imageUrl: 'chuan/tu_duy_cuong_gia.webp', description: 'Phát triển tư duy của người mạnh mẽ, học cách đối mặt với thử thách và biến khó khăn thành cơ hội.', rating: 4.8, sold_count: 620, status: 'published', pages: 275, format: 'PDF' },
+    { id: 8, slug: 'tinh-cam-bi-tich', name: 'Tình cảm bí tịch', category: 'Thấu hiểu nhân tính', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #2E0A1A, #4E1B2D)', imageUrl: 'chuan/tinh_cam_bi_tich.webp', description: 'Giải mã những bí ẩn trong tình cảm và các mối quan hệ, giúp bạn hiểu và xử lý cảm xúc thông minh hơn.', rating: 4.7, sold_count: 180, status: 'published', pages: 265, format: 'PDF' },
+    { id: 9, slug: 'xuyen-thau-nhan-tinh', name: 'Xuyên thấu nhân tính', category: 'Thấu hiểu nhân tính', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #0A2E2E, #1B4E4E)', imageUrl: 'chuan/xuyen_thau_nhan_tinh.webp', description: 'Nhìn thấu bản chất con người qua hành vi và lời nói, giúp bạn đọc vị đối phương và ứng xử phù hợp.', rating: 4.9, sold_count: 320, status: 'published', pages: 295, format: 'PDF' },
+    { id: 10, slug: 'nhan-tinh-den-trang', name: 'Nhân tính đen trắng', category: 'Thấu hiểu nhân tính', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #1A1A2E, #2D2D4E)', imageUrl: 'chuan/nhan_tinh_den_trang.webp', description: 'Phân tích hai mặt sáng tối của nhân tính, giúp bạn nhận diện bản chất thực sự đằng sau mỗi con người.', rating: 4.8, sold_count: 275, status: 'published', pages: 285, format: 'PDF' },
+    { id: 11, slug: 'thuong-chien', name: 'Thương chiến - Bí thuật làm chủ trận địa tiền bạc', category: 'Làm chủ tài chính', price: 179000, original_price: 299000, emoji: '', coverGradient: 'linear-gradient(145deg, #2E1A0A, #4E2D1B)', imageUrl: 'chuan/thuong_chien.webp', description: 'Bí kíp chiến thắng trên thương trường, nắm vững nghệ thuật đàm phán và làm chủ cuộc chơi tài chính.', rating: 4.8, sold_count: 280, status: 'published', pages: 330, format: 'PDF' },
+    { id: 12, slug: 'muu-luoc-tuoi-tre', name: 'Mưu lược tuổi trẻ', category: 'Thay đổi tư duy', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #0A1A2E, #1B3D4E)', imageUrl: 'chuan/muu_luoc_tuoir_tre.webp', description: 'Chiến lược xây dựng sự nghiệp và cuộc sống dành riêng cho tuổi trẻ, giúp bạn tận dụng tối đa thời gian vàng.', rating: 4.9, sold_count: 420, status: 'published', pages: 270, format: 'PDF' },
+    { id: 13, slug: 'goc-nhin-tao-lap', name: 'Góc nhìn tạo lập - Luật ngầm', category: 'Thấu hiểu nhân tính', price: 179000, original_price: 299000, emoji: '', coverGradient: 'linear-gradient(145deg, #1A2E0A, #2D4E1B)', imageUrl: 'chuan/goc_nhin_tao_lap.webp', description: 'Khám phá những luật ngầm chi phối xã hội và cách tạo lập góc nhìn chiến lược để thành công.', rating: 4.6, sold_count: 165, status: 'published', pages: 305, format: 'PDF' },
+    { id: 14, slug: 'ban-chat-tai-chinh', name: 'Bản chất tài chính', category: 'Làm chủ tài chính', price: 179000, original_price: 299000, emoji: '', coverGradient: 'linear-gradient(145deg, #2E2E0A, #4E4E1B)', imageUrl: 'chuan/ban_chat_tai_chinh.webp', description: 'Hiểu bản chất thực sự của tiền bạc và hệ thống tài chính, xây dựng nền tảng kiến thức vững chắc để quản lý tài sản.', rating: 4.8, sold_count: 310, status: 'published', pages: 315, format: 'PDF' },
+    { id: 15, slug: 'an-chua-huyen-co', name: 'Ẩn chứa huyền cơ', category: 'Thấu hiểu nhân tính', price: 129000, original_price: 249000, emoji: '', coverGradient: 'linear-gradient(145deg, #0A0A2E, #1B1B4E)', imageUrl: 'chuan/an_chua_huyen_co.webp', description: 'Khám phá những bí ẩn ẩn giấu trong cuộc sống và con người, giải mã những quy luật ngầm chi phối mọi sự việc.', rating: 4.7, sold_count: 195, status: 'published', pages: 290, format: 'PDF' }
   ];
 
   /**
@@ -206,9 +206,50 @@
     saveCart(cart);
   }
 
+  function addCombo(comboData) {
+    var cart = getCart();
+    var comboId = 'combo-' + (comboData.id || Date.now());
+    var existing = cart.find(function(item) { return String(item.id) === comboId; });
+    if (existing) {
+      existing.quantity = (existing.quantity || 1) + 1;
+    } else {
+      var slugs = comboData.productSlugs || [];
+      // Fallback: resolve slugs from products if empty
+      if (slugs.length === 0 || slugs.every(function(s) { return !s; })) {
+        var products = getProducts();
+        var ids = comboData.productIds || [];
+        slugs = ids.map(function(pid) {
+          var p = products.find(function(pr) { return String(pr.id) === String(pid); });
+          return p ? p.slug : '';
+        });
+      }
+      var firstSlug = slugs.find(function(s) { return !!s; }) || '';
+      var comboImg = firstSlug ? 'product/' + firstSlug.replace(/-/g, '_') + '.webp' : '';
+      cart.push({
+        id: comboId,
+        productId: comboId,
+        name: comboData.name || 'Combo',
+        price: comboData.comboPrice || 0,
+        quantity: 1,
+        emoji: '',
+        bg: 'linear-gradient(145deg, #0a2e2e, #1b4e4e)',
+        category: 'Combo',
+        imageUrl: comboImg,
+        isCombo: true,
+        comboProductIds: comboData.productIds || [],
+        comboProductNames: comboData.productNames || [],
+        comboProductSlugs: slugs
+      });
+    }
+    saveCart(cart);
+    var count = cart.reduce(function(sum, item) { return sum + (item.quantity || 1); }, 0);
+    return { success: true, data: { itemCount: count } };
+  }
+
   window.SonHaiCartBadge = {
     setCount: paintBadge,
     addProduct: addProduct,
+    addCombo: addCombo,
     removeProduct: removeProduct,
     refresh: refreshBadge,
     getCart: getCart,

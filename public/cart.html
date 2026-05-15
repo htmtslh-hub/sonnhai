@@ -6,6 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Giỏ hàng - Thư viện Sơn Nhai</title>
   <meta name="robots" content="noindex, nofollow">
+  <!-- Facebook Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','438100172987941');fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=438100172987941&ev=PageView&noscript=1"/></noscript>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -264,12 +270,50 @@
       .item-right { flex-direction: row; align-items: center; gap: 10px; width: 100%; }
       .upsell-grid { grid-template-columns: 1fr 1fr; }
     }
+
+    /*  COMBO UPSELL  */
+    .combo-upsell { padding: 28px 0 0; display: none; }
+    .combo-upsell-title {
+      font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 13px; font-weight: 800;
+      letter-spacing: 1px; text-transform: uppercase; color: var(--teal); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .combo-upsell-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .cu-grid { display: flex; flex-direction: column; gap: 12px; }
+    .cu-card {
+      background: var(--bg-2); border: 1px solid var(--border); border-radius: 14px;
+      padding: 18px 20px; display: flex; align-items: center; gap: 16px;
+      transition: all .25s; position: relative; overflow: hidden;
+    }
+    .cu-card:hover { border-color: var(--teal-dark); box-shadow: 0 8px 28px rgba(0,0,0,.35), 0 0 16px rgba(0,212,212,.06); }
+    .cu-card.hot { border-color: rgba(0,212,212,.2); }
+    .cu-card.hot::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,212,212,.03) 0%, transparent 60%); pointer-events: none; }
+    .cu-emojis { display: flex; gap: 2px; flex-shrink: 0; position: relative; z-index: 1; }
+    .cu-emoji {
+      width: 36px; height: 36px; border-radius: 7px; display: flex; align-items: center;
+      justify-content: center; font-size: 16px; border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 3px 10px rgba(0,0,0,.4);
+    }
+    .cu-body { flex: 1; min-width: 0; position: relative; z-index: 1; }
+    .cu-name { font-family: 'Exo 2','Be Vietnam Pro',sans-serif; font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 3px; }
+    .cu-desc { font-size: 11.5px; color: var(--text-3); }
+    .cu-desc strong { color: var(--warn); }
+    .cu-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; position: relative; z-index: 1; }
+    .cu-price { font-family: 'Exo 2',sans-serif; font-size: 17px; font-weight: 900; color: var(--teal); }
+    .cu-orig { font-size: 11px; color: var(--text-3); text-decoration: line-through; }
+    .cu-cta {
+      font-size: 11px; font-weight: 700; color: var(--bg); background: var(--teal);
+      border: none; border-radius: 6px; padding: 6px 14px; cursor: pointer;
+      font-family: 'Be Vietnam Pro',sans-serif; transition: all .22s; white-space: nowrap;
+    }
+    .cu-cta:hover { background: #00EEEE; box-shadow: 0 0 16px var(--teal-glow-strong); }
   </style>
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/morph.css?v=1">
   <link rel="stylesheet" href="css/parallax-animations.css">
   <link rel="stylesheet" href="css/responsive.css?v=2">
   <link rel="stylesheet" href="css/sn-icons.css">
+  <link rel="stylesheet" href="css/book-3d.css?v=1">
 </head>
 <body>
 
@@ -342,6 +386,12 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
         Tiếp tục mua sắm
       </a>
+
+      <!-- COMBO UPSELL SUGGESTION -->
+      <div class="combo-upsell" id="combo-upsell">
+        <div class="combo-upsell-title">Nâng cấp lên combo — tiết kiệm hơn</div>
+        <div class="cu-grid" id="combo-upsell-grid"></div>
+      </div>
 
       <!-- Saved for later -->
       <div class="saved-section" id="saved-section" style="display:none;">
@@ -436,7 +486,7 @@
     <div class="upsell-grid">
 
       <div class="u-card">
-        <div class="u-thumb" style="background:linear-gradient(145deg,#1A0D2E,#2D0A4E);padding:0;overflow:hidden;"><img src="chuan/thuc_tinh_nhan_thuc.webp" alt="Thức tỉnh nhận thức" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='<span class="sn-dot"></span>'"></div>
+        <div class="u-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;"><div class="book-3d book-3d--cat"><div class="book-3d__inner"><div class="book-3d__spine"></div><div class="book-3d__cover"><img src="chuan/thuc_tinh_nhan_thuc.webp" alt="Thức tỉnh nhận thức" loading="lazy" onerror="this.style.display='none'"><div class="book-3d__shine"></div></div></div><div class="book-3d__shadow"></div></div></div>
         <div class="u-body">
           <div class="u-cat">Tư duy</div>
           <div class="u-name">Thức tỉnh nhận thức</div>
@@ -448,7 +498,7 @@
       </div>
 
       <div class="u-card">
-        <div class="u-thumb" style="background:linear-gradient(145deg,#1F1A08,#3D2E0A);padding:0;overflow:hidden;"><img src="chuan/he_thong_manh_me.webp" alt="Hệ thống mạnh mẽ" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent=''"></div>
+        <div class="u-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;"><div class="book-3d book-3d--cat"><div class="book-3d__inner"><div class="book-3d__spine"></div><div class="book-3d__cover"><img src="chuan/he_thong_manh_me.webp" alt="Hệ thống mạnh mẽ" loading="lazy" onerror="this.style.display='none'"><div class="book-3d__shine"></div></div></div><div class="book-3d__shadow"></div></div></div>
         <div class="u-body">
           <div class="u-cat">Hệ thống</div>
           <div class="u-name">Hệ thống mạnh mẽ</div>
@@ -460,7 +510,7 @@
       </div>
 
       <div class="u-card">
-        <div class="u-thumb" style="background:linear-gradient(145deg,#0A1A2E,#0D2845);padding:0;overflow:hidden;"><img src="chuan/tu_duy_sau_sac.webp" alt="Tư duy sâu sắc" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='<span class="sn-dot"></span>'"></div>
+        <div class="u-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;"><div class="book-3d book-3d--cat"><div class="book-3d__inner"><div class="book-3d__spine"></div><div class="book-3d__cover"><img src="chuan/tu_duy_sau_sac.webp" alt="Tư duy sâu sắc" loading="lazy" onerror="this.style.display='none'"><div class="book-3d__shine"></div></div></div><div class="book-3d__shadow"></div></div></div>
         <div class="u-body">
           <div class="u-cat">Tư duy</div>
           <div class="u-name">Tư duy sâu sắc</div>
@@ -472,7 +522,7 @@
       </div>
 
       <div class="u-card">
-        <div class="u-thumb" style="background:linear-gradient(145deg,#1A0F2E,#2D1A4E);padding:0;overflow:hidden;"><img src="chuan/tinh_cam_bi_tich.webp" alt="Tình cảm bí tịch" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent=''"></div>
+        <div class="u-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;"><div class="book-3d book-3d--cat"><div class="book-3d__inner"><div class="book-3d__spine"></div><div class="book-3d__cover"><img src="chuan/tinh_cam_bi_tich.webp" alt="Tình cảm bí tịch" loading="lazy" onerror="this.style.display='none'"><div class="book-3d__shine"></div></div></div><div class="book-3d__shadow"></div></div></div>
         <div class="u-body">
           <div class="u-cat">Tình cảm</div>
           <div class="u-name">Tình cảm bí tịch</div>
@@ -534,7 +584,7 @@
   </div>
 </footer>
 
-<script src="js/cart-badge.js?v=5"></script>
+<script src="js/cart-badge.js?v=6"></script>
 <script>
   //  State 
   const PRICES = {};
@@ -726,12 +776,14 @@
     const id = item.id || item.productId;
     const name = item.name || item.product?.name || 'Sản phẩm';
     const price = item.price || item.product?.price || 0;
-    const emoji = item.emoji || item.product?.emoji || '=';
+    const emoji = item.isCombo ? '' : (item.emoji || item.product?.emoji || '');
     const bg = item.bg || item.product?.coverGradient || 'linear-gradient(145deg,#0D1018,#161B27)';
-    const cat = item.category || item.product?.category || 'Sản phẩm số';
+    const cat = item.isCombo ? 'Combo' : (item.category || item.product?.category || 'Sản phẩm số');
     const pages = item.pages || item.product?.pages || '';
     const size = item.fileSize || item.product?.fileSize || '';
-    const imgUrl = item.product?.imageUrl || item.imageUrl || '';
+    const imgUrl = item.isCombo
+      ? (item.imageUrl || (item.comboProductSlugs && item.comboProductSlugs[0] ? 'product/' + item.comboProductSlugs[0].replace(/-/g, '_') + '.webp' : ''))
+      : (item.product?.imageUrl || item.imageUrl || '');
 
     PRICES[id] = price;
     activeItems.add(id);
@@ -741,26 +793,33 @@
     const row = document.createElement('div');
     row.className = 'cart-item';
     row.id = 'item-' + id;
-    
+
     let thumbHtml;
     if (imgUrl) {
-      thumbHtml = `<div class="item-thumb" style="background:${bg};padding:0;overflow:hidden;"><img src="${imgUrl}" alt="${name}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${emoji}'"></div>`;
+      thumbHtml = `<div class="item-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;border:none;"><div class="book-3d book-3d--sm"><div class="book-3d__inner"><div class="book-3d__spine"></div><div class="book-3d__cover"><img src="${imgUrl}" alt="${name}" loading="lazy" onerror="this.style.display='none'"><div class="book-3d__shine"></div></div></div></div></div>`;
     } else {
       thumbHtml = `<div class="item-thumb" style="background:${bg};">${emoji}</div>`;
     }
-    row.innerHTML = `
-      ${thumbHtml}
-      <div class="item-info">
-        <div class="item-cat">${cat}</div>
-        <div class="item-name">${name}</div>
-        <div class="item-meta">
+
+    let metaHtml = '';
+    if (item.isCombo && item.comboProductNames && item.comboProductNames.length > 0) {
+      metaHtml = `<div class="item-meta" style="flex-direction:column;align-items:flex-start;gap:2px;">${item.comboProductNames.map(n => `<span style="font-size:11px;color:var(--text-2);">${n}</span>`).join('')}</div>`;
+    } else {
+      metaHtml = `<div class="item-meta">
           <span class="item-tag">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
             PDF
           </span>
           ${pages ? `<span class="item-tag">${pages} trang</span>` : ''}
           ${size ? `<span class="item-tag">${size}</span>` : ''}
-        </div>
+        </div>`;
+    }
+    row.innerHTML = `
+      ${thumbHtml}
+      <div class="item-info">
+        <div class="item-cat">${cat}</div>
+        <div class="item-name">${name}</div>
+        ${metaHtml}
         <div class="item-actions">
           <button class="item-action-btn remove" onclick="removeItemApi('${id}')">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14a2,2,0,0,1-2,2H8a2,2,0,0,1-2-2L5,6"/><path d="M10,11v6M14,11v6"/></svg>
@@ -817,9 +876,13 @@
         const allProducts = window.SonHaiCartBadge.getProducts();
         if (cart && cart.length > 0) {
           cart.forEach(item => {
-            const product = allProducts.find(p => String(p.id) === String(item.id) || String(p.id) === String(item.productId));
-            if (product || item.name) {
-              renderItemRow({ ...item, product: product || item });
+            if (item.isCombo) {
+              renderItemRow(item);
+            } else {
+              const product = allProducts.find(p => String(p.id) === String(item.id) || String(p.id) === String(item.productId));
+              if (product || item.name) {
+                renderItemRow({ ...item, product: product || item });
+              }
             }
           });
         }
@@ -832,12 +895,129 @@
 
   //  Init 
   updateSummary();
-  loadCart();
+  loadCart().then(() => renderComboUpsell());
+
+  // Combo upsell
+  async function renderComboUpsell() {
+    const section = document.getElementById('combo-upsell');
+    const grid = document.getElementById('combo-upsell-grid');
+    if (!section || !grid) return;
+
+    // Wait for firestore-sync to load
+    let retries = 0;
+    while (!window.SonHaiData && retries < 30) {
+      await new Promise(r => setTimeout(r, 200));
+      retries++;
+    }
+    if (!window.SonHaiData) return;
+
+    let combos = [];
+    try { combos = await window.SonHaiData.getCombos(); } catch(e) { return; }
+    if (!combos || combos.length === 0) return;
+
+    const cartIds = new Set([...activeItems].map(String));
+    if (cartIds.size === 0) { section.style.display = 'none'; return; }
+
+    const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
+    let allProducts = window.SonHaiCartBadge ? window.SonHaiCartBadge.getProducts() || [] : [];
+
+    const bookBgs = [
+      'linear-gradient(145deg, #0D2137, #0A3B5C)',
+      'linear-gradient(145deg, #1A0D2E, #2D0A4E)',
+      'linear-gradient(145deg, #0D2820, #0A3D2E)',
+    ];
+
+    // Find combos where at least 1 cart item is included (but not ALL items already in cart)
+    const matchingCombos = combos.filter(c => {
+      const comboIds = (c.productIds || []).map(String);
+      const overlap = comboIds.filter(id => cartIds.has(id));
+      return overlap.length > 0 && overlap.length < comboIds.length;
+    });
+
+    if (matchingCombos.length === 0) { section.style.display = 'none'; return; }
+    section.style.display = 'block';
+
+    grid.innerHTML = matchingCombos.map(combo => {
+      const origPrice = combo.originalPrice || 0;
+      const comboPrice = combo.comboPrice || 0;
+      const savings = origPrice - comboPrice;
+      const productIds = combo.productIds || [];
+      const isHot = combo.isHot || false;
+      const inCart = productIds.filter(id => cartIds.has(String(id))).length;
+      const missing = productIds.length - inCart;
+
+      const emojisHtml = productIds.slice(0, 4).map((pid, i) => {
+        const prod = allProducts.find(p => String(p.id) === String(pid));
+        const emoji = prod ? (prod.emoji || prod.icon || '') : '';
+        const bg = bookBgs[i % bookBgs.length];
+        return `<div class="cu-emoji" style="background:${bg}">${emoji}</div>`;
+      }).join('');
+
+      return `
+        <div class="cu-card${isHot ? ' hot' : ''}" data-products="${productIds.join(',')}">
+          <div class="cu-emojis">${emojisHtml}</div>
+          <div class="cu-body">
+            <div class="cu-name">${combo.name || 'Combo'}</div>
+            <div class="cu-desc">${inCart}/${productIds.length} SP đã trong giỏ · thêm <strong>${missing} SP</strong> để tiết kiệm <strong>${fmt(savings)}</strong></div>
+          </div>
+          <div class="cu-right">
+            <div class="cu-orig">${fmt(origPrice)}</div>
+            <div class="cu-price">${fmt(comboPrice)}</div>
+            <button class="cu-cta" onclick="upgradeToCombo(this)">Nâng cấp combo</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  async function upgradeToCombo(btn) {
+    const card = btn.closest('.cu-card');
+    const idsRaw = card.dataset.products;
+    if (!idsRaw) return;
+    const ids = idsRaw.split(',');
+    const origText = btn.textContent;
+    btn.textContent = 'Đang thêm...';
+    btn.disabled = true;
+    try {
+      if (window.SonHaiCartBadge) {
+        // Add only missing items
+        for (const productId of ids) {
+          if (!activeItems.has(productId) && !activeItems.has(parseInt(productId))) {
+            const pid = isNaN(productId) ? productId : parseInt(productId);
+            await window.SonHaiCartBadge.addProduct(pid, 1);
+          }
+        }
+        // Reload cart to reflect new items
+        const box = document.getElementById('items-box');
+        const items = box.querySelectorAll('.cart-item');
+        items.forEach(el => el.remove());
+        activeItems.clear();
+        Object.keys(PRICES).forEach(k => delete PRICES[k]);
+        await loadCart();
+        updateSummary();
+      }
+      btn.textContent = 'Đã nâng cấp';
+      // Refresh combo suggestions
+      setTimeout(() => renderComboUpsell(), 500);
+    } catch (err) {
+      btn.textContent = 'Lỗi!';
+    }
+    setTimeout(() => {
+      btn.textContent = origText;
+      btn.disabled = false;
+    }, 2500);
+  }
 </script>
 
 <script src="js/morph-engine.js?v=1"></script>
+<script type="module" src="js/firestore-sync.js"></script>
 <script src="js/parallax-engine.js?v=grid-particles-2"></script>
 <script type="module" src="/auth-ui.js"></script>
 <script src="js/mobile-menu.js?v=1"></script>
+<!-- Floating Contact Buttons -->
+<div style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:12px;">
+  <a href="https://t.me/sonnhai" target="_blank" rel="noopener" title="Telegram" style="width:48px;height:48px;border-radius:50%;background:#2AABEE;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(42,171,238,.4);transition:transform .2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+  </a>
+</div>
 </body>
 </html>

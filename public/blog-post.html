@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -8,13 +8,19 @@
   <meta name="description" content="Bài viết chia sẻ kiến thức từ Thư viện Sơn Nhai.">
   <meta name="author" content="Thư viện Sơn Nhai">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://sonnhai.vercel.app/blog-post">
+  <link rel="canonical" href="https://thuviensonnhai.com/blog-post">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Blog — Thư viện Sơn Nhai">
   <meta property="og:description" content="Bài viết chia sẻ kiến thức từ Thư viện Sơn Nhai.">
-  <meta property="og:url" content="https://sonnhai.vercel.app/blog-post">
+  <meta property="og:url" content="https://thuviensonnhai.com/blog-post">
   <meta property="og:locale" content="vi_VN">
   <meta property="og:site_name" content="Thư viện Sơn Nhai">
+  <!-- Facebook Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','438100172987941');fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=438100172987941&ev=PageView&noscript=1"/></noscript>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -159,7 +165,7 @@
 <canvas id="parallax-canvas"></canvas>
 
 
-<div class="ann-bar"> Kiến thức mỗi ngày — Sơn Nhai Library</div>
+<div class="ann-bar">Kiến thức mỗi ngày — Sơn Nhai Library</div>
 
 <nav class="nav">
   <a href="index.html" class="nav-logo"><div style="width:36px;height:36px;border-radius:9px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-family:'Exo 2',sans-serif;font-weight:900;font-size:14px;color:var(--bg);flex-shrink:0;">SN</div>SƠN NHAI <span>LIBRARY</span></a>
@@ -988,6 +994,33 @@ function getSlug() {
 function renderPost(post) {
   document.title = post.title + ' — Thư viện Sơn Nhai';
 
+  // SEO: Update meta tags dynamically
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.content = post.excerpt || post.title;
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.content = post.title + ' — Thư viện Sơn Nhai';
+  const ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.content = post.excerpt || post.title;
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.href = 'https://thuviensonnhai.com/blog-post?slug=' + post.slug;
+  const ogUrl = document.querySelector('meta[property="og:url"]');
+  if (ogUrl) ogUrl.content = 'https://thuviensonnhai.com/blog-post?slug=' + post.slug;
+
+  // SEO: JSON-LD structured data
+  const jsonLd = document.createElement('script');
+  jsonLd.type = 'application/ld+json';
+  jsonLd.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": post.title,
+    "description": post.excerpt || '',
+    "author": { "@type": "Organization", "name": "Thư viện Sơn Nhai" },
+    "publisher": { "@type": "Organization", "name": "Thư viện Sơn Nhai", "url": "https://thuviensonnhai.com" },
+    "datePublished": post.createdAt || '',
+    "mainEntityOfPage": "https://thuviensonnhai.com/blog-post?slug=" + post.slug
+  });
+  document.head.appendChild(jsonLd);
+
   const tocHTML = post.toc.map((item, i) =>
     `<li><a href="#section-${i}">${item}</a></li>`
   ).join('');
@@ -1006,7 +1039,7 @@ function renderPost(post) {
 
   const productCTA = post.productSlug ? `
     <div class="product-cta">
-      <div class="product-cta-label"><span class="sn-dot"></span> Sản phẩm liên quan</div>
+      <div class="product-cta-label">Sản phẩm liên quan</div>
       <div class="product-cta-name">${post.productName}</div>
       <div class="product-cta-desc">${post.productDesc}</div>
       <div class="product-cta-row">
@@ -1134,11 +1167,17 @@ if (slug && POSTS[slug]) {
   render404();
 }
 </script>
-<script src="js/cart-badge.js?v=5"></script>
+<script src="js/cart-badge.js?v=6"></script>
 <script src="js/morph-engine.js?v=1"></script>
 <script src="js/parallax-engine.js?v=grid-particles-2"></script>
 <script type="module" src="/auth-ui.js"></script>
 <script src="js/mobile-menu.js?v=1"></script>
+<!-- Floating Contact Buttons -->
+<div style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:12px;">
+  <a href="https://t.me/sonnhai" target="_blank" rel="noopener" title="Telegram" style="width:48px;height:48px;border-radius:50%;background:#2AABEE;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(42,171,238,.4);transition:transform .2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+  </a>
+</div>
 </body>
 </html>
 

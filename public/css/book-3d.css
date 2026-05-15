@@ -1,0 +1,475 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   BOOK 3D MOCKUP — CSS-based 3D book effect
+   Uses CSS perspective + transform to create realistic book renders.
+   Apply class "book-3d" to wrap any product image.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Container: sets perspective ── */
+.book-3d {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 600px;
+  position: relative;
+}
+
+/* ── Inner book: the 3D-rotated wrapper ── */
+.book-3d__inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateY(-18deg);
+  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-radius: 3px 8px 8px 3px;
+  box-shadow:
+    /* Spine shadow left side */
+    -6px 2px 12px rgba(0, 0, 0, 0.5),
+    /* Bottom shadow */
+    0 12px 28px -4px rgba(0, 0, 0, 0.55),
+    /* Subtle teal ambient */
+    0 0 40px rgba(0, 212, 212, 0.06);
+}
+
+/* ── Cover: front face with the product image ── */
+.book-3d__cover {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px 6px 6px 2px;
+  z-index: 2;
+}
+
+.book-3d__cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px 6px 6px 2px;
+}
+
+/* ── Spine: left edge of the book ── */
+.book-3d__spine {
+  position: absolute;
+  top: 0;
+  left: -1px;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: 2px 6px 6px 2px;
+  /* Dark left edge gradient to simulate spine depth */
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.25) 4%,
+    rgba(0, 0, 0, 0.08) 8%,
+    transparent 18%,
+    transparent 82%,
+    rgba(0, 0, 0, 0.04) 100%
+  );
+}
+
+/* Spine edge line */
+.book-3d__spine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.03) 50%,
+    rgba(0, 0, 0, 0.15) 100%
+  );
+  border-radius: 2px 0 0 2px;
+}
+
+/* ── Shine: light reflection across the cover ── */
+.book-3d__shine {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  border-radius: 2px 6px 6px 2px;
+  background: linear-gradient(
+    130deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.04) 20%,
+    transparent 45%,
+    transparent 70%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  opacity: 0.8;
+  transition: opacity 0.35s ease;
+}
+
+/* ── Pages: visible page edges on the right side ── */
+.book-3d__inner::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: -4px;
+  width: 5px;
+  bottom: 3px;
+  z-index: 1;
+  transform: rotateY(20deg);
+  transform-origin: left center;
+  background: linear-gradient(
+    90deg,
+    #e8e5e0 0%,
+    #d9d5cf 30%,
+    #ccc8c2 60%,
+    #bbb7b0 100%
+  );
+  border-radius: 0 2px 2px 0;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ── Bottom page edges ── */
+.book-3d__inner::before {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 6px;
+  right: 2px;
+  height: 5px;
+  z-index: 0;
+  background: linear-gradient(
+    180deg,
+    #d9d5cf 0%,
+    #c5c1bb 100%
+  );
+  border-radius: 0 0 3px 3px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* ── Shadow underneath the book ── */
+.book-3d__shadow {
+  position: absolute;
+  bottom: -10px;
+  left: 10%;
+  right: 10%;
+  height: 14px;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.15) 40%,
+    transparent 75%
+  );
+  filter: blur(6px);
+  transition: all 0.35s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   HOVER EFFECTS
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Card-level hover: rotate book towards viewer */
+.book-3d--hover:hover .book-3d__inner,
+.card:hover .book-3d__inner,
+.p-card:hover .book-3d__inner,
+.bs-item:hover .book-3d__inner,
+.combo-card:hover .book-3d__inner {
+  transform: rotateY(-8deg);
+}
+
+.book-3d--hover:hover .book-3d__shine,
+.card:hover .book-3d__shine,
+.p-card:hover .book-3d__shine,
+.bs-item:hover .book-3d__shine {
+  opacity: 1;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.06) 25%,
+    transparent 50%,
+    transparent 75%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+}
+
+.book-3d--hover:hover .book-3d__shadow,
+.card:hover .book-3d__shadow,
+.p-card:hover .book-3d__shadow {
+  bottom: -12px;
+  left: 5%;
+  right: 5%;
+  opacity: 0.9;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   SIZE VARIANTS
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── XS: tiny thumbnails (combo list, cart mini) ── */
+.book-3d--xs .book-3d__inner {
+  transform: rotateY(-12deg);
+}
+.book-3d--xs .book-3d__cover {
+  width: 24px;
+  height: 32px;
+}
+.book-3d--xs .book-3d__inner::after {
+  width: 2px;
+  right: -2px;
+  top: 2px;
+  bottom: 2px;
+}
+.book-3d--xs .book-3d__inner::before {
+  height: 2px;
+  bottom: -1px;
+  left: 3px;
+}
+.book-3d--xs .book-3d__spine::before {
+  width: 1px;
+}
+.book-3d--xs .book-3d__shadow {
+  display: none;
+}
+.book-3d--xs .book-3d__inner {
+  box-shadow:
+    -3px 1px 6px rgba(0, 0, 0, 0.45),
+    0 4px 10px -2px rgba(0, 0, 0, 0.4);
+}
+
+/* ── SM: bestseller covers, cart items, combo books ── */
+.book-3d--sm .book-3d__cover {
+  width: 42px;
+  height: 58px;
+}
+.book-3d--sm .book-3d__inner {
+  transform: rotateY(-15deg);
+  box-shadow:
+    -4px 2px 8px rgba(0, 0, 0, 0.45),
+    0 8px 18px -3px rgba(0, 0, 0, 0.45);
+}
+.book-3d--sm .book-3d__inner::after {
+  width: 3px;
+  right: -3px;
+  top: 2px;
+  bottom: 2px;
+}
+.book-3d--sm .book-3d__inner::before {
+  height: 3px;
+  bottom: -2px;
+  left: 4px;
+}
+.book-3d--sm .book-3d__shadow {
+  display: none;
+}
+
+/* ── MD: product cards (default) ── */
+.book-3d--md .book-3d__cover {
+  width: 130px;
+  height: 173px;
+}
+.book-3d--md {
+  padding: 14px 10px 18px;
+}
+
+/* ── CAT: category page product cards ── */
+.book-3d--cat .book-3d__cover {
+  width: 110px;
+  height: 147px;
+}
+.book-3d--cat {
+  padding: 12px 8px 16px;
+}
+
+/* ── LG: featured section, product detail ── */
+.book-3d--lg .book-3d__cover {
+  width: 190px;
+  height: 253px;
+}
+.book-3d--lg .book-3d__inner {
+  box-shadow:
+    -8px 4px 18px rgba(0, 0, 0, 0.55),
+    0 16px 40px -6px rgba(0, 0, 0, 0.55),
+    0 0 60px rgba(0, 212, 212, 0.08);
+}
+.book-3d--lg .book-3d__inner::after {
+  width: 7px;
+  right: -6px;
+  top: 4px;
+  bottom: 4px;
+}
+.book-3d--lg .book-3d__inner::before {
+  height: 6px;
+  bottom: -4px;
+  left: 8px;
+}
+.book-3d--lg .book-3d__shadow {
+  bottom: -14px;
+  height: 18px;
+  left: 8%;
+  right: 8%;
+}
+.book-3d--lg {
+  padding: 20px 16px 28px;
+}
+
+/* ── XL: product detail hero ── */
+.book-3d--xl .book-3d__cover {
+  width: 240px;
+  height: 320px;
+}
+.book-3d--xl .book-3d__inner {
+  box-shadow:
+    -10px 6px 24px rgba(0, 0, 0, 0.55),
+    0 20px 50px -8px rgba(0, 0, 0, 0.55),
+    0 0 80px rgba(0, 212, 212, 0.1);
+}
+.book-3d--xl .book-3d__inner::after {
+  width: 9px;
+  right: -7px;
+  top: 5px;
+  bottom: 5px;
+}
+.book-3d--xl .book-3d__inner::before {
+  height: 8px;
+  bottom: -5px;
+  left: 10px;
+}
+.book-3d--xl .book-3d__shadow {
+  bottom: -16px;
+  height: 22px;
+  left: 6%;
+  right: 6%;
+}
+.book-3d--xl {
+  padding: 24px 20px 34px;
+}
+
+/* ── COMBO: special size for combo section books ── */
+.book-3d--combo .book-3d__cover {
+  width: 64px;
+  height: 86px;
+}
+.book-3d--combo .book-3d__inner {
+  transform: rotateY(-14deg);
+  box-shadow:
+    -4px 2px 10px rgba(0, 0, 0, 0.5),
+    0 8px 20px -3px rgba(0, 0, 0, 0.5);
+}
+.book-3d--combo .book-3d__inner::after {
+  width: 4px;
+  right: -3px;
+  top: 3px;
+  bottom: 3px;
+}
+.book-3d--combo .book-3d__inner::before {
+  height: 3px;
+  bottom: -2px;
+  left: 5px;
+}
+.book-3d--combo .book-3d__shadow {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   INTEGRATION OVERRIDES
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Card thumb: use book-3d as the thumbnail content */
+.card-thumb .book-3d,
+.p-thumb .book-3d {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Featured section override */
+.feat-cover .book-3d {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Bestseller cover override */
+.bs-cover.book-3d-wrap {
+  background: transparent !important;
+  border: none !important;
+  overflow: visible;
+}
+
+/* Cart thumb override */
+.u-thumb .book-3d,
+.r-thumb .book-3d {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Combo book override — make book-3d work inside combo positions */
+.combo-book .book-3d {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.combo-book .book-3d__cover {
+  width: 100% !important;
+  height: 100% !important;
+}
+.combo-book .book-3d__inner {
+  transform: rotateY(-10deg);
+}
+.combo-book .book-3d__shadow {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .book-3d--md .book-3d__cover {
+    width: 110px;
+    height: 147px;
+  }
+  .book-3d--lg .book-3d__cover {
+    width: 150px;
+    height: 200px;
+  }
+  .book-3d--xl .book-3d__cover {
+    width: 180px;
+    height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .book-3d--md .book-3d__cover {
+    width: 90px;
+    height: 120px;
+  }
+  .book-3d--lg .book-3d__cover {
+    width: 120px;
+    height: 160px;
+  }
+  .book-3d--xl .book-3d__cover {
+    width: 150px;
+    height: 200px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   ANIMATION: Gentle float for featured/hero books
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+@keyframes book3dFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.book-3d--float {
+  animation: book3dFloat 3.5s ease-in-out infinite;
+}

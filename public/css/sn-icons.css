@@ -88,4 +88,44 @@
   content: none;
 }
 
-/* Larger icon 
+/* Larger icon variants */
+.mvv-icon::before,
+.val-icon::before,
+.step-ico::before,
+.cc-icon::before,
+.contact-card-ico::before {
+  content: none;
+}
+
+/* Color variants for support page */
+.dl-info-ico.teal::before {
+  background: linear-gradient(135deg, #00D4D4, #007A7A);
+}
+.dl-info-ico.green::before {
+  background: linear-gradient(135deg, #10B981, #059669);
+}
+.dl-info-ico.purple::before {
+  background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+}
+.contact-card-ico.cc-teal::before {
+  background: linear-gradient(135deg, #00D4D4, #007A7A);
+}
+.contact-card-ico.cc-blue::before {
+  background: linear-gradient(135deg, #3B82F6, #2563EB);
+}
+.contact-card-ico.cc-green::before {
+  background: linear-gradient(135deg, #10B981, #059669);
+}
+
+/* Checkmark icons - no dots */
+.ico-yes::before,
+.why-check::before,
+.success-ico::before {
+  content: none;
+}
+.success-ico::before {
+  content: none;
+}
+.tl-tag.done::before {
+  content: none;
+}

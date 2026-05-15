@@ -19,6 +19,7 @@ import {
   getDoc,
   setDoc,
   updateDoc,
+  deleteDoc,
   collection,
   query,
   where,
@@ -27,6 +28,8 @@ import {
   serverTimestamp,
   orderBy,
   limit,
+  arrayUnion,
+  arrayRemove,
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import {
   getStorage,
@@ -179,4 +182,4 @@ export function getCurrentUser() {
   });
 }
 
-export { onAuthStateChanged, updateProfile, doc, getDoc, updateDoc, setDoc, serverTimestamp };
+export { onAuthStateChanged, updateProfile, doc, getDoc, updateDoc, setDoc, deleteDoc, serverTimestamp, collection, query, where, getDocs, addDoc, orderBy, limit, arrayUnion, arrayRemove };

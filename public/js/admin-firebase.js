@@ -314,9 +314,9 @@ export async function seedDatabase() {
 
   // Categories
   const categories = [
-    { id: 'ebook', name: 'Sách điện tử', slug: 'ebook', icon: '', order: 1 },
-    { id: 'course', name: 'Khóa học', slug: 'course', icon: '', order: 2 },
-    { id: 'template', name: 'Template', slug: 'template', icon: '', order: 3 },
+    { id: 'nhan-tinh', name: 'Thấu hiểu nhân tính', slug: 'thau-hieu-nhan-tinh', icon: '', order: 1 },
+    { id: 'tu-duy', name: 'Thay đổi tư duy', slug: 'thay-doi-tu-duy', icon: '', order: 2 },
+    { id: 'tai-chinh', name: 'Làm chủ tài chính', slug: 'lam-chu-tai-chinh', icon: '', order: 3 },
   ];
 
   for (const cat of categories) {

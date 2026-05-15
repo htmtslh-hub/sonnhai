@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -675,13 +675,14 @@
         <a class="sb-item" onclick="switchPage('product-editor')"><span class="sb-icon"></span><span class="sb-text">Chỉnh sửa SP</span></a>
         <a class="sb-item" onclick="switchPage('combos')"><span class="sb-icon"></span><span class="sb-text">Combo</span></a>
         <a class="sb-item" onclick="switchPage('content')"><span class="sb-icon"></span><span class="sb-text">Blog</span></a>
-        <a class="sb-item" onclick="switchPage('about')"><span class="sb-icon">ℹ</span><span class="sb-text">About</span></a>
-        <a class="sb-item" onclick="switchPage('support')"><span class="sb-icon">🆘</span><span class="sb-text">Support</span></a>
-        <a class="sb-item" onclick="switchPage('banner')"><span class="sb-icon">📢</span><span class="sb-text">Banner</span></a>
+        <a class="sb-item" onclick="switchPage('about')"><span class="sb-icon"></span><span class="sb-text">About</span></a>
+        <a class="sb-item" onclick="switchPage('support')"><span class="sb-icon"></span><span class="sb-text">Support</span></a>
+        <a class="sb-item" onclick="switchPage('banner')"><span class="sb-icon"></span><span class="sb-text">Banner</span></a>
+        <a class="sb-item" onclick="switchPage('reviews')"><span class="sb-icon"></span><span class="sb-text">Đánh giá</span></a>
 
         <div class="sb-section-label">CÀI ĐẶT</div>
-        <a class="sb-item" onclick="switchPage('layout-menu')"><span class="sb-icon">🔗</span><span class="sb-text">Menu</span></a>
-        <a class="sb-item" onclick="switchPage('layout-footer')"><span class="sb-icon">⬇</span><span class="sb-text">Footer</span></a>
+        <a class="sb-item" onclick="switchPage('layout-menu')"><span class="sb-icon"></span><span class="sb-text">Menu</span></a>
+        <a class="sb-item" onclick="switchPage('layout-footer')"><span class="sb-icon"></span><span class="sb-text">Footer</span></a>
 
         <div class="sb-section-label">KHÁC</div>
         <a class="sb-item" onclick="switchPage('emails')"><span class="sb-icon"></span><span class="sb-text">Email</span></a>
@@ -706,7 +707,7 @@
         <div class="topbar-right">
           <div class="quick-links">
             <a class="quick-link" onclick="switchPage('dashboard')"> Dashboard</a>
-            <a class="quick-link" onclick="switchPage('products')"> Sản phẩm</a>
+            <a class="quick-link" onclick="switchPage('products')">Sản phẩm</a>
             <a class="quick-link" onclick="switchPage('orders')"> Đơn hàng</a>
             <a class="quick-link" onclick="switchPage('customers')"> Khách hàng</a>
           </div>
@@ -887,6 +888,7 @@
               <option value="">Tất cả trạng thái</option>
               <option value="paid">Đã thanh toán</option>
               <option value="pending">Chờ thanh toán</option>
+              <option value="cancelled">Đã hủy</option>
               <option value="failed">Thất bại</option>
               <option value="refunded">Đã hoàn tiền</option>
             </select>
@@ -947,6 +949,7 @@
                   <tr>
                     <th>Khách hàng</th>
                     <th>Email</th>
+                    <th>Số điện thoại</th>
                     <th>Đơn hàng</th>
                     <th>Tổng chi tiêu</th>
                     <th>Ngày đăng ký</th>
@@ -975,7 +978,9 @@
             </div>
             <select class="filter-select" id="payments-method-filter" onchange="filterPayments()">
               <option value="">Tất cả phương thức</option>
-              <option value="stripe">Stripe</option>
+              <option value="sepay">SePay</option>
+              <option value="chuyển khoản">Chuyển khoản</option>
+              <option value="bank_transfer">Bank Transfer</option>
               <option value="vnpay">VNPay</option>
               <option value="momo">MoMo</option>
             </select>
@@ -1185,7 +1190,7 @@
         </div>
         <div class="form-group">
           <label class="form-label">Tag / Nhãn</label>
-          <input type="text" class="form-input" id="combo-tag" placeholder="VD: <span class="sn-dot"></span> Bộ sưu tập · 3 cuốn">
+          <input type="text" class="form-input" id="combo-tag" placeholder="VD: Bộ sưu tập · 3 cuốn">
         </div>
       </div>
       <div class="form-group">
@@ -1384,7 +1389,7 @@
 
     <!-- Announcement Bar -->
     <div class="card-block" style="padding:24px;">
-      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">📢 Announcement Bar (trang Support)</div>
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;"> Announcement Bar (trang Support)</div>
       <div class="form-group">
         <label class="form-label">Nội dung announcement</label>
         <input type="text" class="form-input" id="support-announcement" placeholder="Hỗ trợ 7 ngày / tuần — Phản hồi trong vòng 2 giờ">
@@ -1405,7 +1410,7 @@
 
   <div style="display:flex;flex-direction:column;gap:20px;">
     <div class="card-block" style="padding:24px;">
-      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;">📢 Cài đặt Banner</div>
+      <div style="font-weight:700;font-size:14px;color:var(--teal);margin-bottom:16px;"> Cài đặt Banner</div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Bật/Tắt Banner</label>
@@ -1417,7 +1422,7 @@
         <div class="form-group">
           <label class="form-label">Loại banner</label>
           <select class="form-input" id="banner-type">
-            <option value="info">ℹ Thông tin</option>
+            <option value="info"> Thông tin</option>
             <option value="promo">🎁 Khuyến mãi</option>
             <option value="warning"> Cảnh báo</option>
             <option value="success"> Thành công</option>
@@ -1808,12 +1813,9 @@
                 <div class="editor-group">
                   <label class="editor-label">Danh mục</label>
                   <select class="editor-input" id="edit-product-category">
-                    <option value="Nhân tính">Nhân tính</option>
-                    <option value="Tư duy">Tư duy</option>
-                    <option value="Kỹ năng sống">Kỹ năng sống</option>
-                    <option value="Hệ thống">Hệ thống</option>
-                    <option value="Tài chính">Tài chính</option>
-                    <option value="Tình cảm">Tình cảm</option>
+                    <option value="Thấu hiểu nhân tính">Thấu hiểu nhân tính</option>
+                    <option value="Thay đổi tư duy">Thay đổi tư duy</option>
+                    <option value="Làm chủ tài chính">Làm chủ tài chính</option>
                   </select>
                 </div>
 
@@ -1880,11 +1882,11 @@
             <a class="content-nav-item" onclick="switchPage('home-hero')"> Hero</a>
             <a class="content-nav-item" onclick="switchPage('home-features')">✨ Features</a>
             <a class="content-nav-item" onclick="switchPage('home-pricing')"> Pricing</a>
-            <a class="content-nav-item" onclick="switchPage('page-about')">ℹ About</a>
+            <a class="content-nav-item" onclick="switchPage('page-about')"> About</a>
             <a class="content-nav-item" onclick="switchPage('page-support')"> FAQ</a>
             <a class="content-nav-item" onclick="switchPage('testimonials')"> Testimonials</a>
-            <a class="content-nav-item" onclick="switchPage('layout-menu')">🔗 Menu</a>
-            <a class="content-nav-item" onclick="switchPage('layout-footer')">⬇ Footer</a>
+            <a class="content-nav-item" onclick="switchPage('layout-menu')"> Menu</a>
+            <a class="content-nav-item" onclick="switchPage('layout-footer')"> Footer</a>
             <a class="content-nav-item" onclick="switchPage('layout-banner')"> Banner</a>
             <a class="content-nav-item active" onclick="switchPage('seo')"> SEO</a>
           </div>
@@ -1909,6 +1911,59 @@
           </div>
         </div>
 
+<!-- ══════════ REVIEWS MANAGEMENT ══════════ -->
+<div id="page-reviews" class="page-section">
+  <div class="page-header">
+    <div>
+      <div class="page-title"> Quản lý Đánh giá</div>
+      <div class="page-sub">Duyệt và quản lý đánh giá của khách hàng</div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="toolbar-search">
+      <span class="toolbar-search-icon"></span>
+      <input type="text" placeholder="Tìm theo tên, nội dung..." id="rv-admin-search" oninput="filterAdminReviews()">
+    </div>
+    <select class="filter-select" id="rv-admin-status-filter" onchange="filterAdminReviews()">
+      <option value="all">Tất cả trạng thái</option>
+      <option value="pending" selected>Chờ duyệt</option>
+      <option value="published">Đã duyệt</option>
+      <option value="hidden">Đã ẩn</option>
+    </select>
+  </div>
+
+  <div class="card-block">
+    <div class="card-block-header">
+      <div class="card-block-title">Danh sách đánh giá</div>
+      <span style="font-size:12px;color:var(--text-3);" id="rv-admin-count">0 đánh giá</span>
+    </div>
+    <div class="card-block-body no-pad">
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Khách hàng</th>
+              <th>Sản phẩm</th>
+              <th>Sao</th>
+              <th>Nội dung</th>
+              <th>Ngày</th>
+              <th>Trạng thái</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="rv-admin-tbody"></tbody>
+        </table>
+      </div>
+      <div id="rv-admin-empty" class="empty-state" style="display:none;">
+        <div class="empty-icon"></div>
+        <div class="empty-title">Chưa có đánh giá nào</div>
+        <div class="empty-text">Đánh giá của khách hàng sẽ xuất hiện ở đây</div>
+      </div>
+    </div>
+  </div>
+</div>
+
       </div>
     </div>
   </div>
@@ -1919,7 +1974,7 @@
     <span class="toast-text" id="toast-text">Thao tác thành công!</span>
   </div>
 
-  <script src="js/cart-badge.js?v=5"></script>
+  <script src="js/cart-badge.js?v=6"></script>
   <script>
     // ==================== GLOBAL STATE ====================
     let currentPage = 'dashboard';
@@ -2081,7 +2136,8 @@
         'layout-footer': 'Footer',
         'layout-banner': 'Banner',
         'testimonials': 'Testimonials',
-        'seo': 'SEO'
+        'seo': 'SEO',
+        'reviews': 'Đánh giá khách hàng'
       };
       document.getElementById('breadcrumb-current').textContent = breadcrumbMap[page] || page;
       
@@ -2108,6 +2164,7 @@
         case 'about': loadAboutEditor(); break;
         case 'support': loadSupportEditor(); break;
         case 'banner': loadBannerEditor(); break;
+        case 'reviews': loadAdminReviews(); break;
         case 'layout-footer': break;
         case 'seo': break;
         case 'settings': break;
@@ -2153,7 +2210,7 @@
         format: p.format || 'PDF',
         imageUrl: imgUrl,
         image: imgUrl,
-        stock: p.stock || '∞',
+        stock: p.stock || 'Không giới hạn',
         category_name: p.category || '',
       };
     }
@@ -2172,7 +2229,7 @@
           localStorage.setItem('sonhai_products', JSON.stringify(products));
           console.log(' Loaded', products.length, 'products from Firestore');
         } else {
-          console.log('ℹ No products in Firestore, seeding from defaults...');
+          console.log(' No products in Firestore, seeding from defaults...');
           // Auto-seed: upload default products to Firestore
           await seedProductsToFirestore();
         }
@@ -2332,7 +2389,7 @@
       comboEditId = editData ? editData.id : null;
       document.getElementById('combo-modal-title').textContent = editData ? 'Sửa combo' : 'Tạo combo mới';
       document.getElementById('combo-name').value = editData ? editData.name || '' : '';
-      document.getElementById('combo-tag').value = editData ? editData.tag || '' : '<span class="sn-dot"></span> Bộ sưu tập';
+      document.getElementById('combo-tag').value = editData ? editData.tag || '' : 'Bộ sưu tập';
       document.getElementById('combo-price').value = editData ? editData.comboPrice || '' : '';
       document.getElementById('combo-order').value = editData ? editData.order || 1 : 1;
       document.getElementById('combo-badge').value = editData ? editData.badgeText || '' : '';
@@ -2389,7 +2446,7 @@
       
       const comboData = {
         name,
-        tag: tag || `<span class="sn-dot"></span> Bộ sưu tập · ${productIds.length} cuốn`,
+        tag: tag || `Bộ sưu tập · ${productIds.length} cuốn`,
         productIds,
         productNames,
         originalPrice,
@@ -2467,7 +2524,9 @@
           const orderSnap = await getDocs(collection(dbFB, 'orders'));
           orderCount = orderSnap.size;
           mockData.orders = orderSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-          totalRevenue = mockData.orders.reduce((sum, o) => sum + (o.amount || 0), 0);
+          // Chỉ tính doanh thu từ đơn đã thanh toán
+          const paidOrders = mockData.orders.filter(o => (o.paymentStatus || o.status) === 'paid');
+          totalRevenue = paidOrders.reduce((sum, o) => sum + (o.amount || o.total || 0), 0);
         } catch(e) {}
 
         // Count customers
@@ -2478,11 +2537,18 @@
           mockData.customers = userSnap.docs.map(d => ({ id: d.id, ...d.data() }));
         } catch(e) {}
 
+        // Đếm đơn theo trạng thái
+        const pendingCount = mockData.orders.filter(o => (o.paymentStatus || o.status) === 'pending').length;
+        const cancelledCount = mockData.orders.filter(o => (o.paymentStatus || o.status) === 'cancelled').length;
+        const paidCount = mockData.orders.filter(o => (o.paymentStatus || o.status) === 'paid').length;
+
         // Update stats
         document.getElementById('stat-revenue').textContent = formatCurrency(totalRevenue);
         document.getElementById('stat-revenue-change').textContent = totalRevenue > 0 ? 'Doanh thu thực' : 'Chưa có';
         document.getElementById('stat-orders').textContent = orderCount;
-        document.getElementById('stat-orders-change').textContent = orderCount > 0 ? orderCount + ' đơn' : 'Chưa có';
+        document.getElementById('stat-orders-change').textContent = paidCount > 0
+          ? `${paidCount} đã TT${pendingCount > 0 ? ', ' + pendingCount + ' chờ' : ''}${cancelledCount > 0 ? ', ' + cancelledCount + ' hủy' : ''}`
+          : (orderCount > 0 ? orderCount + ' đơn' : 'Chưa có');
         document.getElementById('stat-customers').textContent = customerCount;
         document.getElementById('stat-customers-change').textContent = customerCount > 0 ? customerCount + ' KH' : 'Chưa có';
         document.getElementById('stat-products').textContent = productCount;
@@ -2614,15 +2680,21 @@
         return;
       }
       const recent = mockData.orders.slice(0, 5);
-      const html = recent.map(o => `
+      const html = recent.map(o => {
+        const orderId = o.orderNumber || o.id;
+        const customer = o.customer || o.customerName || '';
+        const productName = o.product || o.productName || (o.items && o.items.length > 0 ? o.items.map(i => i.name).join(', ') : '—');
+        const amount = o.amount || o.total || 0;
+        const status = o.status || o.paymentStatus || 'pending';
+        return `
         <tr>
-          <td><strong>${o.id}</strong></td>
-          <td>${o.customer || o.customerName || ''}</td>
-          <td>${o.product || o.productName || ''}</td>
-          <td><strong>${formatCurrency(o.amount || 0)}</strong></td>
-          <td><span class="badge badge-${o.status || 'pending'}">${getStatusText(o.status || 'pending')}</span></td>
-        </tr>
-      `).join('');
+          <td><strong>${orderId}</strong></td>
+          <td>${customer}</td>
+          <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;">${productName}</td>
+          <td><strong>${formatCurrency(amount)}</strong></td>
+          <td><span class="badge badge-${status}">${getStatusText(status)}</span></td>
+        </tr>`;
+      }).join('');
       document.getElementById('recent-orders-tbody').innerHTML = html;
     }
 
@@ -2677,7 +2749,7 @@
           <td>${getCategoryText(p.category)}</td>
           <td><strong>${formatCurrency(p.price)}</strong></td>
           <td>${p.sold_count || p.soldCount || p.sold || 0}</td>
-          <td>${p.stock || '∞'}</td>
+          <td><span style="color:${p.stock === 'Không giới hạn' || p.stock === '∞' ? 'var(--green)' : 'var(--text)'};">${p.stock === 'Không giới hạn' || p.stock === '∞' ? '♾ Không giới hạn' : p.stock}</span></td>
           <td><span class="badge badge-${p.status || 'published'}">${getStatusText(p.status || 'published')}</span></td>
           <td>
             <button class="btn btn-outline-sm" onclick="editProduct('${p.id}')"> Sửa</button>
@@ -2893,13 +2965,51 @@
     }
 
     // ==================== ORDERS ====================
+    const ORDER_TIMEOUT_MS = 15 * 60 * 1000; // 15 phút
+
     async function loadOrders() {
       document.getElementById('orders-count-sub').textContent = 'Đang tải...';
       try {
-        const { dbFB, collection, getDocs, query, orderBy } = window._fb;
+        const { dbFB, collection, getDocs, query, orderBy, doc, updateDoc, serverTimestamp } = window._fb;
         const q = query(collection(dbFB, 'orders'), orderBy('createdAt', 'desc'));
         const snap = await getDocs(q);
         mockData.orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        // ── Auto-cancel đơn hàng pending quá 15 phút ──
+        const now = Date.now();
+        const expiredOrders = mockData.orders.filter(o => {
+          const status = o.paymentStatus || o.status || '';
+          if (status !== 'pending') return false;
+          let createdMs = 0;
+          if (o.createdAt && o.createdAt.toDate) createdMs = o.createdAt.toDate().getTime();
+          else if (o.createdAt && o.createdAt.seconds) createdMs = o.createdAt.seconds * 1000;
+          else if (o.createdAt) createdMs = new Date(o.createdAt).getTime();
+          return createdMs > 0 && (now - createdMs) > ORDER_TIMEOUT_MS;
+        });
+
+        if (expiredOrders.length > 0) {
+          console.log(`[Auto-cancel] Tìm thấy ${expiredOrders.length} đơn hàng hết hạn`);
+          // Cập nhật Firestore (fire-and-forget)
+          const cancelPromises = expiredOrders.map(o =>
+            updateDoc(doc(dbFB, 'orders', o.id), {
+              paymentStatus: 'cancelled',
+              status: 'cancelled',
+              cancelledAt: serverTimestamp(),
+              cancelReason: 'Tự động hủy: quá 15 phút chưa thanh toán',
+            }).catch(err => console.warn(`Cancel order ${o.id} failed:`, err.message))
+          );
+          // Cập nhật local ngay
+          expiredOrders.forEach(o => {
+            o.paymentStatus = 'cancelled';
+            o.status = 'cancelled';
+            o.cancelReason = 'Tự động hủy: quá 15 phút chưa thanh toán';
+          });
+          // Không cần await — chạy nền
+          Promise.all(cancelPromises).then(() => {
+            console.log(`[Auto-cancel] Đã hủy ${expiredOrders.length} đơn hàng`);
+          });
+          showToast('info', `⏰ Đã tự động hủy ${expiredOrders.length} đơn hàng quá hạn`);
+        }
       } catch(e) {
         console.warn('Load orders from Firestore:', e.message);
       }
@@ -2917,23 +3027,32 @@
           </td></tr>`;
         return;
       }
-      const html = orders.map(o => `
+      const html = orders.map(o => {
+        const orderId = o.orderNumber || o.id;
+        const customer = o.customer || o.customerName || '';
+        const email = o.email || o.customerEmail || '';
+        const productName = o.product || o.productName || (o.items && o.items.length > 0 ? o.items.map(i => i.name).join(', ') : '—');
+        const amount = o.amount || o.total || 0;
+        const payment = o.payment || o.paymentMethod || 'chuyển khoản';
+        const status = o.status || o.paymentStatus || 'pending';
+        const orderDate = o.date || (o.createdAt && o.createdAt.seconds ? new Date(o.createdAt.seconds * 1000).toISOString() : '');
+        return `
         <tr onclick="viewOrderDetail('${o.id}')" style="cursor:pointer;">
-          <td><strong>${o.id}</strong></td>
+          <td><strong>${orderId}</strong></td>
           <td>
-            <div>${o.customer}</div>
-            <div style="font-size:11px;color:var(--text-3);margin-top:2px;">${o.email}</div>
+            <div>${customer}</div>
+            <div style="font-size:11px;color:var(--text-3);margin-top:2px;">${email}</div>
           </td>
-          <td>${o.product}</td>
-          <td><strong>${formatCurrency(o.amount)}</strong></td>
-          <td>${getPaymentMethodText(o.payment)}</td>
-          <td><span class="badge badge-${o.status}">${getStatusText(o.status)}</span></td>
-          <td>${formatDate(o.date)}</td>
+          <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">${productName}</td>
+          <td><strong>${formatCurrency(amount)}</strong></td>
+          <td>${getPaymentMethodText(payment)}</td>
+          <td><span class="badge badge-${status}">${getStatusText(status)}</span></td>
+          <td>${orderDate ? formatDate(orderDate) : '—'}</td>
           <td onclick="event.stopPropagation();">
             <button class="btn btn-outline-sm" onclick="viewOrderDetail('${o.id}')"> Xem</button>
           </td>
-        </tr>
-      `).join('');
+        </tr>`;
+      }).join('');
       document.getElementById('orders-tbody').innerHTML = html || '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-3);">Không có đơn hàng nào</td></tr>';
     }
 
@@ -2943,8 +3062,12 @@
       const dateFilter = document.getElementById('orders-date-filter').value;
 
       const filtered = mockData.orders.filter(o => {
-        const matchSearch = o.id.toLowerCase().includes(search) || o.email.toLowerCase().includes(search);
-        const matchStatus = !status || o.status === status;
+        const orderId = (o.orderNumber || o.id || '').toLowerCase();
+        const email = (o.email || o.customerEmail || '').toLowerCase();
+        const customer = (o.customer || o.customerName || '').toLowerCase();
+        const matchSearch = orderId.includes(search) || email.includes(search) || customer.includes(search);
+        const orderStatus = o.status || o.paymentStatus || '';
+        const matchStatus = !status || orderStatus === status;
         // Date filter logic would go here
         return matchSearch && matchStatus;
       });
@@ -2956,49 +3079,78 @@
       const order = mockData.orders.find(o => o.id === orderId);
       if (!order) return;
 
+      const displayOrderId = order.orderNumber || order.id;
+      const customer = order.customer || order.customerName || '';
+      const email = order.email || order.customerEmail || '';
+      const phone = order.customerPhone || order.phone || 'Chưa có';
+      const productName = order.product || order.productName || (order.items && order.items.length > 0 ? order.items.map(i => i.name).join(', ') : '—');
+      const amount = order.amount || order.total || 0;
+      const payment = order.payment || order.paymentMethod || 'chuyển khoản';
+      const status = order.status || order.paymentStatus || 'pending';
+      const orderDate = order.date || (order.createdAt && order.createdAt.seconds ? new Date(order.createdAt.seconds * 1000).toISOString() : '');
+      const discount = order.discount || 0;
+      const couponCode = order.couponCode || '';
+
+      // Items list
+      const itemsHtml = order.items && order.items.length > 0
+        ? order.items.map(i => `
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:16px;">${i.emoji || ''}</span>
+                <span style="font-size:13px;">${i.name || '—'}</span>
+              </div>
+              <span style="font-weight:600;color:var(--teal);">${formatCurrency(i.price || 0)}</span>
+            </div>`).join('')
+        : `<div style="font-size:13px;">${productName}</div>`;
+
       const html = `
         <div style="display:grid;gap:20px;">
           <div>
             <div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">MÃ ĐƠN HÀNG</div>
-            <div style="font-size:18px;font-weight:700;color:var(--teal);">${order.id}</div>
+            <div style="font-size:18px;font-weight:700;color:var(--teal);">${displayOrderId}</div>
           </div>
           
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
               <div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">KHÁCH HÀNG</div>
-              <div style="font-weight:600;">${order.customer}</div>
-              <div style="font-size:12px;color:var(--text-3);margin-top:2px;">${order.email}</div>
+              <div style="font-weight:600;">${customer}</div>
+              <div style="font-size:12px;color:var(--text-3);margin-top:2px;">${email}</div>
+              <div style="font-size:12px;color:var(--text-3);margin-top:2px;"> ${phone}</div>
             </div>
             <div>
               <div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">NGÀY ĐẶT</div>
-              <div style="font-weight:600;">${formatDate(order.date)}</div>
+              <div style="font-weight:600;">${orderDate ? formatDate(orderDate) : '—'}</div>
             </div>
           </div>
 
           <div>
-            <div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">SẢN PHẨM</div>
-            <div style="font-weight:600;">${order.product}</div>
+            <div style="font-size:12px;color:var(--text-3);margin-bottom:8px;">SẢN PHẨM</div>
+            ${itemsHtml}
           </div>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
               <div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">THANH TOÁN</div>
-              <div style="font-weight:600;">${getPaymentMethodText(order.payment)}</div>
+              <div style="font-weight:600;">${getPaymentMethodText(payment)}</div>
             </div>
             <div>
               <div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">TRẠNG THÁI</div>
-              <span class="badge badge-${order.status}">${getStatusText(order.status)}</span>
+              <span class="badge badge-${status}">${getStatusText(status)}</span>
             </div>
           </div>
 
           <div style="border-top:1px solid var(--border);padding-top:16px;">
             <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
               <span style="color:var(--text-2);">Tạm tính:</span>
-              <span style="font-weight:600;">${formatCurrency(order.amount)}</span>
+              <span style="font-weight:600;">${formatCurrency(amount + discount)}</span>
             </div>
+            ${discount > 0 ? `<div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+              <span style="color:var(--text-2);">Giảm giá${couponCode ? ' (' + couponCode + ')' : ''}:</span>
+              <span style="font-weight:600;color:var(--green);">-${formatCurrency(discount)}</span>
+            </div>` : ''}
             <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;">
               <span>Tổng cộng:</span>
-              <span style="color:var(--teal);">${formatCurrency(order.amount)}</span>
+              <span style="color:var(--teal);">${formatCurrency(amount)}</span>
             </div>
           </div>
         </div>
@@ -3028,8 +3180,50 @@
       document.getElementById('customers-count-sub').textContent = 'Đang tải...';
       try {
         const { dbFB, collection, getDocs } = window._fb;
-        const snap = await getDocs(collection(dbFB, 'users'));
-        mockData.customers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        // Load users
+        const userSnap = await getDocs(collection(dbFB, 'users'));
+        const rawUsers = userSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+        
+        // Load orders for cross-referencing
+        let allOrders = mockData.orders;
+        if (!allOrders || allOrders.length === 0) {
+          try {
+            const orderSnap = await getDocs(collection(dbFB, 'orders'));
+            allOrders = orderSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+            mockData.orders = allOrders;
+          } catch(e2) {}
+        }
+        
+        // Enrich users with computed stats from orders
+        mockData.customers = rawUsers.map(u => {
+          const userEmail = u.email || '';
+          const userOrders = allOrders.filter(o => 
+            (o.email && o.email.toLowerCase() === userEmail.toLowerCase()) || 
+            (o.customerEmail && o.customerEmail.toLowerCase() === userEmail.toLowerCase()) ||
+            (o.userId === u.id)
+          );
+          const totalSpending = userOrders.reduce((sum, o) => sum + (o.amount || o.total || 0), 0);
+          
+          // Parse registration date from Firestore Timestamp
+          let joinedDate = '';
+          if (u.createdAt) {
+            if (u.createdAt.toDate) joinedDate = u.createdAt.toDate().toISOString();
+            else if (u.createdAt.seconds) joinedDate = new Date(u.createdAt.seconds * 1000).toISOString();
+            else joinedDate = u.createdAt;
+          }
+          
+          return {
+            ...u,
+            name: u.name || u.displayName || u.email?.split('@')[0] || 'Khách hàng',
+            email: userEmail,
+            phone: u.phone || u.phoneNumber || u.customerPhone || '',
+            orders: userOrders.length,
+            spending: totalSpending,
+            joined: joinedDate,
+            role: u.role || 'user',
+          };
+        }).filter(u => u.role !== 'admin' && u.role !== 'super-admin');
+        
       } catch(e) {
         console.warn('Load customers from Firestore:', e.message);
       }
@@ -3040,29 +3234,34 @@
     function renderCustomers(customers) {
       if (customers.length === 0) {
         document.getElementById('customers-tbody').innerHTML = `
-          <tr><td colspan="6" style="text-align:center;padding:50px;color:var(--text-3);">
+          <tr><td colspan="7" style="text-align:center;padding:50px;color:var(--text-3);">
             <div style="font-size:36px;margin-bottom:12px;"></div>
             <div style="font-size:15px;font-weight:600;margin-bottom:6px;">Chưa có khách hàng nào</div>
             <div style="font-size:13px;">Khách hàng sẽ xuất hiện khi có người đăng ký tài khoản</div>
           </td></tr>`;
         return;
       }
-      const html = customers.map(c => `
-        <tr onclick="viewCustomerDetail(${c.id})" style="cursor:pointer;">
+      const html = customers.map(c => {
+        const displayId = typeof c.id === 'string' ? c.id.substring(0,8) + '...' : c.id;
+        const joinedStr = c.joined ? formatDate(c.joined) : '—';
+        const phoneDisplay = c.phone || '<span style="color:var(--text-3);font-style:italic;">Chưa có</span>';
+        return `
+        <tr onclick="viewCustomerDetail('${c.id}')" style="cursor:pointer;">
           <td>
             <div style="font-weight:600;">${c.name}</div>
-            <div style="font-size:11px;color:var(--text-3);margin-top:2px;">ID: ${c.id}</div>
+            <div style="font-size:11px;color:var(--text-3);margin-top:2px;">UID: ${displayId}</div>
           </td>
           <td>${c.email}</td>
+          <td>${phoneDisplay}</td>
           <td><strong>${c.orders}</strong></td>
           <td><strong style="color:var(--teal);">${formatCurrency(c.spending)}</strong></td>
-          <td>${formatDate(c.joined)}</td>
+          <td>${joinedStr}</td>
           <td onclick="event.stopPropagation();">
-            <button class="btn btn-outline-sm" onclick="viewCustomerDetail(${c.id})"> Xem</button>
+            <button class="btn btn-outline-sm" onclick="viewCustomerDetail('${c.id}')"> Xem</button>
           </td>
-        </tr>
-      `).join('');
-      document.getElementById('customers-tbody').innerHTML = html || '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-3);">Không có khách hàng nào</td></tr>';
+        </tr>`;
+      }).join('');
+      document.getElementById('customers-tbody').innerHTML = html || '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-3);">Không có khách hàng nào</td></tr>';
     }
 
     function filterCustomers() {
@@ -3070,24 +3269,51 @@
       const sort = document.getElementById('customers-sort-filter').value;
 
       let filtered = mockData.customers.filter(c => {
-        return c.name.toLowerCase().includes(search) || c.email.toLowerCase().includes(search);
+        return (c.name || '').toLowerCase().includes(search) || 
+               (c.email || '').toLowerCase().includes(search) ||
+               (c.phone || '').toLowerCase().includes(search);
       });
 
       // Sort
       if (sort === 'spending') {
-        filtered.sort((a, b) => b.spending - a.spending);
+        filtered.sort((a, b) => (b.spending || 0) - (a.spending || 0));
       } else if (sort === 'orders') {
-        filtered.sort((a, b) => b.orders - a.orders);
+        filtered.sort((a, b) => (b.orders || 0) - (a.orders || 0));
       }
 
       renderCustomers(filtered);
     }
 
     function viewCustomerDetail(customerId) {
-      const customer = mockData.customers.find(c => c.id === customerId);
+      const customer = mockData.customers.find(c => String(c.id) === String(customerId));
       if (!customer) return;
 
-      const customerOrders = mockData.orders.filter(o => o.email === customer.email);
+      const customerOrders = mockData.orders.filter(o => 
+        (o.email && o.email.toLowerCase() === (customer.email || '').toLowerCase()) || 
+        (o.customerEmail && o.customerEmail.toLowerCase() === (customer.email || '').toLowerCase()) ||
+        (o.userId === customer.id)
+      );
+      const totalSpending = customerOrders.reduce((sum, o) => sum + (o.amount || o.total || 0), 0);
+      const joinedStr = customer.joined ? formatDate(customer.joined) : '—';
+      const phoneDisplay = customer.phone || 'Chưa có';
+
+      const orderHistoryHtml = customerOrders.length > 0 
+        ? customerOrders.map(o => {
+            const orderDate = o.date || (o.createdAt && o.createdAt.seconds ? new Date(o.createdAt.seconds * 1000).toISOString() : '');
+            const productName = o.product || o.productName || (o.items && o.items.length > 0 ? o.items.map(i => i.name).join(', ') : '—');
+            return `
+              <div style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid var(--border);">
+                <div>
+                  <div style="font-weight:600;font-size:13px;">${o.orderNumber || o.id}</div>
+                  <div style="font-size:11px;color:var(--text-3);margin-top:2px;">${productName}</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-weight:700;color:var(--teal);">${formatCurrency(o.amount || o.total || 0)}</div>
+                  <div style="font-size:11px;color:var(--text-3);margin-top:2px;">${orderDate ? formatDate(orderDate) : '—'}</div>
+                </div>
+              </div>`;
+          }).join('')
+        : '<div style="text-align:center;padding:20px;color:var(--text-3);font-size:13px;">Chưa có đơn hàng nào</div>';
 
       const html = `
         <div style="display:grid;gap:20px;">
@@ -3102,36 +3328,36 @@
             </div>
           </div>
 
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+              <div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">SỐ ĐIỆN THOẠI</div>
+              <div style="font-weight:600;">${phoneDisplay}</div>
+            </div>
+            <div>
+              <div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">NGÀY ĐĂNG KÝ</div>
+              <div style="font-weight:600;">${joinedStr}</div>
+            </div>
+          </div>
+
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
             <div style="background:var(--bg-3);padding:16px;border-radius:10px;">
               <div style="font-size:11px;color:var(--text-3);margin-bottom:6px;">ĐƠN HÀNG</div>
-              <div style="font-size:22px;font-weight:700;color:var(--teal);">${customer.orders}</div>
+              <div style="font-size:22px;font-weight:700;color:var(--teal);">${customerOrders.length}</div>
             </div>
             <div style="background:var(--bg-3);padding:16px;border-radius:10px;">
               <div style="font-size:11px;color:var(--text-3);margin-bottom:6px;">TỔNG CHI TIÊU</div>
-              <div style="font-size:16px;font-weight:700;color:var(--teal);">${formatCurrency(customer.spending)}</div>
+              <div style="font-size:16px;font-weight:700;color:var(--teal);">${formatCurrency(totalSpending)}</div>
             </div>
             <div style="background:var(--bg-3);padding:16px;border-radius:10px;">
-              <div style="font-size:11px;color:var(--text-3);margin-bottom:6px;">NGÀY ĐĂNG KÝ</div>
-              <div style="font-size:14px;font-weight:600;">${formatDate(customer.joined)}</div>
+              <div style="font-size:11px;color:var(--text-3);margin-bottom:6px;">VAI TRÒ</div>
+              <div style="font-size:14px;font-weight:600;">${customer.role === 'admin' ? ' Admin' : ' Khách hàng'}</div>
             </div>
           </div>
 
           <div>
             <div style="font-size:13px;font-weight:700;margin-bottom:12px;">LỊCH SỬ ĐƠN HÀNG</div>
             <div style="max-height:200px;overflow-y:auto;">
-              ${customerOrders.map(o => `
-                <div style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid var(--border);">
-                  <div>
-                    <div style="font-weight:600;font-size:13px;">${o.id}</div>
-                    <div style="font-size:11px;color:var(--text-3);margin-top:2px;">${o.product}</div>
-                  </div>
-                  <div style="text-align:right;">
-                    <div style="font-weight:700;color:var(--teal);">${formatCurrency(o.amount)}</div>
-                    <div style="font-size:11px;color:var(--text-3);margin-top:2px;">${formatDate(o.date)}</div>
-                  </div>
-                </div>
-              `).join('')}
+              ${orderHistoryHtml}
             </div>
           </div>
         </div>
@@ -3176,20 +3402,32 @@
           </td></tr>`;
         return;
       }
-      const html = payments.map(p => `
+      const html = payments.map(p => {
+        const transId = p.transactionId || p.id;
+        const orderId = p.order || p.orderNumber || p.orderId || '—';
+        const customer = p.customer || p.customerName || '';
+        const amount = p.amount || p.total || 0;
+        const method = p.method || p.paymentMethod || 'chuyển khoản';
+        const status = p.status || p.paymentStatus || 'pending';
+        let time = p.time || '';
+        if (!time && p.createdAt) {
+          if (p.createdAt.toDate) time = p.createdAt.toDate().toLocaleString('vi-VN');
+          else if (p.createdAt.seconds) time = new Date(p.createdAt.seconds * 1000).toLocaleString('vi-VN');
+        }
+        return `
         <tr>
-          <td><strong>${p.id}</strong></td>
-          <td>${p.order}</td>
-          <td>${p.customer}</td>
-          <td><strong>${formatCurrency(p.amount)}</strong></td>
-          <td>${getPaymentMethodText(p.method)}</td>
-          <td><span class="badge badge-${p.status}">${getStatusText(p.status)}</span></td>
-          <td>${p.time}</td>
+          <td><strong style="font-size:11px;">${typeof transId === 'string' && transId.length > 12 ? transId.substring(0,12) + '...' : transId}</strong></td>
+          <td>${orderId}</td>
+          <td>${customer}</td>
+          <td><strong>${formatCurrency(amount)}</strong></td>
+          <td>${getPaymentMethodText(method)}</td>
+          <td><span class="badge badge-${status}">${getStatusText(status)}</span></td>
+          <td style="white-space:nowrap;">${time}</td>
           <td>
             <button class="btn btn-outline-sm" onclick="viewPaymentDetail('${p.id}')"> Xem</button>
           </td>
-        </tr>
-      `).join('');
+        </tr>`;
+      }).join('');
       document.getElementById('payments-tbody').innerHTML = html || '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-3);">Không có giao dịch nào</td></tr>';
     }
 
@@ -3199,9 +3437,13 @@
       const status = document.getElementById('payments-status-filter').value;
 
       const filtered = mockData.payments.filter(p => {
-        const matchSearch = p.id.toLowerCase().includes(search);
-        const matchMethod = !method || p.method === method;
-        const matchStatus = !status || p.status === status;
+        const transId = (p.transactionId || p.id || '').toLowerCase();
+        const orderId = (p.order || p.orderNumber || p.orderId || '').toLowerCase();
+        const matchSearch = transId.includes(search) || orderId.includes(search);
+        const payMethod = p.method || p.paymentMethod || '';
+        const matchMethod = !method || payMethod === method;
+        const payStatus = p.status || p.paymentStatus || '';
+        const matchStatus = !status || payStatus === status;
         return matchSearch && matchMethod && matchStatus;
       });
 
@@ -3564,6 +3806,126 @@
       }
     }
 
+    // ==================== REVIEWS MANAGEMENT ====================
+    let _adminReviews = [];
+
+    async function loadAdminReviews() {
+      try {
+        const { dbFB, collection, getDocs, query, orderBy } = window._fb;
+        const q = query(collection(dbFB, 'reviews'), orderBy('createdAt', 'desc'));
+        const snap = await getDocs(q);
+        _adminReviews = snap.docs.map(d => {
+          const data = d.data();
+          return {
+            id: d.id,
+            ...data,
+            createdAt: data.createdAt?.toDate?.() || (data.createdAt?.seconds ? new Date(data.createdAt.seconds * 1000) : new Date()),
+          };
+        });
+      } catch(e) { console.warn('Load reviews:', e.message); _adminReviews = []; }
+      filterAdminReviews();
+    }
+
+    function filterAdminReviews() {
+      const search = (document.getElementById('rv-admin-search')?.value || '').toLowerCase();
+      const status = document.getElementById('rv-admin-status-filter')?.value || 'all';
+      let filtered = _adminReviews;
+      if (status !== 'all') filtered = filtered.filter(r => r.status === status);
+      if (search) filtered = filtered.filter(r =>
+        (r.userName || '').toLowerCase().includes(search) ||
+        (r.comment || '').toLowerCase().includes(search) ||
+        (r.productId || '').toLowerCase().includes(search)
+      );
+      renderAdminReviews(filtered);
+    }
+
+    function renderAdminReviews(reviews) {
+      const tbody = document.getElementById('rv-admin-tbody');
+      const empty = document.getElementById('rv-admin-empty');
+      const countEl = document.getElementById('rv-admin-count');
+      if (countEl) countEl.textContent = reviews.length + ' đánh giá';
+
+      if (reviews.length === 0) {
+        if (tbody) tbody.innerHTML = '';
+        if (empty) empty.style.display = '';
+        return;
+      }
+      if (empty) empty.style.display = 'none';
+
+      const statusBadge = (s) => {
+        if (s === 'published') return '<span class="badge badge-published">Đã duyệt</span>';
+        if (s === 'pending') return '<span class="badge badge-pending">Chờ duyệt</span>';
+        return '<span class="badge badge-archived">Đã ẩn</span>';
+      };
+
+      tbody.innerHTML = reviews.map(r => {
+        const stars = '<i class="sn-star filled"></i>'.repeat(r.rating) + '<i class="sn-star empty"></i>'.repeat(5 - r.rating);
+        const dateStr = r.createdAt instanceof Date ? r.createdAt.toLocaleDateString('vi-VN') : '';
+        const comment = (r.comment || '').substring(0, 80) + ((r.comment || '').length > 80 ? '...' : '');
+        const verifiedTag = r.verified ? ' <span style="color:var(--green);font-size:10px;">MH</span>' : '';
+
+        let actions = '';
+        if (r.status === 'pending') {
+          actions = `<button class="btn btn-sm btn-teal" onclick="approveReview('${r.id}')" style="font-size:11px;padding:4px 10px;">Duyệt</button>
+                     <button class="btn-danger-sm" onclick="rejectReview('${r.id}')" style="font-size:11px;padding:4px 10px;">Ẩn</button>`;
+        } else if (r.status === 'published') {
+          actions = `<button class="btn-outline-sm" onclick="rejectReview('${r.id}')" style="font-size:11px;padding:4px 10px;">Ẩn</button>`;
+        } else {
+          actions = `<button class="btn btn-sm btn-teal" onclick="approveReview('${r.id}')" style="font-size:11px;padding:4px 10px;">Duyệt lại</button>`;
+        }
+        actions += ` <button class="btn-danger-sm" onclick="deleteAdminReview('${r.id}')" style="font-size:11px;padding:4px 8px;" title="Xóa vĩnh viễn"></button>`;
+
+        return `<tr>
+          <td><strong>${escHTML(r.userName || 'Ẩn danh')}</strong>${verifiedTag}</td>
+          <td style="font-size:12px;color:var(--text-2);">${escHTML(r.productId || '—')}</td>
+          <td style="color:var(--warn);letter-spacing:1px;">${stars}</td>
+          <td style="max-width:220px;font-size:12.5px;color:var(--text-2);" title="${escHTML(r.comment || '')}">${escHTML(comment)}</td>
+          <td style="font-size:12px;color:var(--text-3);white-space:nowrap;">${dateStr}</td>
+          <td>${statusBadge(r.status)}</td>
+          <td style="white-space:nowrap;">${actions}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    function escHTML(str) {
+      const d = document.createElement('div');
+      d.textContent = str || '';
+      return d.innerHTML;
+    }
+
+    async function approveReview(id) {
+      try {
+        const { dbFB, doc, updateDoc } = window._fb;
+        await updateDoc(doc(dbFB, 'reviews', id), { status: 'published' });
+        const r = _adminReviews.find(rv => rv.id === id);
+        if (r) r.status = 'published';
+        filterAdminReviews();
+        showToast('success', 'Đã duyệt đánh giá!');
+      } catch(e) { showToast('error', 'Lỗi: ' + e.message); }
+    }
+
+    async function rejectReview(id) {
+      try {
+        const { dbFB, doc, updateDoc } = window._fb;
+        await updateDoc(doc(dbFB, 'reviews', id), { status: 'hidden' });
+        const r = _adminReviews.find(rv => rv.id === id);
+        if (r) r.status = 'hidden';
+        filterAdminReviews();
+        showToast('success', 'Đã ẩn đánh giá.');
+      } catch(e) { showToast('error', 'Lỗi: ' + e.message); }
+    }
+
+    async function deleteAdminReview(id) {
+      if (!confirm('Bạn có chắc muốn XÓA VĨNH VIỄN đánh giá này?')) return;
+      try {
+        const { dbFB, doc, deleteDoc } = window._fb;
+        await deleteDoc(doc(dbFB, 'reviews', id));
+        _adminReviews = _adminReviews.filter(rv => rv.id !== id);
+        filterAdminReviews();
+        showToast('success', 'Đã xóa đánh giá.');
+      } catch(e) { showToast('error', 'Lỗi: ' + e.message); }
+    }
+
     // ==================== EMAILS ====================
     async function loadEmails() {
       try {
@@ -3896,7 +4258,16 @@
     }
 
     function formatDate(dateStr) {
-      const date = new Date(dateStr);
+      if (!dateStr) return '—';
+      let date;
+      if (dateStr && dateStr.toDate) {
+        date = dateStr.toDate();
+      } else if (dateStr && dateStr.seconds) {
+        date = new Date(dateStr.seconds * 1000);
+      } else {
+        date = new Date(dateStr);
+      }
+      if (isNaN(date.getTime())) return '—';
       return date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
     }
 
@@ -3921,14 +4292,16 @@
         'archived': 'Lưu trữ',
         'active': 'Hoạt động',
         'inactive': 'Không hoạt động',
-        'sent': 'Đã gửi'
+        'sent': 'Đã gửi',
+        'cancelled': 'Đã hủy',
+        'expired': 'Hết hạn'
       };
       return map[status] || status;
     }
 
     function getCategoryText(category) {
       const map = {
-        'ebook': ' Ebook',
+        'ebook': 'Ebook',
         'course': ' Khóa học',
         'template': ' Template',
         'tool': '🛠 Công cụ'
@@ -3940,9 +4313,13 @@
       const map = {
         'stripe': ' Stripe',
         'vnpay': ' VNPay',
-        'momo': '📱 MoMo'
+        'momo': '📱 MoMo',
+        'sepay': ' SePay',
+        'chuyển khoản': ' Chuyển khoản',
+        'bank_transfer': ' Chuyển khoản',
+        'bank': ' Ngân hàng',
       };
-      return map[method] || method;
+      return map[method] || method || ' Chuyển khoản';
     }
 
     function getRoleText(role) {
@@ -4360,12 +4737,9 @@ function importContent() {
           <div class="editor-group">
             <label class="editor-label">Danh mục</label>
             <select class="editor-input" id="product-category">
-              <option value="Nhân tính">Nhân tính</option>
-              <option value="Tư duy">Tư duy</option>
-              <option value="Kỹ năng sống">Kỹ năng sống</option>
-              <option value="Hệ thống">Hệ thống</option>
-              <option value="Tài chính">Tài chính</option>
-              <option value="Tình cảm">Tình cảm</option>
+              <option value="Thấu hiểu nhân tính">Thấu hiểu nhân tính</option>
+              <option value="Thay đổi tư duy">Thay đổi tư duy</option>
+              <option value="Làm chủ tài chính">Làm chủ tài chính</option>
             </select>
           </div>
           <div class="editor-group">
