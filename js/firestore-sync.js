@@ -64,7 +64,11 @@ function cacheSet(key, data) {
 // ─── Normalize product for compatibility with existing frontend ───
 function normalizeProduct(p) {
   // Auto-generate imageUrl from slug if not provided
-  const imgUrl = p.imageUrl || p.image || (p.slug ? 'chuan/' + p.slug.replace(/-/g, '_') + '.webp' : '');
+  // Slug corrections for mismatches between Firestore slugs and actual image filenames
+  const slugFixes = { 'tu-duy-cuong-gia': 'tu-duy-cuon-gia' };
+  const fixedSlug = p.slug ? (slugFixes[p.slug] || p.slug) : '';
+  // Always prefer local anh-chuan images (slug-based) over Firestore imageUrl (may be stale)
+  const imgUrl = (fixedSlug ? 'product/anh-chuan/' + fixedSlug + '.jpeg' : '') || p.imageUrl || p.image || '';
   return {
     id: p.id,
     slug: p.slug || '',
