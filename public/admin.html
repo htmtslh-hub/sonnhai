@@ -2182,7 +2182,7 @@
     // Auto-generate imageUrl from slug (shared helper)
     function autoImageUrl(slug) {
       if (!slug) return '';
-      return 'product/anh-chuan/' + slug + '.png';
+      return 'product/anh-chuan/' + slug + '.webp';
     }
 
     // Normalize a product object for consistent fields across admin + public
@@ -2794,7 +2794,7 @@
       const imgSelect = document.getElementById('product-image-select');
       if (imgSelect) {
         imgSelect.innerHTML = '<option value="">Tự động từ slug</option>' +
-          CHUAN_IMAGES.map(img => `<option value="product/anh-chuan/${img}">${img.replace('.png','').replace(/-/g,' ')}</option>`).join('');
+          CHUAN_IMAGES.map(img => `<option value="product/anh-chuan/${img}">${img.replace('.webp','').replace(/-/g,' ')}</option>`).join('');
       }
 
       if (id) {

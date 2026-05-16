@@ -818,7 +818,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     <div class="related-grid">
       <a href="product.html?slug=thuc-tinh-nhan-thuc" class="r-card">
         <div class="r-thumb" style="background:transparent;overflow:hidden;display:flex;align-items:center;justify-content:center;">
-          <img src="product/anh-chuan/thuc-tinh-nhan-thuc.png" alt="Thức tỉnh nhận thức" loading="lazy" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">
+          <img src="product/anh-chuan/thuc-tinh-nhan-thuc.webp" alt="Thức tỉnh nhận thức" loading="lazy" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">
         </div>
         <div class="r-body">
           <div class="r-cat">Nhận thức</div>
@@ -828,7 +828,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       </a>
       <a href="product.html?slug=logic-nguoi-ngheo" class="r-card">
         <div class="r-thumb" style="background:transparent;overflow:hidden;display:flex;align-items:center;justify-content:center;">
-          <img src="product/anh-chuan/logic-nguoi-ngheo.png" alt="Logic người nghèo" loading="lazy" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">
+          <img src="product/anh-chuan/logic-nguoi-ngheo.webp" alt="Logic người nghèo" loading="lazy" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">
         </div>
         <div class="r-body">
           <div class="r-cat">Tư duy</div>
@@ -838,7 +838,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       </a>
       <a href="product.html?slug=muu-luoc-tai-chinh" class="r-card">
         <div class="r-thumb" style="background:transparent;overflow:hidden;display:flex;align-items:center;justify-content:center;">
-          <img src="product/anh-chuan/muu-luoc-tai-chinh.png" alt="Mưu lược tài chính" loading="lazy" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">
+          <img src="product/anh-chuan/muu-luoc-tai-chinh.webp" alt="Mưu lược tài chính" loading="lazy" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">
         </div>
         <div class="r-body">
           <div class="r-cat">Tài chính</div>
@@ -848,7 +848,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       </a>
       <a href="product.html?slug=he-thong-manh-me" class="r-card">
         <div class="r-thumb" style="background:transparent;overflow:hidden;display:flex;align-items:center;justify-content:center;">
-          <img src="product/anh-chuan/he-thong-manh-me.png" alt="Hệ thống mạnh mẽ" loading="lazy" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">
+          <img src="product/anh-chuan/he-thong-manh-me.webp" alt="Hệ thống mạnh mẽ" loading="lazy" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">
         </div>
         <div class="r-body">
           <div class="r-cat">Hệ thống</div>
@@ -1580,7 +1580,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     const others = allProds.filter(p => p.category !== product.category);
     const related = [...sameCat, ...others].slice(0, 4);
     thumbsGrid.innerHTML = related.map(p => {
-      const img = p.imageUrl || (p.slug ? 'product/anh-chuan/' + p.slug + '.png' : '');
+      const img = p.imageUrl || (p.slug ? 'product/anh-chuan/' + p.slug + '.webp' : '');
       return `<a href="product.html?slug=${p.slug}" class="g-thumb" title="${p.name}" style="padding:0;overflow:hidden;">${img ? `<img src="${img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">` : p.emoji || ''}</a>`;
     }).join('');
   }

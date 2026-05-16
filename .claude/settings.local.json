@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(node prepare-public.js)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Bash(sed -i \"s|imageUrl: 'chuan/xuyen_thau_nhan_tinh.webp'|imageUrl: 'product/anh-chuan/xuyen-thau-nhan-tinh.png'|g\" sync-products.html public/sync-products.html)",
+      "Bash(sed -i \"s|imageUrl: 'chuan/nhan_tinh_den_trang.webp'|imageUrl: 'product/anh-chuan/nhan-tinh-den-trang.png'|g\" sync-products.html public/sync-products.html)",
+      "Bash(sed -i \"s|imageUrl: 'chuan/thuong_chien.webp'|imageUrl: 'product/anh-chuan/thuong-chien.png'|g\" sync-products.html public/sync-products.html)",
+      "Bash(sed -i \"s|imageUrl: 'chuan/muu_luoc_tuoir_tre.webp'|imageUrl: 'product/anh-chuan/muu-luoc-tuoi-tre.png'|g\" sync-products.html public/sync-products.html)",
+      "Bash(sed -i \"s|imageUrl: 'chuan/goc_nhin_tao_lap.webp'|imageUrl: 'product/anh-chuan/goc-nhin-tao-lap.png'|g\" sync-products.html public/sync-products.html)"
     ]
   }
 }
