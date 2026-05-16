@@ -1,4 +1,4 @@
-// ═══════════════════════════════════════════════════════════════════════════════
+﻿// ═══════════════════════════════════════════════════════════════════════════════
 // FIRESTORE SYNC — Data layer dùng chung cho tất cả trang public
 // Đọc từ Firestore, cache vào localStorage, cung cấp API cho các trang
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -68,7 +68,7 @@ function normalizeProduct(p) {
   const slugFixes = { 'tu-duy-cuong-gia': 'tu-duy-cuon-gia' };
   const fixedSlug = p.slug ? (slugFixes[p.slug] || p.slug) : '';
   // Always prefer local anh-chuan images (slug-based) over Firestore imageUrl (may be stale)
-  const imgUrl = (fixedSlug ? 'product/anh-chuan/' + fixedSlug + '.jpeg' : '') || p.imageUrl || p.image || '';
+  const imgUrl = (fixedSlug ? 'product/anh-chuan/' + fixedSlug + '.png' : '') || p.imageUrl || p.image || '';
   return {
     id: p.id,
     slug: p.slug || '',
