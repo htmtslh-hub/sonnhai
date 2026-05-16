@@ -264,7 +264,7 @@
 
   const fmt = n => Number(n).toLocaleString('vi-VN') + 'đ';
   grid.innerHTML = products.map(p => {
-    const img = p.imageUrl || (p.slug ? 'product/' + p.slug.replace(/-/g, '_') + '.webp' : '');
+    const img = p.imageUrl || (p.slug ? 'product/anh-chuan/' + p.slug + '.png' : '');
     return `<a href="product.html?slug=${p.slug}" class="prod-card">
       ${img ? `<img src="${img}" alt="${p.name}" class="prod-img" loading="lazy">` : `<div style="width:100%;aspect-ratio:3/4;background:${p.coverGradient || 'var(--bg-3)'};display:flex;align-items:center;justify-content:center;font-size:36px;">${p.emoji || ''}</div>`}
       <div class="prod-info">

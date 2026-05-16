@@ -64,7 +64,7 @@ function cacheSet(key, data) {
 // ─── Normalize product for compatibility with existing frontend ───
 function normalizeProduct(p) {
   // Auto-generate imageUrl from slug if not provided
-  const imgUrl = p.imageUrl || p.image || (p.slug ? 'chuan/' + p.slug.replace(/-/g, '_') + '.webp' : '');
+  const imgUrl = p.imageUrl || p.image || (p.slug ? 'product/anh-chuan/' + p.slug + '.png' : '');
   return {
     id: p.id,
     slug: p.slug || '',
