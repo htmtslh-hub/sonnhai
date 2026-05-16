@@ -888,17 +888,8 @@ fbq('init','438100172987941');fbq('track','PageView');
       let thumbContent;
       if (p.imageUrl) {
         thumbContent = `
-          <div class="p-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;">
-             <div class="book-3d book-3d--cat">
-               <div class="book-3d__inner">
-                 <div class="book-3d__spine"></div>
-                 <div class="book-3d__cover">
-                   <img src="${p.imageUrl}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
-                   <div class="book-3d__shine"></div>
-                 </div>
-               </div>
-               <div class="book-3d__shadow"></div>
-             </div>
+          <div class="p-thumb" style="background:transparent;display:flex;align-items:center;justify-content:center;">
+             <img src="${p.imageUrl}" alt="${p.name}" loading="lazy" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">
           </div>`;
       } else {
         thumbContent = `
