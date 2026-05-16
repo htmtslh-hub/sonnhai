@@ -941,6 +941,10 @@ fbq('init','438100172987941');fbq('track','PageView');
 
 <style>
   /* ───── TESTIMONIALS ───── */
+  .sn-star { font-style: normal; }
+  .sn-star.filled::before { content: '★'; }
+  .sn-star.empty::before { content: '☆'; }
+
   .testimonials-sec {
     padding-bottom: 40px;
   }
@@ -1870,7 +1874,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     const starsEl = document.getElementById('testi-avg-stars');
     const totalEl = document.getElementById('testi-total');
     if (avgEl) avgEl.textContent = avgRating;
-    if (starsEl) starsEl.textContent = '<i class="sn-star filled"></i>'.repeat(avgFull) + (avgHalf ? '' : '') + '<i class="sn-star empty"></i>'.repeat(5 - avgFull - avgHalf);
+    if (starsEl) starsEl.innerHTML = '<i class="sn-star filled"></i>'.repeat(avgFull) + (avgHalf ? '' : '') + '<i class="sn-star empty"></i>'.repeat(5 - avgFull - avgHalf);
     if (totalEl) totalEl.textContent = totalReviews > 99 ? totalReviews + '+' : totalReviews + '+';
 
     // Get products for linking
