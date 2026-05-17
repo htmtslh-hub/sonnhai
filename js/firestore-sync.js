@@ -68,7 +68,7 @@ function normalizeProduct(p) {
   const slugFixes = { 'tu-duy-cuong-gia': 'tu-duy-cuon-gia' };
   const fixedSlug = p.slug ? (slugFixes[p.slug] || p.slug) : '';
   // Always prefer local anh-chuan images (slug-based) over Firestore imageUrl (may be stale)
-  const imgUrl = (fixedSlug ? 'product/anh-chuan/' + fixedSlug + '.webp?v=2' : '') || p.imageUrl || p.image || '';
+  const imgUrl = (fixedSlug ? 'product/anh-chuan/' + fixedSlug + '.webp?v=3' : '') || p.imageUrl || p.image || '';
   return {
     id: p.id,
     slug: p.slug || '',
