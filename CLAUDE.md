@@ -298,6 +298,7 @@ Cache: localStorage với prefix `sndata_`, TTL 5 phút.
 - Luôn dùng `String(id)` khi so sánh ID
 - `getCart()` trả về **array[]**, KHÔNG phải `{items: []}`
 - cart-badge.js version hiện tại: `v=5` — tất cả page phải dùng cùng version
+- **KHI SỬA CODE: Chỉ sửa đúng phần liên quan đến bug/feature đang làm. KHÔNG được động vào các phần khác, không refactor, không "cải thiện" code xung quanh.**
 
 ---
 

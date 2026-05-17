@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -97,10 +97,7 @@ fbq('init','438100172987941');fbq('track','PageView');
       padding: 36px 0 40px; position: relative; overflow: hidden;
     }
     .page-hero-glow {
-      position: absolute; top: -60px; right: -80px;
-      width: 480px; height: 480px;
-      background: radial-gradient(ellipse at 70% 30%, rgba(0,212,212,.08) 0%, transparent 65%);
-      pointer-events: none;
+      display: none;
     }
     .page-hero-inner { position: relative; }
     .page-eyebrow {
@@ -462,25 +459,23 @@ fbq('init','438100172987941');fbq('track','PageView');
     }
     .combo-card.hot .combo-save { background: var(--warn); }
     .combo-covers {
-      padding: 36px 24px 28px; background: linear-gradient(180deg, var(--bg-3), var(--bg-2));
-      border-bottom: 1px solid var(--border);
+      padding: 20px 16px; background: transparent;
       display: flex; justify-content: center; align-items: flex-end;
-      position: relative; min-height: 130px; z-index: 1;
+      position: relative; min-height: 220px; z-index: 1;
     }
     .combo-book {
-      width: 64px; height: 86px; border-radius: 7px; position: absolute;
-      display: flex; align-items: center; justify-content: center; font-size: 30px;
-      border: 1px solid rgba(255,255,255,.08); box-shadow: 0 10px 28px rgba(0,0,0,.65);
+      width: 120px; height: 160px; border-radius: 8px; position: absolute;
+      display: flex; align-items: center; justify-content: center; font-size: 34px;
       transition: transform .3s ease; overflow: hidden;
     }
     .combo-book img {
       position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;
     }
-    .combo-book.b1 { transform: rotate(-9deg) translateX(-38px); z-index: 1; }
+    .combo-book.b1 { transform: rotate(-9deg) translateX(-68px); z-index: 1; }
     .combo-book.b2 { transform: rotate(0deg); z-index: 3; }
-    .combo-book.b3 { transform: rotate(9deg) translateX(38px); z-index: 1; }
-    .combo-card:hover .combo-book.b1 { transform: rotate(-13deg) translateX(-48px); }
-    .combo-card:hover .combo-book.b3 { transform: rotate(13deg) translateX(48px); }
+    .combo-book.b3 { transform: rotate(9deg) translateX(68px); z-index: 1; }
+    .combo-card:hover .combo-book.b1 { transform: rotate(-13deg) translateX(-78px); }
+    .combo-card:hover .combo-book.b3 { transform: rotate(13deg) translateX(78px); }
     .combo-body { padding: 20px 20px 0; flex: 1; display: flex; flex-direction: column; position: relative; z-index: 1; }
     .combo-tag { font-size: 9px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 6px; }
     .combo-name { font-family: 'Exo 2', 'Be Vietnam Pro', sans-serif; font-size: 16px; font-weight: 900; color: var(--text); margin-bottom: 14px; line-height: 1.2; }
@@ -888,17 +883,8 @@ fbq('init','438100172987941');fbq('track','PageView');
       let thumbContent;
       if (p.imageUrl) {
         thumbContent = `
-          <div class="p-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;">
-             <div class="book-3d book-3d--cat">
-               <div class="book-3d__inner">
-                 <div class="book-3d__spine"></div>
-                 <div class="book-3d__cover">
-                   <img src="${p.imageUrl}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
-                   <div class="book-3d__shine"></div>
-                 </div>
-               </div>
-               <div class="book-3d__shadow"></div>
-             </div>
+          <div class="p-thumb" style="background:transparent;display:flex;align-items:center;justify-content:center;">
+             <img src="${p.imageUrl}" alt="${p.name}" loading="lazy" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">
           </div>`;
       } else {
         thumbContent = `
@@ -917,7 +903,6 @@ fbq('init','438100172987941');fbq('track','PageView');
             <div class="p-name">${p.name}</div>
             <div class="p-meta">
               <span class="p-tag">${p.format || 'PDF'}</span>
-              <span class="p-tag">${p.pages || '250'} trang</span>
             </div>
             <div class="p-price">
               <span class="p-now">${formatVND(p.price)}</span>
@@ -1168,10 +1153,6 @@ fbq('init','438100172987941');fbq('track','PageView');
   })();
 
   // ── Render Combos ──
-  const bookColors = [
-    'book-color-1','book-color-2','book-color-3','book-color-4',
-    'book-color-5','book-color-6','book-color-7','book-color-8'
-  ];
 
   async function renderCategoryCombos() {
     const grid = document.getElementById('cat-combo-grid');
@@ -1209,23 +1190,19 @@ fbq('init','438100172987941');fbq('track','PageView');
         return `<li>${name}${price ? ' (' + price + ')' : ''}</li>`;
       }).join('');
 
-      const bc1 = bookColors[(idx * 3) % bookColors.length];
-      const bc2 = bookColors[(idx * 3 + 1) % bookColors.length];
-      const bc3 = bookColors[(idx * 3 + 2) % bookColors.length];
-
-      function bookHtml(prod, bcClass, posClass) {
+      function bookHtml(prod, posClass) {
         const emoji = prod ? (prod.emoji || prod.icon || '') : '';
         const imgTag = (prod && prod.imageUrl) ? `<img src="${prod.imageUrl}" alt="${prod.name || ''}" onerror="this.remove()">` : '';
-        return `<div class="combo-book ${posClass} ${bcClass}">${emoji}${imgTag}</div>`;
+        return `<div class="combo-book ${posClass}">${emoji}${imgTag}</div>`;
       }
 
       let booksHtml = '';
       if (comboProducts.length >= 3) {
-        booksHtml = bookHtml(comboProducts[0], bc1, 'b1') + bookHtml(comboProducts[1], bc2, 'b2') + bookHtml(comboProducts[2], bc3, 'b3');
+        booksHtml = bookHtml(comboProducts[0], 'b1') + bookHtml(comboProducts[1], 'b2') + bookHtml(comboProducts[2], 'b3');
       } else if (comboProducts.length === 2) {
-        booksHtml = bookHtml(comboProducts[0], bc1, 'b1') + bookHtml(comboProducts[1], bc2, 'b2');
+        booksHtml = bookHtml(comboProducts[0], 'b1') + bookHtml(comboProducts[1], 'b2');
       } else if (comboProducts.length === 1) {
-        booksHtml = bookHtml(comboProducts[0], bc1, 'b2');
+        booksHtml = bookHtml(comboProducts[0], 'b2');
       }
 
       const isHot = combo.isHot || false;
@@ -1355,7 +1332,7 @@ fbq('init','438100172987941');fbq('track','PageView');
 <script src="js/cart-badge.js?v=6"></script>
 <script type="module" src="js/firestore-sync.js"></script>
 <script src="js/morph-engine.js?v=1"></script>
-<script src="js/parallax-engine.js?v=grid-particles-2"></script>
+<script src="js/parallax-engine.js?v=grid-particles-2"></script>`n<script src="js/search-modal.js"></script>
 <script type="module" src="/auth-ui.js"></script>
 <script src="js/mobile-menu.js?v=1"></script>
 <!-- Floating Contact Buttons -->

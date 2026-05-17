@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -623,29 +623,8 @@ fbq('init','438100172987941');fbq('track','PageView');
         Cuốn sách phá vỡ những niềm tin giới hạn đang kìm hãm tiềm năng của bạn. Từ tư duy cố định sang tư duy phát triển — hành trình thức tỉnh nhận thức sẽ thay đổi cách bạn nhìn bản thân, thế giới và tương lai của chính mình.
       </p>
 
-      <!-- File info pills -->
-      <div class="p-file-info">
-        <div class="fi-pill">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-          PDF + EPUB
-        </div>
-        <div class="fi-pill">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          248 trang
-        </div>
-        <div class="fi-pill">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          1.8 MB
-        </div>
-        <div class="fi-pill">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Cập nhật 04/2025
-        </div>
-        <div class="fi-pill">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Tải tối đa 5 lần / 30 ngày
-        </div>
-      </div>
+      <!-- File info pills - rendered dynamically -->
+      <div class="p-file-info" id="p-file-info" style="display:none;"></div>
 
       <!-- Price -->
       <div class="p-price-row">
@@ -817,8 +796,8 @@ fbq('init','438100172987941');fbq('track','PageView');
     </div>
     <div class="related-grid">
       <a href="product.html?slug=thuc-tinh-nhan-thuc" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;">
-          <div class="book-3d book-3d--cat"><div class="book-3d__inner"><div class="book-3d__spine"></div><div class="book-3d__cover"><img src="product/anh-chuan/thuc-tinh-nhan-thuc.webp" alt="Thức tỉnh nhận thức" loading="lazy" onerror="this.style.display='none'"><div class="book-3d__shine"></div></div></div><div class="book-3d__shadow"></div></div>
+        <div class="r-thumb" style="background:transparent;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+          <img src="product/anh-chuan/thuc-tinh-nhan-thuc.webp" alt="Thức tỉnh nhận thức" loading="lazy" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">
         </div>
         <div class="r-body">
           <div class="r-cat">Nhận thức</div>
@@ -827,8 +806,8 @@ fbq('init','438100172987941');fbq('track','PageView');
         </div>
       </a>
       <a href="product.html?slug=logic-nguoi-ngheo" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;">
-          <div class="book-3d book-3d--cat"><div class="book-3d__inner"><div class="book-3d__spine"></div><div class="book-3d__cover"><img src="product/anh-chuan/logic-nguoi-ngheo.webp" alt="Logic người nghèo" loading="lazy" onerror="this.style.display='none'"><div class="book-3d__shine"></div></div></div><div class="book-3d__shadow"></div></div>
+        <div class="r-thumb" style="background:transparent;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+          <img src="product/anh-chuan/logic-nguoi-ngheo.webp" alt="Logic người nghèo" loading="lazy" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">
         </div>
         <div class="r-body">
           <div class="r-cat">Tư duy</div>
@@ -837,8 +816,8 @@ fbq('init','438100172987941');fbq('track','PageView');
         </div>
       </a>
       <a href="product.html?slug=muu-luoc-tai-chinh" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;">
-          <div class="book-3d book-3d--cat"><div class="book-3d__inner"><div class="book-3d__spine"></div><div class="book-3d__cover"><img src="product/anh-chuan/muu-luoc-tai-chinh.webp" alt="Mưu lược tài chính" loading="lazy" onerror="this.style.display='none'"><div class="book-3d__shine"></div></div></div><div class="book-3d__shadow"></div></div>
+        <div class="r-thumb" style="background:transparent;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+          <img src="product/anh-chuan/muu-luoc-tai-chinh.webp" alt="Mưu lược tài chính" loading="lazy" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">
         </div>
         <div class="r-body">
           <div class="r-cat">Tài chính</div>
@@ -847,8 +826,8 @@ fbq('init','438100172987941');fbq('track','PageView');
         </div>
       </a>
       <a href="product.html?slug=he-thong-manh-me" class="r-card">
-        <div class="r-thumb" style="background:linear-gradient(180deg,var(--bg-3),var(--bg-2));overflow:visible;">
-          <div class="book-3d book-3d--cat"><div class="book-3d__inner"><div class="book-3d__spine"></div><div class="book-3d__cover"><img src="product/anh-chuan/he-thong-manh-me.webp" alt="Hệ thống mạnh mẽ" loading="lazy" onerror="this.style.display='none'"><div class="book-3d__shine"></div></div></div><div class="book-3d__shadow"></div></div>
+        <div class="r-thumb" style="background:transparent;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+          <img src="product/anh-chuan/he-thong-manh-me.webp" alt="Hệ thống mạnh mẽ" loading="lazy" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">
         </div>
         <div class="r-body">
           <div class="r-cat">Hệ thống</div>
@@ -1483,19 +1462,12 @@ fbq('init','438100172987941');fbq('track','PageView');
     galleryBook.style.display = 'none';
     const galleryGlow = galleryMain.querySelector('.gallery-glow');
     if (galleryGlow) galleryGlow.style.display = 'none';
-    let book3dEl = galleryMain.querySelector('.book-3d--xl');
+    let book3dEl = galleryMain.querySelector('.gallery-real-img-wrap');
     if (!book3dEl) {
       const wrapper = document.createElement('div');
       wrapper.innerHTML = `
-        <div class="book-3d book-3d--xl book-3d--float" style="position:relative;z-index:2;">
-          <div class="book-3d__inner">
-            <div class="book-3d__spine"></div>
-            <div class="book-3d__cover">
-              <img class="gallery-real-img" loading="lazy" onerror="this.style.display='none'">
-              <div class="book-3d__shine"></div>
-            </div>
-          </div>
-          <div class="book-3d__shadow"></div>
+        <div class="gallery-real-img-wrap" style="position:relative;z-index:2;display:flex;align-items:center;justify-content:center;width:100%;height:100%;">
+          <img class="gallery-real-img" loading="lazy" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none'">
         </div>`;
       const b3d = wrapper.firstElementChild;
       galleryMain.insertBefore(b3d, galleryMain.querySelector('.gallery-badge'));
@@ -1797,7 +1769,7 @@ async function renderRelatedProducts(currentProduct) {
 }
 </script>
 <script src="js/morph-engine.js?v=1"></script>
-<script src="js/parallax-engine.js?v=grid-particles-2"></script>
+<script src="js/parallax-engine.js?v=grid-particles-2"></script>`n<script src="js/search-modal.js"></script>
 <script src="js/mobile-menu.js?v=1"></script>
 <!-- Floating Contact Buttons -->
 <div style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:12px;">

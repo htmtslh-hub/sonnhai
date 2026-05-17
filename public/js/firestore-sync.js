@@ -1,4 +1,4 @@
-// ═══════════════════════════════════════════════════════════════════════════════
+﻿// ═══════════════════════════════════════════════════════════════════════════════
 // FIRESTORE SYNC — Data layer dùng chung cho tất cả trang public
 // Đọc từ Firestore, cache vào localStorage, cung cấp API cho các trang
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -64,7 +64,11 @@ function cacheSet(key, data) {
 // ─── Normalize product for compatibility with existing frontend ───
 function normalizeProduct(p) {
   // Auto-generate imageUrl from slug if not provided
-  const imgUrl = p.imageUrl || p.image || (p.slug ? 'product/anh-chuan/' + p.slug + '.webp' : '');
+  // Slug corrections for mismatches between Firestore slugs and actual image filenames
+  const slugFixes = { 'tu-duy-cuong-gia': 'tu-duy-cuon-gia' };
+  const fixedSlug = p.slug ? (slugFixes[p.slug] || p.slug) : '';
+  // Always prefer local anh-chuan images (slug-based) over Firestore imageUrl (may be stale)
+  const imgUrl = (fixedSlug ? 'product/anh-chuan/' + fixedSlug + '.webp?v=3' : '') || p.imageUrl || p.image || '';
   return {
     id: p.id,
     slug: p.slug || '',
@@ -78,12 +82,12 @@ function normalizeProduct(p) {
     coverGradient: p.coverGradient || 'linear-gradient(145deg, #0A1A2E, #0D2845)',
     description: p.description || '',
     fullDescription: p.fullDescription || p.full_description || '',
-    rating: p.rating || 4.5,
+    rating: p.rating || 0,
     sold_count: p.soldCount || p.sold_count || p.sold || 0,
     soldCount: p.soldCount || p.sold_count || p.sold || 0,
     status: p.status || 'published',
-    pages: p.pages || 250,
-    format: p.format || 'PDF',
+    pages: p.pages || 0,
+    format: p.format || '',
     imageUrl: imgUrl,
     image: imgUrl,
     category_name: p.category || '',
