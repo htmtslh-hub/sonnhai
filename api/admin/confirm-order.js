@@ -136,7 +136,7 @@ module.exports = async (req, res) => {
           });
         }
 
-        const baseUrl = 'https://sonnhai.vercel.app';
+        const baseUrl = 'https://thuviensonnhai.com';
         const emailPayload = {
           type: 'order_confirmation',
           to: orderData.customerEmail,

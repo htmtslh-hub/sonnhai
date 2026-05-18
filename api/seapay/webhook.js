@@ -284,7 +284,7 @@ module.exports = async (req, res) => {
 
         const baseUrl = req.headers['x-forwarded-host']
           ? `https://${req.headers['x-forwarded-host']}`
-          : 'https://sonnhai.vercel.app';
+          : 'https://thuviensonnhai.com';
 
         const emailPayload = {
           type: 'order_confirmation',

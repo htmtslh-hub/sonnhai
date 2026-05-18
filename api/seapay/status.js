@@ -201,7 +201,7 @@ async function processPayment(db, orderDoc, orderData, transaction) {
         });
       }
 
-      const baseUrl = 'https://sonnhai.vercel.app';
+      const baseUrl = 'https://thuviensonnhai.com';
       const emailPayload = {
         type: 'order_confirmation',
         to: orderData.customerEmail,
