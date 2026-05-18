@@ -685,6 +685,7 @@
         <a class="sb-item" onclick="switchPage('layout-footer')"><span class="sb-icon"></span><span class="sb-text">Footer</span></a>
 
         <div class="sb-section-label">KHÁC</div>
+        <a class="sb-item" onclick="switchPage('analytics')"><span class="sb-icon"></span><span class="sb-text">Truy cập</span></a>
         <a class="sb-item" onclick="switchPage('emails')"><span class="sb-icon"></span><span class="sb-text">Email</span></a>
         <a class="sb-item" onclick="switchPage('admins')"><span class="sb-icon"></span><span class="sb-text">Tài khoản Admin</span></a>
         <a class="sb-item" onclick="switchPage('seo')"><span class="sb-icon"></span><span class="sb-text">SEO</span></a>
@@ -1679,6 +1680,61 @@
             </div>
           </div>
         </div>
+<!-- ANALYTICS PAGE -->
+<div id="page-analytics" class="page-section">
+  <div class="page-header">
+    <div>
+      <h2 class="page-title">Thống kê truy cập</h2>
+      <p class="page-desc">Dữ liệu lượt xem trang hàng ngày</p>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <select id="analytics-range" class="editor-input" style="width:auto;padding:8px 14px;" onchange="loadAnalytics()">
+        <option value="7">7 ngày qua</option>
+        <option value="14">14 ngày qua</option>
+        <option value="30" selected>30 ngày qua</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;">
+    <div class="stat-card">
+      <div class="stat-label">Hôm nay</div>
+      <div class="stat-value" id="ana-today">--</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Hôm qua</div>
+      <div class="stat-value" id="ana-yesterday">--</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Tổng (khoảng chọn)</div>
+      <div class="stat-value" id="ana-total">--</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Trung bình/ngày</div>
+      <div class="stat-value" id="ana-avg">--</div>
+    </div>
+  </div>
+
+  <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:24px;">
+    <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:16px;">Biểu đồ lượt xem theo ngày</div>
+    <div id="analytics-chart" style="display:flex;align-items:flex-end;gap:4px;height:200px;padding-top:20px;position:relative;">
+      <div style="color:var(--text-3);font-size:12px;">Đang tải...</div>
+    </div>
+  </div>
+
+  <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:14px;padding:24px;">
+    <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:16px;">Chi tiết theo ngày</div>
+    <table class="admin-table" style="width:100%;">
+      <thead>
+        <tr><th>Ngày</th><th>Lượt xem</th><th>So với hôm trước</th></tr>
+      </thead>
+      <tbody id="analytics-table-body">
+        <tr><td colspan="3" style="text-align:center;color:var(--text-3);">Đang tải...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <div id="page-logs" class="page-section">
           <div class="page-header">
             <div>
@@ -2156,6 +2212,7 @@
         case 'payments': loadPayments(); break;
         case 'content': loadContent(); break;
         case 'emails': loadEmails(); break;
+        case 'analytics': loadAnalytics(); break;
         case 'admins': loadAdmins(); break;
         case 'logs': loadLogs(); break;
         case 'product-editor': loadProductEditor(); break;
@@ -4202,6 +4259,74 @@
     // ==================== SETTINGS ====================
     function saveSettings(type) {
       showToast('success', `Đã lưu cài đặt ${type} thành công!`);
+    }
+
+    // ==================== ANALYTICS ====================
+    async function loadAnalytics() {
+      try {
+        const { dbFB, collection, getDocs, query, orderBy, where } = window._fb;
+        const days = parseInt(document.getElementById('analytics-range').value) || 30;
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - days);
+        const startStr = startDate.toISOString().split('T')[0];
+
+        const q = query(collection(dbFB, 'page_views'), orderBy('date', 'desc'));
+        const snap = await getDocs(q);
+        const allData = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        // Filter by date range
+        const filtered = allData.filter(d => d.date >= startStr);
+
+        // Calculate stats
+        const today = new Date().toISOString().split('T')[0];
+        const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+        const todayViews = filtered.find(d => d.date === today)?.views || 0;
+        const yesterdayViews = filtered.find(d => d.date === yesterday)?.views || 0;
+        const totalViews = filtered.reduce((s, d) => s + (d.views || 0), 0);
+        const avgViews = filtered.length > 0 ? Math.round(totalViews / filtered.length) : 0;
+
+        document.getElementById('ana-today').textContent = todayViews.toLocaleString('vi-VN');
+        document.getElementById('ana-yesterday').textContent = yesterdayViews.toLocaleString('vi-VN');
+        document.getElementById('ana-total').textContent = totalViews.toLocaleString('vi-VN');
+        document.getElementById('ana-avg').textContent = avgViews.toLocaleString('vi-VN');
+
+        // Render chart
+        const chartEl = document.getElementById('analytics-chart');
+        const sorted = [...filtered].sort((a, b) => a.date.localeCompare(b.date));
+        const maxViews = Math.max(...sorted.map(d => d.views || 0), 1);
+
+        if (sorted.length === 0) {
+          chartEl.innerHTML = '<div style="color:var(--text-3);font-size:13px;width:100%;text-align:center;">Chưa có dữ liệu. Hãy thêm tracking script vào website.</div>';
+        } else {
+          chartEl.innerHTML = sorted.map(d => {
+            const h = Math.max(((d.views || 0) / maxViews) * 180, 4);
+            const dateLabel = d.date.slice(5);
+            return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <div style="font-size:9px;color:var(--text-3);">${d.views || 0}</div>
+              <div style="width:100%;max-width:28px;height:${h}px;background:linear-gradient(180deg,var(--teal),var(--teal-dark));border-radius:4px 4px 0 0;transition:height .3s;"></div>
+              <div style="font-size:8px;color:var(--text-3);white-space:nowrap;">${dateLabel}</div>
+            </div>`;
+          }).join('');
+        }
+
+        // Render table
+        const tbody = document.getElementById('analytics-table-body');
+        if (sorted.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--text-3);padding:20px;">Chưa có dữ liệu truy cập</td></tr>';
+        } else {
+          tbody.innerHTML = [...sorted].reverse().map((d, i, arr) => {
+            const prev = arr[i + 1]?.views || 0;
+            const diff = (d.views || 0) - prev;
+            const diffHtml = i < arr.length - 1
+              ? (diff > 0 ? `<span style="color:var(--green);">+${diff}</span>` : diff < 0 ? `<span style="color:var(--red);">${diff}</span>` : `<span style="color:var(--text-3);">0</span>`)
+              : '<span style="color:var(--text-3);">--</span>';
+            return `<tr><td>${d.date}</td><td>${(d.views || 0).toLocaleString('vi-VN')}</td><td>${diffHtml}</td></tr>`;
+          }).join('');
+        }
+      } catch (err) {
+        console.error('loadAnalytics error:', err);
+        document.getElementById('analytics-chart').innerHTML = '<div style="color:var(--text-3);font-size:13px;">Lỗi tải dữ liệu analytics</div>';
+      }
     }
 
     // ==================== LOGS ====================
