@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /checkout
+Disallow: /cart
+Disallow: /account
+Disallow: /seapay-return
+
+Sitemap: https://thuviensonnhai.com/sitemap.xml

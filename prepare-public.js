@@ -24,7 +24,8 @@ const htmlFiles = [
   'about.html',
   'support.html',
   'seapay-return.html',
-  'landing.html'
+  'landing.html',
+  '404.html'
 ];
 
 // Copy HTML files
@@ -51,6 +52,15 @@ console.log('\n✓ Copied directories');
 // Copy individual JS files
 const jsFiles = ['firebase.js', 'auth-ui.js', 'parallax.js'];
 jsFiles.forEach(file => {
+  if (fs.existsSync(file)) {
+    fs.copyFileSync(file, path.join('public', file));
+    console.log(`  ✓ ${file}`);
+  }
+});
+
+// Copy SEO files
+const seoFiles = ['sitemap.xml', 'robots.txt'];
+seoFiles.forEach(file => {
   if (fs.existsSync(file)) {
     fs.copyFileSync(file, path.join('public', file));
     console.log(`  ✓ ${file}`);
