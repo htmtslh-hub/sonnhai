@@ -880,6 +880,15 @@
             </div>
           </div>
 
+          <!-- Orders Stats Block -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr) 1.5fr;gap:12px;margin-bottom:20px;padding:16px 0;border-bottom:1px solid var(--border);">
+            <div class="stat-card"><div class="stat-label">Hôm nay</div><div class="stat-value" id="ord-today">--</div></div>
+            <div class="stat-card"><div class="stat-label">Hôm qua</div><div class="stat-value" id="ord-yesterday">--</div></div>
+            <div class="stat-card"><div class="stat-label">7 ngày</div><div class="stat-value" id="ord-7d">--</div></div>
+            <div class="stat-card"><div class="stat-label">30 ngày</div><div class="stat-value" id="ord-30d">--</div></div>
+            <div style="display:flex;align-items:flex-end;gap:2px;height:50px;" id="ord-chart"></div>
+          </div>
+
           <div class="toolbar">
             <div class="toolbar-search">
               <span class="toolbar-search-icon"></span>
@@ -931,6 +940,15 @@
             <button class="btn btn-outline-sm" onclick="switchPage('orders')"> Xem đơn hàng</button>
           </div>
 
+          <!-- Customers Stats Block -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr) 1.5fr;gap:12px;margin-bottom:20px;padding:16px 0;border-bottom:1px solid var(--border);">
+            <div class="stat-card"><div class="stat-label">Hôm nay</div><div class="stat-value" id="cust-today">--</div></div>
+            <div class="stat-card"><div class="stat-label">Hôm qua</div><div class="stat-value" id="cust-yesterday">--</div></div>
+            <div class="stat-card"><div class="stat-label">7 ngày</div><div class="stat-value" id="cust-7d">--</div></div>
+            <div class="stat-card"><div class="stat-label">30 ngày</div><div class="stat-value" id="cust-30d">--</div></div>
+            <div style="display:flex;align-items:flex-end;gap:2px;height:50px;" id="cust-chart"></div>
+          </div>
+
           <div class="toolbar">
             <div class="toolbar-search">
               <span class="toolbar-search-icon"></span>
@@ -970,6 +988,15 @@
               <div class="page-sub" id="payments-count-sub">Đang tải...</div>
             </div>
             <button class="btn btn-outline-sm" onclick="switchPage('orders')"> Xem đơn hàng</button>
+          </div>
+
+          <!-- Payments Stats Block -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr) 1.5fr;gap:12px;margin-bottom:20px;padding:16px 0;border-bottom:1px solid var(--border);">
+            <div class="stat-card"><div class="stat-label">Hôm nay</div><div class="stat-value" id="pay-today">--</div></div>
+            <div class="stat-card"><div class="stat-label">Hôm qua</div><div class="stat-value" id="pay-yesterday">--</div></div>
+            <div class="stat-card"><div class="stat-label">7 ngày</div><div class="stat-value" id="pay-7d">--</div></div>
+            <div class="stat-card"><div class="stat-label">30 ngày</div><div class="stat-value" id="pay-30d">--</div></div>
+            <div style="display:flex;align-items:flex-end;gap:2px;height:50px;" id="pay-chart"></div>
           </div>
 
           <div class="toolbar">
@@ -1465,6 +1492,15 @@
               <button class="btn btn-outline-sm" onclick="switchPage('customers')"> Khách hàng</button>
               <button class="btn btn-teal btn-sm" onclick="openEmailModal()"> Gửi Email</button>
             </div>
+          </div>
+
+          <!-- Emails Stats Block -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr) 1.5fr;gap:12px;margin-bottom:20px;padding:16px 0;border-bottom:1px solid var(--border);">
+            <div class="stat-card"><div class="stat-label">Hôm nay</div><div class="stat-value" id="eml-today">--</div></div>
+            <div class="stat-card"><div class="stat-label">Hôm qua</div><div class="stat-value" id="eml-yesterday">--</div></div>
+            <div class="stat-card"><div class="stat-label">7 ngày</div><div class="stat-value" id="eml-7d">--</div></div>
+            <div class="stat-card"><div class="stat-label">30 ngày</div><div class="stat-value" id="eml-30d">--</div></div>
+            <div style="display:flex;align-items:flex-end;gap:2px;height:50px;" id="eml-chart"></div>
           </div>
 
           <div class="dash-grid">
@@ -2207,11 +2243,11 @@
       switch(page) {
         case 'dashboard': loadDashboard(); break;
         case 'products': loadProducts(); break;
-        case 'orders': loadOrders(); break;
-        case 'customers': loadCustomers(); break;
-        case 'payments': loadPayments(); break;
+        case 'orders': loadOrders(); loadSectionStats('orders', 'ord'); break;
+        case 'customers': loadCustomers(); loadSectionStats('users', 'cust'); break;
+        case 'payments': loadPayments(); loadSectionStats('payments', 'pay'); break;
         case 'content': loadContent(); break;
-        case 'emails': loadEmails(); break;
+        case 'emails': loadEmails(); loadSectionStats('emails', 'eml'); break;
         case 'analytics': loadAnalytics(); break;
         case 'admins': loadAdmins(); break;
         case 'logs': loadLogs(); break;
@@ -4259,6 +4295,66 @@
     // ==================== SETTINGS ====================
     function saveSettings(type) {
       showToast('success', `Đã lưu cài đặt ${type} thành công!`);
+    }
+
+    // ==================== SECTION STATS (shared) ====================
+    async function loadSectionStats(collName, prefix) {
+      try {
+        const { dbFB, collection, getDocs, query, orderBy } = window._fb;
+        const q = query(collection(dbFB, collName), orderBy('createdAt', 'desc'));
+        const snap = await getDocs(q);
+        const docs = snap.docs.map(d => d.data());
+
+        const today = new Date().toISOString().split('T')[0];
+        const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+        const d7 = new Date(Date.now() - 7 * 86400000).toISOString().split('T')[0];
+        const d30 = new Date(Date.now() - 30 * 86400000).toISOString().split('T')[0];
+
+        function getDateStr(doc) {
+          if (!doc.createdAt) return '';
+          if (doc.createdAt.toDate) return doc.createdAt.toDate().toISOString().split('T')[0];
+          if (typeof doc.createdAt === 'string') return doc.createdAt.split('T')[0];
+          return '';
+        }
+
+        let cToday = 0, cYesterday = 0, c7 = 0, c30 = 0;
+        const dailyCounts = {};
+
+        docs.forEach(doc => {
+          const ds = getDateStr(doc);
+          if (!ds) return;
+          if (ds === today) cToday++;
+          if (ds === yesterday) cYesterday++;
+          if (ds >= d7) c7++;
+          if (ds >= d30) c30++;
+          if (ds >= d7) {
+            dailyCounts[ds] = (dailyCounts[ds] || 0) + 1;
+          }
+        });
+
+        document.getElementById(prefix + '-today').textContent = cToday;
+        document.getElementById(prefix + '-yesterday').textContent = cYesterday;
+        document.getElementById(prefix + '-7d').textContent = c7;
+        document.getElementById(prefix + '-30d').textContent = c30;
+
+        // Mini chart 7 days
+        const chartEl = document.getElementById(prefix + '-chart');
+        const days = [];
+        for (let i = 6; i >= 0; i--) {
+          const d = new Date(Date.now() - i * 86400000).toISOString().split('T')[0];
+          days.push({ date: d, count: dailyCounts[d] || 0 });
+        }
+        const maxC = Math.max(...days.map(d => d.count), 1);
+        chartEl.innerHTML = days.map(d => {
+          const h = Math.max((d.count / maxC) * 44, 3);
+          return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;" title="${d.date}: ${d.count}">
+            <div style="font-size:8px;color:var(--text-3);">${d.count}</div>
+            <div style="width:100%;max-width:20px;height:${h}px;background:var(--teal);border-radius:3px 3px 0 0;opacity:.8;"></div>
+          </div>`;
+        }).join('');
+      } catch (e) {
+        console.warn('loadSectionStats error:', collName, e.message);
+      }
     }
 
     // ==================== ANALYTICS ====================
