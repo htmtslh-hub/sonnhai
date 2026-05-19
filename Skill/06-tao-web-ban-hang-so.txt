@@ -1,0 +1,250 @@
+================================================================================
+SKILL: TẠO WEBSITE BÁN HÀNG SỐ TỪ A-Z (VANILLA HTML + FIREBASE)
+================================================================================
+Mục đích: Quy trình tạo website bán sản phẩm số hoàn chỉnh không dùng framework
+
+--- KHI NÀO DÙNG SKILL NÀY ---
+- Bán sách PDF, khóa học, template, tài liệu số
+- Cần thanh toán tự động (chuyển khoản VN)
+- Không muốn phụ thuộc framework (React, Vue...)
+- Hosting miễn phí (Vercel)
+- Database miễn phí (Firebase free tier)
+
+================================================================================
+BƯỚC 1: KHỞI TẠO DỰ ÁN
+================================================================================
+
+mkdir ten-du-an && cd ten-du-an
+git init
+npm init -y
+npm install firebase-admin resend
+
+Tạo cấu trúc:
+├── index.html          (trang chủ)
+├── firebase.js         (SDK config)
+├── vercel.json         (deploy config)
+├── prepare-public.js   (build script)
+├── .gitignore
+├── js/                 (client scripts)
+├── css/                (stylesheets)
+├── api/                (serverless functions)
+└── product/            (ảnh sản phẩm)
+
+================================================================================
+BƯỚC 2: THIẾT KẾ GIAO DIỆN
+================================================================================
+
+Nguyên tắc:
+- Mobile-first responsive
+- Dark theme (dễ đọc, hiện đại)
+- Tối đa 3 màu: nền tối + accent + text
+- Font: 1 cho heading, 1 cho body
+- Không dùng emoji/icon làm UI chính — dùng gradient, SVG
+
+Cấu trúc mỗi trang HTML:
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tiêu đề — Brand</title>
+  <meta name="description" content="...">
+  <!-- SEO meta tags -->
+  <!-- Facebook Pixel -->
+  <!-- Fonts -->
+  <style>/* Inline CSS */</style>
+</head>
+<body>
+  <!-- Navbar -->
+  <!-- Content -->
+  <!-- Footer -->
+  <!-- Floating buttons -->
+  <!-- Scripts -->
+  <script src="js/cart-badge.js?v=1"></script>
+  <script type="module" src="js/firestore-sync.js"></script>
+  <script type="module" src="js/analytics.js"></script>
+</body>
+</html>
+```
+
+================================================================================
+BƯỚC 3: HỆ THỐNG DỮ LIỆU
+================================================================================
+
+Pattern: Firestore → localStorage cache → render
+
+```javascript
+// js/firestore-sync.js
+class DataLayer {
+  constructor() { this.CACHE_TTL = 5 * 60 * 1000; }
+
+  cacheGet(key) {
+    const raw = localStorage.getItem('prefix_' + key);
+    if (!raw) return null;
+    const { data, ts } = JSON.parse(raw);
+    if (Date.now() - ts > this.CACHE_TTL) return null;
+    return data;
+  }
+
+  cacheSet(key, data) {
+    localStorage.setItem('prefix_' + key, JSON.stringify({ data, ts: Date.now() }));
+  }
+
+  async getProducts(forceRefresh = false) {
+    if (!forceRefresh) {
+      const cached = this.cacheGet('products');
+      if (cached) return cached;
+    }
+    const snapshot = await getDocs(query(collection(db, 'products'), orderBy('createdAt', 'desc')));
+    const products = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+    this.cacheSet('products', products);
+    return products;
+  }
+}
+window.DataLayer = new DataLayer();
+```
+
+================================================================================
+BƯỚC 4: GIỎ HÀNG (localStorage)
+================================================================================
+
+Pattern: IIFE, không phụ thuộc module
+
+```javascript
+(function() {
+  var CART_KEY = 'brand_cart';
+  var PRODUCTS_KEY = 'brand_products';
+  var CURRENT_VERSION = 1;
+
+  // Default products (fallback khi Firestore chưa load)
+  var defaultProducts = [
+    { id: 1, slug: 'san-pham-1', name: '...', price: 99000, category: '...' }
+  ];
+
+  function getCart() { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); }
+  function saveCart(cart) { localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
+
+  function addProduct(productId, qty) {
+    var cart = getCart();
+    var products = getProducts();
+    var product = products.find(p => String(p.id) === String(productId));
+    if (!product) throw new Error('Không tìm thấy');
+    // Add or increment quantity
+    var existing = cart.find(i => String(i.id) === String(productId));
+    if (existing) existing.quantity += qty;
+    else cart.push({ ...product, quantity: qty });
+    saveCart(cart);
+  }
+
+  window.CartBadge = { addProduct, getCart, saveCart, getProducts };
+})();
+```
+
+QUAN TRỌNG:
+- ID luôn so sánh bằng String()
+- getCart() trả về ARRAY
+- Version control để force refresh khi data structure thay đổi
+
+================================================================================
+BƯỚC 5: THANH TOÁN
+================================================================================
+
+Flow: Cart → Checkout → QR → Poll → Paid → Email + Download
+
+1. POST /api/checkout → tạo order Firestore (pending)
+2. Hiện QR (qr.sepay.vn)
+3. Frontend poll /api/status mỗi 3s
+4. Webhook nhận payment → update paid
+5. Trigger email với download links
+6. Redirect thank-you page
+
+================================================================================
+BƯỚC 6: ADMIN DASHBOARD
+================================================================================
+
+Single-page admin (admin.html):
+- Sidebar navigation (switchPage function)
+- Mỗi section là 1 div[id="page-xxx"]
+- Firebase Auth check role
+- CRUD: loadX() → render table → modal form → save to Firestore
+
+Pattern switchPage:
+```javascript
+function switchPage(page) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  switch(page) {
+    case 'products': loadProducts(); break;
+    case 'orders': loadOrders(); break;
+    // ...
+  }
+}
+```
+
+================================================================================
+BƯỚC 7: DEPLOY & DOMAIN
+================================================================================
+
+1. Push to GitHub
+2. Vercel auto-deploy
+3. Mua domain → DNS:
+   - A: @ → 76.76.21.21
+   - CNAME: www → cname.vercel-dns.com
+4. Vercel → Settings → Domains → Add
+5. Cập nhật tất cả canonical URLs sang domain mới
+6. Cập nhật baseUrl trong API files
+
+================================================================================
+BƯỚC 8: MARKETING & GROWTH
+================================================================================
+
+1. Facebook Pixel → retargeting ads
+2. Landing page riêng cho social traffic
+3. Telegram group → nurture community
+4. Blog SEO → organic traffic
+5. Content AIDA formula cho video/bài viết
+6. Analytics tracking → đo lường
+
+================================================================================
+CHECKLIST TRƯỚC KHI LAUNCH
+================================================================================
+
+[ ] Tất cả trang load đúng, không lỗi console
+[ ] Cart flow: add → cart → checkout → thanh toán → email → download
+[ ] Mobile responsive
+[ ] SEO: meta tags, sitemap, robots.txt
+[ ] Facebook Pixel active
+[ ] Analytics tracking
+[ ] 404 page
+[ ] Domain trỏ đúng, SSL active
+[ ] Email gửi được (test 1 đơn thật)
+[ ] Admin CRUD hoạt động
+[ ] Không còn hardcoded URLs cũ
+
+================================================================================
+SAI LẦM THƯỜNG GẶP
+================================================================================
+
+1. Dùng parseInt() cho Firestore IDs → NaN → lỗi
+   FIX: Luôn dùng String(id) khi so sánh
+
+2. baseUrl hardcoded sonnhai.vercel.app → email fail sau khi trỏ domain
+   FIX: Cập nhật baseUrl khi đổi domain
+
+3. Browser cache file JS cũ → function mới không có
+   FIX: Bump version query string (?v=2, ?v=3...)
+
+4. prepare-public.js thiếu file/folder → 404 trên production
+   FIX: Luôn thêm file mới vào prepare-public.js
+
+5. Emoji/icon làm UI → không chuyên nghiệp, render khác nhau trên devices
+   FIX: Dùng CSS gradients, SVG, hoặc ảnh
+
+6. Static HTML fallback không sync với JS render
+   FIX: Cập nhật cả static HTML khi thay đổi logic render
+
+7. Firestore products chưa load → cart/combo lỗi
+   FIX: defaultProducts fallback + retry logic + async/await
+
+================================================================================
