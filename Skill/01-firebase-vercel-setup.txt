@@ -1,0 +1,68 @@
+================================================================================
+SKILL: FIREBASE + VERCEL SETUP
+================================================================================
+Mục đích: Setup nhanh project Firebase + Vercel cho web bán hàng/SaaS
+
+--- BƯỚC 1: Firebase Project ---
+1. Vào console.firebase.google.com → Add Project
+2. Bật Firestore Database (production mode)
+3. Bật Authentication → Email/Password
+4. Bật Storage
+5. Project Settings → General → lấy firebaseConfig
+
+--- BƯỚC 2: Firebase Client SDK ---
+File: firebase.js
+```javascript
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, updateDoc, deleteDoc, query, where, orderBy, limit, serverTimestamp, increment } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js';
+
+const firebaseConfig = { /* paste config */ };
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const storage = getStorage(app);
+
+export { db, auth, storage, collection, doc, getDoc, getDocs, setDoc, addDoc, updateDoc, deleteDoc, query, where, orderBy, limit, serverTimestamp, increment, signInWithEmailAndPassword, onAuthStateChanged, signOut, ref, uploadBytes, getDownloadURL };
+```
+
+--- BƯỚC 3: Firebase Admin (Serverless) ---
+File: api/firebase-admin.js
+```javascript
+const admin = require('firebase-admin');
+let db;
+function getAdminDb() {
+  if (!db) {
+    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+    if (!admin.apps.length) {
+      admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
+    }
+    db = admin.firestore();
+  }
+  return db;
+}
+module.exports = { getAdminDb, admin };
+```
+
+--- BƯỚC 4: Vercel Config ---
+File: vercel.json
+```json
+{
+  "buildCommand": "node prepare-public.js",
+  "outputDirectory": "public",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/:path*" }
+  ]
+}
+```
+
+--- BƯỚC 5: Environment Variables (Vercel Dashboard) ---
+- FIREBASE_SERVICE_ACCOUNT (JSON string)
+- Các API keys khác
+
+--- LƯU Ý ---
+- Firestore IDs là string, luôn dùng String() khi so sánh
+- serverTimestamp() chỉ dùng khi write, không dùng trong query filter
+- Vercel serverless functions timeout 10s (free), 60s (pro)

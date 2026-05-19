@@ -1,0 +1,92 @@
+================================================================================
+SKILL: EMAIL SERVICE (RESEND)
+================================================================================
+Mục đích: Gửi email transactional (xác nhận đơn, OTP, welcome) qua Resend
+
+--- SETUP ---
+1. Đăng ký resend.com → lấy API key
+2. npm install resend
+3. Set env var: RESEND_API_KEY
+4. (Optional) Verify domain để gửi từ email riêng
+
+--- API ENDPOINT ---
+File: api/email/send.js
+```javascript
+const { Resend } = require('resend');
+
+module.exports = async (req, res) => {
+  // Auth: chỉ cho internal calls
+  const key = req.headers['x-internal-key'];
+  if (key !== process.env.INTERNAL_API_KEY) return res.status(401).end();
+
+  const { type, to, data } = req.body;
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
+  // Generate HTML từ template
+  let subject, html;
+  switch (type) {
+    case 'order_confirmation':
+      subject = `Xác nhận đơn hàng #${data.orderNumber}`;
+      html = orderConfirmationTemplate(data);
+      break;
+    case 'otp':
+      subject = `Mã xác thực: ${data.code}`;
+      html = otpTemplate(data);
+      break;
+  }
+
+  const { data: result, error } = await resend.emails.send({
+    from: 'Tên Brand <noreply@domain.com>',
+    to,
+    subject,
+    html,
+  });
+
+  if (error) return res.status(500).json({ success: false, message: error.message });
+  return res.json({ success: true, emailId: result?.id });
+};
+```
+
+--- EMAIL TEMPLATE PATTERN ---
+```javascript
+function orderConfirmationTemplate(data) {
+  const { customerName, orderNumber, total, items } = data;
+  return `
+    <div style="max-width:600px;margin:0 auto;background:#0D1018;color:#DDE1EC;padding:40px;font-family:sans-serif;">
+      <h1 style="color:#00D4D4;">Đặt hàng thành công!</h1>
+      <p>Xin chào ${customerName},</p>
+      <p>Đơn hàng <strong>#${orderNumber}</strong> đã được xác nhận.</p>
+      <div style="background:#12161F;border-radius:10px;padding:20px;margin:20px 0;">
+        ${items.map(item => `
+          <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1C2232;">
+            <span>${item.name}</span>
+            ${item.downloadUrl ? `<a href="${item.downloadUrl}" style="color:#00D4D4;">Tải xuống</a>` : ''}
+          </div>
+        `).join('')}
+      </div>
+      <p><strong>Tổng: ${total.toLocaleString()}đ</strong></p>
+    </div>
+  `;
+}
+```
+
+--- TRIGGER EMAIL SAU THANH TOÁN ---
+```javascript
+// Non-blocking (fire-and-forget)
+fetch(`${baseUrl}/api/email/send`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Internal-Key': process.env.INTERNAL_API_KEY,
+  },
+  body: JSON.stringify({ type: 'order_confirmation', to: email, data: {...} }),
+}).catch(e => console.error('Email failed:', e.message));
+```
+
+--- LƯU Ý ---
+- Free tier Resend: dùng onboarding@resend.dev (chưa verify domain)
+- Verify domain: thêm DNS records (MX, TXT, DKIM)
+- Email gửi non-blocking để không delay webhook response
+- Luôn log email vào Firestore (status: sent/failed)
+- baseUrl phải đúng domain production (không dùng vercel.app nếu đã redirect)

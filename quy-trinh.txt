@@ -1,0 +1,303 @@
+================================================================================
+QUY TRÌNH XÂY DỰNG WEBSITE THƯƠNG MẠI ĐIỆN TỬ - SẢN PHẨM SỐ
+Dự án: Thư viện Sơn Nhai (thuviensonnhai.com)
+Cập nhật: 2026-05-19
+================================================================================
+
+TỔNG QUAN
+---------
+Website bán sản phẩm số (sách PDF, tài liệu) với giao diện dark futuristic.
+Tech stack: Vanilla HTML/CSS/JS + Firebase + Vercel + SePay
+
+================================================================================
+PHASE 1: SETUP CƠ BẢN
+================================================================================
+
+1.1. Tạo project structure
+    - Tạo folder gốc
+    - git init
+    - Tạo .gitignore (node_modules, .env, public/, *.backup)
+    - Tạo package.json (npm init)
+
+1.2. Setup Firebase
+    - Tạo project trên Firebase Console
+    - Bật Firestore Database
+    - Bật Firebase Authentication
+    - Bật Firebase Storage
+    - Lấy Firebase config (apiKey, authDomain, projectId...)
+    - Tạo firebase.js (config + export SDK modules)
+
+1.3. Setup Vercel
+    - Kết nối GitHub repo với Vercel
+    - Tạo vercel.json (buildCommand, outputDirectory, rewrites cho API)
+    - Tạo prepare-public.js (script copy files vào public/ khi build)
+    - Set environment variables: FIREBASE_SERVICE_ACCOUNT, SEPAY_API_KEY,
+      RESEND_API_KEY, INTERNAL_API_KEY
+
+1.4. Tạo file cơ bản
+    - favicon.svg
+    - firebase.js (Firebase SDK config)
+    - auth-ui.js (Login/Register modal)
+
+================================================================================
+PHASE 2: GIAO DIỆN FRONTEND
+================================================================================
+
+2.1. Trang chủ (index.html)
+    - Navbar (logo, links, cart icon)
+    - Hero section (headline, CTA buttons, stats)
+    - Featured products (cards grid)
+    - Featured split (1 sản phẩm lớn, xoay vòng theo ngày)
+    - Bestsellers (ranked list)
+    - Combo ưu đãi (3 combo cards)
+    - Blog section (3 bài mới nhất)
+    - Telegram CTA section
+    - Newsletter signup
+    - Testimonials carousel
+    - Footer
+
+2.2. Trang danh mục (categories.html)
+    - Breadcrumb
+    - Page hero
+    - Category banners (3 lĩnh vực + particles animation)
+    - Product grid (filter, sort, pagination)
+    - Combo section
+
+2.3. Trang sản phẩm (product.html)
+    - Gallery (ảnh bìa + related thumbnails)
+    - Product info (tên, giá, mô tả, CTA)
+    - Table of contents
+    - PDF preview modal
+    - Related products
+    - Combo suggestion
+
+2.4. Giỏ hàng (cart.html)
+    - Cart items list
+    - Price summary
+    - Coupon input
+    - Combo upsell
+    - Checkout button
+
+2.5. Thanh toán (checkout.html)
+    - Customer info form
+    - Order summary
+    - Coupon
+    - SePay QR code generation
+    - Payment polling (3s interval, 15min timeout)
+
+2.6. Các trang phụ
+    - blog.html (listing + search + filter)
+    - blog-post.html (article detail)
+    - about.html (giới thiệu)
+    - support.html (FAQ, liên hệ)
+    - account.html (đăng nhập/đăng ký OTP)
+    - thank-you.html (sau thanh toán, hiện link tải)
+    - seapay-return.html (redirect sau thanh toán)
+    - landing.html (landing page cho social traffic)
+    - 404.html (trang lỗi)
+
+2.7. Design System
+    - Dark theme: nền #08090E, accent teal #00D4D4
+    - Fonts: Be Vietnam Pro (body), Exo 2 (headings)
+    - Glassmorphism cho cards
+    - Micro-interactions: cubic-bezier transitions, hover glow
+    - Responsive (media queries cho mobile)
+
+================================================================================
+PHASE 3: DATA LAYER
+================================================================================
+
+3.1. Firestore Collections
+    - products/{docId} — sản phẩm
+    - combos/{docId} — combo ưu đãi
+    - blog_posts/{docId} — bài viết
+    - orders/{docId} — đơn hàng
+    - users/{docId} — khách hàng
+    - payments/{docId} — thanh toán
+    - emails/{docId} — log email
+    - admin_logs/{docId} — log admin
+    - site_content/banner — banner thông báo
+    - site_content/about — nội dung about
+    - site_content/support — nội dung support
+    - page_views/{date} — analytics
+
+3.2. Client-side Data (js/firestore-sync.js)
+    - SonHaiData.getProducts() — lấy sản phẩm từ Firestore
+    - SonHaiData.getCombos() — lấy combo
+    - SonHaiData.getBlogPosts() — lấy blog
+    - SonHaiData.getBanner() — lấy banner
+    - Cache localStorage 5 phút (prefix sndata_)
+
+3.3. Cart (js/cart-badge.js)
+    - defaultProducts array (fallback)
+    - addProduct() / addCombo() / removeProduct()
+    - getCart() / saveCart() / clearCart()
+    - Version control (CURRENT_VERSION) để force refresh
+
+================================================================================
+PHASE 4: BACKEND API (Vercel Serverless)
+================================================================================
+
+4.1. Checkout
+    - POST /api/checkout — tạo đơn hàng Firestore
+
+4.2. Thanh toán SePay
+    - POST /api/seapay/webhook — nhận webhook từ SePay
+    - GET /api/seapay/status — frontend poll trạng thái
+
+4.3. Email (Resend)
+    - POST /api/email/send — gửi email qua Resend SDK
+    - Templates: order_confirmation (có link tải), welcome, OTP
+
+4.4. Auth (OTP)
+    - POST /api/auth/send-otp — gửi mã OTP qua email
+    - POST /api/auth/verify-otp — xác thực OTP
+
+4.5. Admin
+    - POST /api/admin/confirm-order — xác nhận đơn thủ công
+
+================================================================================
+PHASE 5: ADMIN DASHBOARD
+================================================================================
+
+5.1. Auth Flow
+    - Firebase Auth (email/password)
+    - Check role "admin" trong Firestore users/{uid}
+
+5.2. Các module admin (admin.html)
+    - Dashboard (stats tổng quan)
+    - Sản phẩm (CRUD + upload ảnh)
+    - Product Editor (chỉnh sửa chi tiết)
+    - Combo (CRUD, chọn products)
+    - Blog (CRUD bài viết)
+    - Đơn hàng (list + filter + stats)
+    - Khách hàng (list + stats)
+    - Thanh toán (list + stats)
+    - Email (log + gửi manual)
+    - About/Support/Banner (editor)
+    - Analytics (biểu đồ truy cập)
+    - Reviews (quản lý đánh giá)
+    - SEO settings
+    - Nhật ký (admin logs)
+
+================================================================================
+PHASE 6: TÍCH HỢP & TỐI ƯU
+================================================================================
+
+6.1. Thanh toán
+    - SePay VietQR (ngân hàng VietinBank)
+    - QR từ qr.sepay.vn
+    - Webhook xác nhận tự động
+    - Email gửi link tải sau thanh toán
+
+6.2. SEO
+    - Meta tags (title, description, og:*)
+    - Canonical URLs (thuviensonnhai.com)
+    - JSON-LD structured data (Article schema)
+    - sitemap.xml
+    - robots.txt
+
+6.3. Marketing
+    - Facebook Pixel (tracking PageView)
+    - Telegram floating button (liên hệ)
+    - Telegram group CTA (cộng đồng)
+    - Landing page (traffic từ social)
+    - AIDA content formula (trong CLAUDE.md)
+
+6.4. Analytics
+    - js/analytics.js — ghi page views vào Firestore
+    - Admin dashboard hiển thị biểu đồ
+
+6.5. Performance
+    - Ảnh WebP (nhẹ hơn JPEG/PNG)
+    - Lazy loading images
+    - Cache localStorage 5 phút
+    - prepare-public.js build tối ưu
+
+================================================================================
+PHASE 7: DOMAIN & DEPLOY
+================================================================================
+
+7.1. Mua domain (inet.vn)
+7.2. Trỏ DNS về Vercel
+    - A record: @ → 76.76.21.21
+    - CNAME: www → cname.vercel-dns.com
+7.3. Vercel auto-deploy từ GitHub push
+7.4. SSL tự động (Vercel cấp)
+
+================================================================================
+CẤU TRÚC THƯ MỤC CUỐI CÙNG
+================================================================================
+
+sonnhai/
+├── index.html              # Trang chủ
+├── categories.html         # Danh mục
+├── product.html            # Chi tiết sản phẩm
+├── cart.html               # Giỏ hàng
+├── checkout.html           # Thanh toán
+├── thank-you.html          # Sau thanh toán
+├── seapay-return.html      # SePay redirect
+├── account.html            # Tài khoản
+├── blog.html               # Blog listing
+├── blog-post.html          # Blog detail
+├── about.html              # Giới thiệu
+├── support.html            # Hỗ trợ
+├── landing.html            # Landing page
+├── 404.html                # Trang lỗi
+├── admin.html              # Admin dashboard
+├── firebase.js             # Firebase config
+├── auth-ui.js              # Auth UI component
+├── prepare-public.js       # Build script
+├── vercel.json             # Vercel config
+├── package.json            # Dependencies
+├── sitemap.xml             # SEO sitemap
+├── robots.txt              # SEO robots
+├── CLAUDE.md               # Project documentation
+├── .gitignore
+├── js/
+│   ├── firestore-sync.js   # Data layer
+│   ├── cart-badge.js       # Cart logic
+│   ├── admin-firebase.js   # Admin CRUD
+│   ├── analytics.js        # Page view tracking
+│   ├── animations.js       # Scroll animations
+│   ├── parallax-engine.js  # Background effects
+│   ├── morph-engine.js     # Morph animations
+│   └── mobile-menu.js      # Mobile nav
+├── css/
+│   ├── animations.css
+│   └── parallax-animations.css
+├── api/
+│   ├── checkout.js
+│   ├── firebase-admin.js
+│   ├── lib.js
+│   ├── seapay/
+│   │   ├── webhook.js
+│   │   ├── status.js
+│   │   └── config.js
+│   ├── email/
+│   │   ├── send.js
+│   │   └── templates.js
+│   ├── auth/
+│   │   ├── send-otp.js
+│   │   └── verify-otp.js
+│   └── admin/
+│       └── confirm-order.js
+├── product/                # Ảnh sản phẩm (.webp + .png)
+│   ├── Demo/              # PDF demo
+│   └── *.webp, *.png
+└── demo/                   # PDF preview files
+
+================================================================================
+LƯU Ý QUAN TRỌNG
+================================================================================
+
+1. Product ID trên Firestore là STRING, không dùng parseInt()
+2. So sánh ID luôn dùng String(a) === String(b)
+3. getCart() trả về ARRAY, không phải {items: []}
+4. Cache localStorage TTL 5 phút, version control để force refresh
+5. Ảnh sản phẩm: product/slug_san_pham.webp
+6. Email: cần verify domain trên Resend để gửi từ domain riêng
+7. SePay webhook cần API key header để xác thực
+8. prepare-public.js phải list đầy đủ files cần copy
+
+================================================================================

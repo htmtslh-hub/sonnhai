@@ -1,0 +1,81 @@
+================================================================================
+SKILL: THANH TOÁN SEPAY (VIETQR)
+================================================================================
+Mục đích: Tích hợp thanh toán chuyển khoản ngân hàng qua SePay VietQR
+
+--- TỔNG QUAN FLOW ---
+1. Khách đặt hàng → tạo order Firestore (status: pending)
+2. Hiện QR code từ qr.sepay.vn
+3. Frontend poll /api/seapay/status mỗi 3s
+4. SePay phát hiện giao dịch → POST webhook
+5. Webhook verify → update order paid → gửi email
+
+--- BƯỚC 1: Đăng ký SePay ---
+- Vào sepay.vn → đăng ký → liên kết tài khoản ngân hàng
+- Lấy API Key
+- Cấu hình webhook URL: https://domain.com/api/seapay/webhook
+
+--- BƯỚC 2: Tạo QR Code ---
+```javascript
+const params = new URLSearchParams({
+  bank: 'VietinBank',        // hoặc mã ngân hàng
+  acc: '109887120806',       // số tài khoản
+  template: 'compact',
+  amount: total,
+  des: 'SEVQR ' + orderNumber,  // nội dung chuyển khoản
+});
+const qrUrl = 'https://qr.sepay.vn/img?' + params.toString();
+```
+
+--- BƯỚC 3: Webhook Handler ---
+File: api/seapay/webhook.js
+```javascript
+module.exports = async (req, res) => {
+  // 1. Verify API key header
+  const apiKey = req.headers['authorization'] || req.headers['x-api-key'];
+  if (apiKey !== process.env.SEPAY_API_KEY) return res.status(401).end();
+
+  // 2. Parse transaction data
+  const { transferAmount, content, transactionDate } = req.body;
+
+  // 3. Extract order number from content (e.g., "SEVQR SN1234567")
+  const match = content.match(/SN\d+/);
+  if (!match) return res.json({ success: false });
+  const orderNumber = match[0];
+
+  // 4. Find order in Firestore
+  // 5. Verify amount matches
+  // 6. Update order: paymentStatus = 'paid'
+  // 7. Trigger email (non-blocking)
+
+  return res.json({ success: true });
+};
+```
+
+--- BƯỚC 4: Status Polling ---
+File: api/seapay/status.js
+- GET /api/seapay/status?orderNumber=SN1234567
+- Query Firestore order by orderNumber
+- Return paymentStatus + downloadUrls if paid
+
+--- BƯỚC 5: Frontend Polling ---
+```javascript
+const pollInterval = setInterval(async () => {
+  const res = await fetch(`/api/seapay/status?orderNumber=${orderNumber}`);
+  const data = await res.json();
+  if (data.data.paymentStatus === 'paid') {
+    clearInterval(pollInterval);
+    // Redirect to thank-you page
+    window.location.href = `thank-you.html?order=${orderNumber}`;
+  }
+}, 3000);
+// Timeout after 15 minutes
+setTimeout(() => clearInterval(pollInterval), 15 * 60000);
+```
+
+--- LƯU Ý ---
+- Nội dung chuyển khoản phải unique (dùng orderNumber)
+- Webhook có thể đến trước hoặc sau redirect
+- Luôn verify amount trong webhook
+- Email gửi non-blocking (fire-and-forget)
+- Cần fallback: nếu webhook miss, status API chủ động check SePay API

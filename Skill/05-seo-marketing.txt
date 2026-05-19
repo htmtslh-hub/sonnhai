@@ -1,0 +1,105 @@
+================================================================================
+SKILL: SEO & MARKETING SETUP
+================================================================================
+Mục đích: Checklist SEO + Marketing tools cho website thương mại
+
+--- SEO META TAGS (mỗi trang) ---
+```html
+<title>Tiêu đề trang — Tên Brand</title>
+<meta name="description" content="Mô tả 150-160 ký tự">
+<meta name="keywords" content="từ khóa 1, từ khóa 2">
+<meta name="author" content="Tên Brand">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://domain.com/path">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tiêu đề">
+<meta property="og:description" content="Mô tả">
+<meta property="og:url" content="https://domain.com/path">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:site_name" content="Tên Brand">
+```
+
+--- JSON-LD STRUCTURED DATA ---
+```javascript
+// Cho bài viết blog
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.title,
+  "description": post.excerpt,
+  "author": { "@type": "Organization", "name": "Tên Brand" },
+  "publisher": { "@type": "Organization", "name": "Tên Brand", "url": "https://domain.com" },
+  "datePublished": post.createdAt,
+  "mainEntityOfPage": "https://domain.com/blog-post?slug=" + post.slug
+};
+const script = document.createElement('script');
+script.type = 'application/ld+json';
+script.textContent = JSON.stringify(jsonLd);
+document.head.appendChild(script);
+```
+
+--- SITEMAP.XML ---
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://domain.com/</loc><priority>1.0</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://domain.com/categories</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <!-- Thêm các trang public -->
+</urlset>
+```
+
+--- ROBOTS.TXT ---
+```
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /checkout
+Disallow: /cart
+Disallow: /account
+Sitemap: https://domain.com/sitemap.xml
+```
+
+--- FACEBOOK PIXEL ---
+```html
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','YOUR_PIXEL_ID');fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
+```
+
+--- ANALYTICS TỰ BUILD ---
+```javascript
+// js/analytics.js - ghi page views vào Firestore
+(async function() {
+  const { db, doc, getDoc, setDoc, increment } = await import('/firebase.js');
+  const today = new Date().toISOString().split('T')[0];
+  const docRef = doc(db, 'page_views', today);
+  const snap = await getDoc(docRef);
+  if (snap.exists()) {
+    await setDoc(docRef, { views: increment(1) }, { merge: true });
+  } else {
+    await setDoc(docRef, { date: today, views: 1 });
+  }
+})();
+```
+
+--- DOMAIN SETUP (Vercel) ---
+1. Mua domain (inet.vn, namecheap, godaddy...)
+2. DNS records:
+   - A: @ → 76.76.21.21
+   - CNAME: www → cname.vercel-dns.com
+3. Vercel Dashboard → Settings → Domains → Add domain
+4. Chờ DNS propagate (5-30 phút)
+5. SSL tự động
+
+--- CHECKLIST TRƯỚC KHI LAUNCH ---
+[ ] Tất cả trang có meta title + description
+[ ] Canonical URLs đúng domain production
+[ ] sitemap.xml + robots.txt
+[ ] Facebook Pixel hoạt động (check Events Manager)
+[ ] Google Search Console: submit sitemap
+[ ] Analytics tracking hoạt động
+[ ] 404 page custom
+[ ] Tốc độ load < 3s (check PageSpeed Insights)

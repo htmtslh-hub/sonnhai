@@ -1,0 +1,115 @@
+================================================================================
+SKILL: DARK FUTURISTIC UI DESIGN SYSTEM
+================================================================================
+Mục đích: Template CSS cho giao diện dark theme chuyên nghiệp
+
+--- CSS VARIABLES ---
+```css
+:root {
+  --bg: #08090E;
+  --bg-2: #0D1018;
+  --bg-3: #12161F;
+  --bg-4: #171C27;
+  --border: #1C2232;
+  --border-2: #252D3F;
+  --teal: #00D4D4;
+  --teal-dim: #00AEAE;
+  --teal-dark: #005A5A;
+  --teal-glow: rgba(0,212,212,0.12);
+  --teal-glow-strong: rgba(0,212,212,0.25);
+  --text: #DDE1EC;
+  --text-2: #8B93A8;
+  --text-3: #555F75;
+  --warn: #F5A623;
+  --red: #EF4444;
+  --green: #10B981;
+}
+```
+
+--- FONTS ---
+- Headings: 'Exo 2' (weight 700-900)
+- Body: 'Be Vietnam Pro' (weight 300-700)
+```html
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600;700;800;900&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+```
+
+--- NAVBAR ---
+```css
+.nav {
+  position: sticky; top: 0; z-index: 200; height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px;
+  background: rgba(8,9,14,.95); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+```
+
+--- BUTTONS ---
+```css
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  border: none; border-radius: 7px; cursor: pointer;
+  font-family: 'Be Vietnam Pro', sans-serif; font-weight: 600;
+  transition: all .25s cubic-bezier(.4,0,.2,1);
+}
+.btn:active { transform: scale(.97); }
+.btn-teal { background: var(--teal); color: var(--bg); font-size: 13px; padding: 7px 18px; }
+.btn-teal:hover { background: #00EEEE; box-shadow: 0 0 22px var(--teal-glow-strong); transform: translateY(-1px); }
+.btn-outline { background: transparent; border: 1px solid var(--teal); color: var(--teal); }
+.btn-outline:hover { background: var(--teal-glow); transform: translateY(-1px); }
+```
+
+--- CARDS ---
+```css
+.card {
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; transition: all .3s cubic-bezier(.4,0,.2,1);
+}
+.card:hover { border-color: var(--teal-dark); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.5); }
+```
+
+--- GLASSMORPHISM ---
+```css
+.glass {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
+}
+.glass:hover { border-color: rgba(0,212,212,.3); box-shadow: 0 8px 32px rgba(0,212,212,.1); }
+```
+
+--- GLOW EFFECTS ---
+```css
+.glow-top {
+  position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 500px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(0,212,212,.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+```
+
+--- GRID BACKGROUND ---
+```css
+body {
+  background-image:
+    linear-gradient(rgba(28,34,50,.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28,34,50,.3) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+```
+
+--- TYPOGRAPHY ---
+- Body: line-height 1.6
+- Headings: letter-spacing -0.5px, font-weight 800-900
+- Subtext: color var(--text-2), font-size 13-14px
+- Labels: uppercase, letter-spacing 1.5-3px, font-size 10-11px
+
+--- RESPONSIVE ---
+```css
+@media (max-width: 768px) {
+  .nav { padding: 0 16px; }
+  .wrap { padding: 0 16px; }
+  /* Stack grids to 1 column */
+}
+```
