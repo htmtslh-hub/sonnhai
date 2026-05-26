@@ -15,6 +15,15 @@
   <meta property="og:url" content="https://thuviensonnhai.com/product">
   <meta property="og:locale" content="vi_VN">
   <meta property="og:site_name" content="Thư viện Sơn Nhai">
+  <meta property="og:image" content="https://thuviensonnhai.com/logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sản phẩm — Thư viện Sơn Nhai">
+  <meta name="twitter:description" content="Chi tiết sản phẩm số tại Thư viện Sơn Nhai.">
+  <meta name="twitter:image" content="https://thuviensonnhai.com/logo.png">
+  <meta name="theme-color" content="#08090E">
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JXP5V9W6GN"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JXP5V9W6GN');</script>
   <!-- Facebook Pixel -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
@@ -166,6 +175,7 @@ fbq('init','438100172987941');fbq('track','PageView');
     .rating-count { font-size: 13px; color: var(--text-3); }
     .rating-sep { color: var(--border-2); }
     .sold-count { font-size: 13px; color: var(--text-2); }
+    .view-count { font-size: 13px; color: var(--text-2); }
 
     .p-excerpt { font-size: 14.5px; color: var(--text-2); line-height: 1.75; margin-bottom: 22px; border-left: 3px solid var(--teal-dark); padding-left: 16px; }
 
@@ -617,6 +627,8 @@ fbq('init','438100172987941');fbq('track','PageView');
         <span class="rating-count">94 đánh giá</span>
         <span class="rating-sep">·</span>
         <span class="sold-count">612 lượt mua</span>
+        <span class="rating-sep">·</span>
+        <span class="view-count">0 lượt xem</span>
       </div>
 
       <p class="p-excerpt">
@@ -1536,6 +1548,57 @@ fbq('init','438100172987941');fbq('track','PageView');
     const soldEl = document.querySelector('.sold-count');
     if (soldEl) soldEl.textContent = product.sold_count.toLocaleString('vi-VN') + ' lượt mua';
   }
+  // View count display
+  const viewEl = document.querySelector('.view-count');
+  if (viewEl && product.viewCount) {
+    viewEl.textContent = product.viewCount.toLocaleString('vi-VN') + ' lượt xem';
+  }
+
+  // Increment view count in Firestore (fire-and-forget)
+  if (window.SonHaiData && product.id) {
+    window.SonHaiData.incrementViewCount(String(product.id));
+  }
+
+  // Dynamic SEO meta tags
+  const productUrl = 'https://thuviensonnhai.com/product?slug=' + product.slug;
+  const productImg = product.imageUrl || 'https://thuviensonnhai.com/logo.png';
+  const productDesc = product.description || document.querySelector('meta[name="description"]').content;
+  document.querySelector('meta[name="description"]').setAttribute('content', productDesc);
+  document.querySelector('link[rel="canonical"]').setAttribute('href', productUrl);
+  document.querySelector('meta[property="og:title"]').setAttribute('content', product.name + ' — Thư viện Sơn Nhai');
+  document.querySelector('meta[property="og:description"]').setAttribute('content', productDesc);
+  document.querySelector('meta[property="og:url"]').setAttribute('content', productUrl);
+  document.querySelector('meta[property="og:image"]').setAttribute('content', productImg);
+  document.querySelector('meta[name="twitter:title"]').setAttribute('content', product.name + ' — Thư viện Sơn Nhai');
+  document.querySelector('meta[name="twitter:description"]').setAttribute('content', productDesc);
+  document.querySelector('meta[name="twitter:image"]').setAttribute('content', productImg);
+
+  // JSON-LD Product structured data
+  const ldJson = document.createElement('script');
+  ldJson.type = 'application/ld+json';
+  ldJson.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.name,
+    "description": productDesc,
+    "image": productImg,
+    "url": productUrl,
+    "brand": {"@type": "Organization", "name": "Thư viện Sơn Nhai"},
+    "offers": {
+      "@type": "Offer",
+      "price": product.price,
+      "priceCurrency": "VND",
+      "availability": "https://schema.org/InStock",
+      "url": productUrl
+    },
+    "aggregateRating": product.rating ? {
+      "@type": "AggregateRating",
+      "ratingValue": product.rating,
+      "bestRating": "5",
+      "ratingCount": product.sold_count || 1
+    } : undefined
+  });
+  document.head.appendChild(ldJson);
 
   // Store product id for cart actions
   window._currentProduct = { id: product.id, slug: product.slug, name: product.name, price: product.price, emoji: product.emoji, imageUrl: product.imageUrl };

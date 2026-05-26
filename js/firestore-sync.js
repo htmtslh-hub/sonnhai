@@ -10,6 +10,8 @@ import {
   doc,
   getDoc,
   getDocs,
+  updateDoc,
+  increment,
   query,
   where,
   orderBy,
@@ -85,6 +87,7 @@ function normalizeProduct(p) {
     rating: p.rating || 0,
     sold_count: p.soldCount || p.sold_count || p.sold || 0,
     soldCount: p.soldCount || p.sold_count || p.sold || 0,
+    viewCount: p.viewCount || p.view_count || 0,
     status: p.status || 'published',
     pages: p.pages || 0,
     format: p.format || '',
@@ -260,6 +263,16 @@ const SonHaiData = {
       }
     });
     return Object.entries(catMap).map(([name, count]) => ({ name, count }));
+  },
+
+  // ─── Increment product view count ───
+  async incrementViewCount(productId) {
+    try {
+      const docRef = doc(db, 'products', productId);
+      await updateDoc(docRef, { viewCount: increment(1) });
+    } catch (err) {
+      console.warn('incrementViewCount failed:', err.message);
+    }
   },
 
   // ─── Clear cache ───
