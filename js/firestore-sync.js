@@ -1,4 +1,4 @@
-﻿// ═══════════════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════════════════
 // FIRESTORE SYNC — Data layer dùng chung cho tất cả trang public
 // Đọc từ Firestore, cache vào localStorage, cung cấp API cho các trang
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -272,6 +272,16 @@ const SonHaiData = {
       await updateDoc(docRef, { viewCount: increment(1) });
     } catch (err) {
       console.warn('incrementViewCount failed:', err.message);
+    }
+  },
+
+  // ─── Increment blog post view count ───
+  async incrementBlogPostViewCount(postId) {
+    try {
+      const docRef = doc(db, 'blog_posts', postId);
+      await updateDoc(docRef, { views: increment(1) });
+    } catch (err) {
+      console.warn('incrementBlogPostViewCount failed:', err.message);
     }
   },
 

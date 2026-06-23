@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -311,6 +311,667 @@ fbq('init','438100172987941');fbq('track','PageView');
   /*  TOAST  */
   .toast { position: fixed; bottom: 28px; right: 28px; z-index: 999; background: var(--bg-3); border: 1px solid var(--teal-dark); border-radius: 10px; padding: 12px 18px; font-size: 13px; font-weight: 600; color: var(--teal); box-shadow: 0 8px 32px rgba(0,0,0,.6), 0 0 24px rgba(0,212,212,.15); transform: translateY(80px); opacity: 0; transition: all .35s cubic-bezier(.3,1.4,.5,1); pointer-events: none; }
   .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ==========================================
+     NEW NEWS & FEED PORTAL CSS
+     ========================================== */
+  
+  /* BREAKING NEWS TICKER */
+  .ticker-container {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: 24px;
+    padding-left: 15px;
+    position: relative;
+    margin-top: 10px;
+  }
+  .ticker-title {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--teal);
+    letter-spacing: 1px;
+    padding-right: 15px;
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+  }
+  .ticker-title-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 8px var(--teal);
+    animation: tickerPulse 1.5s infinite;
+  }
+  @keyframes tickerPulse {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
+  }
+  .ticker-wrap {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .ticker-content {
+    display: inline-block;
+    padding-left: 100%;
+    animation: tickerAnim 35s linear infinite;
+  }
+  .ticker-content:hover {
+    animation-play-state: paused;
+  }
+  .ticker-item {
+    display: inline-block;
+    color: var(--text-2);
+    font-size: 12.5px;
+    text-decoration: none;
+    margin-right: 40px;
+    transition: color 0.2s;
+  }
+  .ticker-item:hover {
+    color: var(--teal);
+  }
+  .ticker-item::before {
+    content: "•";
+    color: var(--teal);
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  @keyframes tickerAnim {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-100%, 0, 0); }
+  }
+
+  /* VIEW SWITCHER */
+  .view-switcher {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+  }
+  .view-tab {
+    padding: 8px 18px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: all 0.22s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .view-tab:hover {
+    border-color: var(--text-3);
+    color: var(--text);
+  }
+  .view-tab.on {
+    background: var(--teal-glow);
+    border-color: var(--teal);
+    color: var(--teal);
+    box-shadow: 0 0 15px rgba(0,212,212,0.1);
+  }
+
+  /* NEWS PORTAL LAYOUT */
+  .news-portal {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+  .news-split-row {
+    display: grid;
+    grid-template-columns: 1.8fr 1.2fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 768px) {
+    .news-split-row {
+      grid-template-columns: 1fr;
+    }
+  }
+  .latest-news-list {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .latest-news-head {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-3);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .latest-news-item {
+    display: flex;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    transition: all 0.2s;
+  }
+  .latest-news-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .latest-news-item:hover .ln-title {
+    color: var(--teal);
+  }
+  .ln-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    border: 1px solid var(--border);
+    background: linear-gradient(145deg, #0F1D38, #091525);
+    overflow: hidden;
+    position: relative;
+  }
+  .ln-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ln-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+  }
+  .ln-cat {
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--teal);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .ln-title {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 4px;
+    transition: color 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ln-meta {
+    font-size: 10.5px;
+    color: var(--text-3);
+  }
+
+  /* CATEGORY BLOCKS */
+  .news-category-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+  }
+  .news-cat-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+  }
+  .news-cat-title {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 15px;
+    font-weight: 850;
+    color: var(--text);
+    position: relative;
+    padding-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .news-cat-title::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background: var(--teal);
+    box-shadow: 0 0 8px var(--teal);
+  }
+  .news-cat-link {
+    font-size: 11px;
+    color: var(--text-3);
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s;
+  }
+  .news-cat-link:hover {
+    color: var(--teal);
+  }
+  .news-cat-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1.8fr;
+    gap: 20px;
+  }
+  @media (max-width: 768px) {
+    .news-cat-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .news-cat-main-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.28s;
+  }
+  .news-cat-main-card:hover {
+    border-color: var(--teal-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .ncm-img {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    background: linear-gradient(145deg, #0F1D38, #091525);
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .ncm-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ncm-body {
+    padding: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .ncm-title {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .ncm-excerpt {
+    font-size: 12px;
+    color: var(--text-2);
+    line-height: 1.6;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .ncm-meta {
+    font-size: 10.5px;
+    color: var(--text-3);
+    margin-top: auto;
+  }
+  .news-cat-sub-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .news-cat-sub-item {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.22s;
+  }
+  .news-cat-sub-item:hover {
+    border-color: var(--teal-dark);
+    background: rgba(255,255,255,0.01);
+  }
+  .ncs-emoji {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .ncs-emoji img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ncs-content {
+    flex: 1;
+    min-width: 0;
+  }
+  .ncs-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ncs-meta {
+    font-size: 10.5px;
+    color: var(--text-3);
+  }
+
+  /* FACEBOOK FEED LAYOUT */
+  .fb-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 660px;
+    margin: 0 auto;
+  }
+  .fb-post-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .fb-post-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .fb-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: var(--bg);
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--border-2);
+  }
+  .fb-author-info {
+    display: flex;
+    flex-direction: column;
+  }
+  .fb-author-name {
+    font-size: 13.5px;
+    font-weight: 750;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .fb-verify-badge {
+    color: var(--teal);
+    display: inline-flex;
+    align-items: center;
+  }
+  .fb-post-time {
+    font-size: 11px;
+    color: var(--text-3);
+    margin-top: 1px;
+  }
+  .fb-post-title {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 15.5px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.35;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .fb-post-title:hover {
+    color: var(--teal);
+  }
+  .fb-post-text {
+    font-size: 13.5px;
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+  .fb-readmore {
+    color: var(--teal);
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 4px;
+  }
+  .fb-readmore:hover {
+    text-decoration: underline;
+  }
+  .fb-post-media {
+    height: 240px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .fb-post-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .fb-post-stats {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11.5px;
+    color: var(--text-3);
+    border-top: 1px solid rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    padding: 8px 4px;
+    margin-top: 4px;
+  }
+  .fb-post-stats-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .fb-stat-icon-group {
+    display: flex;
+    align-items: center;
+  }
+  .fb-stat-like-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--teal-dark);
+    color: var(--teal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+  }
+  .fb-post-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .fb-action-btn {
+    background: none;
+    border: none;
+    border-radius: 6px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .fb-action-btn:hover {
+    background: rgba(255,255,255,0.04);
+    color: var(--text);
+  }
+  .fb-action-btn.liked {
+    color: var(--teal);
+  }
+  .fb-action-btn.liked svg {
+    fill: var(--teal);
+  }
+
+  /* SIDEBAR WIDGETS */
+  .sb-book-card {
+    background: var(--bg-3);
+    border: 1px solid var(--border-2);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.22s;
+  }
+  .sb-book-card:last-child {
+    margin-bottom: 0;
+  }
+  .sb-book-card:hover {
+    border-color: var(--teal-dark);
+    background: var(--bg-2);
+    transform: translateX(2px);
+  }
+  .sb-book-cover {
+    width: 50px;
+    height: 70px;
+    border-radius: 6px;
+    background: linear-gradient(145deg, #0F1D38, #091525);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .sb-book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .sb-book-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .sb-book-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sb-book-price {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--teal);
+  }
+  .sb-book-btn {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--teal);
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    margin-top: 4px;
+    display: inline-block;
+  }
+
+  .sb-insight-box {
+    background: rgba(0,212,212,0.03);
+    border: 1px solid var(--teal-dark);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    position: relative;
+    margin-top: 10px;
+  }
+  .sb-insight-quote {
+    font-size: 12.5px;
+    color: var(--text);
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  .sb-insight-author {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
   </style>
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/morph.css?v=1">
@@ -352,6 +1013,19 @@ fbq('init','438100172987941');fbq('track','PageView');
 
 <main>
   <div class="wrap">
+
+    <!-- BREAKING NEWS TICKER -->
+    <div class="ticker-container" id="breaking-news-ticker" style="display: none;">
+      <div class="ticker-title">
+        <div class="ticker-title-dot"></div>
+        Tin Nóng
+      </div>
+      <div class="ticker-wrap">
+        <div class="ticker-content" id="ticker-items-container">
+          <!-- Will be rendered dynamically via JS -->
+        </div>
+      </div>
+    </div>
 
   <!-- BREADCRUMB -->
   <nav class="breadcrumb">
@@ -437,82 +1111,49 @@ fbq('init','438100172987941');fbq('track','PageView');
   <!-- CONTENT GRID -->
   <div class="content-grid">
 
-  <!-- BLOG POSTS -->
+  <!-- MAIN COLUMN -->
   <div>
-  <div class="blog-grid" id="blog-grid">
+    <!-- View Mode Switcher -->
+    <div class="view-switcher" id="view-mode-switcher">
+      <button class="view-tab on" id="tab-news" onclick="switchViewMode('news')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="14" y1="8" x2="18" y2="8"/><line x1="14" y1="12" x2="18" y2="12"/><line x1="14" y1="16" x2="18" y2="16"/></svg>
+        Cổng Thông Tin
+      </button>
+      <button class="view-tab" id="tab-feed" onclick="switchViewMode('feed')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        Bản tin Sơn Nhai
+      </button>
+    </div>
 
-  <!-- Post 0 -->
-  <a href="blog-post.html?slug=thuc-tinh-nhan-thuc-gioi-thieu" class="b-card wide" data-cat="Nhận thức" data-title="Thức tỉnh nhận thức: Hành trình phá vỡ giới hạn tư duy của bạn">
-  <div class="b-img" style="background:linear-gradient(145deg,#0A1D14,#0D3322);position:relative;"><img src="product/anh-chuan/thuc-tinh-nhan-thuc.webp?v=3" alt="Thức tỉnh nhận thức" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit;" loading="lazy" onerror="this.remove()"><div class="b-img-shine"></div></div>
-  <div style="display:flex;flex-direction:column;flex:1;">
-  <div class="b-body">
-  <div class="b-cat-row"><span class="b-cat">Nhận thức</span><span class="b-read-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 7 phút</span></div>
-  <div class="b-title">Thức tỉnh nhận thức: Hành trình phá vỡ những giới hạn tư duy ẩn sâu trong tiềm thức</div>
-  <div class="b-excerpt">Bạn có biết rằng phần lớn quyết định hằng ngày không do lý trí điều khiển? Não bộ đang chạy những chương trình cũ được cài đặt từ thời thơ ấu, và nhận thức đúng là bước đầu để thay đổi.</div>
-  </div>
-  <div class="b-foot"><span class="b-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>01/04/2025</span><div class="b-tags"><span class="b-tag">Nhận thức</span></div></div>
-  </div>
-  </a>
+    <!-- Content Views Wrapper -->
+    <div id="blog-views-wrapper">
+      <!-- News Portal View -->
+      <div id="news-portal-view" class="news-portal">
+        <!-- Will be rendered dynamically via JS -->
+      </div>
+      
+      <!-- Social Feed View -->
+      <div id="social-feed-view" class="fb-feed" style="display: none;">
+        <!-- Will be rendered dynamically via JS -->
+      </div>
+      
+      <!-- Legacy Grid View (for search/filter) -->
+      <div id="legacy-grid-view" class="blog-grid" style="display: none;">
+        <!-- Will be rendered dynamically via JS -->
+      </div>
+    </div>
 
-  <!-- Post 1 -->
-  <a href="blog-post.html?slug=muu-luoc-tai-chinh" class="b-card" data-cat="Tài chính" data-title="Mưu lược tài chính: Khi tiền bạc không phải là tất cả">
-  <div class="b-img" style="background:linear-gradient(145deg,#1A1009,#2F1C0E);position:relative;"><img src="product/anh-chuan/muu-luoc-tai-chinh.webp?v=3" alt="Mưu lược tài chính" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit;" loading="lazy" onerror="this.remove()"><div class="b-img-shine"></div></div>
-  <div class="b-body"><div class="b-cat-row"><span class="b-cat">Tài chính</span><span class="b-read-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 9 phút</span></div><div class="b-title">Mưu lược tài chính: Khi tiền bạc không phải là đích đến, mà là công cụ</div><div class="b-excerpt">Người thông minh không chạy theo tiền, họ dùng tiền như một đòn bẩy để tạo ra tự do. Đây là tư duy thay đổi rất nhiều quyết định tài chính.</div></div>
-  <div class="b-foot"><span class="b-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>27/03/2025</span><div class="b-tags"><span class="b-tag">Tài chính</span><span class="b-tag">Tư duy</span></div></div>
-  </a>
+    <!-- Empty state -->
+    <div class="no-results" id="no-results">
+      <div class="nr-icon">🔍</div>
+      <div class="nr-title">Không tìm thấy bài viết</div>
+      <div class="nr-sub">Thử từ khóa khác hoặc chọn chủ đề khác.</div>
+    </div>
 
-  <!-- Post 2 -->
-  <a href="blog-post.html?slug=tu-duy-cuong-gia-vs-thuong-nhan" class="b-card" data-cat="Tư duy" data-title="Tư duy cường giả vs tư duy thương nhân">
-  <div class="b-img" style="background:linear-gradient(145deg,#1A0F2E,#2D1A4E);position:relative;"><img src="product/anh-chuan/tu-duy-cuon-gia.webp?v=3" alt="Tư duy cường giả" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit;" loading="lazy" onerror="this.remove()"><div class="b-img-shine"></div></div>
-  <div class="b-body"><div class="b-cat-row"><span class="b-cat">Tư duy</span><span class="b-read-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 7 phút</span></div><div class="b-title">Tư duy cường giả vs tư duy thương nhân: Ranh giới nằm ở đâu?</div><div class="b-excerpt">Sự khác biệt giữa người tiến lên và người dậm chân tại chỗ thường nằm ở cách họ nhìn nhận thế giới, rủi ro và trách nhiệm cá nhân.</div></div>
-  <div class="b-foot"><span class="b-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>24/03/2025</span><div class="b-tags"><span class="b-tag">Tư duy</span></div></div>
-  </a>
-
-  <!-- Post 3 -->
-  <a href="blog-post.html?slug=tinh-cam-bi-tich" class="b-card" data-cat="Tình cảm" data-title="Tình cảm bế tắc: Bí mật đằng sau mối quan hệ">
-  <div class="b-img" style="background:linear-gradient(145deg,#1A0A1A,#2E1040);position:relative;"><img src="product/anh-chuan/tinh-cam-bi-tich.webp?v=3" alt="Tình cảm bí tịch" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit;" loading="lazy" onerror="this.remove()"><div class="b-img-shine"></div></div>
-  <div class="b-body"><div class="b-cat-row"><span class="b-cat">Tình cảm</span><span class="b-read-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 5 phút</span></div><div class="b-title">Tình cảm bế tắc: Những bí mật ẩn sau mọi mối quan hệ sâu sắc</div><div class="b-excerpt">Vì sao một số người dễ dàng tạo kết nối sâu, trong khi người khác luôn cảm thấy cô đơn dù ở xung quanh đông người?</div></div>
-  <div class="b-foot"><span class="b-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>20/03/2025</span><div class="b-tags"><span class="b-tag">Tình cảm</span><span class="b-tag">Nhân tính</span></div></div>
-  </a>
-
-  <!-- Post 4 -->
-  <a href="blog-post.html?slug=nhan-tinh-den-trang" class="b-card" data-cat="Nhân tính" data-title="Nhân tính đen trắng: Sống thật hay sắc sảo?">
-  <div class="b-img" style="background:linear-gradient(145deg,#141414,#262626);position:relative;"><img src="product/anh-chuan/nhan-tinh-den-trang.webp?v=3" alt="Nhân tính đen trắng" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit;" loading="lazy" onerror="this.remove()"><div class="b-img-shine"></div></div>
-  <div class="b-body"><div class="b-cat-row"><span class="b-cat">Nhân tính</span><span class="b-read-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 6 phút</span></div><div class="b-title">Nhân tính đen trắng: Nên sống thật lòng hay sống khéo léo?</div><div class="b-excerpt">Giữa sự thật và sự khôn ngoan, đâu mới là con đường đúng đắn? Câu trả lời thường nằm ở khả năng hiểu người và hiểu hoàn cảnh.</div></div>
-  <div class="b-foot"><span class="b-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>16/03/2025</span><div class="b-tags"><span class="b-tag">Nhân tính</span></div></div>
-  </a>
-
-  <!-- Post 5 -->
-  <a href="blog-post.html?slug=tu-duy-sau-sac" class="b-card" data-cat="Tư duy" data-title="Tư duy sâu sắc: Thoát khỏi lối suy nghĩ bề mặt">
-  <div class="b-img" style="background:linear-gradient(145deg,#0E1A1F,#173040);position:relative;"><img src="product/anh-chuan/tu-duy-sau-sac.webp?v=3" alt="Tư duy sâu sắc" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit;" loading="lazy" onerror="this.remove()"><div class="b-img-shine"></div></div>
-  <div class="b-body"><div class="b-cat-row"><span class="b-cat">Tư duy</span><span class="b-read-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 8 phút</span></div><div class="b-title">Tư duy sâu sắc: Làm thế nào để thoát khỏi lối suy nghĩ bề mặt?</div><div class="b-excerpt">Tư duy sâu sắc đòi hỏi bạn đặt câu hỏi đúng, chịu đựng sự không chắc chắn và truy tìm nguyên nhân gốc rễ của vấn đề.</div></div>
-  <div class="b-foot"><span class="b-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>12/03/2025</span><div class="b-tags"><span class="b-tag">Tư duy</span></div></div>
-  </a>
-
-  <!-- Post 6 -->
-  <a href="blog-post.html?slug=he-thong-manh-me" class="b-card" data-cat="Hệ thống" data-title="Hệ thống mạnh mẽ: Xây dựng cuộc sống không phụ thuộc cảm xúc">
-  <div class="b-img" style="background:linear-gradient(145deg,#0D1F2E,#1A3348);position:relative;"><img src="product/anh-chuan/he-thong-manh-me.webp?v=3" alt="Hệ thống mạnh mẽ" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit;" loading="lazy" onerror="this.remove()"><div class="b-img-shine"></div></div>
-  <div class="b-body"><div class="b-cat-row"><span class="b-cat">Hệ thống</span><span class="b-read-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 7 phút</span></div><div class="b-title">Hệ thống mạnh mẽ: Xây dựng cuộc sống không phụ thuộc vào cảm xúc nhất thời</div><div class="b-excerpt">Cảm xúc đến rồi đi, nhưng hệ thống thì ở lại. Người có hệ thống mạnh không cần đợi cảm hứng mới bắt đầu thực thi.</div></div>
-  <div class="b-foot"><span class="b-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>08/03/2025</span><div class="b-tags"><span class="b-tag">Hệ thống</span></div></div>
-  </a>
-
-  </div>
-
-  <!-- Empty state -->
-  <div class="no-results" id="no-results">
-  <div class="nr-icon"></div>
-  <div class="nr-title">Không tìm thấy bài viết</div>
-  <div class="nr-sub">Thử từ khóa khác hoặc chọn chủ đề khác.</div>
-  </div>
-
-  <!-- Pagination -->
-  <div class="pagination" id="pagination">
-  <button class="pg-btn arrow" disabled></button>
-  <button class="pg-btn on" onclick="setPage(1,this)">1</button>
-  <button class="pg-btn" onclick="setPage(2,this)">2</button>
-  <button class="pg-btn" onclick="setPage(3,this)">3</button>
-  <button class="pg-btn arrow" onclick="setPage(2, document.querySelectorAll('.pg-btn')[2])"></button>
-  </div>
+    <!-- Pagination -->
+    <div class="pagination" id="pagination">
+      <!-- Dynamic pagination -->
+    </div>
   </div>
 
   <!-- SIDEBAR -->
@@ -529,6 +1170,17 @@ fbq('init','438100172987941');fbq('track','PageView');
   </button>
   </div>
   </div>
+  </div>
+
+  <!-- Insight of the Day -->
+  <div class="sb-box">
+    <div class="sb-head">Châm ngôn hôm nay</div>
+    <div class="sb-body" style="padding-top:12px; padding-bottom:12px;">
+      <div class="sb-insight-box">
+        <div class="sb-insight-quote" id="sb-insight-quote">"Thấu hiểu nhân tính không phải để thao túng người khác, mà là để thấu cảm sâu hơn và tự bảo vệ bản thân trước sóng gió cuộc đời."</div>
+        <div class="sb-insight-author">— Thư viện Sơn Nhai</div>
+      </div>
+    </div>
   </div>
 
   <!-- Popular posts -->
@@ -636,6 +1288,14 @@ fbq('init','438100172987941');fbq('track','PageView');
   </div>
   </div>
 
+  <!-- Ebook Showcase -->
+  <div class="sb-box" id="sb-ebooks-showcase" style="display: none;">
+    <div class="sb-head">Sách khuyên đọc</div>
+    <div class="sb-body" id="sb-books-container" style="padding-top: 10px; padding-bottom: 10px;">
+      <!-- Will be rendered dynamically via JS -->
+    </div>
+  </div>
+
   <!-- Newsletter -->
   <div class="sb-box">
   <div class="sb-head">Nhận bài viết mới</div>
@@ -711,42 +1371,64 @@ fbq('init','438100172987941');fbq('track','PageView');
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<script>
+<script type="module">
+  import SonHaiData from './js/firestore-sync.js?v=3';
+
   let activeCat = 'all';
   let searchQuery = '';
   let allPosts = [];
   const POSTS_PER_PAGE = 6;
   let currentBlogPage = 1;
+  let currentViewMode = 'news'; // 'news' | 'feed' | 'grid'
+  
+  const INSIGHTS = [
+    "Thấu hiểu nhân tính không phải để thao túng người khác, mà là để thấu cảm sâu hơn và tự bảo vệ bản thân.",
+    "Tư duy sâu sắc bắt đầu bằng việc đặt những câu hỏi đúng, thay vì vội vã tìm kiếm những câu trả lời cũ.",
+    "Hệ thống mạnh mẽ bền vững hơn mọi động lực nhất thời. Hãy xây dựng thói quen thay vì chờ đợi cảm hứng.",
+    "Tiền bạc là một công cụ tuyệt vời để mua sự tự do, nhưng sẽ là một ông chủ tồi nếu bạn bị nó cuốn đi.",
+    "Nhận thức là ranh giới duy nhất giam cầm con người. Phá vỡ nhận thức cũ là bắt đầu cho một cuộc đời mới."
+  ];
 
-  // ── Load blog posts from Firestore ──
   async function loadBlogPosts() {
-    if (window.SonHaiData) {
+    if (SonHaiData) {
       try {
-        const posts = await window.SonHaiData.getBlogPosts();
+        const posts = await SonHaiData.getBlogPosts();
         if (posts && posts.length > 0) {
           allPosts = posts.filter(p => p.status === 'published');
         }
       } catch(e) { console.warn('Blog load failed:', e); }
     }
+    renderRandomInsight();
     if (allPosts.length > 0) {
       renderBlogPage();
     }
   }
 
-  function renderBlogPage() {
-    // Update stats
-    const stats = document.querySelectorAll('.bstat-num');
-    if (stats[0]) stats[0].textContent = allPosts.length;
-    const categories = [...new Set(allPosts.map(p => p.category).filter(Boolean))];
-    if (stats[1]) stats[1].textContent = categories.length;
+  function renderRandomInsight() {
+    const quoteEl = document.getElementById('sb-insight-quote');
+    if (quoteEl) {
+      const idx = Math.floor(Math.random() * INSIGHTS.length);
+      quoteEl.textContent = `"${INSIGHTS[idx]}"`;
+    }
+  }
 
-    // Render featured post (first post)
+  function renderBlogPage() {
+    const categories = [...new Set(allPosts.map(p => p.category).filter(Boolean))];
+    renderBreakingNewsTicker();
     renderFeatured();
-    // Render grid
-    applyFilters();
-    // Render sidebar
     renderSidebarPopular();
     renderSidebarCategories(categories);
+    renderSidebarBooks();
+    applyFilters();
+  }
+
+  function renderBreakingNewsTicker() {
+    const container = document.getElementById('breaking-news-ticker');
+    const itemsContainer = document.getElementById('ticker-items-container');
+    if (!container || !itemsContainer || allPosts.length === 0) return;
+    const tickerPosts = allPosts.slice(0, 5);
+    itemsContainer.innerHTML = tickerPosts.map(p => `<a href="blog-post.html?slug=${p.slug || ''}" class="ticker-item">${p.title}</a>`).join('');
+    container.style.display = 'flex';
   }
 
   function renderFeatured() {
@@ -757,219 +1439,232 @@ fbq('init','438100172987941');fbq('track','PageView');
     wrap.innerHTML = `
       <div class="featured-label">Bài viết nổi bật</div>
       <a href="blog-post.html?slug=${p.slug || ''}" class="featured-card">
-        <div class="fc-img" style="background:${gradient}">
-          ${p.emoji || ''}
-          <div class="fc-img-shine"></div>
-          <div class="fc-img-glow"></div>
-        </div>
+        <div class="fc-img" style="background:${gradient}">${p.emoji || ''}<div class="fc-img-shine"></div><div class="fc-img-glow"></div></div>
         <div class="fc-body">
-          <span class="fc-badge">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-            Bài viết nổi bật
-          </span>
+          <span class="fc-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>Bài viết nổi bật</span>
           <div class="fc-cat"><div class="fc-dot"></div>${p.category || ''}</div>
           <h2 class="fc-title">${p.title || ''}</h2>
           <p class="fc-excerpt">${p.excerpt || ''}</p>
           <div class="fc-meta">
-            <span class="fc-meta-item">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-              ${p.readTime || '5 phút đọc'}
-            </span>
-            <span class="fc-meta-item">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              ${formatBlogDate(p)}
-            </span>
-            <span class="fc-meta-item">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              ${p.views || 0} lượt đọc
-            </span>
+            <span class="fc-meta-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>${p.readTime || '5 phút đọc'}</span>
+            <span class="fc-meta-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${formatBlogDate(p)}</span>
+            <span class="fc-meta-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>${p.views || 0} lượt đọc</span>
           </div>
-          <span class="fc-read">
-            Đọc ngay
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
-          </span>
+          <span class="fc-read">Đọc ngay<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></span>
         </div>
       </a>`;
   }
 
   function formatBlogDate(post) {
-    if (post.createdAt && post.createdAt.seconds) {
-      return new Date(post.createdAt.seconds * 1000).toLocaleDateString('vi-VN');
+    if (post.createdAt) {
+      if (typeof post.createdAt === 'string') return new Date(post.createdAt).toLocaleDateString('vi-VN');
+      if (post.createdAt.seconds) return new Date(post.createdAt.seconds * 1000).toLocaleDateString('vi-VN');
     }
     return post.date || '';
   }
 
-  // ── Filter by category tab ──
+  function switchViewMode(mode) {
+    currentViewMode = mode;
+    document.querySelectorAll('.view-tab').forEach(btn => btn.classList.remove('on'));
+    const activeTab = document.getElementById(`tab-${mode}`);
+    if (activeTab) activeTab.classList.add('on');
+    const newsView = document.getElementById('news-portal-view');
+    const feedView = document.getElementById('social-feed-view');
+    const gridView = document.getElementById('legacy-grid-view');
+    if (newsView) newsView.style.display = mode === 'news' ? 'flex' : 'none';
+    if (feedView) feedView.style.display = mode === 'feed' ? 'flex' : 'none';
+    if (gridView) gridView.style.display = mode === 'grid' ? 'grid' : 'none';
+    applyFilters();
+  }
+
   function filterTab(el, cat) {
     if (!el) return;
     activeCat = cat;
     document.querySelectorAll('.ftab').forEach(t => t.classList.remove('on'));
     el.classList.add('on');
-    // sync sidebar cat list
-    document.querySelectorAll('.cat-item').forEach(c => {
-      c.classList.toggle('on', c.dataset.cat === cat);
-    });
+    document.querySelectorAll('.cat-item').forEach(c => c.classList.toggle('on', c.dataset.cat === cat));
+    if (cat !== 'all' || searchQuery) { if (currentViewMode === 'news') switchViewMode('grid'); } else { if (currentViewMode === 'grid') switchViewMode('news'); }
     currentBlogPage = 1;
     applyFilters();
   }
 
-  // ── Search ──
   function searchPosts(q) {
     searchQuery = q.toLowerCase().trim();
     document.getElementById('hero-search').value = q;
     document.getElementById('sb-search-in').value = q;
+    if (searchQuery) { if (currentViewMode === 'news') switchViewMode('grid'); } else { if (currentViewMode === 'grid' && activeCat === 'all') switchViewMode('news'); }
     currentBlogPage = 1;
     applyFilters();
   }
 
-  // ── Apply filters + render ──
   function applyFilters() {
     let filtered = allPosts;
-    if (activeCat !== 'all') {
-      filtered = filtered.filter(p => p.category === activeCat);
-    }
+    if (activeCat !== 'all') filtered = filtered.filter(p => p.category === activeCat);
     if (searchQuery) {
-      filtered = filtered.filter(p => {
-        const title = (p.title || '').toLowerCase();
-        const excerpt = (p.excerpt || '').toLowerCase();
-        const cat = (p.category || '').toLowerCase();
-        return title.includes(searchQuery) || excerpt.includes(searchQuery) || cat.includes(searchQuery);
-      });
+      filtered = filtered.filter(p => (p.title || '').toLowerCase().includes(searchQuery) || (p.excerpt || '').toLowerCase().includes(searchQuery) || (p.category || '').toLowerCase().includes(searchQuery));
     }
-
     document.getElementById('post-count').innerHTML = `<strong>${filtered.length}</strong> bài viết`;
     document.getElementById('no-results').classList.toggle('show', filtered.length === 0);
-
-    // Pagination
-    const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE);
-    const start = (currentBlogPage - 1) * POSTS_PER_PAGE;
-    const pagePosts = filtered.slice(start, start + POSTS_PER_PAGE);
-
-    renderBlogGrid(pagePosts);
-    renderPagination(totalPages);
+    const wrapper = document.getElementById('blog-views-wrapper');
+    if (wrapper) wrapper.style.display = filtered.length === 0 ? 'none' : '';
+    if (currentViewMode === 'news') {
+      renderNewsPortalView(filtered);
+      const pag = document.getElementById('pagination');
+      if (pag) pag.style.display = 'none';
+      const heroFeatured = document.querySelector('.featured-wrap');
+      if (heroFeatured) heroFeatured.style.display = 'block';
+    } else {
+      const heroFeatured = document.querySelector('.featured-wrap');
+      if (heroFeatured) heroFeatured.style.display = 'none';
+      const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE);
+      const start = (currentBlogPage - 1) * POSTS_PER_PAGE;
+      const pagePosts = filtered.slice(start, start + POSTS_PER_PAGE);
+      if (currentViewMode === 'feed') renderSocialFeedView(pagePosts);
+      else if (currentViewMode === 'grid') renderLegacyGridView(pagePosts);
+      renderPagination(totalPages);
+    }
   }
 
-  function renderBlogGrid(posts) {
-    const grid = document.getElementById('blog-grid');
+  function renderNewsPortalView(posts) {
+    const container = document.getElementById('news-portal-view');
+    if (!container) return;
+    if (posts.length === 0) { container.innerHTML = ''; return; }
+    const latestPosts = posts.slice(1, 4);
+    let latestNewsHTML = latestPosts.length > 0 ? `
+        <div class="latest-news-list">
+          <div class="latest-news-head"><span>Mới Cập Nhật</span><span class="ticker-title-dot"></span></div>
+          ${latestPosts.map(p => {
+            const cover = getPostCoverImage(p);
+            return `<a href="blog-post.html?slug=${p.slug || ''}" class="latest-news-item"><div class="ln-img">${cover ? `<img src="${cover}" alt="${p.title}" onerror="this.remove()">` : (p.emoji || '📰')}</div><div class="ln-content"><span class="ln-cat">${p.category || 'Chung'}</span><div class="ln-title">${p.title}</div><div class="ln-meta">${p.views || 0} lượt đọc · ${p.readTime || '5 phút'}</div></div></a>`;
+          }).join('')}
+        </div>` : '';
+    const remainingPosts = posts.slice(4);
+    const catGroups = {};
+    remainingPosts.forEach(p => { if (p.category) { if (!catGroups[p.category]) catGroups[p.category] = []; catGroups[p.category].push(p); } });
+    let catBlocksHTML = '';
+    Object.entries(catGroups).forEach(([catName, catPosts]) => {
+      if (catPosts.length < 1) return;
+      const mainCatPost = catPosts[0];
+      const subCatPosts = catPosts.slice(1, 3);
+      catBlocksHTML += `
+        <div class="news-category-block">
+          <div class="news-cat-head"><span class="news-cat-title">${catName}</span><a href="#" class="news-cat-link" onclick="filterTab(document.querySelector('.ftab[data-cat=\\'${catName}\\']'),'${catName}');return false;">Xem tất cả<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></a></div>
+          <div class="news-cat-grid">
+            <a href="blog-post.html?slug=${mainCatPost.slug || ''}" class="news-cat-main-card"><div class="ncm-img">${getPostCoverImage(mainCatPost) ? `<img src="${getPostCoverImage(mainCatPost)}" alt="${mainCatPost.title}">` : (mainCatPost.emoji || '📰')}</div><div class="ncm-body"><h3 class="ncm-title">${mainCatPost.title}</h3><p class="ncm-excerpt">${mainCatPost.excerpt || ''}</p><div class="ncm-meta">${formatBlogDate(mainCatPost)} · ${mainCatPost.views || 0} lượt đọc</div></div></a>
+            ${subCatPosts.map(p => `<a href="blog-post.html?slug=${p.slug || ''}" class="news-cat-sub-item"><div class="ncs-emoji">${getPostCoverImage(p) ? `<img src="${getPostCoverImage(p)}" alt="${p.title}">` : (p.emoji || '📰')}</div><div class="ncs-content"><div class="ncs-title">${p.title}</div><div class="ncs-meta">${formatBlogDate(p)} · ${p.views || 0} lượt đọc</div></div></a>`).join('')}
+          </div>
+        </div>`;
+    });
+    container.innerHTML = `<div class="news-split-row"><div style="display:flex; flex-direction:column; justify-content:space-between; gap:20px;">${posts[4] ? `<a href="blog-post.html?slug=${posts[4].slug || ''}" class="news-cat-main-card" style="flex:1;"><div class="ncm-img" style="height:210px;">${getPostCoverImage(posts[4]) ? `<img src="${getPostCoverImage(posts[4])}" alt="${posts[4].title}">` : (posts[4].emoji || '📰')}</div><div class="ncm-body"><span class="ln-cat" style="font-size:9.5px; font-weight:800; color:var(--teal); text-transform:uppercase;">${posts[4].category || 'Chung'}</span><h3 class="ncm-title" style="font-size:15px; margin-top:4px;">${posts[4].title}</h3><p class="ncm-excerpt">${posts[4].excerpt || ''}</p><div class="ncm-meta">${formatBlogDate(posts[4])} · ${posts[4].views || 0} lượt đọc</div></div></a>` : ''}</div>${latestNewsHTML}</div>${catBlocksHTML}`;
+  }
+
+  function renderSocialFeedView(posts) {
+    const container = document.getElementById('social-feed-view');
+    if (!container) return;
+    container.innerHTML = posts.map(p => {
+      const cover = getPostCoverImage(p);
+      const isLiked = localStorage.getItem(`fblike_${p.slug}`) === 'true';
+      const localLikes = parseInt(localStorage.getItem(`fblikes_count_${p.slug}`)) || Math.floor((p.views || 0) * 0.15) + 5;
+      return `<div class="fb-post-card" data-slug="${p.slug}"><div class="fb-post-header"><div class="fb-avatar">SN</div><div class="fb-author-info"><span class="fb-author-name">Thư viện Sơn Nhai<span class="fb-verify-badge" title="Tài khoản xác minh"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--teal)"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></span></span><span class="fb-post-time">${formatBlogDate(p)} · Chuyên mục: ${p.category || 'Kiến thức'}</span></div></div><a href="blog-post.html?slug=${p.slug || ''}" class="fb-post-title">${p.title}</a><p class="fb-post-text">${p.excerpt || ''}<a href="blog-post.html?slug=${p.slug || ''}" class="fb-readmore">[Xem thêm]</a></p>${cover ? `<div class="fb-post-media"><img src="${cover}" alt="${p.title}" loading="lazy"></div>` : (p.coverGradient ? `<div class="fb-post-media" style="background:${p.coverGradient}; font-size: 54px;">${p.emoji || '✍️'}</div>` : '')}<div class="fb-post-stats"><div class="fb-post-stats-left"><div class="fb-stat-icon-group"><span class="fb-stat-like-icon">👍</span></div><span id="likes-count-${p.slug}">${localLikes} người thích</span></div><div><span>${p.views || 0} lượt đọc</span></div></div><div class="fb-post-actions"><button class="fb-action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLikePost('${p.slug}')" id="btn-like-${p.slug}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>Thích</button><button class="fb-action-btn" onclick="sharePost('${p.slug}', '${p.title}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Chia sẻ</button></div></div>`;
+    }).join('');
+  }
+
+  window.toggleLikePost = function(slug) {
+    const isLiked = localStorage.getItem(`fblike_${slug}`) === 'true';
+    const currentLikes = parseInt(localStorage.getItem(`fblikes_count_${slug}`)) || Math.floor((allPosts.find(p => p.slug === slug)?.views || 100) * 0.15) + 5;
+    const newLiked = !isLiked;
+    const newLikesCount = currentLikes + (newLiked ? 1 : -1);
+    localStorage.setItem(`fblike_${slug}`, String(newLiked));
+    localStorage.setItem(`fblikes_count_${slug}`, String(newLikesCount));
+    const btn = document.getElementById(`btn-like-${slug}`);
+    if (btn) btn.classList.toggle('liked', newLiked);
+    const countText = document.getElementById(`likes-count-${slug}`);
+    if (countText) countText.textContent = `${newLikesCount} người thích`;
+    showToast(newLiked ? "Đã thích bài viết!" : "Đã bỏ thích.");
+  };
+
+  window.sharePost = function(slug, title) {
+    const url = `${window.location.origin}/blog-post.html?slug=${slug}`;
+    navigator.clipboard.writeText(url).then(() => { showToast("Đã sao chép liên kết chia sẻ bài viết!"); }).catch(() => { showToast("Đã sao chép liên kết chia sẻ bài viết!"); });
+  };
+
+  function renderLegacyGridView(posts) {
+    const grid = document.getElementById('legacy-grid-view');
     if (!grid) return;
-    if (posts.length === 0) {
-      grid.innerHTML = '';
-      return;
-    }
-
-    // Get products for matching cover images
-    const allProds = window.SonHaiCartBadge ? window.SonHaiCartBadge.getProducts().filter(p => p.status === 'published') : [];
-
     grid.innerHTML = posts.map((p, idx) => {
       const gradient = p.coverGradient || 'linear-gradient(145deg, #0F1D38, #091525)';
-      const isWide = idx === 0 && currentBlogPage === 1 && activeCat === 'all' && !searchQuery;
-
-      // Match blog post to product image
-      let coverImg = '';
-      if (allProds.length > 0) {
-        const titleLower = (p.title || '').toLowerCase();
-        const matched = allProds.find(pr => titleLower.includes(pr.name.toLowerCase()) || (pr.slug && titleLower.includes(pr.slug.replace(/-/g, ' '))));
-        if (matched) {
-          coverImg = matched.imageUrl || (matched.slug ? 'product/anh-chuan/' + matched.slug + '.webp' : '');
-        } else {
-          const catProds = allProds.filter(pr => (pr.category || '').toLowerCase().includes((p.category || '').toLowerCase()));
-          if (catProds.length > 0) coverImg = catProds[idx % catProds.length].imageUrl || (catProds[idx % catProds.length].slug ? 'product/anh-chuan/' + catProds[idx % catProds.length].slug + '.webp' : '');
-        }
-      }
-      const imgHtml = coverImg
-        ? `<img src="${coverImg}" alt="${p.title || ''}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit;" loading="lazy" onerror="this.remove()">`
-        : '';
-
-      return `
-        <a href="blog-post.html?slug=${p.slug || ''}" class="b-card${isWide ? ' wide' : ''}" data-cat="${p.category || ''}" data-title="${p.title || ''}">
-          ${isWide ? `
-          <div class="b-img" style="background:${gradient};position:relative;">${imgHtml}<div class="b-img-shine"></div></div>
-          <div style="display:flex;flex-direction:column;flex:1;">
-            <div class="b-body">
-              <div class="b-cat-row"><span class="b-cat">${p.category || ''}</span><span class="b-read-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> ${p.readTime || '5 phút'}</span></div>
-              <div class="b-title">${p.title || ''}</div>
-              <div class="b-excerpt">${p.excerpt || ''}</div>
-            </div>
-            <div class="b-foot"><span class="b-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${formatBlogDate(p)}</span><div class="b-tags"><span class="b-tag">${p.category || ''}</span></div></div>
-          </div>` : `
-          <div class="b-img" style="background:${gradient};position:relative;">${imgHtml}<div class="b-img-shine"></div></div>
-          <div class="b-body">
-            <div class="b-cat-row"><span class="b-cat">${p.category || ''}</span><span class="b-read-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> ${p.readTime || '5 phút'}</span></div>
-            <div class="b-title">${p.title || ''}</div>
-            <div class="b-excerpt">${p.excerpt || ''}</div>
-          </div>
-          <div class="b-foot"><span class="b-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${formatBlogDate(p)}</span><div class="b-tags"><span class="b-tag">${p.category || ''}</span></div></div>
-          `}
-        </a>`;
+      const coverImg = getPostCoverImage(p);
+      return `<a href="blog-post.html?slug=${p.slug || ''}" class="b-card" data-cat="${p.category || ''}" data-title="${p.title || ''}"><div class="b-img" style="background:${gradient};position:relative;">${coverImg ? `<img src="${coverImg}" alt="${p.title || ''}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit;" loading="lazy" onerror="this.remove()">` : ''}<div class="b-img-shine"></div></div><div class="b-body"><div class="b-cat-row"><span class="b-cat">${p.category || ''}</span><span class="b-read-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> ${p.readTime || '5 phút'}</span></div><div class="b-title">${p.title || ''}</div><div class="b-excerpt">${p.excerpt || ''}</div></div><div class="b-foot"><span class="b-date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${formatBlogDate(p)}</span><div class="b-tags"><span class="b-tag">${p.category || ''}</span></div></div></a>`;
     }).join('');
+  }
 
-    // Fix display for wide cards
-    document.querySelectorAll('#blog-grid .b-card.wide').forEach(c => {
-      c.style.display = 'flex';
-    });
+  function getPostCoverImage(p) {
+    const allProds = window.SonHaiCartBadge ? window.SonHaiCartBadge.getProducts().filter(pr => pr.status === 'published') : [];
+    let coverImg = '';
+    if (allProds.length > 0) {
+      const titleLower = (p.title || '').toLowerCase();
+      const matched = allProds.find(pr => titleLower.includes(pr.name.toLowerCase()) || (pr.slug && titleLower.includes(pr.slug.replace(/-/g, ' '))));
+      if (matched) coverImg = matched.imageUrl || (matched.slug ? 'product/anh-chuan/' + matched.slug + '.webp' : '');
+      else {
+        const catProds = allProds.filter(pr => (pr.category || '').toLowerCase().includes((p.category || '').toLowerCase()));
+        if (catProds.length > 0) { const idx = (p.title || '').length % catProds.length; coverImg = catProds[idx].imageUrl || (catProds[idx].slug ? 'product/anh-chuan/' + catProds[idx].slug + '.webp' : ''); }
+      }
+    }
+    return coverImg;
+  }
+
+  async function renderSidebarBooks() {
+    const container = document.getElementById('sb-books-container');
+    const box = document.getElementById('sb-ebooks-showcase');
+    if (!container || !box) return;
+    try {
+      let products = [];
+      if (SonHaiData) products = await SonHaiData.getProducts();
+      const showProducts = products.filter(p => p.status === 'published').slice(0, 3);
+      if (showProducts.length === 0) { box.style.display = 'none'; return; }
+      container.innerHTML = showProducts.map(p => `<a href="product.html?slug=${p.slug || ''}" class="sb-book-card"><div class="sb-book-cover">${p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}">` : (p.emoji || '📖')}</div><div class="sb-book-info"><div class="sb-book-title">${p.name}</div><div class="sb-book-price">${p.price ? Number(p.price).toLocaleString('vi-VN') + 'đ' : 'Liên hệ'}</div><div class="sb-book-btn">Xem chi tiết</div></div></a>`).join('');
+      box.style.display = 'block';
+    } catch (e) { box.style.display = 'none'; }
   }
 
   function renderPagination(totalPages) {
     const pag = document.getElementById('pagination');
     if (!pag) return;
-    if (totalPages <= 1) { pag.style.display = 'none'; return; }
+    if (totalPages <= 1 || currentViewMode === 'news') { pag.style.display = 'none'; return; }
     pag.style.display = 'flex';
     let html = `<button class="pg-btn arrow" ${currentBlogPage === 1 ? 'disabled' : ''} onclick="setPage(${currentBlogPage - 1})">‹</button>`;
-    for (let i = 1; i <= totalPages; i++) {
-      html += `<button class="pg-btn${i === currentBlogPage ? ' on' : ''}" onclick="setPage(${i})">${i}</button>`;
-    }
+    for (let i = 1; i <= totalPages; i++) html += `<button class="pg-btn${i === currentBlogPage ? ' on' : ''}" onclick="setPage(${i})">${i}</button>`;
     html += `<button class="pg-btn arrow" ${currentBlogPage === totalPages ? 'disabled' : ''} onclick="setPage(${currentBlogPage + 1})">›</button>`;
     pag.innerHTML = html;
   }
 
-  function setPage(n) {
+  window.setPage = function(n) {
     currentBlogPage = n;
     applyFilters();
     window.scrollTo({ top: document.querySelector('.filter-bar').offsetTop - 80, behavior: 'smooth' });
-  }
+  };
 
-  // ── Sidebar ──
   function renderSidebarPopular() {
     const container = document.querySelector('.popular-list');
     if (!container) return;
     const popular = [...allPosts].sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, 5);
-    container.innerHTML = popular.map((p, i) => `
-      <a href="blog-post.html?slug=${p.slug || ''}" class="pop-item">
-        <div class="pop-num">${String(i + 1).padStart(2, '0')}</div>
-        <div class="pop-img" style="background:${p.coverGradient || 'linear-gradient(145deg, #0F1D38, #091525)'}">${p.emoji || ''}</div>
-        <div class="pop-info">
-          <div class="pop-title">${p.title || ''}</div>
-          <div class="pop-meta">${p.views || 0} lượt đọc · ${p.readTime || '5 phút'}</div>
-        </div>
-      </a>
-    `).join('');
+    container.innerHTML = popular.map((p, i) => `<a href="blog-post.html?slug=${p.slug || ''}" class="pop-item"><div class="pop-num">${String(i + 1).padStart(2, '0')}</div><div class="pop-img" style="background:${p.coverGradient || 'linear-gradient(145deg, #0F1D38, #091525)'}">${p.emoji || ''}</div><div class="pop-info"><div class="pop-title">${p.title || ''}</div><div class="pop-meta">${p.views || 0} lượt đọc · ${p.readTime || '5 phút'}</div></div></a>`).join('');
   }
 
   function renderSidebarCategories(categories) {
     const container = document.querySelector('.cat-list');
     if (!container) return;
     const catCounts = {};
-    allPosts.forEach(p => {
-      if (p.category) catCounts[p.category] = (catCounts[p.category] || 0) + 1;
-    });
+    allPosts.forEach(p => { if (p.category) catCounts[p.category] = (catCounts[p.category] || 0) + 1; });
     const catEmojis = { 'Nhân tính': '<span class="sn-dot"></span>', 'Tư duy': '<span class="sn-dot"></span>', 'Tài chính': '<span class="sn-dot"></span>', 'Nhận thức': '<span class="sn-dot"></span>', 'Tình cảm': '<span class="sn-dot"></span>', 'Hệ thống': '<span class="sn-dot"></span>', 'Kỹ năng sống': '<span class="sn-dot"></span>' };
-    let html = `<a href="#" class="cat-item${activeCat === 'all' ? ' on' : ''}" data-cat="all" onclick="filterTab(document.querySelector('.ftab[data-cat=all]'),'all');return false;">
-      <span class="cat-left"><span class="ci-emoji"><span class="sn-dot"></span></span>Tất cả chủ đề</span>
-      <span class="cat-count">${allPosts.length}</span>
-    </a>`;
-    categories.forEach(cat => {
-      html += `<a href="#" class="cat-item${activeCat === cat ? ' on' : ''}" data-cat="${cat}" onclick="filterTab(document.querySelector('.ftab[data-cat=\\'${cat}\\']'),'${cat}');return false;">
-        <span class="cat-left"><span class="ci-emoji">${catEmojis[cat] || '<span class="sn-dot"></span>'}</span>${cat}</span>
-        <span class="cat-count">${catCounts[cat] || 0}</span>
-      </a>`;
-    });
+    let html = `<a href="#" class="cat-item${activeCat === 'all' ? ' on' : ''}" data-cat="all" onclick="filterTab(document.querySelector('.ftab[data-cat=all]'),'all');return false;"><span class="cat-left"><span class="ci-emoji"><span class="sn-dot"></span></span>Tất cả chủ đề</span><span class="cat-count">${allPosts.length}</span></a>`;
+    categories.forEach(cat => { html += `<a href="#" class="cat-item${activeCat === cat ? ' on' : ''}" data-cat="${cat}" onclick="filterTab(document.querySelector('.ftab[data-cat=\\'${cat}\\']'),'${cat}');return false;"><span class="cat-left"><span class="ci-emoji">${catEmojis[cat] || '<span class="sn-dot"></span>'}</span>${cat}</span><span class="cat-count">${catCounts[cat] || 0}</span></a>`; });
     container.innerHTML = html;
   }
 
-  // ── Toast ──
-  let toastTimer;
-  function showToast(msg) {
+  window.showToast = function(msg) {
     const t = document.getElementById('toast');
+    if (!t) return;
     t.textContent = msg;
     t.classList.add('show');
     clearTimeout(toastTimer);

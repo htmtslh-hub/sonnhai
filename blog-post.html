@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -208,7 +208,7 @@ fbq('init','438100172987941');fbq('track','PageView');
   <div class="ft-copy">© 2025 Thư viện Sơn Nhai. Tất cả quyền được bảo lưu.</div>
 </footer>
 
-<script>
+<script type="module">
 // ── DATA: Tất cả bài viết ──────────────────────────────────────────────────
 const POSTS = {
   'nhan-tinh-la-gi': {
@@ -1025,18 +1025,18 @@ function renderPost(post) {
     "description": post.excerpt || '',
     "author": { "@type": "Organization", "name": "Thư viện Sơn Nhai" },
     "publisher": { "@type": "Organization", "name": "Thư viện Sơn Nhai", "url": "https://thuviensonnhai.com" },
-    "datePublished": post.createdAt || '',
+    "datePublished": post.date || '',
     "mainEntityOfPage": "https://thuviensonnhai.com/blog-post?slug=" + post.slug
   });
   document.head.appendChild(jsonLd);
 
-  const tocHTML = post.toc.map((item, i) =>
+  const tocHTML = (post.toc || []).map((item, i) =>
     `<li><a href="#section-${i}">${item}</a></li>`
   ).join('');
 
-  const relatedHTML = post.related.map(r => `
+  const relatedHTML = (post.related || []).map(r => `
     <a href="blog-post.html?slug=${r.slug}" class="rel-item">
-      <div class="rel-img" style="background:${r.bg}">${r.emoji}</div>
+      <div class="rel-img" style="background:${r.bg}">${r.emoji || ''}</div>
       <div class="rel-info">
         <div class="rel-title">${r.title}</div>
         <div class="rel-cat">${r.cat}</div>
@@ -1044,7 +1044,7 @@ function renderPost(post) {
     </a>
   `).join('');
 
-  const tagsHTML = post.tags.map(t => `<span class="post-tag">${t}</span>`).join('');
+  const tagsHTML = (post.tags || []).map(t => `<span class="post-tag">${t}</span>`).join('');
 
   const productCTA = post.productSlug ? `
     <div class="product-cta">
@@ -1062,7 +1062,7 @@ function renderPost(post) {
   ` : '';
 
   // Inject section IDs into h2 tags
-  let contentWithIds = post.content;
+  let contentWithIds = post.content || '';
   let sectionIdx = 0;
   contentWithIds = contentWithIds.replace(/<h2>/g, () => `<h2 id="section-${sectionIdx++}">`);
 
@@ -1098,7 +1098,7 @@ function renderPost(post) {
     </div>
 
     <div class="post-cover" style="background:${post.bg}">
-      ${post.emoji}
+      ${post.emoji || ''}
       <div class="post-cover-shine"></div>
     </div>
 
@@ -1139,12 +1139,12 @@ function renderPost(post) {
           <div class="sb-head">Chủ đề</div>
           <div class="tag-cloud">
             <a class="tc-tag" href="blog.html">Tất cả</a>
-            <a class="tc-tag" href="blog.html">Nhân tính</a>
-            <a class="tc-tag" href="blog.html">Tư duy</a>
-            <a class="tc-tag" href="blog.html">Tài chính</a>
-            <a class="tc-tag" href="blog.html">Nhận thức</a>
-            <a class="tc-tag" href="blog.html">Tình cảm</a>
-            <a class="tc-tag" href="blog.html">Hệ thống</a>
+            <a class="tc-tag" href="blog.html?cat=Nhân tính">Nhân tính</a>
+            <a class="tc-tag" href="blog.html?cat=Tư duy">Tư duy</a>
+            <a class="tc-tag" href="blog.html?cat=Tài chính">Tài chính</a>
+            <a class="tc-tag" href="blog.html?cat=Nhận thức">Nhận thức</a>
+            <a class="tc-tag" href="blog.html?cat=Tình cảm">Tình cảm</a>
+            <a class="tc-tag" href="blog.html?cat=Hệ thống">Hệ thống</a>
           </div>
         </div>
       </aside>
@@ -1168,12 +1168,173 @@ function render404() {
   `;
 }
 
+// Import SonHaiData từ module
+import SonHaiData from './js/firestore-sync.js?v=3';
+
+async function loadBlogPostData(slug) {
+  let dbPost = null;
+  
+  // 1. Cố gắng lấy bài viết từ Firestore
+  try {
+    if (SonHaiData) {
+      dbPost = await SonHaiData.getBlogPostBySlug(slug);
+    }
+  } catch (e) {
+    console.warn("Firestore fetch error for slug " + slug, e);
+  }
+
+  if (dbPost) {
+    // Tăng lượt xem thực tế
+    try {
+      await SonHaiData.incrementBlogPostViewCount(dbPost.id);
+      dbPost.views = (dbPost.views || 0) + 1; // Cập nhật local
+    } catch(e) {}
+
+    // Tìm các bài liên quan cùng category
+    let related = [];
+    try {
+      const allPosts = await SonHaiData.getBlogPosts();
+      related = allPosts
+        .filter(p => p.slug !== slug && p.category === dbPost.category)
+        .slice(0, 3)
+        .map(p => ({
+          slug: p.slug,
+          title: p.title,
+          cat: p.category,
+          emoji: p.emoji || p.coverEmoji || '',
+          bg: p.coverGradient || 'linear-gradient(145deg,#0F1D38,#091525)'
+        }));
+      
+      if (related.length < 3) {
+        const extra = allPosts
+          .filter(p => p.slug !== slug && p.category !== dbPost.category && !related.some(r => r.slug === p.slug))
+          .slice(0, 3 - related.length)
+          .map(p => ({
+            slug: p.slug,
+            title: p.title,
+            cat: p.category,
+            emoji: p.emoji || p.coverEmoji || '',
+            bg: p.coverGradient || 'linear-gradient(145deg,#0F1D38,#091525)'
+          }));
+        related = [...related, ...extra];
+      }
+    } catch (e) {
+      console.warn("Error loading related posts", e);
+    }
+
+    // Tìm sản phẩm liên quan cùng category hoặc theo từ khóa tiêu đề
+    let productCTA = {
+      productSlug: null,
+      productName: '',
+      productDesc: '',
+      productPrice: ''
+    };
+    try {
+      const products = await SonHaiData.getProducts();
+      let matched = null;
+      if (products && products.length > 0) {
+        matched = products.find(pr => 
+          dbPost.title.toLowerCase().includes(pr.name.toLowerCase()) || 
+          (pr.slug && dbPost.title.toLowerCase().includes(pr.slug.replace(/-/g, ' ')))
+        );
+        if (!matched && dbPost.category) {
+          matched = products.find(pr => 
+            pr.category.toLowerCase().includes(dbPost.category.toLowerCase()) ||
+            dbPost.category.toLowerCase().includes(pr.category.toLowerCase())
+          );
+        }
+        if (!matched) {
+          matched = products[0];
+        }
+      }
+      
+      if (matched) {
+        productCTA = {
+          productSlug: matched.slug,
+          productName: matched.name,
+          productDesc: matched.description || 'Khám phá ngay tài liệu cực kỳ giá trị này từ Thư viện Sơn Nhai.',
+          productPrice: matched.price ? Number(matched.price).toLocaleString('vi-VN') + 'đ' : ''
+        };
+      }
+    } catch (e) {
+      console.warn("Error loading related product", e);
+    }
+
+    let formattedDate = '';
+    if (dbPost.createdAt) {
+      formattedDate = new Date(dbPost.createdAt).toLocaleDateString('vi-VN');
+    }
+
+    const toc = [];
+    const bodyContent = dbPost.body || dbPost.content || '';
+    
+    const h2Regex = /<h2>(.*?)<\/h2>/gi;
+    let match;
+    while ((match = h2Regex.exec(bodyContent)) !== null) {
+      const text = match[1].replace(/<[^>]*>/g, '');
+      toc.push(text);
+    }
+    
+    if (toc.length === 0) {
+      toc.push('Nội dung chính');
+    }
+
+    return {
+      slug: dbPost.slug,
+      title: dbPost.title,
+      cat: dbPost.category || 'Kiến thức',
+      emoji: dbPost.emoji || dbPost.coverEmoji || '',
+      bg: dbPost.coverGradient || 'linear-gradient(145deg, #0F1D38, #091525)',
+      date: formattedDate,
+      readTime: dbPost.readTime || '5 phút',
+      views: dbPost.views || 0,
+      tags: [dbPost.category || 'Kiến thức'],
+      toc: toc,
+      content: bodyContent,
+      ...productCTA,
+      related: related
+    };
+  }
+
+  // Fallback to static mock POSTS
+  if (POSTS[slug]) {
+    const p = POSTS[slug];
+    const mappedRelated = (p.related || []).map(r => ({
+      slug: r.slug,
+      title: r.title,
+      cat: r.cat,
+      emoji: r.emoji || '',
+      bg: r.bg || 'linear-gradient(145deg,#0F1D38,#091525)'
+    }));
+    return {
+      ...p,
+      related: mappedRelated
+    };
+  }
+
+  return null;
+}
+
 // ── INIT ─────────────────────────────────────────────────────────────────────
-const slug = getSlug();
-if (slug && POSTS[slug]) {
-  renderPost(POSTS[slug]);
+async function init() {
+  const slug = getSlug();
+  if (slug) {
+    const post = await loadBlogPostData(slug);
+    if (post) {
+      renderPost(post);
+    } else {
+      render404();
+    }
+  } else {
+    render404();
+  }
+}
+
+// Run init
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
 } else {
-  render404();
+  init();
 }
 </script>
 <script src="js/cart-badge.js?v=6"></script>
